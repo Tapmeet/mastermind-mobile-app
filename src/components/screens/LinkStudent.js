@@ -72,8 +72,9 @@ const LinkStudent = (props) => {
       setCheckEmail(true);
       return false;
     }
-    console.log('heres');
-    const token = 'yKuc4ra75LpO8us0VmZKEYapV9V_4AQh5Yr1daWD3xfGZNKyw5WmE3pRdnmXsELfWY-QdPR74tv5IYcP7o4dVBxUZXGCXlL5pjiL8i0xIW_T4zW9XViitZSpXtgnANMnpDg906_a8_ysUU6lkC_Q1Que_VhkRojq-PlyMsgkqlxRvB7u_wg6pgf__uyxwVjyWZbq63IWSB6VeDBFy3e1OHLDZmKl3u23CxpfRIVut7pYfmOvJSeuXh8mQX2C8cSknyOZi7p27woth7puA8v0hA6BngHNzO1D3SV7hTGcXFotpm7PLuVDpWBIyBCIo9KTAPnnw1DJ6vhaYIsvTA5KYLAD3oUE125Vp5SKtsIcHvFzj8jGVpcCsjhXrzvOY3-63ijG6Frq5qTxsz66DKE04QipnuBIb3xe8FsokORaYKbzrlLnIQZbigziByLX2lJUnctqIk63SWEPkNZin4_vfgb97_aW_be5NIhQaE9L_SiCpA7pahaN_odqXfplu2FlITgJ-aMqnPqgx-yL1utJ0A'
+    // console.log('heress'); 
+    // console.log(API_URL);  
+    const token = '5Uq6qgGubQj-IgYw280OFfdvfMghaFApCIYSFwEvSYorxxVktp6NQLuzw04EDf8mFpJP6K1__n164FLNSEIwfkfDYccMOUaO6-icDZsV0gprQT3SmyR8yq42DoOyv5sfEehCbqXCKvk33q7NzE8MSWidD1qJog-vGPC2u3uk_XXFfSoqYarwDmb96Oe40-9s0rDFaTTndTndOlQzSjNnKbasU8J_fo8iQaJOr4d_tNOcU4I1Q6BGyTssH7uKiKCzjyNT4JsrSdp3br_GFsFqpBoaBpr9b5-QZbv7OogaA_CTy5iSOKMh5P2e3sbZVL3C-X2xxdN2-60X2m14PwL_BA3spNEOO2DhHv3qwMxkzUjtJ2kJ_uJyQHXTQn-JRnt-T2bPNJZxEz_pvd3ZnpgJTyXAx8zuYhabz0EdywVBpgaQ8tiAxE0nSkcVkCnWjfORYseYqB310dDw9AfZBITYxIkMcaa005dCP7vCBcIXGzgqxe1_u7p2KAswDeHJcUDGZXGYZvr4v8Csz9axw4370A'
     fetch(`${API_URL}/odata/StudentLink`, {
       method: "post",
       headers: {
@@ -104,6 +105,7 @@ const LinkStudent = (props) => {
         }
       })
       .catch((response) => {
+        console.log(response); 
         setErrorMessage("An error has occurred. Please check all the fields");
       });
   };

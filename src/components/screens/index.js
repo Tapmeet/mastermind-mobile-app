@@ -10,3 +10,5 @@ export { default as HomeScreen } from './Home';
 export { default as AttendanceScreen } from './Attendance';
 export { default as LinkStudentScreen } from './LinkStudent';
 export { default as InquiryScreen } from './Inquiry';
+export { default as LinkStudentSuccessScreen } from './LinkStudentSuccess';
+export { default as VerificationLinkStudentSignupScreen } from './VerificationLinkStudentSignup';

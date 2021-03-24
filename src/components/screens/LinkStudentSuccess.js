@@ -20,9 +20,9 @@ import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 
-const AccountSuccess = (props) => {
+const LinkStudentSuccess = (props) => {
   React.useEffect(() => {
-    setTimeout(() => props.navigation.navigate("Login"), 5000);
+    setTimeout(() => props.navigation.navigate("Home"), 5000);
   }, []);
 
   const { navigation } = props;
@@ -37,7 +37,7 @@ const AccountSuccess = (props) => {
         </Body>
         <Body style={loginStyle.bodyContainer}>
           <H3 style={globalStyle.h3}>Successful </H3>
-          <Text>Account Created Successfully</Text>
+          <Text>Student Successfully Linked</Text>
         </Body>
       </Content>
       <Footer style={verificationStyle.redirectingWrapper}>
@@ -49,4 +49,4 @@ const AccountSuccess = (props) => {
   );
 };
 
-export default AccountSuccess;
+export default LinkStudentSuccess;

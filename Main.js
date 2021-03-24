@@ -12,52 +12,59 @@ import {
   VerificationScreen,
   AccountSuccessScreen,
   ForgetPasswordScreen,
+  VerificationLinkStudentSignupScreen
+
 } from "./src/components/screens";
 import { Drawer } from "./src/components/sidebar";
 
-const Main = (props) => { 
-   const userId = useSelector(state => state);
-   const [userToken, setUserToken] = React.useState('1234');
+const Main = (props) => {
+  const userId = useSelector(state => state);
+  const [userToken, setUserToken] = React.useState('');
   const AuthStack = createStackNavigator();
-  return (
-      <NavigationContainer>
-        {userToken ? (
-          <Drawer />
-        ) : (
-          <AuthStack.Navigator
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <AuthStack.Screen name="Login" component={LoginScreen} />
-            <AuthStack.Screen name="SignUp" component={SignUpScreen} />
-            <AuthStack.Screen
-              name="Verification"
-              component={VerificationScreen}
-            />
-            <AuthStack.Screen
-              name="ForgetPassword"
-              component={ForgetPasswordScreen}
-            />
-            <AuthStack.Screen
-              name="AccountSuccess"
-              component={AccountSuccessScreen}
-            />
-            <AuthStack.Screen
-              name="VerificationCode"
-              component={VerificationCodeScreen}
-            />
-            <AuthStack.Screen
-              name="ResetPassword"
-              component={ResetPasswordScreen}
-            />
-            <AuthStack.Screen
-              name="ResetSuccess"
-              component={ResetSuccessScreen}
-            />
-          </AuthStack.Navigator>
-        )}
-      </NavigationContainer>
+  //console.log(userId)  
+  return ( 
+    <NavigationContainer>
+      {userToken ? (
+        <Drawer />
+      ) : (  
+        <AuthStack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <AuthStack.Screen name="Login" component={LoginScreen} />
+          <AuthStack.Screen name="SignUp" component={SignUpScreen} />
+          <AuthStack.Screen
+            name="Verification"
+            component={VerificationScreen}
+          />
+          <AuthStack.Screen
+            name="ForgetPassword"
+            component={ForgetPasswordScreen}
+          />
+          <AuthStack.Screen
+            name="AccountSuccess"
+            component={AccountSuccessScreen}
+          />
+          <AuthStack.Screen
+            name="VerificationCode"
+            component={VerificationCodeScreen}
+          />
+          <AuthStack.Screen
+            name="ResetPassword"
+            component={ResetPasswordScreen}
+          />
+          <AuthStack.Screen
+            name="ResetSuccess"
+            component={ResetSuccessScreen}
+          />
+          <AuthStack.Screen
+            name="VerificationLinkStudentSignup"
+            component={VerificationLinkStudentSignupScreen}
+          /> 
+        </AuthStack.Navigator>
+      )}
+    </NavigationContainer>
   );
 };
 export default Main;

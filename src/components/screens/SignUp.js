@@ -37,6 +37,7 @@ const SignUp = (props) => {
   const [checkmobile, setCheckmobile] = React.useState(false);
   const [checkterms, setCheckterms] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(false);
+  const [accessToken, setAccessToken] = React.useState('');
   // Email validations custom
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
@@ -148,7 +149,75 @@ const SignUp = (props) => {
       setCheckterms(true);
       return false;
     }
+    function login() {
+      var details = {
+        userName: email,
+        password: password,
+        grant_type: "password",
+      };
 
+      var formBody = [];
+      for (var property in details) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(details[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+      }
+      formBody = formBody.join("&");
+
+      fetch(`${API_URL}/token`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        },
+        body: formBody,
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response["access_token"]);
+          setAccessToken(response["access_token"])
+          linkStudent() 
+        })
+        .catch(function (data) {
+          props.navigation.navigate("AccountSuccess");
+        });
+    }
+
+    function linkStudent() {
+      fetch(`${API_URL}/odata/StudentLink`, {
+        method: "post",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ' + accessToken
+        },
+        body: JSON.stringify({
+          Email: email,
+          FirstName: firstName,
+          LastName: lastName,
+        }),
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          if (response["odata.error"]) {
+            props.navigation.navigate("AccountSuccess");
+            console.log(response["odata.error"].message.value);
+            setErrorMessage(response["odata.error"].message.value);
+          } else {
+            props.navigation.navigate("VerificationLinkStudentSignup", {
+              accessToken: accessToken,
+              studentAccountGuid: response["studentAccountGuid"],
+              studentId: response["studentId"],
+              Email: email,
+              FirstName: firstName,
+              LastName: lastName,
+            });
+          }
+        })
+        .catch((response) => {
+          props.navigation.navigate("AccountSuccess");
+        });
+    }
     //schoolId: 29D2568F-5950-46A6-A54E-DDA0BD0ADFD4
     fetch(`${API_URL}/odata/Register`, {
       method: "post",
@@ -160,7 +229,7 @@ const SignUp = (props) => {
         Email: email,
         EmailConfirmed: confirmEmail,
         Password: password,
-        SchoolUniqueId: "29D2568F-5950-46A6-A54E-DDA0BD0ADFD4",
+        SchoolUniqueId: schoolId,
         FirstName: firstName,
         LastName: lastName,
         WaiverFile: "some text",
@@ -174,7 +243,8 @@ const SignUp = (props) => {
           console.log(response["odata.error"].message.value);
           setErrorMessage(response["odata.error"].message.value);
         } else {
-          props.navigation.navigate("AccountSuccess");
+          login();
+         props.navigation.navigate("AccountSuccess");
         }
       })
       .catch((response) => {
@@ -301,7 +371,7 @@ const SignUp = (props) => {
                   : globalStyle.formControl
               }
               placeholder="Mobile "
-            /> 
+            />
             {/* <PhoneInput
               defaultCountry="US"
               placeholder="Enter phone number"
