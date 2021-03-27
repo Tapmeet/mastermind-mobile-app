@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Image, StyleSheet } from "react-native";
-import {API_URL} from "@env"
+import { API_URL } from "@env"
 import {
   Container,
   Content,
@@ -16,7 +16,7 @@ import {
 } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
-import { useSelector , useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import LOGGED_IN_USER from "./../../redux/User"
 
 const Login = (props) => {
@@ -25,7 +25,7 @@ const Login = (props) => {
   const [checkUsername, setCheckUsername] = React.useState(false);
   const [checkPassword, setCheckPassword] = React.useState(false);
   const dispatch = useDispatch()
-  const userData = userInfo => dispatch({ type: LOGGED_IN_USER, payload: userInfo })
+  const userData = userInfo => dispatch({ type: "LOGGED_IN_USER", payload: userInfo })
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
   };
@@ -70,13 +70,12 @@ const Login = (props) => {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
-         //props.navigation.navigate("Home");
-         userData(response)     
+        userData({"id": 1, "access_Token": response["access_token"]})
       })
       .catch(function (data) {
         console.log("Error", data);
       });
-  };
+  }; 
   const setusername = (event) => {
     setUsername(event);
     if (event == "") {
@@ -112,14 +111,14 @@ const Login = (props) => {
           <H2 style={globalStyle.h2}>Welcome!</H2>
           <Text style={globalStyle.small}>Sign in to Continue</Text>
         </Body>
-        <Form>
+        <Form style={globalStyle.form}>
           <Item style={globalStyle.formGroup} floatingLabel>
             <Input
               value={username}
               onChangeText={(text) => setusername(text)}
               style={
                 checkUsername
-                  ? globalStyle.formControlError
+                  ? globalStyle.formControlError 
                   : globalStyle.formControl
               }
               placeholder="Enter Username"

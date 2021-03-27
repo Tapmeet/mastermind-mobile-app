@@ -3,7 +3,7 @@ import Main from './Main'
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { Provider as StoreProvider } from 'react-redux'
-import store from './src/redux/store'
+import configureStore from './src/redux/store'
 import { View } from "react-native";
 import { Text } from "native-base";
 
@@ -31,9 +31,9 @@ export default class App extends React.Component {
       );
     }
     return (
-      <StoreProvider store={store}>
+      <StoreProvider store={configureStore()}>
         <Main />
-      </StoreProvider>
+      </StoreProvider> 
     )
   }
 

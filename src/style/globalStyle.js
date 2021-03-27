@@ -28,22 +28,40 @@ export default StyleSheet.create({
 
     },
     formControl: {
-        height: 65,
-        borderRadius: 65,
+        height: 50,
+        borderRadius: 26,
         borderColor: '#888',
         paddingLeft: 20,
         borderWidth: 2,
         marginBottom: 0,
-        marginLeft: 0
+        marginLeft: 0,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 7,
+        backgroundColor:"#fff"
     },
     formControlError: {
-        height: 65,
-        borderRadius: 65,
+        height: 50,
+        borderRadius: 26,
         borderColor: 'red',
         paddingLeft: 20,
         borderWidth: 2,
         marginBottom: 0,
-        marginLeft: 0
+        marginLeft: 0,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 7,
+        backgroundColor:"#fff"
     },
     textRight: {
         display: 'flex',
@@ -88,5 +106,6 @@ export default StyleSheet.create({
         color: 'green',
         marginTop: 30,
         marginBottom: -5
-    }
+    },
+
 })

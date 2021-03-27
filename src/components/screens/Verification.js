@@ -18,8 +18,10 @@ import {
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
+import { useSelector } from 'react-redux'
 import { API_URL } from "@env"
 const VerificationCode = (props) => {
+  const userId = useSelector(state => state);
   const [otp, setOtp] = React.useState("");
   const VerificationToken = 'MHK2JG';
   const [errorMessage, setErrorMessage] = React.useState("");
@@ -32,13 +34,12 @@ const VerificationCode = (props) => {
     if (otp != VerificationToken) {
       setErrorMessage("Wrong verifcation code");
     } else {
-      const token = '5Uq6qgGubQj-IgYw280OFfdvfMghaFApCIYSFwEvSYorxxVktp6NQLuzw04EDf8mFpJP6K1__n164FLNSEIwfkfDYccMOUaO6-icDZsV0gprQT3SmyR8yq42DoOyv5sfEehCbqXCKvk33q7NzE8MSWidD1qJog-vGPC2u3uk_XXFfSoqYarwDmb96Oe40-9s0rDFaTTndTndOlQzSjNnKbasU8J_fo8iQaJOr4d_tNOcU4I1Q6BGyTssH7uKiKCzjyNT4JsrSdp3br_GFsFqpBoaBpr9b5-QZbv7OogaA_CTy5iSOKMh5P2e3sbZVL3C-X2xxdN2-60X2m14PwL_BA3spNEOO2DhHv3qwMxkzUjtJ2kJ_uJyQHXTQn-JRnt-T2bPNJZxEz_pvd3ZnpgJTyXAx8zuYhabz0EdywVBpgaQ8tiAxE0nSkcVkCnWjfORYseYqB310dDw9AfZBITYxIkMcaa005dCP7vCBcIXGzgqxe1_u7p2KAswDeHJcUDGZXGYZvr4v8Csz9axw4370A'
       fetch(`${API_URL}/odata/StudentLink('${props.route.params.studentAccountGuid}')`, {
         method: "PUT",
         headers: {
           Accept: "*/*",
           "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + token
+          'Authorization': 'Bearer ' + userId[0].access_Token
         },
         body: JSON.stringify({
           Email: props.route.params.Email,

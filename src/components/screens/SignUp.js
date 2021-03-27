@@ -173,7 +173,7 @@ const SignUp = (props) => {
       })
         .then((response) => response.json())
         .then((response) => {
-          console.log(response["access_token"]);
+          console.log(response["access_token"]); 
           setAccessToken(response["access_token"])
           linkStudent() 
         })
@@ -218,7 +218,6 @@ const SignUp = (props) => {
           props.navigation.navigate("AccountSuccess");
         });
     }
-    //schoolId: 29D2568F-5950-46A6-A54E-DDA0BD0ADFD4
     fetch(`${API_URL}/odata/Register`, {
       method: "post",
       headers: {

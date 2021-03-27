@@ -30,8 +30,6 @@ const LinkStudent = (props) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
   };
   const userId = useSelector(state => state);
-
- // console.log(userId)
   // Setting data to variables and validations
   const setfirstName = (event) => {
     setFirstName(event);
@@ -72,15 +70,14 @@ const LinkStudent = (props) => {
       setCheckEmail(true);
       return false;
     }
-    // console.log('heress'); 
-    // console.log(API_URL);  
-    const token = '5Uq6qgGubQj-IgYw280OFfdvfMghaFApCIYSFwEvSYorxxVktp6NQLuzw04EDf8mFpJP6K1__n164FLNSEIwfkfDYccMOUaO6-icDZsV0gprQT3SmyR8yq42DoOyv5sfEehCbqXCKvk33q7NzE8MSWidD1qJog-vGPC2u3uk_XXFfSoqYarwDmb96Oe40-9s0rDFaTTndTndOlQzSjNnKbasU8J_fo8iQaJOr4d_tNOcU4I1Q6BGyTssH7uKiKCzjyNT4JsrSdp3br_GFsFqpBoaBpr9b5-QZbv7OogaA_CTy5iSOKMh5P2e3sbZVL3C-X2xxdN2-60X2m14PwL_BA3spNEOO2DhHv3qwMxkzUjtJ2kJ_uJyQHXTQn-JRnt-T2bPNJZxEz_pvd3ZnpgJTyXAx8zuYhabz0EdywVBpgaQ8tiAxE0nSkcVkCnWjfORYseYqB310dDw9AfZBITYxIkMcaa005dCP7vCBcIXGzgqxe1_u7p2KAswDeHJcUDGZXGYZvr4v8Csz9axw4370A'
+   
+    
     fetch(`${API_URL}/odata/StudentLink`, {
       method: "post",
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + token
+        'Authorization': 'Bearer ' + userId[0].access_Token
       },
       body: JSON.stringify({
         Email: email,
@@ -124,7 +121,7 @@ const LinkStudent = (props) => {
           <H2 style={globalStyle.h2}>Link Student!</H2>
           <Text style={globalStyle.small}>Fill out the form below </Text>
         </Body>
-        <Form>
+        <Form style={globalStyle.form}>
           <Item style={globalStyle.formGroup} floatingLabel>
             <Input
               value={firstName}

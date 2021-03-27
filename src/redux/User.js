@@ -11,6 +11,7 @@ const userDataReducer = (state = initialState, action) => {
       return state.filter(userInfo => userInfo.id !== action.payload.id)
   }
   return state
+ 
 }
 
 export default userDataReducer

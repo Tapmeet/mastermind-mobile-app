@@ -19,18 +19,16 @@ import { Drawer } from "./src/components/sidebar";
 
 const Main = (props) => {
   const userId = useSelector(state => state);
-  const [userToken, setUserToken] = React.useState('');
   const AuthStack = createStackNavigator();
-  //console.log(userId)  
-  return ( 
+  return (  
     <NavigationContainer>
-      {userToken ? (
-        <Drawer />
-      ) : (  
+      {typeof userId !== 'undefined' && userId.length > 0 ? (
+        <Drawer /> 
+      ) : (   
         <AuthStack.Navigator
           screenOptions={{
             headerShown: false,
-          }}
+          }}  
         >
           <AuthStack.Screen name="Login" component={LoginScreen} />
           <AuthStack.Screen name="SignUp" component={SignUpScreen} />

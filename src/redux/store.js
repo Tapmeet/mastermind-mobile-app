@@ -1,6 +1,9 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import userDataReducer from './User'
-
-const store = createStore(userDataReducer)
-
-export default store
+import thunk from 'redux-thunk';
+export default function configureStore() {
+    return createStore(
+        userDataReducer,
+        applyMiddleware(thunk)
+    );
+}
