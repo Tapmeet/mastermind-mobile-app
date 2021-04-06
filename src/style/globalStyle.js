@@ -46,7 +46,7 @@ export default StyleSheet.create({
         backgroundColor:"#fff"
     },
     formControlError: {
-        height: 50,
+        height: 55,
         borderRadius: 26,
         borderColor: 'red',
         paddingLeft: 20,

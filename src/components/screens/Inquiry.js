@@ -22,7 +22,7 @@ import { useSelector } from 'react-redux'
 import { SideBarMenu } from "../sidebar";
 import { SignatureView } from 'react-native-signature-capture-view';
 const Inquiry = (props) => {
-  
+
   const signatureRef = React.useRef(null);
   const [signature, setSignature] = React.useState('')
   const [firstName, setFirstName] = React.useState("");
@@ -117,6 +117,50 @@ const Inquiry = (props) => {
   const [adultBenefits, setAdultBenefits] = React.useState(adultBenefitsList);
   const [childrenBenefits, setChildrenBenefits] = React.useState(childrenBenefitsList);
 
+  const [childrenList, setChildrenList] = React.useState([]);
+  const [counter, setCounter] = React.useState('0');
+  const addSection = () => {
+    setCounter(counter + 1);
+    let newArr = [...childrenList];
+    newArr[counter] = {
+      FirstName: "",
+      LastName: "",
+      DOB: "",
+    };
+    setChildrenList(newArr);
+  };
+  const deleteSection = (e) => {
+    setCounter(counter - 1);
+    childrenList.splice(e, 1);
+  };
+
+  const updateFirstNameField = (index) => (e) => {
+    let newArr = [...childrenList]; // copying the old datas array
+    newArr[index] = {
+      FirstName: e.target.value,
+      LastName: newArr[index].FirstName,
+      DOB: newArr[index].DOB
+    };
+    setChildrenList(newArr);
+  };
+  const updatelastNameField = (index) => (e) => {
+    let newArr = [...childrenList]; // copying the old datas array
+    newArr[index] = {
+      FirstName: newArr[index].FirstName,
+      LastName: e.target.value,
+      DOB: newArr[index].DOB
+    };
+    setChildrenList(newArr);
+  };
+  const updateDobField = (index) => (e) => {
+    let newArr = [...childrenList]; // copying the old datas array
+    newArr[index] = {
+      FirstName: newArr[index].FirstName,
+      LastName: newArr[index].LastName,
+      DOB: e.target.value
+    };
+    setChildrenList(newArr);
+  };
   const handleChange = (id) => {
     let temp = adultBenefits.map((adultBenefits) => {
       if (id === adultBenefits.id) {
@@ -308,7 +352,7 @@ const Inquiry = (props) => {
       return false;
     }
     // console.log(API_URL);
-    // console.log("here")
+    console.log("here")
     fetch(`${API_URL}/odata/Inquiry`, {
       method: "post",
       headers: {
@@ -319,7 +363,7 @@ const Inquiry = (props) => {
       body: JSON.stringify({
         "Person": {
           "FirstName": firstName,
-          "LastName":lastName,
+          "LastName": lastName,
           "Address1": address1,
           "Address2": address1,
           "City": city,
@@ -359,12 +403,7 @@ const Inquiry = (props) => {
     <Container style={loginStyle.container}>
       <SideBarMenu title={"Inquiry"} navigation={props.navigation} />
       <Content style={loginStyle.spacing} padder>
-        <View style={loginStyle.backWrapper}>
-          {/* <Image
-            style={loginStyle.backButton}
-            source={require("../../../assets/BackButton.png")}
-          /> */}
-        </View>
+
         <Body style={loginStyle.bodyContainer}>
           <H2 style={globalStyle.h2}>Inquiry!</H2>
           <Text style={globalStyle.small}>Fill out the form below </Text>
@@ -605,6 +644,46 @@ const Inquiry = (props) => {
               marginTop: 30,
               padding: 10
             }}>
+              {typeof content != undefined && content.length
+                ? content.map((data, index) => {
+                  return (
+                    <View>
+                      <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>Child Information</Text>
+                      <Item style={globalStyle.formGroup} floatingLabel>
+                        <Input
+                          value={data.FirstName}
+                          onChangeText={updateFirstNameField(index)}
+                          style={globalStyle.formControl}
+                          placeholder="First Name"
+                        />
+                      </Item>
+                      <Item style={globalStyle.formGroup} floatingLabel>
+                        <Input
+                          value={data.FirstName}
+                          onChangeText={updatelastNameField(index)}
+                          style={globalStyle.formControl}
+                          placeholder="Last Name"
+                        />
+                      </Item>
+                    </View>
+                  );
+                })
+                : null}
+                <Button>Add Child Details</Button>
+            </View>
+            <View style={{
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+              backgroundColor: "#f7f7f7",
+              marginTop: 30,
+              padding: 10
+            }}>
               <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>Additional Information</Text>
               <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>How did you find out about our school?</Text>
               <View style={globalStyle.formControl}>
@@ -668,12 +747,15 @@ const Inquiry = (props) => {
                   <Text style={globalStyle.error}>Please Check Options </Text>
                 ) : null}
               </View>
-              {signature != '' ? (<View style={{ marginTop: 20 }}><Text>Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: signature }} /></View>) : null}
+              {signature != '' ? (<View style={{ marginTop: 20 }}><Text style={{
+                fontSize: 20,
+                fontWeight: "bold"
+              }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: signature }} /></View>) : null}
             </View>
             <Button
               style={loginStyle.button, { marginTop: 30 }}
               onPress={() => { setShowSignature(true) }} full>
-              <Text>{signature != '' ? "Change Signature" : "Add Signature"}</Text>
+              <Text>{signature != '' ? "Update Signature" : "Add Signature"}</Text>
             </Button>
             {checkNSignature != "" ? (
               <Text style={globalStyle.errorText}>Signature Required</Text>

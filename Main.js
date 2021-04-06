@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, LogBox  } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useSelector } from 'react-redux'
@@ -17,6 +17,7 @@ import {
 } from "./src/components/screens";
 import { Drawer } from "./src/components/sidebar";
 
+LogBox.ignoreAllLogs();
 const Main = (props) => {
   const userId = useSelector(state => state);
   const AuthStack = createStackNavigator();
