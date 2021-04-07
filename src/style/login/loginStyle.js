@@ -5,7 +5,7 @@ export default StyleSheet.create({
   container: {
     display: "flex",
     padding: 0,
-
+    margin:0
   },
   bodyContainer: {
     flexDirection: "column",
@@ -30,7 +30,7 @@ export default StyleSheet.create({
     marginBottom: 20
   },
   spacing: {
-    padding: 20
+    padding: 0,
   },
   signUpSection: {
     marginTop: 40,
@@ -41,7 +41,11 @@ export default StyleSheet.create({
     flexDirection: "row",
     display: "flex",
     justifyContent: "flex-start",
-    lineHeight: 60
+    lineHeight: 60,
+    position:"absolute",
+    top:25,
+    left:20,
+    zIndex:99
   },
   backButton: {
     height: 45,
@@ -49,7 +53,8 @@ export default StyleSheet.create({
     width: 45,
   },
   backButtonStyle: {
-    height: 80
+    height: 80,
+   
   },
   radioSection: {
     marginTop: 30,

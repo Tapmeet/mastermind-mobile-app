@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, ImageBackground } from "react-native";
 import OtpInputs from "./../Utility/Outinputs";
 import {
   Container,
@@ -43,18 +43,36 @@ const VerificationCode = (props) => {
   console.log(route)
   return (
     <Container style={loginStyle.container}>
-      <Content style={loginStyle.spacing} padder>
-        <View style={loginStyle.backWrapper}>
-          <Text
-            onPress={() => this.props.navigation.navigate("ForgetPassword")}
-            style={loginStyle.backButtonStyle}
-          >
+      <Content style={loginStyle.spacing} >
+        <ImageBackground
+          style={{
+            width: "100%",
+            height: 290,
+          }}
+          source={require('./../../../assets/bg.png')}
+          resizeMode={'stretch'}
+        >
+          <View style={loginStyle.backWrapper}>
+            <Text
+              onPress={() => props.navigation.navigate("ForgetPassword")}
+              style={loginStyle.backButtonStyle}
+            >
+              <Image
+                style={loginStyle.backButton}
+                source={require("../../../assets/BackButton.png")}
+              />
+            </Text>
+          </View>
+          <View style={{
+            alignSelf: "center",
+            paddingTop: 100
+          }}>
             <Image
-              style={loginStyle.backButton}
-              source={require("../../../assets/BackButton.png")}
+              style={loginStyle.logo}
+              source={require("../../../assets/Logo.png")}
             />
-          </Text>
-        </View>
+          </View>
+        </ImageBackground>
         <Body style={loginStyle.bodyContainer}>
           <H3 style={globalStyle.h3}>Enter Email Code</H3>
           <Text style={verificationStyle.subHeading}>
@@ -62,16 +80,16 @@ const VerificationCode = (props) => {
           </Text>
         </Body>
         <Form>
-          <Body>
+          <Body style={{ padding: 30}}>
             <Image
               style={verificationStyle.envelop}
               source={require("../../../assets/Envelop.png")}
             />
           </Body>
-          <Body style={verificationStyle.spaceBetween}>
+          <Body style={[verificationStyle.spaceBetween,{ paddingLeft: 30, paddingRight:30}]}>
             <OtpInputs getOtp={(otp) => getOtp(otp)} />
           </Body>
-          <Content style={loginStyle.formContainer}>
+          <Content style={[loginStyle.formContainer,{ paddingLeft: 30, paddingRight:30}]}>
             <Button onPress={submitForm} style={loginStyle.button} full>
               <Text>Send</Text>
             </Button>

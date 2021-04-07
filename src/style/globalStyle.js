@@ -27,6 +27,10 @@ export default StyleSheet.create({
         fontWeight: "bold"
 
     },
+    form :{
+        padding:30,
+        paddingTop:0
+    },
     formControl: {
         height: 50,
         borderRadius: 26,
@@ -68,6 +72,7 @@ export default StyleSheet.create({
         alignSelf: "flex-end",
         marginTop: -10,
         flexDirection: "row-reverse",
+        marginLeft:30
 
     },
     formGroup: {

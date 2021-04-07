@@ -66,7 +66,9 @@ export default StyleSheet.create({
     lineHeight: 25
   },
   form:{
-    paddingBottom:30
+    paddingBottom:30,
+    paddingLeft:30,
+    paddingRight:30
   },
   successText: {
     fontSize: 18,

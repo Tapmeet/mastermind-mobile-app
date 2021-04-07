@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, ImageBackground } from "react-native";
 import { API_URL } from "@env"
 import {
   Container,
@@ -70,12 +70,12 @@ const Login = (props) => {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
-        userData({"id": 1, "access_Token": response["access_token"]})
+        userData({ "id": 1, "access_Token": response["access_token"] })
       })
       .catch(function (data) {
         console.log("Error", data);
       });
-  }; 
+  };
   const setusername = (event) => {
     setUsername(event);
     if (event == "") {
@@ -96,29 +96,36 @@ const Login = (props) => {
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <Content style={loginStyle.spacing} padder>
-        <View style={loginStyle.backWrapper}>
-          {/* <Image
-            style={loginStyle.backButton}
-            source={require("../../../assets/BackButton.png")}
-          /> */}
-        </View>
-        <Body style={loginStyle.bodyContainer}>
-          <Image
-            style={loginStyle.logo}
-            source={require("../../../assets/Logo.png")}
-          />
+      <Content style={loginStyle.spacing} >
+        <ImageBackground
+          style={{
+            width: "100%",
+            height: 290,
+          }}
+          source={require('./../../../assets/bg.png')}
+          resizeMode={'stretch'}
+        >
+          <View style={{alignSelf:"center",
+        paddingTop:80}}>
+            <Image
+              style={loginStyle.logo}
+              source={require("../../../assets/Logo.png")}
+            />
+          </View>
+        </ImageBackground>
+        <Body style={loginStyle.bodyContainer} padder>
+
           <H2 style={globalStyle.h2}>Welcome!</H2>
           <Text style={globalStyle.small}>Sign in to Continue</Text>
         </Body>
-        <Form style={globalStyle.form}>
+        <Form style={globalStyle.form} padder>
           <Item style={globalStyle.formGroup} floatingLabel>
             <Input
               value={username}
               onChangeText={(text) => setusername(text)}
               style={
                 checkUsername
-                  ? globalStyle.formControlError 
+                  ? globalStyle.formControlError
                   : globalStyle.formControl
               }
               placeholder="Enter Username"

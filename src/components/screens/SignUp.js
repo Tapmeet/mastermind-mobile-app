@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, ImageBackground } from "react-native";
 import {
   Container,
   Content,
@@ -173,9 +173,9 @@ const SignUp = (props) => {
       })
         .then((response) => response.json())
         .then((response) => {
-          console.log(response["access_token"]); 
+          console.log(response["access_token"]);
           setAccessToken(response["access_token"])
-          linkStudent() 
+          linkStudent()
         })
         .catch(function (data) {
           props.navigation.navigate("AccountSuccess");
@@ -243,7 +243,7 @@ const SignUp = (props) => {
           setErrorMessage(response["odata.error"].message.value);
         } else {
           login();
-         props.navigation.navigate("AccountSuccess");
+          props.navigation.navigate("AccountSuccess");
         }
       })
       .catch((response) => {
@@ -254,28 +254,40 @@ const SignUp = (props) => {
   const { navigation } = props.navigation;
   return (
     <Container style={loginStyle.container}>
-      <Content style={loginStyle.spacing} padder>
-        <View style={loginStyle.backWrapper}>
-          <Text
-            onPress={() => props.navigation.navigate("Login")}
-            style={loginStyle.backButtonStyle}
-          >
+      <Content style={loginStyle.spacing} >
+        <ImageBackground
+          style={{
+            width: "100%",
+            height: 290,
+          }}
+          source={require('./../../../assets/bg.png')}
+          resizeMode={'stretch'}
+        >
+          <View style={loginStyle.backWrapper}>
+            <Text
+              onPress={() => props.navigation.navigate("Login")}
+              style={loginStyle.backButtonStyle}
+            >
+              <Image
+                style={loginStyle.backButton}
+                source={require("../../../assets/BackButton.png")}
+              />
+            </Text>
+          </View>
+          <View style={{
+            alignSelf: "center",
+            paddingTop: 100
+          }}>
             <Image
-              style={loginStyle.backButton}
-              source={require("../../../assets/BackButton.png")}
+              style={loginStyle.logo}
+              source={require("../../../assets/Logo.png")}
             />
-          </Text>
-        </View>
-        <Body style={loginStyle.bodyContainer}>
-          <Image
-            style={loginStyle.logo}
-            source={require("../../../assets/Logo.png")}
-          />
-        </Body>
-        <View>
+          </View>
+        </ImageBackground>
+        <View style={{paddingLeft:30}}>
           <H3 style={globalStyle.h3}>Sign Up</H3>
         </View>
-        <Form>
+        <Form style={globalStyle.form} padder>
           <Item style={globalStyle.formGroup} floatingLabel>
             <Input
               value={firstName}

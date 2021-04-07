@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, ImageBackground } from "react-native";
 import {
   Container,
   CheckBox,
@@ -80,7 +80,15 @@ const ForgetPassword = (props) => {
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <Content style={loginStyle.spacing} padder>
+      <Content style={loginStyle.spacing} >
+      <ImageBackground
+          style={{
+            width: "100%",
+            height: 290,
+          }}
+          source={require('./../../../assets/bg.png')}
+          resizeMode={'stretch'}
+        >
         <View style={loginStyle.backWrapper}>
           <Text
             onPress={() => props.navigation.navigate("Login")}
@@ -92,6 +100,16 @@ const ForgetPassword = (props) => {
             />
           </Text>
         </View>
+        <View style={{
+            alignSelf: "center",
+            paddingTop: 100
+          }}>
+            <Image
+              style={loginStyle.logo}
+              source={require("../../../assets/Logo.png")}
+            />
+          </View>
+        </ImageBackground>
         <Body style={loginStyle.bodyContainer}>
           <H3 style={globalStyle.h3}>Forgot Password?</H3>
           <Text style={verificationStyle.subHeadingWrapper}>

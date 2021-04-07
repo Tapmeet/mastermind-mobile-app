@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, SafeAreaView, TouchableOpacity, } from "react-native";
+import { View, Image, StyleSheet, SafeAreaView, TouchableOpacity, TextInput } from "react-native";
 import { API_URL } from "@env";
 import { Picker } from "@react-native-community/picker";
 import CheckBox from "@react-native-community/checkbox";
@@ -118,46 +118,80 @@ const Inquiry = (props) => {
   const [childrenBenefits, setChildrenBenefits] = React.useState(childrenBenefitsList);
 
   const [childrenList, setChildrenList] = React.useState([]);
-  const [counter, setCounter] = React.useState('0');
+  const [counters, setCounters] = React.useState(0);
   const addSection = () => {
-    setCounter(counter + 1);
     let newArr = [...childrenList];
-    newArr[counter] = {
+    newArr[counters] = {
       FirstName: "",
       LastName: "",
       DOB: "",
     };
+    setCounters(parseInt(counters) + 1);
     setChildrenList(newArr);
-  };
+  }; 
   const deleteSection = (e) => {
-    setCounter(counter - 1);
+    setCounters(parseInt(counters) - 1);
     childrenList.splice(e, 1);
   };
 
-  const updateFirstNameField = (index) => (e) => {
+  const updateFirstNameField = (e, index) => {
     let newArr = [...childrenList]; // copying the old datas array
     newArr[index] = {
-      FirstName: e.target.value,
-      LastName: newArr[index].FirstName,
+      FirstName: e,
+      LastName: newArr[index].LastName,
       DOB: newArr[index].DOB
     };
     setChildrenList(newArr);
   };
-  const updatelastNameField = (index) => (e) => {
+  const updatelastNameField = (e, index) => {
     let newArr = [...childrenList]; // copying the old datas array
     newArr[index] = {
       FirstName: newArr[index].FirstName,
-      LastName: e.target.value,
+      LastName: e,
       DOB: newArr[index].DOB
     };
     setChildrenList(newArr);
   };
-  const updateDobField = (index) => (e) => {
+  // const updateDobField = (index) => (e) => {
+  //   let newArr = [...childrenList]; // copying the old datas array
+  //   newArr[index] = {
+  //     FirstName: newArr[index].FirstName,
+  //     LastName: newArr[index].LastName,
+  //     DOB: e.target.value
+  //   };
+  //   setChildrenList(newArr);
+  // };
+  function checkValue(str, max) {
+    if (str.charAt(0) !== '0' || str == '00') {
+      var num = parseInt(str);
+      if (isNaN(num) || num <= 0 || num > max) num = 1;
+      str =
+        num > parseInt(max.toString().charAt(0)) && num.toString().length == 1
+          ? '0' + num
+          : num.toString();
+    }
+    return str;
+  }
+  const dateTimeInputChangeHandler = (e, index) => {
+    var input = e;
+    var expr = new RegExp(/\D\/$/);
+    if (expr.test(input)) input = input.substr(0, input.length - 3);
+    var values = input.split('/').map(function (v) {
+      return v.replace(/\D/g, '');
+    });
+    if (values[1]) values[1] = checkValue(values[1], 12);
+    if (values[0]) values[0] = checkValue(values[0], 31);
+    var output = values.map(function (v, i) {
+      return v.length == 2 && i < 2 ? v + '/' : v;
+    });
+    // this.setState({
+    //   registrationDate: output.join('').substr(0, 14),
+    // });
     let newArr = [...childrenList]; // copying the old datas array
     newArr[index] = {
       FirstName: newArr[index].FirstName,
       LastName: newArr[index].LastName,
-      DOB: e.target.value
+      DOB: output.join('').substr(0, 14)
     };
     setChildrenList(newArr);
   };
@@ -353,8 +387,15 @@ const Inquiry = (props) => {
     }
     // console.log(API_URL);
     console.log("here")
+    var children = [];
+    childrenList.map((data) =>{
+       let datas = JSON.stringify(data);
+       children.push(datas);
+    })
+    console.log(children)
+    
     fetch(`${API_URL}/odata/Inquiry`, {
-      method: "post",
+      method: "post", 
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
@@ -377,6 +418,7 @@ const Inquiry = (props) => {
           "Employer": employer,
           "Occupation": occupation
         },
+        "Children" : children,
         "InquiryTypeId": inquiry,
         "ChildrenBenefits": childSelectedBenifits,
         "AdultBenefits": adultSelectedBenifits,
@@ -398,6 +440,7 @@ const Inquiry = (props) => {
         setErrorMessage("An error has occurred.");
       });
   };
+
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
@@ -644,32 +687,44 @@ const Inquiry = (props) => {
               marginTop: 30,
               padding: 10
             }}>
-              {typeof content != undefined && content.length
-                ? content.map((data, index) => {
+              <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 10 }}>Child Information</Text>
+              {typeof childrenList != undefined && childrenList.length
+                ? childrenList.map((data, index) => {
                   return (
-                    <View>
-                      <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>Child Information</Text>
+                    <View key={index}>
+                      <Text style={{ color: "#000", fontSize: 20, fontWeight: "bold", marginBottom: 0, marginTop: 20 }}>Enter Details Below</Text>
                       <Item style={globalStyle.formGroup} floatingLabel>
                         <Input
                           value={data.FirstName}
-                          onChangeText={updateFirstNameField(index)}
+                          onChangeText={(text) => updateFirstNameField(text, index)}
                           style={globalStyle.formControl}
-                          placeholder="First Name"
+                          placeholder="First Name" 
                         />
                       </Item>
                       <Item style={globalStyle.formGroup} floatingLabel>
                         <Input
-                          value={data.FirstName}
-                          onChangeText={updatelastNameField(index)}
+                          value={data.LastName}
+                          onChangeText={(text) => updatelastNameField(text, index)}
                           style={globalStyle.formControl}
-                          placeholder="Last Name"
+                          placeholder="Last Name" 
                         />
                       </Item>
+                      <TextInput
+                        keyboardType="number-pad"
+                        style={[globalStyle.formControl, { marginTop: 30 }]}
+                        maxLength={10}
+                        placeholder="DD/MM/YYYY"
+                        onChangeText={(e) => dateTimeInputChangeHandler(e, index)}
+                        value={data.DOB}
+                      />
+
                     </View>
                   );
                 })
                 : null}
-                <Button>Add Child Details</Button>
+              <View style={{ padding: 20, alignSelf: "center" }}>
+                <Button onPress={addSection}><Text>Add Child Details</Text></Button>
+              </View>
             </View>
             <View style={{
               shadowColor: "#000",
