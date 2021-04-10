@@ -59,7 +59,7 @@ const Login = (props) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-
+    console.log(API_URL);
     fetch(`${API_URL}/token`, {
       method: "POST",
       headers: {
@@ -105,8 +105,10 @@ const Login = (props) => {
           source={require('./../../../assets/bg.png')}
           resizeMode={'stretch'}
         >
-          <View style={{alignSelf:"center",
-        paddingTop:80}}>
+          <View style={{
+            alignSelf: "center",
+            paddingTop: 80
+          }}>
             <Image
               style={loginStyle.logo}
               source={require("../../../assets/Logo.png")}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from "react";
 import { View, Image, StyleSheet, SafeAreaView, TouchableOpacity, TextInput } from "react-native";
 import { API_URL } from "@env";
 import { Picker } from "@react-native-community/picker";
@@ -128,7 +128,7 @@ const Inquiry = (props) => {
     };
     setCounters(parseInt(counters) + 1);
     setChildrenList(newArr);
-  }; 
+  };
   const deleteSection = (e) => {
     setCounters(parseInt(counters) - 1);
     childrenList.splice(e, 1);
@@ -388,14 +388,17 @@ const Inquiry = (props) => {
     // console.log(API_URL);
     console.log("here")
     var children = [];
-    childrenList.map((data) =>{
-       let datas = JSON.stringify(data);
-       children.push(datas);
+    childrenList.map((data) => {
+      let datas = JSON.stringify(data);
+      children.push(datas);
     })
-    console.log(children)
-    
+    // var children = "John|Smith|02/06/1990!Jason|Smith|02/06/2000";
+    var xyz = JSON.stringify(childrenList);
+
+    console.log(xyz.join('|'));
+
     fetch(`${API_URL}/odata/Inquiry`, {
-      method: "post", 
+      method: "post",
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
@@ -418,7 +421,7 @@ const Inquiry = (props) => {
           "Employer": employer,
           "Occupation": occupation
         },
-        "Children" : children,
+        "Children": children,
         "InquiryTypeId": inquiry,
         "ChildrenBenefits": childSelectedBenifits,
         "AdultBenefits": adultSelectedBenifits,
@@ -698,7 +701,7 @@ const Inquiry = (props) => {
                           value={data.FirstName}
                           onChangeText={(text) => updateFirstNameField(text, index)}
                           style={globalStyle.formControl}
-                          placeholder="First Name" 
+                          placeholder="First Name"
                         />
                       </Item>
                       <Item style={globalStyle.formGroup} floatingLabel>
@@ -706,7 +709,7 @@ const Inquiry = (props) => {
                           value={data.LastName}
                           onChangeText={(text) => updatelastNameField(text, index)}
                           style={globalStyle.formControl}
-                          placeholder="Last Name" 
+                          placeholder="Last Name"
                         />
                       </Item>
                       <TextInput
