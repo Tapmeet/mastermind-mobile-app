@@ -387,15 +387,12 @@ const Inquiry = (props) => {
     }
     // console.log(API_URL);
     console.log("here")
-    var children = [];
-    childrenList.map((data) => {
-      let datas = JSON.stringify(data);
-      children.push(datas);
-    })
-    // var children = "John|Smith|02/06/1990!Jason|Smith|02/06/2000";
-    var xyz = JSON.stringify(childrenList);
-
-    console.log(xyz.join('|'));
+    // var children = [];
+    // childrenList.map((data) => {
+    //   let datas = JSON.stringify(data);
+    //   children.push(datas);
+    // })
+    var children = "John|Smith|02/06/1990!Jason|Smith|02/06/2000";
 
     fetch(`${API_URL}/odata/Inquiry`, {
       method: "post",
