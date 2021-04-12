@@ -385,7 +385,6 @@ const Inquiry = (props) => {
       setCheckNSignature(true)
       return false;
     }
-    // console.log(API_URL);
     console.log("here")
     // var children = [];
     // childrenList.map((data) => {
