@@ -258,7 +258,7 @@ const SignUp = (props) => {
         <ImageBackground
           style={{
             width: "100%",
-            height: 290,
+            height: 240,
           }}
           source={require('./../../../assets/bg.png')}
           resizeMode={'stretch'}
@@ -276,7 +276,7 @@ const SignUp = (props) => {
           </View>
           <View style={{
             alignSelf: "center",
-            paddingTop: 100
+            paddingTop: 70
           }}>
             <Image
               style={loginStyle.logo}
@@ -292,6 +292,7 @@ const SignUp = (props) => {
             <Input
               value={firstName}
               onChangeText={(text) => setfirstName(text)}
+              placeholderTextColor='#ccc'
               style={
                 checkFirstname
                   ? globalStyle.formControlError
@@ -307,6 +308,7 @@ const SignUp = (props) => {
             <Input
               value={lastName}
               onChangeText={(text) => setlasttName(text)}
+              placeholderTextColor='#ccc'
               style={globalStyle.formControl}
               placeholder="Last Name"
             />
@@ -315,6 +317,7 @@ const SignUp = (props) => {
             <Input
               value={schoolId}
               onChangeText={(text) => setschoolId(text)}
+              placeholderTextColor='#ccc'
               style={
                 checkShoolId
                   ? globalStyle.formControlError
@@ -330,6 +333,7 @@ const SignUp = (props) => {
             <Input
               value={email}
               onChangeText={(text) => setemail(text)}
+              placeholderTextColor='#ccc'
               style={
                 checkEmail
                   ? globalStyle.formControlError
@@ -345,6 +349,7 @@ const SignUp = (props) => {
             <Input
               value={confirmEmail}
               onChangeText={(text) => setconfirmemail(text)}
+              placeholderTextColor='#ccc'
               style={
                 checkConfirmEmail
                   ? globalStyle.formControlError
@@ -361,6 +366,7 @@ const SignUp = (props) => {
               secureTextEntry={true}
               value={password}
               onChangeText={(text) => setpassword(text)}
+              placeholderTextColor='#ccc'
               style={
                 checkPassword
                   ? globalStyle.formControlError
@@ -376,6 +382,7 @@ const SignUp = (props) => {
             <Input
               value={mobile}
               onChangeText={(text) => setmobile(text)}
+              placeholderTextColor='#ccc'
               style={
                 checkmobile
                   ? globalStyle.formControlError
@@ -403,6 +410,7 @@ const SignUp = (props) => {
               disabled={false}
               value={terms}
               onChange={setterms}
+              
               style={loginStyle.checkbox}
             />
             <Text style={loginStyle.text}>
@@ -420,7 +428,7 @@ const SignUp = (props) => {
 
           <Content style={loginStyle.formContainer}>
             <Button style={loginStyle.button} onPress={submitForm} full>
-              <Text>Create An Account</Text>
+            <Text style={loginStyle.buttonText} >Create An Account</Text>
             </Button>
           </Content>
         </Form>

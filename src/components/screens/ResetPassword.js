@@ -56,8 +56,8 @@ const ResetPassword = (props) => {
       setCheckConfirmPassword(false);
       return false;
     }
-
-    fetch(`${API_URL}/odata/ResetPassword`, {
+    const apiUrl =API_URL.trim();
+    fetch(`${apiUrl}/odata/ResetPassword`, {
       method: "post",
       headers: {
         Accept: "*/*",

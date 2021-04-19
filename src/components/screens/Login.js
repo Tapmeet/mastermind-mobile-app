@@ -1,3 +1,4 @@
+
 import React from "react";
 import { View, Image, StyleSheet, ImageBackground } from "react-native";
 import { API_URL } from "@env"
@@ -45,7 +46,6 @@ const Login = (props) => {
       setCheckPassword(true);
       return false;
     }
-    //console.log('working');
     var details = {
       userName: username,
       password: password,
@@ -59,8 +59,9 @@ const Login = (props) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    console.log(API_URL);
-    fetch(`${API_URL}/token`, {
+    const apiUrl = API_URL.trim();
+    console.log(apiUrl)
+    fetch(`${apiUrl}/token`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -100,14 +101,14 @@ const Login = (props) => {
         <ImageBackground
           style={{
             width: "100%",
-            height: 290,
+            height: 200,
           }}
           source={require('./../../../assets/bg.png')}
           resizeMode={'stretch'}
         >
           <View style={{
             alignSelf: "center",
-            paddingTop: 80
+            paddingTop: 40
           }}>
             <Image
               style={loginStyle.logo}
@@ -125,6 +126,7 @@ const Login = (props) => {
             <Input
               value={username}
               onChangeText={(text) => setusername(text)}
+              placeholderTextColor='#ccc'
               style={
                 checkUsername
                   ? globalStyle.formControlError
@@ -141,6 +143,7 @@ const Login = (props) => {
               secureTextEntry={true}
               value={password}
               onChangeText={(text) => setpassword(text)}
+              placeholderTextColor='#ccc'
               style={
                 checkPassword
                   ? globalStyle.formControlError
@@ -154,7 +157,7 @@ const Login = (props) => {
           ) : null}
           <Content style={loginStyle.formContainer}>
             <Button onPress={submitForm} style={loginStyle.button} full>
-              <Text>Login</Text>
+              <Text style={loginStyle.buttonText} >Login</Text>
             </Button>
           </Content>
         </Form>

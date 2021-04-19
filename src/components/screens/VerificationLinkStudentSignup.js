@@ -30,7 +30,8 @@ const VerificationLinkStudentSignup = (props) => {
     if (otp != VerificationToken) {
       setErrorMessage("Wrong verifcation code");
     } else {
-      fetch(`${API_URL}/odata/StudentLink('${props.route.params.studentAccountGuid}')`, {
+      const apiUrl =API_URL.trim();
+      fetch(`${apiUrl}/odata/StudentLink('${props.route.params.studentAccountGuid}')`, {
         method: "PUT",
         headers: {
           Accept: "*/*",

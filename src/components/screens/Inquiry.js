@@ -1,5 +1,5 @@
 import React, { Children } from "react";
-import { View, Image, StyleSheet, SafeAreaView, TouchableOpacity, TextInput } from "react-native";
+import { View, Image, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, ImageBackground } from "react-native";
 import { API_URL } from "@env";
 import { Picker } from "@react-native-community/picker";
 import CheckBox from "@react-native-community/checkbox";
@@ -315,6 +315,7 @@ const Inquiry = (props) => {
 
   //Form Submission
   const submitForm = () => {
+    console.log("here")
     setErrorMessage('')
     setSuccessMessage('')
     setCheckAdultBenifit(false);
@@ -386,14 +387,24 @@ const Inquiry = (props) => {
       return false;
     }
     console.log("here")
-    // var children = [];
-    // childrenList.map((data) => {
-    //   let datas = JSON.stringify(data);
-    //   children.push(datas);
+    // var children = '';
+    // // var children = [];
+    // childrenList.map((data, index) => {
+    //   // let datas = JSON.stringify(data);
+    //   // children.push(datas);
+    //   if (index == 0) {
+    //     children = children + data.FirstName + "|" + data.LastName + "|" + data.DOB;
+    //   }
+    //   else {
+    //     children = children + "!" + data.FirstName + "|" + data.LastName + "|" + data.DOB;
+
+    //   }
+
     // })
     var children = "John|Smith|02/06/1990!Jason|Smith|02/06/2000";
-
-    fetch(`${API_URL}/odata/Inquiry`, {
+    console.log(children);
+    const apiUrl =API_URL.trim();
+    fetch(`${apiUrl}/odata/Inquiry`, {
       method: "post",
       headers: {
         Accept: "*/*",
@@ -425,6 +436,7 @@ const Inquiry = (props) => {
       }),
     })
       .then((response) => {
+        console.log("hererssssssssss")
         let jsonData = JSON.stringify(response);
         console.log(jsonData)
         let jsonDataPrase = JSON.parse(jsonData);
@@ -436,6 +448,7 @@ const Inquiry = (props) => {
         }
       })
       .catch((response) => {
+        console.log(response)
         setErrorMessage("An error has occurred.");
       });
   };
@@ -444,221 +457,223 @@ const Inquiry = (props) => {
   return (
     <Container style={loginStyle.container}>
       <SideBarMenu title={"Inquiry"} navigation={props.navigation} />
-      <Content style={loginStyle.spacing} padder>
+      <Content style={loginStyle.spacing} >
+        <ImageBackground
+          style={{
+            width: "100%",
+            height: 150,
+            position: "absolute"
+          }}
+          source={require('./../../../assets/bg3.png')}
+          resizeMode={'stretch'}
+        >
+        </ImageBackground>
 
-        <Body style={loginStyle.bodyContainer}>
-          <H2 style={globalStyle.h2}>Inquiry!</H2>
-          <Text style={globalStyle.small}>Fill out the form below </Text>
-        </Body>
-        {showSignature == false ?
-          <Form>
-            <View style={{
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-              backgroundColor: "#f7f7f7",
-              marginTop: 30,
-              padding: 15,
-              paddingBottom: 30
-            }}>
-              <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0 }}>Personal Information</Text>
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={firstName}
-                  onChangeText={(text) => setfirstName(text)}
-                  style={
-                    checkFirstname
-                      ? globalStyle.formControlError
-                      : globalStyle.formControl
-                  }
-                  placeholder="First Name"
-                />
-              </Item>
-              {checkFirstname ? (
-                <Text style={globalStyle.error}>Enter First Name</Text>
-              ) : null}
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={lastName}
-                  onChangeText={(text) => setlasttName(text)}
-                  style={globalStyle.formControl}
-                  placeholder="Last Name"
-                />
-              </Item>
-              {checklastName ? (
-                <Text style={globalStyle.error}>Enter Last Name </Text>
-              ) : null}
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={address1}
-                  onChangeText={(text) => setaddress1(text)}
-                  style={
-                    checkAddress1
-                      ? globalStyle.formControlError
-                      : globalStyle.formControl
-                  }
-                  placeholder="Address1"
-                />
-              </Item>
-              {checkAddress1 ? (
-                <Text style={globalStyle.error}>Enter Address </Text>
-              ) : null}
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={address2}
-                  onChangeText={(text) => setaddress2(text)}
-                  style={globalStyle.formControl}
-                  placeholder="Address2"
-                />
-              </Item>
+        <View style={loginStyle.contentContainer}>
+          <Body style={loginStyle.bodyContainer}>
+            <H2 style={globalStyle.h3}>Inquiry!</H2>
+            <Text style={globalStyle.small}>Fill out the form below </Text>
+          </Body>
+          {showSignature == false ?
+            <Form>
+              <View style={{
+                marginTop: 30,
+                padding: 15,
+                paddingBottom: 30
+              }}>
+                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0 }}>Personal Information</Text>
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={firstName}
+                    onChangeText={(text) => setfirstName(text)}
+                    style={
+                      checkFirstname
+                        ? globalStyle.formControlError
+                        : globalStyle.formControl
+                    }
+                    placeholder="First Name"
+                  />
+                </Item>
+                {checkFirstname ? (
+                  <Text style={globalStyle.error}>Enter First Name</Text>
+                ) : null}
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={lastName}
+                    onChangeText={(text) => setlasttName(text)}
+                    style={globalStyle.formControl}
+                    placeholder="Last Name"
+                  />
+                </Item>
+                {checklastName ? (
+                  <Text style={globalStyle.error}>Enter Last Name </Text>
+                ) : null}
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={address1}
+                    onChangeText={(text) => setaddress1(text)}
+                    style={
+                      checkAddress1
+                        ? globalStyle.formControlError
+                        : globalStyle.formControl
+                    }
+                    placeholder="Address1"
+                  />
+                </Item>
+                {checkAddress1 ? (
+                  <Text style={globalStyle.error}>Enter Address </Text>
+                ) : null}
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={address2}
+                    onChangeText={(text) => setaddress2(text)}
+                    style={globalStyle.formControl}
+                    placeholder="Address2"
+                  />
+                </Item>
 
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={city}
-                  onChangeText={(text) => setcity(text)}
-                  style={
-                    checkCity
-                      ? globalStyle.formControlError
-                      : globalStyle.formControl
-                  }
-                  placeholder="City "
-                />
-              </Item>
-              {checkCity ? (
-                <Text style={globalStyle.error}>Enter City</Text>
-              ) : null}
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={city}
+                    onChangeText={(text) => setcity(text)}
+                    style={
+                      checkCity
+                        ? globalStyle.formControlError
+                        : globalStyle.formControl
+                    }
+                    placeholder="City "
+                  />
+                </Item>
+                {checkCity ? (
+                  <Text style={globalStyle.error}>Enter City</Text>
+                ) : null}
 
-              <Text style={{
-                marginBottom: 10,
-                marginTop: 0
-              }}></Text>
-              <View style={globalStyle.formControl}>
-                <Picker
-                  selectedValue={state}
-                  style={{ height: 50, width: '100%' }}
-                  onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
-                >
-                  <Picker.Item label="State" value="" />
-                  {stateList.map((data, index) => <Picker.Item key={data.index + data} label={data} value={index + 1} />)}
+                <Text style={{
+                  marginBottom: 10,
+                  marginTop: 0
+                }}></Text>
+                <View style={globalStyle.formControl}>
+                  <Picker
+                    selectedValue={state}
+                    style={{ height: 50, width: '100%' }}
+                    onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
+                  >
+                    <Picker.Item label="State" value="" />
+                    {stateList.map((data, index) => <Picker.Item key={data.index + data} label={data} value={index + 1} />)}
 
-                </Picker>
+                  </Picker>
+                </View>
+                {checkState ? (
+                  <Text style={globalStyle.error}>Enter State</Text>
+                ) : null}
+
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={zipCode}
+                    onChangeText={(text) => setzipCode(text)}
+                    style={
+                      checkZipCode
+                        ? globalStyle.formControlError
+                        : globalStyle.formControl
+                    }
+                    placeholder="Postal Code"
+                  />
+                </Item>
+                {checkZipCode ? (
+                  <Text style={globalStyle.error}>Enter ZipCode</Text>
+                ) : null}
+
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={email}
+                    onChangeText={(text) => setemail(text)}
+                    style={
+                      checkEmail
+                        ? globalStyle.formControlError
+                        : globalStyle.formControl
+                    }
+                    placeholder="Primary Email "
+                  />
+                </Item>
+                {checkEmail ? (
+                  <Text style={globalStyle.error}>Enter Valid Email</Text>
+                ) : null}
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={secondaryemail}
+                    onChangeText={(text) => setsecondaryemail(text)}
+                    style={globalStyle.formControl}
+                    placeholder="Secondary Email "
+                  />
+                </Item>
+
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={phone1}
+                    onChangeText={(text) => setphone1(text)}
+                    style={
+                      checkPhone1
+                        ? globalStyle.formControlError
+                        : globalStyle.formControl
+                    }
+                    placeholder="Phone1"
+                  />
+                </Item>
+                {checkPhone1 ? (
+                  <Text style={globalStyle.error}>Enter Phone Number </Text>
+                ) : null}
+
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={phone2}
+                    onChangeText={(text) => setphone2(text)}
+                    style={globalStyle.formControl}
+                    placeholder="Phone2"
+                  />
+                </Item>
+
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={phone3}
+                    onChangeText={(text) => setphone3(text)}
+                    style={globalStyle.formControl}
+                    placeholder="Phone3"
+                  />
+                </Item>
+
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={employer}
+                    onChangeText={(text) => setemployer(text)}
+                    style={
+                      checkEmployer
+                        ? globalStyle.formControlError
+                        : globalStyle.formControl
+                    }
+                    placeholder="Employer"
+                  />
+                </Item>
+                {checkEmployer ? (
+                  <Text style={globalStyle.error}>Enter Employement </Text>
+                ) : null}
+
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={occupation}
+                    onChangeText={(text) => setoccupation(text)}
+                    style={
+                      checkOccupation
+                        ? globalStyle.formControlError
+                        : globalStyle.formControl
+                    }
+                    placeholder="Occupation"
+                  />
+                </Item>
+                {checkOccupation ? (
+                  <Text style={globalStyle.error}>Enter Occupation </Text>
+                ) : null}
               </View>
-              {checkState ? (
-                <Text style={globalStyle.error}>Enter State</Text>
-              ) : null}
-
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={zipCode}
-                  onChangeText={(text) => setzipCode(text)}
-                  style={
-                    checkZipCode
-                      ? globalStyle.formControlError
-                      : globalStyle.formControl
-                  }
-                  placeholder="Postal Code"
-                />
-              </Item>
-              {checkZipCode ? (
-                <Text style={globalStyle.error}>Enter ZipCode</Text>
-              ) : null}
-
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={email}
-                  onChangeText={(text) => setemail(text)}
-                  style={
-                    checkEmail
-                      ? globalStyle.formControlError
-                      : globalStyle.formControl
-                  }
-                  placeholder="Primary Email "
-                />
-              </Item>
-              {checkEmail ? (
-                <Text style={globalStyle.error}>Enter Valid Email</Text>
-              ) : null}
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={secondaryemail}
-                  onChangeText={(text) => setsecondaryemail(text)}
-                  style={globalStyle.formControl}
-                  placeholder="Secondary Email "
-                />
-              </Item>
-
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={phone1}
-                  onChangeText={(text) => setphone1(text)}
-                  style={
-                    checkPhone1
-                      ? globalStyle.formControlError
-                      : globalStyle.formControl
-                  }
-                  placeholder="Phone1"
-                />
-              </Item>
-              {checkPhone1 ? (
-                <Text style={globalStyle.error}>Enter Phone Number </Text>
-              ) : null}
-
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={phone2}
-                  onChangeText={(text) => setphone2(text)}
-                  style={globalStyle.formControl}
-                  placeholder="Phone2"
-                />
-              </Item>
-
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={phone3}
-                  onChangeText={(text) => setphone3(text)}
-                  style={globalStyle.formControl}
-                  placeholder="Phone3"
-                />
-              </Item>
-
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={employer}
-                  onChangeText={(text) => setemployer(text)}
-                  style={
-                    checkEmployer
-                      ? globalStyle.formControlError
-                      : globalStyle.formControl
-                  }
-                  placeholder="Employer"
-                />
-              </Item>
-              {checkEmployer ? (
-                <Text style={globalStyle.error}>Enter Employement </Text>
-              ) : null}
-
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={occupation}
-                  onChangeText={(text) => setoccupation(text)}
-                  style={
-                    checkOccupation
-                      ? globalStyle.formControlError
-                      : globalStyle.formControl
-                  }
-                  placeholder="Occupation"
-                />
-              </Item>
-              {checkOccupation ? (
-                <Text style={globalStyle.error}>Enter Occupation </Text>
-              ) : null}
-            </View>
-            {/* <Item style={globalStyle.formGroup} floatingLabel>
+              {/* <Item style={globalStyle.formGroup} floatingLabel>
             <Input
               value={InquiryTypeId}
               onChangeText={(text) => setsource(text)}
@@ -673,205 +688,194 @@ const Inquiry = (props) => {
           {checkSource ? (
             <Text style={globalStyle.error}>Enter Source </Text>
           ) : null} */}
-            <View style={{
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-              backgroundColor: "#f7f7f7",
-              marginTop: 30,
-              padding: 10
-            }}>
-              <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 10 }}>Child Information</Text>
-              {typeof childrenList != undefined && childrenList.length
-                ? childrenList.map((data, index) => {
-                  return (
-                    <View key={index}>
-                      <Text style={{ color: "#000", fontSize: 20, fontWeight: "bold", marginBottom: 0, marginTop: 20 }}>Enter Details Below</Text>
-                      <Item style={globalStyle.formGroup} floatingLabel>
-                        <Input
-                          value={data.FirstName}
-                          onChangeText={(text) => updateFirstNameField(text, index)}
-                          style={globalStyle.formControl}
-                          placeholder="First Name"
+              <View style={{
+                marginTop: 30,
+                padding: 10,
+                paddingLeft: 20
+              }}>
+                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 10 }}>Child Information</Text>
+                {typeof childrenList != undefined && childrenList.length
+                  ? childrenList.map((data, index) => {
+                    return (
+                      <View key={index}>
+                        <Text style={{ color: "#000", fontSize: 20, fontWeight: "bold", marginBottom: 0, marginTop: 20 }}>Enter Details Below</Text>
+                        <Item style={globalStyle.formGroup} floatingLabel>
+                          <Input
+                            value={data.FirstName}
+                            onChangeText={(text) => updateFirstNameField(text, index)}
+                            style={globalStyle.formControl}
+                            placeholder="First Name"
+                          />
+                        </Item>
+                        <Item style={globalStyle.formGroup} floatingLabel>
+                          <Input
+                            value={data.LastName}
+                            onChangeText={(text) => updatelastNameField(text, index)}
+                            style={globalStyle.formControl}
+                            placeholder="Last Name"
+                          />
+                        </Item>
+                        <TextInput
+                          keyboardType="number-pad"
+                          style={[globalStyle.formControl, { marginTop: 30 }]}
+                          maxLength={10}
+                          placeholder="DD/MM/YYYY"
+                          onChangeText={(e) => dateTimeInputChangeHandler(e, index)}
+                          value={data.DOB}
                         />
-                      </Item>
-                      <Item style={globalStyle.formGroup} floatingLabel>
-                        <Input
-                          value={data.LastName}
-                          onChangeText={(text) => updatelastNameField(text, index)}
-                          style={globalStyle.formControl}
-                          placeholder="Last Name"
-                        />
-                      </Item>
-                      <TextInput
-                        keyboardType="number-pad"
-                        style={[globalStyle.formControl, { marginTop: 30 }]}
-                        maxLength={10}
-                        placeholder="DD/MM/YYYY"
-                        onChangeText={(e) => dateTimeInputChangeHandler(e, index)}
-                        value={data.DOB}
-                      />
 
-                    </View>
-                  );
-                })
-                : null}
-              <View style={{ padding: 20, alignSelf: "center" }}>
-                <Button onPress={addSection}><Text>Add Child Details</Text></Button>
+                      </View>
+                    );
+                  })
+                  : null}
+                <View style={{ paddingTop: 20, paddingBottom:20, }}>
+                  <Button onPress={addSection}
+                   style={[loginStyle.buttonSecondary]} full><Text style={loginStyle.buttonText}>Add Child Details</Text></Button>
+                </View>
               </View>
-            </View>
-            <View style={{
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-              backgroundColor: "#f7f7f7",
-              marginTop: 30,
-              padding: 10
-            }}>
-              <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>Additional Information</Text>
-              <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>How did you find out about our school?</Text>
-              <View style={globalStyle.formControl}>
-                <Picker
-                  selectedValue={inquiry}
-                  style={{ height: 50, width: '100%' }}
-                  onValueChange={(itemValue, itemIndex) => setInquiry(itemValue)}
-                >
-                  {enquiry.map((data) => <Picker.Item key={data.label + data.value} label={data.label} value={data.value} />)}
-                </Picker>
-              </View>
+              <View style={{
+                marginTop: 30,
+                padding: 10,
+                paddingLeft: 20
+              }}>
+                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>Additional Information</Text>
+                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>How did you find out about our school?</Text>
+                <View style={globalStyle.formControl}>
+                  <Picker
+                    selectedValue={inquiry}
+                    style={{ height: 50, width: '100%' }}
+                    onValueChange={(itemValue, itemIndex) => setInquiry(itemValue)}
+                  >
+                    {enquiry.map((data) => <Picker.Item key={data.label + data.value} label={data.label} value={data.value} />)}
+                  </Picker>
+                </View>
 
-              <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", lineHeight: 26, marginBottom: 10, marginTop: 20 }}>Please check the benefits you are interested in:</Text>
-              <View >
-                {adultBenefits.map((item) => (<View
-                  key={item.id + item.txt}
-                  style={{
-                    flexDirection: 'row',
-                    flex: 1,
-                    alignItems: "center"
-                  }}>
-                  <CheckBox
+                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", lineHeight: 26, marginBottom: 10, marginTop: 20 }}>Please check the benefits you are interested in:</Text>
+                <View >
+                  {adultBenefits.map((item) => (<View
+                    key={item.id + item.txt}
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      alignItems: "center"
+                    }}>
+                    <CheckBox
 
-                    value={item.isChecked}
-                    onChange={() => {
-                      handleChange(item.id);
+                      value={item.isChecked}
+                      onChange={() => {
+                        handleChange(item.id);
+                      }}
+                    />
+                    <Text style={{
+                      fontSize: 20,
+                      paddingLeft: 10
+                    }}>{item.txt}</Text>
+                  </View>))}
+                  {checkAdultBenifit ? (
+                    <Text style={globalStyle.error}>Please Check Options </Text>
+                  ) : null}
+                </View>
+                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", lineHeight: 26, marginBottom: 10, marginTop: 20 }}>Please check the benefits Child interested in:</Text>
+                <View >
+                  {childrenBenefits.map((item) => (<View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      alignItems: "center"
                     }}
-                  />
-                  <Text style={{
-                    fontSize: 20,
-                    paddingLeft: 10
-                  }}>{item.txt}</Text>
-                </View>))}
-                {checkAdultBenifit ? (
-                  <Text style={globalStyle.error}>Please Check Options </Text>
-                ) : null}
-              </View>
-              <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", lineHeight: 26, marginBottom: 10, marginTop: 20 }}>Please check the benefits Child interested in:</Text>
-              <View >
-                {childrenBenefits.map((item) => (<View
-                  style={{
-                    flexDirection: 'row',
-                    flex: 1,
-                    alignItems: "center"
-                  }}
-                  key={item.id + 100}
-                >
-                  <CheckBox
+                    key={item.id + 100}
+                  >
+                    <CheckBox
 
-                    value={item.isChecked}
-                    onChange={() => {
-                      handleChangeBenifits(item.id);
-                    }}
-                  />
-                  <Text style={{
-                    fontSize: 20,
-                    paddingLeft: 10
-                  }}>{item.txt}</Text>
-                </View>))}
-                {checkChildBenifit ? (
-                  <Text style={globalStyle.error}>Please Check Options </Text>
-                ) : null}
+                      value={item.isChecked}
+                      onChange={() => {
+                        handleChangeBenifits(item.id);
+                      }}
+                    />
+                    <Text style={{
+                      fontSize: 20,
+                      paddingLeft: 10
+                    }}>{item.txt}</Text>
+                  </View>))}
+                  {checkChildBenifit ? (
+                    <Text style={globalStyle.error}>Please Check Options </Text>
+                  ) : null}
+                </View>
+                {signature != '' ? (<View style={{ marginTop: 20 }}><Text style={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+
+                }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: signature }} /></View>) : null}
               </View>
-              {signature != '' ? (<View style={{ marginTop: 20 }}><Text style={{
+              <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+                <Button
+                  style={[loginStyle.buttonSecondary, { marginTop: 30, }]}
+                  onPress={() => { setShowSignature(true) }} full>
+                  <Text style={loginStyle.buttonText} >{signature != '' ? "Update Signature" : "Add Signature"}</Text>
+                </Button>
+                {checkNSignature != "" ? (
+                  <Text style={globalStyle.errorText}>Signature Required</Text>
+                ) : null}
+                {errorMessage != "" ? (
+                  <Text style={globalStyle.errorText}>{errorMessage}</Text>
+                ) : null}
+                {SuccessMessage != "" ? (
+                  <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
+                ) : null}
+                <Content style={loginStyle.formContainer}>
+                  <Button onPress={submitForm} style={loginStyle.button} full>
+                    <Text style={loginStyle.buttonText} >Send</Text>
+                  </Button>
+                </Content>
+              </View>
+            </Form>
+            :
+            <View >
+              <Text style={{
                 fontSize: 20,
-                fontWeight: "bold"
-              }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: signature }} /></View>) : null}
-            </View>
-            <Button
-              style={loginStyle.button, { marginTop: 30 }}
-              onPress={() => { setShowSignature(true) }} full>
-              <Text>{signature != '' ? "Update Signature" : "Add Signature"}</Text>
-            </Button>
-            {checkNSignature != "" ? (
-              <Text style={globalStyle.errorText}>Signature Required</Text>
-            ) : null}
-            {errorMessage != "" ? (
-              <Text style={globalStyle.errorText}>{errorMessage}</Text>
-            ) : null}
-            {SuccessMessage != "" ? (
-              <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
-            ) : null}
-            <Content style={loginStyle.formContainer}>
-              <Button onPress={submitForm} style={loginStyle.button} full>
-                <Text>Send</Text>
+                paddingLeft: 10,
+                fontWeight: "bold",
+                paddingBottom: 10
+              }}>Signature </Text>
+              <SignatureView
+                style={{
+                  borderWidth: 2,
+                  height: 180,
+                }}
+                ref={signatureRef}
+                onSave={(val) => {
+                  setSignature(val)
+                }}
+                onClear={() => {
+                  setSignature('')
+                }}
+              />
+              <View style={{ flexDirection: 'row', justifyContent: 'center', height: 50 }}>
+                <TouchableOpacity
+                  style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+                  onPress={() => {
+                    signatureRef.current.clearSignature();
+                  }}>
+                  <Text>Clear</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+                  onPress={() => {
+                    signatureRef.current.saveSignature();
+                    setShowSignature(false)
+                    setCheckNSignature(false)
+                  }}>
+                  <Text>Save</Text>
+                </TouchableOpacity>
+              </View>
+              <Button
+                style={[loginStyle.buttonSecondary, { marginTop: 30 }]}
+                onPress={() => { setShowSignature(false) }} full>
+                <Text>Back</Text>
               </Button>
-            </Content>
-          </Form>
-          :
-          <View >
-            <Text style={{
-              fontSize: 20,
-              paddingLeft: 10,
-              fontWeight: "bold",
-              paddingBottom: 10
-            }}>Signature </Text>
-            <SignatureView
-              style={{
-                borderWidth: 2,
-                height: 180,
-              }}
-              ref={signatureRef}
-              onSave={(val) => {
-                setSignature(val)
-              }}
-              onClear={() => {
-                setSignature('')
-              }}
-            />
-            <View style={{ flexDirection: 'row', justifyContent: 'center', height: 50 }}>
-              <TouchableOpacity
-                style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
-                onPress={() => {
-                  signatureRef.current.clearSignature();
-                }}>
-                <Text>Clear</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
-                onPress={() => {
-                  signatureRef.current.saveSignature();
-                  setShowSignature(false)
-                  setCheckNSignature(false)
-                }}>
-                <Text>Save</Text>
-              </TouchableOpacity>
             </View>
-            <Button
-              style={loginStyle.button, { marginTop: 30 }}
-              onPress={() => { setShowSignature(false) }} full>
-              <Text>Back</Text>
-            </Button>
-          </View>
-        }
+          }
+        </View>
       </Content>
     </Container>
   );

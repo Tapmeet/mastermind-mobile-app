@@ -13,7 +13,7 @@ export default StyleSheet.create({
     },
     h3: {
         marginTop: 20,
-        marginBottom: 0,
+        marginBottom: 10,
         fontWeight: "bold",
         fontSize: 29,
         lineHeight: 32,
@@ -34,20 +34,20 @@ export default StyleSheet.create({
     formControl: {
         height: 50,
         borderRadius: 26,
-        borderColor: '#888',
+        borderColor: '#D9E5E9',
         paddingLeft: 20,
         borderWidth: 2,
         marginBottom: 0,
         marginLeft: 0,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 7,
-        backgroundColor:"#fff"
+        // shadowColor: "#000",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 3.84,
+        // elevation: 7,
+        backgroundColor:"#F7F8F9"
     },
     formControlError: {
         height: 55,
@@ -57,15 +57,15 @@ export default StyleSheet.create({
         borderWidth: 2,
         marginBottom: 0,
         marginLeft: 0,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 7,
-        backgroundColor:"#fff"
+        // shadowColor: "#000",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 3.84,
+        // elevation: 7,
+        backgroundColor:"#F7F8F9"
     },
     textRight: {
         display: 'flex',
@@ -112,5 +112,16 @@ export default StyleSheet.create({
         marginTop: 30,
         marginBottom: -5
     },
-
+    barStyling: {
+        backgroundColor:"#1392DB"
+    },
+    titleStyling:{
+        textAlign:"center",
+        justifyContent:"center",
+        fontSize:24,
+        color :"#fff"
+    },
+    titleBody:{
+        width :"80%"
+    }
 })

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, ImageBackground } from "react-native";
 import { API_URL } from "@env"
 import {
   Container,
@@ -70,9 +70,9 @@ const LinkStudent = (props) => {
       setCheckEmail(true);
       return false;
     }
-   
-    
-    fetch(`${API_URL}/odata/StudentLink`, {
+
+    const apiUrl =API_URL.trim();
+    fetch(`${apiUrl}/odata/StudentLink`, {
       method: "post",
       headers: {
         Accept: "*/*",
@@ -102,7 +102,7 @@ const LinkStudent = (props) => {
         }
       })
       .catch((response) => {
-        console.log(response); 
+        console.log(response);
         setErrorMessage("An error has occurred. Please check all the fields");
       });
   };
@@ -110,65 +110,73 @@ const LinkStudent = (props) => {
   return (
     <Container style={loginStyle.container}>
       <SideBarMenu title={"Link Student "} navigation={props.navigation} />
-      <Content style={loginStyle.spacing} padder>
-        <View style={loginStyle.backWrapper}>
-          {/* <Image
-            style={loginStyle.backButton}
-            source={require("../../../assets/BackButton.png")}
-          /> */}
+      <Content style={loginStyle.spacing}>
+        <ImageBackground
+          style={{
+            width: "100%",
+            height: 150,
+            position: "absolute"
+          }}
+          source={require('./../../../assets/bg3.png')}
+          resizeMode={'stretch'}
+        >
+        </ImageBackground>
+
+        <View style={loginStyle.contentContainer}>
+
+          <Body style={loginStyle.bodyContainer}>
+            <H2 style={globalStyle.h3}>Link Student!</H2>
+            <Text style={globalStyle.small}>Fill out the form below </Text>
+          </Body>
+          <Form style={globalStyle.form}>
+            <Item style={globalStyle.formGroup} floatingLabel>
+              <Input
+                value={firstName}
+                onChangeText={(text) => setfirstName(text)}
+                style={
+                  checkFirstname
+                    ? globalStyle.formControlError
+                    : globalStyle.formControl
+                }
+                placeholder="First Name"
+              />
+            </Item>
+            {checkFirstname ? (
+              <Text style={globalStyle.error}>Enter First Name</Text>
+            ) : null}
+            <Item style={globalStyle.formGroup} floatingLabel>
+              <Input
+                value={lastName}
+                onChangeText={(text) => setlasttName(text)}
+                style={globalStyle.formControl}
+                placeholder="Last Name"
+              />
+            </Item>
+            {checklastName ? (
+              <Text style={globalStyle.error}>Enter Last Name </Text>
+            ) : null}
+            <Item style={globalStyle.formGroup} floatingLabel>
+              <Input
+                value={email}
+                onChangeText={(text) => setemail(text)}
+                style={
+                  checkEmail
+                    ? globalStyle.formControlError
+                    : globalStyle.formControl
+                }
+                placeholder="Email "
+              />
+            </Item>
+            {checkEmail ? (
+              <Text style={globalStyle.error}>Enter Valid Email</Text>
+            ) : null}
+            <Content style={loginStyle.formContainer}>
+              <Button onPress={submitForm} style={loginStyle.button} full>
+                <Text style={loginStyle.buttonText} >Link Student</Text>
+              </Button>
+            </Content>
+          </Form>
         </View>
-        <Body style={loginStyle.bodyContainer}>
-          <H2 style={globalStyle.h2}>Link Student!</H2>
-          <Text style={globalStyle.small}>Fill out the form below </Text>
-        </Body>
-        <Form style={globalStyle.form}>
-          <Item style={globalStyle.formGroup} floatingLabel>
-            <Input
-              value={firstName}
-              onChangeText={(text) => setfirstName(text)}
-              style={
-                checkFirstname
-                  ? globalStyle.formControlError
-                  : globalStyle.formControl
-              }
-              placeholder="First Name"
-            />
-          </Item>
-          {checkFirstname ? (
-            <Text style={globalStyle.error}>Enter First Name</Text>
-          ) : null}
-          <Item style={globalStyle.formGroup} floatingLabel>
-            <Input
-              value={lastName}
-              onChangeText={(text) => setlasttName(text)}
-              style={globalStyle.formControl}
-              placeholder="Last Name"
-            />
-          </Item>
-          {checklastName ? (
-            <Text style={globalStyle.error}>Enter Last Name </Text>
-          ) : null}
-          <Item style={globalStyle.formGroup} floatingLabel>
-            <Input
-              value={email}
-              onChangeText={(text) => setemail(text)}
-              style={
-                checkEmail
-                  ? globalStyle.formControlError
-                  : globalStyle.formControl
-              }
-              placeholder="Email "
-            />
-          </Item>
-          {checkEmail ? (
-            <Text style={globalStyle.error}>Enter Valid Email</Text>
-          ) : null}
-          <Content style={loginStyle.formContainer}>
-            <Button onPress={submitForm} style={loginStyle.button} full>
-              <Text>Link Student</Text>
-            </Button>
-          </Content>
-        </Form>
       </Content>
     </Container>
   );

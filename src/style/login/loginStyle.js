@@ -5,7 +5,7 @@ export default StyleSheet.create({
   container: {
     display: "flex",
     padding: 0,
-    margin:0
+    margin: 0
   },
   bodyContainer: {
     flexDirection: "column",
@@ -22,6 +22,20 @@ export default StyleSheet.create({
     color: colorPallete.secondary,
     height: 60,
     borderRadius: 30,
+  },
+  buttonSecondary: {
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: colorPallete.secondaryButton,
+    color: 'white',
+    height: 60,
+    borderRadius: 30,
+    width: "100%",
+    textAlign:"center",
+    alignSelf:"center"
+  },
+  buttonText: {
+    fontSize: 18
   },
   logo: {
     height: 84,
@@ -42,10 +56,10 @@ export default StyleSheet.create({
     display: "flex",
     justifyContent: "flex-start",
     lineHeight: 60,
-    position:"absolute",
-    top:25,
-    left:20,
-    zIndex:99
+    position: "absolute",
+    top: 25,
+    left: 20,
+    zIndex: 99
   },
   backButton: {
     height: 45,
@@ -54,12 +68,12 @@ export default StyleSheet.create({
   },
   backButtonStyle: {
     height: 80,
-   
+
   },
   radioSection: {
     marginTop: 30,
     flexDirection: "row",
-    alignItems:"center"
+    alignItems: "center"
   },
 
   checkbox: {
@@ -70,5 +84,33 @@ export default StyleSheet.create({
   },
   text: {
     marginBottom: 0
+  },
+  contentContainer: {
+    backgroundColor: "#fff",
+    marginTop: 50,
+    width: '90%',
+    margin: "auto",
+    alignSelf: "center"
+  },
+  textAccordian: {
+    borderBottomColor: "#ccc",
+    borderBottomWidth: 2,
+    paddingBottom: 10,
+    display:"flex",
+    position:"relative",
+    marginTop: 20,
+    paddingLeft:40
+  },
+  arrow: {
+    maxWidth: 15,
+    position:"absolute",
+    right:10,
+    top:-20
+  },
+  iconLeft:{
+    maxWidth:20,
+    position:"absolute",
+    left: 10,
+    top:-20
   }
 })

@@ -47,7 +47,7 @@ const VerificationCode = (props) => {
         <ImageBackground
           style={{
             width: "100%",
-            height: 290,
+            height: 260,
           }}
           source={require('./../../../assets/bg.png')}
           resizeMode={'stretch'}
@@ -65,7 +65,7 @@ const VerificationCode = (props) => {
           </View>
           <View style={{
             alignSelf: "center",
-            paddingTop: 100
+            paddingTop: 80
           }}>
             <Image
               style={loginStyle.logo}
@@ -81,10 +81,10 @@ const VerificationCode = (props) => {
         </Body>
         <Form>
           <Body style={{ padding: 30}}>
-            <Image
+            {/* <Image
               style={verificationStyle.envelop}
               source={require("../../../assets/Envelop.png")}
-            />
+            /> */}
           </Body>
           <Body style={[verificationStyle.spaceBetween,{ paddingLeft: 30, paddingRight:30}]}>
             <OtpInputs getOtp={(otp) => getOtp(otp)} />

@@ -17,7 +17,7 @@ import {
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
-import {API_URL} from "@env"
+import { API_URL } from "@env"
 const ForgetPassword = (props) => {
   const [email, setEmail] = React.useState("");
   const [checkEmail, setCheckEmail] = React.useState(false);
@@ -47,7 +47,7 @@ const ForgetPassword = (props) => {
       setCheckEmail(!checkEmail);
       return false;
     }
-
+    console.log("here");
     fetch(`${API_URL}/odata/ForgotPassword`, {
       method: "post",
       headers: {
@@ -81,28 +81,28 @@ const ForgetPassword = (props) => {
   return (
     <Container style={loginStyle.container}>
       <Content style={loginStyle.spacing} >
-      <ImageBackground
+        <ImageBackground
           style={{
             width: "100%",
-            height: 290,
+            height: 260,
           }}
           source={require('./../../../assets/bg.png')}
           resizeMode={'stretch'}
         >
-        <View style={loginStyle.backWrapper}>
-          <Text
-            onPress={() => props.navigation.navigate("Login")}
-            style={loginStyle.backButtonStyle}
-          >
-            <Image
-              style={loginStyle.backButton}
-              source={require("../../../assets/BackButton.png")}
-            />
-          </Text>
-        </View>
-        <View style={{
+          <View style={loginStyle.backWrapper}>
+            <Text
+              onPress={() => props.navigation.navigate("Login")}
+              style={loginStyle.backButtonStyle}
+            >
+              <Image
+                style={loginStyle.backButton}
+                source={require("../../../assets/BackButton.png")}
+              />
+            </Text>
+          </View>
+          <View style={{
             alignSelf: "center",
-            paddingTop: 100
+            paddingTop: 80
           }}>
             <Image
               style={loginStyle.logo}
@@ -118,16 +118,17 @@ const ForgetPassword = (props) => {
           </Text>
         </Body>
         <Form style={verificationStyle.form}>
-          <Body>
-            <Image
+          <Body style={{ paddingBottom: 40 }}>
+            {/* <Image
               style={verificationStyle.envelop}
               source={require("../../../assets/Envelop2.png")}
-            />
+            /> */}
           </Body>
           <Body style={verificationStyle.spaceBetween}>
             <Input
               value={email}
               onChangeText={(text) => setemail(text)}
+              placeholderTextColor='#ccc'
               style={
                 checkEmail
                   ? globalStyle.formControlError
@@ -150,7 +151,7 @@ const ForgetPassword = (props) => {
               style={loginStyle.button}
               full
             >
-              <Text>Send</Text>
+              <Text style={loginStyle.buttonText} >Send</Text>
             </Button>
           </Content>
         </Form>

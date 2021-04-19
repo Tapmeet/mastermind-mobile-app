@@ -10,7 +10,9 @@ const routes = [
   "Social Media",
   "Awards",
   "Link Student",
-  "Inquiry"
+  "Profile",
+  "Inquiry",
+ 
 ];
 import sideBar from "../../style/home/sidebarStyle";
 

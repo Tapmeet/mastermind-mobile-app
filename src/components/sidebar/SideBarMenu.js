@@ -1,8 +1,9 @@
-import { Header, Left, Button, Icon, Body, Title, Right } from "native-base";
+import { Header, Left, Button, Icon, Body, Title, Right, Text } from "native-base";
 import React from "react";
+import globalStyle from "../../style/globalStyle";
   const SideBarMenu = (props) => {
     return (
-      <Header>
+      <Header style={globalStyle.barStyling}>
         <Left>
           <Button
             transparent
@@ -10,8 +11,8 @@ import React from "react";
             <Icon name="menu" />
           </Button>
         </Left>
-        <Body>
-          <Title>{props.title}</Title>
+        <Body style={globalStyle.titleBody}>
+          <Title><Text style={globalStyle.titleStyling}>{props.title}</Text></Title>
         </Body>
         <Right />
       </Header>
