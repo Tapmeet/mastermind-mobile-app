@@ -25,6 +25,7 @@ const Login = (props) => {
   const [password, setPassword] = React.useState("");
   const [checkUsername, setCheckUsername] = React.useState(false);
   const [checkPassword, setCheckPassword] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
   const dispatch = useDispatch()
   const userData = userInfo => dispatch({ type: "LOGGED_IN_USER", payload: userInfo })
   const ValidateEmail = (mail) => {
@@ -71,7 +72,13 @@ const Login = (props) => {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
-        userData({ "id": 1, "access_Token": response["access_token"] })
+        if (response["access_token"]) {
+          userData({ "id": 1, "access_Token": response["access_token"] })
+        }
+        else {
+          setErrorMessage(response["error_description"] );
+        }
+
       })
       .catch(function (data) {
         console.log("Error", data);
@@ -155,6 +162,9 @@ const Login = (props) => {
           {checkPassword ? (
             <Text style={globalStyle.error}>Enter Password</Text>
           ) : null}
+          {errorMessage != "" ? (
+            <Text style={[globalStyle.errorText,{ marginTop:15}]}>{errorMessage}</Text>
+          ) : null}
           <Content style={loginStyle.formContainer}>
             <Button onPress={submitForm} style={loginStyle.button} full>
               <Text style={loginStyle.buttonText} >Login</Text>
@@ -169,6 +179,7 @@ const Login = (props) => {
             Forgot Password?
           </Text>
         </Body>
+
         <Body style={loginStyle.signUpSection}>
           <Text>
             Don’t have an account?

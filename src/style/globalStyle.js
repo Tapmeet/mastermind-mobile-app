@@ -27,9 +27,9 @@ export default StyleSheet.create({
         fontWeight: "bold"
 
     },
-    form :{
-        padding:30,
-        paddingTop:0
+    form: {
+        padding: 30,
+        paddingTop: 0
     },
     formControl: {
         height: 50,
@@ -47,7 +47,7 @@ export default StyleSheet.create({
         // shadowOpacity: 0.25,
         // shadowRadius: 3.84,
         // elevation: 7,
-        backgroundColor:"#F7F8F9"
+        backgroundColor: "#F7F8F9"
     },
     formControlError: {
         height: 55,
@@ -65,14 +65,14 @@ export default StyleSheet.create({
         // shadowOpacity: 0.25,
         // shadowRadius: 3.84,
         // elevation: 7,
-        backgroundColor:"#F7F8F9"
+        backgroundColor: "#F7F8F9"
     },
     textRight: {
         display: 'flex',
         alignSelf: "flex-end",
         marginTop: -10,
         flexDirection: "row-reverse",
-        marginLeft:30
+        marginLeft: 30
 
     },
     formGroup: {
@@ -113,15 +113,24 @@ export default StyleSheet.create({
         marginBottom: -5
     },
     barStyling: {
-        backgroundColor:"#1392DB"
+        backgroundColor: "#1392DB"
     },
-    titleStyling:{
-        textAlign:"center",
-        justifyContent:"center",
-        fontSize:24,
-        color :"#fff"
+    titleStyling: {
+        textAlign: "center",
+        justifyContent: "center",
+        fontSize: 24,
+        color: "#fff"
     },
-    titleBody:{
-        width :"80%"
-    }
+    titleBody: {
+        width: "80%"
+    },
+    emptylist: {
+        padding: 10,
+        textAlign: "center",
+        backgroundColor: "#f7f7f7",
+        marginTop: 10,
+        marginLeft:30,
+        marginRight:30,
+    },
+  
 })

@@ -1,5 +1,5 @@
 import React from "react";
-import { HomeScreen, AttendanceScreen, LinkStudentScreen, VerificationScreen, LinkStudentSuccessScreen, InquiryScreen, UserProfileScreen } from "../screens";
+import { HomeScreen, AttendanceScreen, LinkStudentScreen, VerificationScreen, LinkStudentSuccessScreen, InquiryScreen, UserProfileScreen, UserProfileMultipleScreen } from "../screens";
 import { SideBar } from ".";
 import { FlatList } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -15,6 +15,7 @@ const Drawer = (props) => {
       <HomeDrawer.Screen name="StudentLinkSuccess" component={LinkStudentSuccessScreen} />
       <HomeDrawer.Screen name="Inquiry" component={InquiryScreen} />
       <HomeDrawer.Screen name="Profile" component={UserProfileScreen} />
+      <HomeDrawer.Screen name="StudentProfile" component={UserProfileMultipleScreen} />
     </HomeDrawer.Navigator>
   );
 };
