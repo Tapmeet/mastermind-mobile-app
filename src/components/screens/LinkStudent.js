@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Image, StyleSheet, ImageBackground } from "react-native";
-import { API_URL } from "@env"
+import { API_URL } from "./../Utility/AppConst"
 import {
   Container,
   Content,

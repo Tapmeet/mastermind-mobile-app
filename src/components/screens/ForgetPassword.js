@@ -17,7 +17,7 @@ import {
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
-import { API_URL } from "@env"
+import { API_URL } from "./../Utility/AppConst"
 const ForgetPassword = (props) => {
   const [email, setEmail] = React.useState("");
   const [checkEmail, setCheckEmail] = React.useState(false);

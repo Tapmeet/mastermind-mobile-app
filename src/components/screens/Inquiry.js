@@ -1,6 +1,6 @@
 import React, { Children } from "react";
 import { View, Image, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, ImageBackground } from "react-native";
-import { API_URL } from "@env";
+import { API_URL } from "./../Utility/AppConst";
 import {Picker} from '@react-native-picker/picker';
 import CheckBox from "@react-native-community/checkbox";
 import {

@@ -18,7 +18,7 @@ import {
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
-import { API_URL } from "@env"
+import { API_URL } from "./../Utility/AppConst"
 const VerificationLinkStudentSignup = (props) => {
   const [otp, setOtp] = React.useState("");
   const VerificationToken = 'X9HXK6';

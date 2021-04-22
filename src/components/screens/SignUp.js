@@ -16,7 +16,7 @@ import {
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import CheckBox from "@react-native-community/checkbox";
-import { API_URL } from "@env"
+import { API_URL } from "./../Utility/AppConst"
 
 import PhoneInput from 'react-phone-number-input/react-native-input'
 

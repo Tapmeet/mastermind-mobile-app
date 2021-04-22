@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator } from "react-native";
-import { API_URL } from "@env";
+import { API_URL } from "./../Utility/AppConst";
 import Collapsible from 'react-native-collapsible';
 import DatePicker from 'react-native-datepicker';
 import {
@@ -21,7 +21,7 @@ import globalStyle from "../../style/globalStyle";
 import profilestyle from "../../style/profile/profileStyle";
 import { useSelector } from 'react-redux'
 import { SideBarMenu } from "../sidebar";
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import { set } from "react-native-reanimated";
 import moment from 'moment';
 const UserProfile = (props) => {
@@ -280,7 +280,7 @@ const UserProfile = (props) => {
         .then(response => response.json())
         .then(data => {
           setStudentIds(data.StudentIds)
-          if(data.StudentIds.length == 0){
+          if (data.StudentIds.length == 0) {
             setloader(false)
           }
           getdata(data.StudentIds[0])
@@ -355,10 +355,11 @@ const UserProfile = (props) => {
     }
   }, [data]);
 
-  const userProfile = (event) => {
-    props.navigation.navigate("StudentProfile", {
-      profileId: event,
-    })
+  function userProfileid(id) {
+    console.log("here")
+    // props.navigation.navigate("StudentProfile", {
+    //   profileId: id,
+    // })
   };
   const { navigation } = props;
   return (
@@ -735,7 +736,9 @@ const UserProfile = (props) => {
                   <View key={item + 100}>
                     <View >
                       <TouchableOpacity
-                        style={profilestyle.list} onPress={(item) => userProfile(item)}>
+                        style={profilestyle.list} onPress={() => props.navigation.navigate("StudentProfile", {
+                          profileId: item,
+                        })}>
                         <Image
                           style={profilestyle.iconLeft}
                           source={require("../../../assets/user.png")}
@@ -744,8 +747,8 @@ const UserProfile = (props) => {
                         <Text style={{
                           fontSize: 20,
                           paddingLeft: 10
-                        }}> View Profile
-                  </Text>
+                        }}> View Profile 
+                        </Text>
                         <Image
                           style={profilestyle.iconRight}
                           source={require("../../../assets/arrow-right.png")}

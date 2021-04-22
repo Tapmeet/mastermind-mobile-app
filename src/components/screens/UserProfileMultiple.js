@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Image, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
-import { API_URL } from "@env";
+import { API_URL } from "./../Utility/AppConst";
 import Collapsible from 'react-native-collapsible';
 import DatePicker from 'react-native-datepicker';
 import {
@@ -267,6 +267,8 @@ const UserProfileMultiple = (props) => {
   };
   React.useEffect(() => {
     const apiUrl = API_URL.trim();
+    console.log("heress"); 
+    console.log(props.route.params.profileId);
     if (data == '') {
       getdata(props.route.params.profileId)
       function getdata(id) {

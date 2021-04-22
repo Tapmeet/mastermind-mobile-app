@@ -19,7 +19,7 @@ import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { useSelector } from 'react-redux'
-import { API_URL } from "@env"
+import { API_URL } from "./../Utility/AppConst"
 const VerificationCode = (props) => {
   const userId = useSelector(state => state);
   const [otp, setOtp] = React.useState("");
