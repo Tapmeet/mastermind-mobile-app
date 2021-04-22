@@ -9,7 +9,7 @@ export default StyleSheet.create({
         fontWeight: "bold",
         fontSize: 40,
         lineHeight: 48,
-        fontFamily: 'HKGrotesk-Bold'
+        fontFamily: 'HKGrotesk-Regular'
     },
     h3: {
         marginTop: 20,
@@ -17,7 +17,7 @@ export default StyleSheet.create({
         fontWeight: "bold",
         fontSize: 29,
         lineHeight: 32,
-        fontFamily: 'HKGrotesk-Bold'
+        fontFamily: 'HKGrotesk-Regular'
     },
     small: {
         fontSize: 20
@@ -132,5 +132,8 @@ export default StyleSheet.create({
         marginLeft:30,
         marginRight:30,
     },
+    logo:{
+        width:15
+    }
   
 })

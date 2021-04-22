@@ -21,7 +21,7 @@ import globalStyle from "../../style/globalStyle";
 import profilestyle from "../../style/profile/profileStyle";
 import { useSelector } from 'react-redux'
 import { SideBarMenu } from "../sidebar";
-import { Picker } from "@react-native-community/picker";
+import {Picker} from '@react-native-picker/picker';
 import { set } from "react-native-reanimated";
 import moment from 'moment';
 const UserProfileMultiple = (props) => {
@@ -489,7 +489,7 @@ const UserProfileMultiple = (props) => {
               <View style={{
                 marginTop: 30,
               }}>
-                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>D.O.B</Text>
+                <Text style={{ color: "#000", fontSize: 18,  marginBottom: 10 }}>D.O.B</Text>
                 <View style={globalStyle.formControl}>
                   <DatePicker
                     showIcon={false}
@@ -517,7 +517,7 @@ const UserProfileMultiple = (props) => {
               <View style={{
                 marginTop: 30,
               }}>
-                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Uniform Size</Text>
+                <Text style={{ color: "#000", fontSize: 18,  marginBottom: 10 }}>Uniform Size</Text>
                 <View style={globalStyle.formControl}>
                   <Picker
                     selectedValue={UniformSize}
@@ -531,7 +531,7 @@ const UserProfileMultiple = (props) => {
               <View style={{
                 marginTop: 30,
               }}>
-                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Belt Size</Text>
+                <Text style={{ color: "#000", fontSize: 18,  marginBottom: 10 }}>Belt Size</Text>
                 <View style={globalStyle.formControl}>
                   <Picker
                     selectedValue={BeltSize}

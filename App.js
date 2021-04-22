@@ -7,10 +7,7 @@ import configureStore from './src/redux/store'
 import { View } from "react-native";
 import { Text } from "native-base";
 
-const customFonts = {
-  "HKGrotesk-Regular": require("./assets/fonts/HKGrotesk-Regular.otf"),
-  "HKGrotesk-Bold": require("./assets/fonts/HKGrotesk-Bold.otf"),
-};
+
 export default class App extends React.Component {
   state = {
     loading: true
@@ -19,9 +16,11 @@ export default class App extends React.Component {
     await Font.loadAsync({
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+      "HKGrotesk-Regular": require("./assets/fonts/HKGrotesk-Regular.ttf"),
+      "HKGrotesk-Bold": require("./assets/fonts/HKGrotesk-Bold.ttf"),
       ...Ionicons.font,
     })
-    await Font.loadAsync(customFonts);
+    //await Font.loadAsync(customFonts);
     this.setState({ loading: false })
   }
   render() {
@@ -30,11 +29,13 @@ export default class App extends React.Component {
         <View><Text>Loading...</Text></View>
       );
     }
-    return (
-      <StoreProvider store={configureStore()}>
-        <Main />
-      </StoreProvider> 
-    )
+    else {
+      return (
+        <StoreProvider store={configureStore()}>
+          <Main />
+        </StoreProvider>
+      )
+    }
   }
 
 };
