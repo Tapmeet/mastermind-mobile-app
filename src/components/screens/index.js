@@ -12,5 +12,6 @@ export { default as LinkStudentScreen } from './LinkStudent';
 export { default as UserProfileScreen } from './UserProfile';
 export { default as UserProfileMultipleScreen } from './UserProfileMultiple';
 export { default as InquiryScreen } from './Inquiry';
+export { default as ContractScreen } from './Contract';
 export { default as LinkStudentSuccessScreen } from './LinkStudentSuccess';
 export { default as VerificationLinkStudentSignupScreen } from './VerificationLinkStudentSignup';
