@@ -12,7 +12,7 @@ const routes = [
   "Link Student",
   "Profile",
   "Inquiry",
-  "Contract"
+  "Contracts"
  
 ];
 import sideBar from "../../style/home/sidebarStyle";

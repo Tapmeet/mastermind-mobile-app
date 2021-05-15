@@ -28,6 +28,7 @@ const Contract = (props) => {
   const signatureRef2 = React.useRef(null);
   const signatureRef3 = React.useRef(null);
   const [personId, setPersonId] = React.useState('')
+  const [contractId, setContractId] = React.useState('')
   const [contractData, setContractData] = React.useState([])
   const [paymentMethodCount, setPaymentMethodCount] = React.useState(0)
   const [PayerSignatureTerms, setPayerSignatureTerms] = React.useState('')
@@ -52,15 +53,19 @@ const Contract = (props) => {
   const [SuccessMessage, setSuccessMessage] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
   React.useEffect(() => {
+    //navigation.addListener('focus', () => {
+    //console.log(props.route.params.contractId);
     if (contractData.length == 0) {
+      setContractId(props.route.params.contractId)
       getContract()
       getPersonId()
       getPaymentMethod()
       getPersonContract()
     }
+    //});
   })
   function getContract() {
-    fetch(`${apiUrl}/odata/Contract(5)`, {
+    fetch(`${apiUrl}/odata/Contract(${props.route.params.contractId})`, {
       method: "get",
       headers: {
         Accept: "*/*",
@@ -71,9 +76,10 @@ const Contract = (props) => {
       .then(response => response.json())
       .then(data => {
         // console.log(data)
-        setloader(false)
+
         setHasMinor(data.hasMinor)
         setTerms(data.contractTermTemplate)
+        setloader(false)
       });
   }
   const { navigation } = props;
@@ -145,7 +151,7 @@ const Contract = (props) => {
     const apiUrl = API_URL.trim();
     console.log(userPaymentSelected)
     console.log('heres');
-    fetch(`${apiUrl}/odata/Contract(5)`, {
+    fetch(`${apiUrl}/odata/Contract(${props.route.params.contractId})`, {
       method: "patch",
       headers: {
         Accept: "*/*",
@@ -278,7 +284,7 @@ const Contract = (props) => {
                     paddingLeft: 20,
                     paddingRight: 20
                   }} >
-                    <H2 style={[globalStyle.h3, { fontSize: 20 }]}>Student Minor acknowledgement </H2>
+                    <H2 style={[globalStyle.h3, { fontSize: 20 }]}>Student Minor Acknowledgement </H2>
                     <Text style={{
                       fontSize: 20,
                       paddingLeft: 10,
@@ -330,100 +336,167 @@ const Contract = (props) => {
                       padding: 15,
                       paddingBottom: 30
                     }}>
-                      <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0 }}>General</Text>
-                      <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 10 }}>Full name</Text>
-                      <Item style={globalStyle.formGroup} floatingLabel>
-                        <Input
-                          value={contractData[0].StudentFullNames[0]}
-                          style={globalStyle.formControl}
-                          placeholder="Full Name"
-                          editable={false}
-                        />
-                      </Item>
-                      <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Discount</Text>
-                      <Item style={globalStyle.formGroup} floatingLabel>
-                        <Input
-                          value={contractData[0].Discount}
-                          style={globalStyle.formControl}
-                          placeholder="Full Name"
-                          editable={false}
-                        />
-                      </Item>
-                      <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0, marginTop: 25 }}>Membership Options</Text>
-                      <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Date Sold</Text>
-                      <Item style={globalStyle.formGroup} floatingLabel>
-                        <Input
-                          value={dateSold}
-                          style={globalStyle.formControl}
-                          placeholder="Date Sold"
-                          editable={false}
-                        />
-                      </Item>
-                      <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Fee</Text>
-                      <Item style={globalStyle.formGroup} floatingLabel>
-                        <Input
-                          value={contractData[0].Fee}
-                          style={globalStyle.formControl}
-                          placeholder="Fee"
-                          editable={false}
-                        />
-                      </Item>
-                      <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Finance Charge</Text>
-                      <Item style={globalStyle.formGroup} floatingLabel>
-                        <Input
-                          value={contractData[0].FinanceCharge}
-                          style={globalStyle.formControl}
-                          placeholder="FinanceCharge"
-                          editable={false}
-                        />
-                      </Item>
-                      <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Frequency Type</Text>
-                      <Item style={globalStyle.formGroup} floatingLabel>
-                        <Input
-                          value={contractData[0].FrequencyType}
-                          style={globalStyle.formControl}
-                          placeholder="FrequencyType"
-                          editable={false}
-                        />
-                      </Item>
-                      <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10, marginTop: 25 }}>Select Payment Method</Text>
-                      <View style={globalStyle.formControl}>
-                        <Picker
-                          selectedValue={userPaymentSelected}
-                          style={{ height: 50, width: '100%' }}
-                          onValueChange={(itemValue, itemIndex) => setUserPaymentSelected(itemValue)}
-                        ><Picker.Item label="Select Payment Method" value='' />
-                          {paymentMethod.map((data) => <Picker.Item key={data.Nickname + data.PersonPaymentMethodId} label={data.Nickname} value={data.PersonPaymentMethodId} />)}
-                        </Picker>
-                      </View>
-                      {PayerSignatureBilling != '' ? (<View style={{ marginTop: 20 }}><Text style={{
-                        fontSize: 20,
-                        fontWeight: "bold",
+                      {contractData.length > 0 ?
+                        contractData.map(function (contact, index) {
+                          const dateSolds = new Date(contact.DateSold).toISOString().slice(0, 10);
+                          const dateStart = new Date(contact.StartDate).toISOString().slice(0, 10);
+                          const endDate = new Date(contact.EndDate).toISOString().slice(0, 10);
+                          return (
+                            contact.ContractId == contractId ?
+                              <View key={index}>
+                                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0 }}>General</Text>
+                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 10 }}>Full name</Text>
 
-                      }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: PayerSignatureBilling }} /></View>) : null}
-                      <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-                        <Button
-                          style={[loginStyle.buttonSecondary, { marginTop: 30, }]}
-                          onPress={() => { setShowSignature2(true) }} full>
-                          <Text style={loginStyle.buttonText} >{PayerSignatureBilling != '' ? "Update Signature" : "Add Signature"}</Text>
-                        </Button>
-                      </View>
-                      {errorMessage != "" ? (
-                        <Text style={globalStyle.errorText}>{errorMessage}</Text>
-                      ) : null}
-                      {SuccessMessage != "" ? (
-                        <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
-                      ) : null}
-                      {PayerSignatureBilling != '' ? (
-                        <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-                          <Button
-                            style={[loginStyle.buttonSecondary, { marginTop: 30, }]}
-                            onPress={submitForm}
-                            full>
-                            <Text style={loginStyle.buttonText} >Submit</Text>
-                          </Button>
-                        </View>
-                      ) : null}
+                                {contact.StudentFullNames.length > 0 ?
+                                  contact.StudentFullNames.map(function (student, index) {
+                                    return (<Item key={index} style={globalStyle.formGroup} floatingLabel >
+                                      <Input
+                                        value={student}
+                                        style={globalStyle.formControl}
+                                        placeholder="Full Name"
+                                        editable={false}
+                                      />
+                                    </Item>
+                                    );
+                                  })
+                                  : null}
+                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Full Price</Text>
+                                <Item style={globalStyle.formGroup} floatingLabel>
+                                  <Input
+                                    value={"$" + contact.FullPrice}
+                                    style={globalStyle.formControl}
+                                    placeholder="Full Price"
+                                    editable={false}
+                                  />
+                                </Item>
+                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Discount</Text>
+                                <Item style={globalStyle.formGroup} floatingLabel>
+                                  <Input
+                                    value={"$" + contact.Discount}
+                                    style={globalStyle.formControl}
+                                    placeholder="Discount"
+                                    editable={false}
+                                  />
+                                </Item>
+                                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0, marginTop: 25 }}>Membership Options</Text>
+                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Date Sold</Text>
+                                <Item style={globalStyle.formGroup} floatingLabel>
+                                  <Input
+                                    value={dateSolds}
+                                    style={globalStyle.formControl}
+                                    placeholder="Date Sold"
+                                    editable={false}
+                                  />
+                                </Item>
+                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Start Date </Text>
+                                <Item style={globalStyle.formGroup} floatingLabel>
+                                  <Input
+                                    value={dateStart}
+                                    style={globalStyle.formControl}
+                                    placeholder="Start Date"
+                                    editable={false}
+                                  />
+                                </Item>
+                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>End Date</Text>
+                                <Item style={globalStyle.formGroup} floatingLabel>
+                                  <Input
+                                    value={endDate}
+                                    style={globalStyle.formControl}
+                                    placeholder="End Date"
+                                    editable={false}
+                                  />
+                                </Item>
+                                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0, marginTop: 25 }}>Financial Information</Text>
+                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Fee</Text>
+                                <Item style={globalStyle.formGroup} floatingLabel>
+                                  <Input
+                                    value={"$" + contact.Fee}
+                                    style={globalStyle.formControl}
+                                    placeholder="Fee"
+                                    editable={false}
+                                  />
+                                </Item>
+                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Finance Charge</Text>
+                                <Item style={globalStyle.formGroup} floatingLabel>
+                                  <Input
+                                    value={"$" + contact.FinanceCharge}
+                                    style={globalStyle.formControl}
+                                    placeholder="FinanceCharge"
+                                    editable={false}
+                                  />
+                                </Item>
+                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Transfer Credit</Text>
+                                <Item style={globalStyle.formGroup} floatingLabel>
+                                  <Input
+                                    value={"$" + contact.TransferCredit}
+                                    style={globalStyle.formControl}
+                                    placeholder="Transfer Credit"
+                                    editable={false}
+                                  />
+                                </Item>
+                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Unpaid Balance</Text>
+                                <Item style={globalStyle.formGroup} floatingLabel>
+                                  <Input
+                                    value={"$" + contact.UnpaidBalance}
+                                    style={globalStyle.formControl}
+                                    placeholder="Unpaid Balance"
+                                    editable={false}
+                                  />
+                                </Item>
+                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Frequency Type</Text>
+                                <Item style={globalStyle.formGroup} floatingLabel>
+                                  <Input
+                                    value={contact.FrequencyType}
+                                    style={globalStyle.formControl}
+                                    placeholder="FrequencyType"
+                                    editable={false}
+                                  />
+                                </Item>
+                                
+                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10, marginTop: 25 }}>Select Payment Method</Text>
+                                <View style={globalStyle.formControl}>
+                                  <Picker
+                                    selectedValue={userPaymentSelected}
+                                    style={{ height: 50, width: '100%' }}
+                                    onValueChange={(itemValue, itemIndex) => setUserPaymentSelected(itemValue)}
+                                  ><Picker.Item label="Select Payment Method" value='' />
+                                    {paymentMethod.map((data) => <Picker.Item key={data.Nickname + data.PersonPaymentMethodId} label={data.Nickname} value={data.PersonPaymentMethodId} />)}
+                                  </Picker>
+                                </View>
+                                {PayerSignatureBilling != '' ? (<View style={{ marginTop: 20 }}><Text style={{
+                                  fontSize: 20,
+                                  fontWeight: "bold",
+
+                                }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: PayerSignatureBilling }} /></View>) : null}
+                                <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+                                  <Button
+                                    style={[loginStyle.buttonSecondary, { marginTop: 30, }]}
+                                    onPress={() => { setShowSignature2(true) }} full>
+                                    <Text style={loginStyle.buttonText} >{PayerSignatureBilling != '' ? "Update Signature" : "Add Signature"}</Text>
+                                  </Button>
+                                </View>
+                                {errorMessage != "" ? (
+                                  <Text style={globalStyle.errorText}>{errorMessage}</Text>
+                                ) : null}
+                                {SuccessMessage != "" ? (
+                                  <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
+                                ) : null}
+                                {PayerSignatureBilling != '' ? (
+                                  <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+                                    <Button
+                                      style={[loginStyle.buttonSecondary, { marginTop: 30, }]}
+                                      onPress={submitForm}
+                                      full>
+                                      <Text style={loginStyle.buttonText} >Submit</Text>
+                                    </Button>
+                                  </View>
+                                ) : null}
+
+                              </View>
+                              : null
+                          );
+                        })
+                        : null}
                     </View>
                     : <View style={{
                       paddingLeft: 20,

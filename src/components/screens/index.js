@@ -13,5 +13,7 @@ export { default as UserProfileScreen } from './UserProfile';
 export { default as UserProfileMultipleScreen } from './UserProfileMultiple';
 export { default as InquiryScreen } from './Inquiry';
 export { default as ContractScreen } from './Contract';
+export { default as ContractListScreen } from './ContractList';
+export { default as SignedContractScreen } from './SignedContract';
 export { default as LinkStudentSuccessScreen } from './LinkStudentSuccess';
 export { default as VerificationLinkStudentSignupScreen } from './VerificationLinkStudentSignup';
