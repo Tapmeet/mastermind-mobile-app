@@ -53,16 +53,17 @@ const Contract = (props) => {
   const [SuccessMessage, setSuccessMessage] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
   React.useEffect(() => {
-    //navigation.addListener('focus', () => {
-    //console.log(props.route.params.contractId);
-    if (contractData.length == 0) {
-      setContractId(props.route.params.contractId)
-      getContract()
-      getPersonId()
-      getPaymentMethod()
-      getPersonContract()
-    }
-    //});
+    navigation.addListener('focus', () => {
+      setloader(true)
+      //console.log(props.route.params.contractId);
+      if (contractData.length == 0) {
+        setContractId(props.route.params.contractId)
+        getContract()
+        getPersonId()
+        getPaymentMethod()
+        getPersonContract()
+      }
+    });
   })
   function getContract() {
     fetch(`${apiUrl}/odata/Contract(${props.route.params.contractId})`, {
@@ -452,7 +453,7 @@ const Contract = (props) => {
                                     editable={false}
                                   />
                                 </Item>
-                                
+
                                 <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10, marginTop: 25 }}>Select Payment Method</Text>
                                 <View style={globalStyle.formControl}>
                                   <Picker
@@ -546,7 +547,21 @@ const Contract = (props) => {
                       </Button>
                     </View>
                   :
-                  <Text>Submit here</Text>
+                  <View>
+                    <View style={{
+                      paddingLeft: 20,
+                      paddingRight: 20
+                    }} >
+                      <H2 style={[globalStyle.h3, { fontSize: 20, textAlign:"center" }]}>Payment Method Required </H2>
+                      <Text style={{ color: "#000", fontSize: 18,textAlign:"center", lineHeight: 30, marginTop: 20 }}>You don't have any payment method, Please add one and try again</Text>
+                      <Button
+                        style={[loginStyle.buttonSecondary, { marginTop: 30 }]}
+                        onPress={() => props.navigation.navigate("Payment Method")} full>
+                        <Text>Add Payment Method</Text>
+                      </Button>
+                     
+                    </View>
+                  </View>
           }
         </View>
       </Content>

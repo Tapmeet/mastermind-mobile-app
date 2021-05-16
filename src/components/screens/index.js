@@ -16,4 +16,5 @@ export { default as ContractScreen } from './Contract';
 export { default as ContractListScreen } from './ContractList';
 export { default as SignedContractScreen } from './SignedContract';
 export { default as LinkStudentSuccessScreen } from './LinkStudentSuccess';
+export { default as AddPaymentMethodScreen } from './AddPaymentMethod';
 export { default as VerificationLinkStudentSignupScreen } from './VerificationLinkStudentSignup';

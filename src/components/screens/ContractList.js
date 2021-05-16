@@ -42,10 +42,12 @@ const ContractList = (props) => {
     setCollapsed(true);
   };
   React.useEffect(() => {
-    if (contractData.length == 0) {
-      getPersonContract()
-      getPersonContractPending() 
-    }  
+    navigation.addListener('focus', () => {
+      if (contractData.length == 0) {
+        getPersonContract()
+        getPersonContractPending()
+      }
+    })
   })
   function getPersonContract() {
     fetch(`${apiUrl}/odata/Contract?$filter=ContractStatus eq 'Signed'`, {
@@ -138,7 +140,7 @@ const ContractList = (props) => {
                   contractData.map(function (contact, index) {
                     return (
 
-                      <View key={index} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row',backgroundColor : "#f7f7f7", padding: 15, marginTop: 5, alignItems: "center" }}>
+                      <View key={index} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', backgroundColor: "#f7f7f7", padding: 15, marginTop: 5, alignItems: "center" }}>
                         <View style={{ width: "20%" }} ><Text style={{ fontSize: 17 }}>{contact.ContractId}</Text></View>
                         <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ fontSize: 17 }}>
                           {contact.StudentFullNames.length > 0 ?
@@ -189,17 +191,17 @@ const ContractList = (props) => {
                 {contractDataPending.length > 0 ?
                   contractDataPending.map(function (contact, index) {
                     return (
-                      <View key={index} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, marginTop: 5, backgroundColor : "#f7f7f7", alignItems: "center" }}>
+                      <View key={index} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, marginTop: 5, backgroundColor: "#f7f7f7", alignItems: "center" }}>
                         <View style={{ width: "20%" }} ><Text style={{ fontSize: 17 }}>{contact.ContractId}</Text></View>
                         <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ fontSize: 17 }}>
                           {contact.StudentFullNames.length > 0 ?
                             contact.StudentFullNames.map(function (student, index) {
-                              return (<View  key={index}><Text style={{ paddingBottom: 10, flex: 1, }}>{student}</Text></View>
+                              return (<View key={index}><Text style={{ paddingBottom: 10, flex: 1, }}>{student}</Text></View>
                               );
                             })
                             : null}
                         </Text></View>
-                        <View style={{ width: "20%" }} ><Text  onPress={() => props.navigation.navigate("Contract", {
+                        <View style={{ width: "20%" }} ><Text onPress={() => props.navigation.navigate("Contract", {
                           contractId: contact.ContractId,
                         })} style={{ fontSize: 17 }}>View</Text></View>
                       </View>

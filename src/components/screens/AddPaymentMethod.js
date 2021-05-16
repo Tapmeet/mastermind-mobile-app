@@ -10,7 +10,7 @@ import {
   Label,
   Button,
   Text,
-  Body, 
+  Body,
   H2,
   Icon,
 } from "native-base";
@@ -19,10 +19,11 @@ import globalStyle from "../../style/globalStyle";
 import { useSelector } from 'react-redux'
 import { SideBarMenu } from "../sidebar";
 import DatePicker from 'react-native-datepicker';
+
 import moment from 'moment';
 const apiUrl = API_URL.trim();
 const AddPaymentMethod = (props) => {
-  const [loader, setloader] = React.useState(true);
+  const [loader, setloader] = React.useState(false);
   const [Nickname, setNickname] = React.useState('');
   const [CardNumber, setCardNumber] = React.useState('');
   const [CardCode, setCardCode] = React.useState('');
@@ -32,6 +33,8 @@ const AddPaymentMethod = (props) => {
   const [checkCardnumber, setCheckCardnumber] = React.useState(false);
   const [checkCardCode, setCheckCardCode] = React.useState(false);
   const [checkCardExpiration, setCheckCardExpiration] = React.useState(false);
+  const [SuccessMessage, setSuccessMessage] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState('');
   const userId = useSelector(state => state);
   const [date, setDate] = React.useState('');
   const setnickname = (event) => {
@@ -59,39 +62,54 @@ const AddPaymentMethod = (props) => {
     }
   };
   const addMethod = () => {
+    setErrorMessage('');
+    setSuccessMessage('');
     if (Nickname == "") {
       setCheckNickname(true);
       return false;
     }
     if (CardNumber == "") {
-      setCardNumber(true);
+      setCheckCardnumber(true);
       return false;
     }
     if (CardCode == "") {
-      setCardCode(true);
+      setCheckCardCode(true);
       return false;
     }
     if (CardExpiration == "") {
-      setCardExpiration(true);
+      setCheckCardExpiration(true);
       return false;
     }
-    fetch(`${apiUrl}/odata/Contract(5)`, {
-      method: "get",
+    fetch(`${apiUrl}/odata/PaymentMethod`, {
+      method: "post",
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
         'Authorization': 'Bearer ' + userId[0].access_Token
       },
+      body: JSON.stringify({
+        "PersonPaymentMethodId": 0,
+        "Nickname": Nickname,
+        "CardNumber": CardNumber,
+        "CardCode": CardCode,
+        "CardExpiration": CardExpiration
+      }),
     })
       .then(response => response.json())
-      .then(data => {
-        console.log(data)
+      .then(response => {
+        console.log(response);
+        if (response["odata.error"]) {
+          console.log(response["odata.error"].message.value);
+          setErrorMessage(response["odata.error"].message.value);
+        } else {
+          setSuccessMessage('Card Added Successfully');
+        }
       });
   }
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"Contract "} navigation={props.navigation} />
+      <SideBarMenu title={"Payment Method "} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         <ImageBackground
           style={{
@@ -113,76 +131,102 @@ const AddPaymentMethod = (props) => {
             </View>
             :
             <View style={{ padding: 15 }}>
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={Nickname}
-                  onChangeText={(text) => setnickname(text)}
-                  placeholderTextColor='#ccc'
-                  style={
-                    checkUsername
-                      ? globalStyle.formControlError
-                      : globalStyle.formControl
-                  }
-                  placeholder="Nickname"
+              <View style={{ marginBottom: 15 }}>
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={Nickname}
+                    onChangeText={(text) => setnickname(text)}
+                    placeholderTextColor='#ccc'
+                    style={
+                      checkNickname
+                        ? globalStyle.formControlError
+                        : globalStyle.formControl
+                    }
+                    placeholder="Nickname"
+                  />
+                </Item>
+                {checkNickname ? (
+                  <Text style={globalStyle.error}>Enter Nickname </Text>
+                ) : null}
+              </View>
+              <View style={{ marginBottom: 15 }}>
+                <Item style={[globalStyle.formGroup]} floatingLabel>
+                  <Input
+                    value={CardNumber}
+                    keyboardType="number-pad"
+                    onChangeText={(text) => setcardNumber(text)}
+                    placeholderTextColor='#ccc'
+                    style={
+                      checkCardnumber
+                        ? globalStyle.formControlError
+                        : globalStyle.formControl
+                    }
+                    placeholder="Card Number"
+                  />
+                </Item>
+                {checkCardnumber ? (
+                  <Text style={globalStyle.error}>Enter Card Number </Text>
+                ) : null}
+              </View>
+              <View style={{ marginBottom: 25 }}>
+                <Item style={[globalStyle.formGroup]} floatingLabel>
+                  <Input
+                    value={CardCode}
+                    onChangeText={(text) => setcardCode(text)}
+                    placeholderTextColor='#ccc'
+                    style={
+                      checkCardCode
+                        ? globalStyle.formControlError
+                        : globalStyle.formControl
+                    }
+                    placeholder="Card Code"
+                  />
+                </Item>
+                {checkCardCode ? (
+                  <Text style={globalStyle.error}>Enter Card Code</Text>
+                ) : null}
+              </View>
+              <View style={[globalStyle.formControl, { marginBottom: 15 }]}>
+                <DatePicker
+                  showIcon={false}
+                  androidMode="spinner"
+                  date={CardExpiration}
+                  mode="date"
+                  placeholder="YYYY-MM-DD"
+                  format="YYYY-MM-DD"
+                  //maxDate={moment().format('YYYY-MM-DD')}
+                  confirmBtnText="Chọn"
+                  cancelBtnText="Hủy"
+                  customStyles={{
+                    dateInput: {
+                      backgroundColor: '#F7F8F9',
+                      borderWidth: 0,
+                      borderColor: 'black',
+                      width: "100%",
+                      padding: 0
+                    },
+                  }}
+                  onDateChange={(date) => { setCardExpiration(date) }}
                 />
-              </Item>
-              {checkNickname ? (
-                <Text style={globalStyle.error}>Enter Nickname </Text>
+              </View>
+              {checkCardExpiration ? (
+                <Text style={globalStyle.error}>Enter Card Expiry</Text>
               ) : null}
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={CardNumber}
-                  onChangeText={(text) => setcardNumber(text)}
-                  placeholderTextColor='#ccc'
-                  style={
-                    checkUsername
-                      ? globalStyle.formControlError
-                      : globalStyle.formControl
-                  }
-                  placeholder="Card Number"
-                />
-              </Item>
-              {checkCardnumber ? (
-                <Text style={globalStyle.error}>Enter Card Number </Text>
+              {errorMessage != "" ? (
+                <Text style={globalStyle.errorText}>{errorMessage}</Text>
               ) : null}
-              <Item style={globalStyle.formGroup} floatingLabel>
-                <Input
-                  value={CardCode}
-                  onChangeText={(text) => setcardCode(text)}
-                  placeholderTextColor='#ccc'
-                  style={
-                    checkUsername
-                      ? globalStyle.formControlError
-                      : globalStyle.formControl
-                  }
-                  placeholder="Card Code"
-                />
-              </Item>
-              {checkCardCode ? (
-                <Text style={globalStyle.error}>Enter Card Code</Text>
+              {SuccessMessage != "" ? (
+                <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
               ) : null}
-              <View style={globalStyle.formControl}>
-                        <DatePicker
-                          showIcon={false}
-                          androidMode="spinner"
-                          date={DOB}
-                          mode="date"
-                          placeholder="YYYY-MM-DD"
-                          format="YYYY-MM-DD"
-                          maxDate={moment().format('YYYY-MM-DD')}
-                          confirmBtnText="Chọn"
-                          cancelBtnText="Hủy"
-                          customStyles={{
-                            dateInput: {
-                              backgroundColor: '#F7F8F9',
-                              borderWidth: 0,
-                              borderColor: 'black',
-                              width: "100%"
-                            },
-                          }}
-                          onDateChange={(date) => { setCardExpiration(date) }}
-                        />
-                      </View>
+              <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+                <Button
+                  style={[loginStyle.buttonSecondary, { marginTop: 30, }]}
+                  onPress={addMethod}
+                  full>
+                  <Text style={loginStyle.buttonText} >Submit</Text>
+                </Button>
+              </View>
+
             </View>
           }
         </View>
@@ -201,5 +245,5 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
-export default Contract;
+export default AddPaymentMethod;
 
