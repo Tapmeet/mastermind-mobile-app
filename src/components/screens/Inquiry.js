@@ -458,7 +458,7 @@ const Inquiry = (props) => {
     <Container style={loginStyle.container}>
       <SideBarMenu title={"Inquiry"} navigation={props.navigation} />
       <Content style={loginStyle.spacing} >
-        <ImageBackground
+        {/* <ImageBackground
           style={{
             width: "100%",
             height: 150,
@@ -467,11 +467,11 @@ const Inquiry = (props) => {
           source={require('./../../../assets/bg3.png')}
           resizeMode={'stretch'}
         >
-        </ImageBackground>
+        </ImageBackground> */}
 
         <View style={loginStyle.contentContainer}>
           <Body style={loginStyle.bodyContainer}>
-            <H2 style={globalStyle.h3}>Inquiry!</H2>
+            {/* <H2 style={globalStyle.h3}>Inquiry!</H2> */}
             <Text style={globalStyle.small}>Fill out the form below </Text>
           </Body>
           {showSignature == false ?

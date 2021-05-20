@@ -71,7 +71,7 @@ const LinkStudent = (props) => {
       return false;
     }
 
-    const apiUrl =API_URL.trim();
+    const apiUrl = API_URL.trim();
     fetch(`${apiUrl}/odata/StudentLink`, {
       method: "post",
       headers: {
@@ -111,36 +111,24 @@ const LinkStudent = (props) => {
     <Container style={loginStyle.container}>
       <SideBarMenu title={"Link Student "} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
-        <ImageBackground
-          style={{
-            width: "100%",
-            height: 150,
-            position: "absolute"
-          }}
-          source={require('./../../../assets/bg3.png')}
-          resizeMode={'stretch'}
-        >
-        </ImageBackground>
-
         <View style={loginStyle.contentContainer}>
-
           <Body style={loginStyle.bodyContainer}>
-            <H2 style={globalStyle.h3}>Link Student!</H2>
             <Text style={globalStyle.small}>Fill out the form below </Text>
           </Body>
           <Form style={globalStyle.form}>
-            <Item style={globalStyle.formGroup} floatingLabel>
+            <View style={globalStyle.formField}>
+              <Text style={globalStyle.formLabel}>First Name</Text>
               <Input
                 value={firstName}
                 onChangeText={(text) => setfirstName(text)}
-                style={
-                  checkFirstname
-                    ? globalStyle.formControlError
-                    : globalStyle.formControl
-                }
-                placeholder="First Name"
+                // style={
+                //   checkFirstname
+                //     ? globalStyle.formControlError
+                //     : globalStyle.formControl
+                // }
+                placeholder="Enter your first name"
               />
-            </Item>
+            </View>
             {checkFirstname ? (
               <Text style={globalStyle.error}>Enter First Name</Text>
             ) : null}

@@ -20,7 +20,8 @@ export default StyleSheet.create({
         fontFamily: 'HKGrotesk-Regular'
     },
     small: {
-        fontSize: 20
+        fontSize: 26,
+        fontWeight: "bold",
     },
     hyperlink: {
         color: colorPallete.primary,
@@ -113,27 +114,55 @@ export default StyleSheet.create({
         marginBottom: -5
     },
     barStyling: {
-        backgroundColor: "#1392DB"
+        backgroundColor: "transparent",
+
+
+    },
+    formField: {
+        borderWidth: 1,
+        borderColor: "#A9A8A8",
+        borderRadius: 22,
+        marginTop: 30,
+        paddingLeft: 30
+    },
+    formLabel: {
+        marginTop: -20,
+        flex: 1,
+        color: '#16161D',
+        fontSize: 20,
+        padding: 5,
+        backgroundColor: "#fff"
+    },
+    barStylings: {
+        backgroundColor: "transparent",
+        borderTopWidth: 0,
+        borderColor: "transparent",
+        paddingTop: 15,
+        paddingBottom: 15,
+        height: 80,
+
     },
     titleStyling: {
         textAlign: "center",
         justifyContent: "center",
         fontSize: 24,
-        color: "#fff"
+        color: "#fff",
+        textTransform: "uppercase"
     },
     titleBody: {
-        width: "80%"
+        minWidth: 200,
+        paddingLeft: 40
     },
     emptylist: {
         padding: 10,
         textAlign: "center",
         backgroundColor: "#f7f7f7",
         marginTop: 10,
-        marginLeft:30,
-        marginRight:30,
+        marginLeft: 30,
+        marginRight: 30,
     },
-    logo:{
-        width:15
+    logo: {
+        width: 15
     }
-  
+
 })

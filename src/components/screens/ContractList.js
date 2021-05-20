@@ -86,7 +86,7 @@ const ContractList = (props) => {
     <Container style={loginStyle.container}>
       <SideBarMenu title={"Contracts"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
-        <ImageBackground
+        {/* <ImageBackground
           style={{
             width: "100%",
             height: 150,
@@ -95,7 +95,7 @@ const ContractList = (props) => {
           source={require('./../../../assets/bg3.png')}
           resizeMode={'stretch'}
         >
-        </ImageBackground>
+        </ImageBackground> */}
 
         <View style={[loginStyle.contentContainer, { height: 100 }]}>
           <Body style={loginStyle.bodyContainer}>
