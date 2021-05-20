@@ -62,8 +62,8 @@ const ContractList = (props) => {
       .then(data => {
         setContractData(data.value)
         setloader(false)
-        console.log('here')
-        console.log(data.value)
+      //  console.log('here')
+       // console.log(data.value)
       });
   }
   function getPersonContractPending() {

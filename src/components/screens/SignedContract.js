@@ -29,15 +29,31 @@ const SignedContract = (props) => {
   const [contractId, setContractId] = React.useState('')
   const [contract, setContract] = React.useState('')
   const userId = useSelector(state => state);
-
+  const [personData, setPersonData] = React.useState([])
   React.useEffect(() => {
-
-      setContract(props.route.params.contractData)
-      dateSolds = new Date(props.route.params.contractData.DateSold).toISOString().slice(0, 10);
-      dateStart = new Date(props.route.params.contractData.StartDate).toISOString().slice(0, 10);
-      endDate = new Date(props.route.params.contractData.EndDate).toISOString().slice(0, 10);
-      setloader(false)
+    setContract(props.route.params.contractData)
+    dateSolds = new Date(props.route.params.contractData.DateSold).toISOString().slice(0, 10);
+    dateStart = new Date(props.route.params.contractData.StartDate).toISOString().slice(0, 10);
+    endDate = new Date(props.route.params.contractData.EndDate).toISOString().slice(0, 10);
+    setloader(false)
+   console.log(props.route.params.contractData.ContractId)
+    if(loader){
+      fetch(`${apiUrl}/odata/StudentProgramContractInfo(${props.route.params.contractData.ContractId})`, {
+        method: "get",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ' + userId[0].access_Token
+        },
+      })
+        .then(response => response.json())
+        .then(response => {
+          setPersonData(response.value)
+          console.log(response.value);
+        });
+    }
     
+
   })
   const { navigation } = props;
   return (
@@ -137,6 +153,51 @@ const SignedContract = (props) => {
                     value={"$" + contract.Fee}
                     style={globalStyle.formControl}
                     placeholder="Fee"
+                    editable={false}
+                  />
+                </Item>
+                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Down Payment</Text>
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={"$" + personData[0].DownPayment}
+                    style={globalStyle.formControl}
+                    placeholder="Down Payment"
+                    editable={false}
+                  />
+                </Item>
+                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Fee</Text>
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={"$" + personData[0].Fee}
+                    style={globalStyle.formControl}
+                    placeholder="Fee"
+                    editable={false}
+                  />
+                </Item>
+                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Discount</Text>
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={"$" + personData[0].Discount}
+                    style={globalStyle.formControl}
+                    placeholder="Discount"
+                    editable={false}
+                  />
+                </Item>
+                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Payment Schedule Discount</Text>
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={"$" + personData[0].PaymentScheduleDiscount}
+                    style={globalStyle.formControl}
+                    placeholder="Payment Schedule Discount"
+                    editable={false}
+                  />
+                </Item>
+                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Payment Schedule Discount Percentage</Text>
+                <Item style={globalStyle.formGroup} floatingLabel>
+                  <Input
+                    value={personData[0].PaymentScheduleDiscountPercentage}
+                    style={globalStyle.formControl}
+                    placeholder="PaymentScheduleDiscountPercentage"
                     editable={false}
                   />
                 </Item>
