@@ -62,7 +62,7 @@ const Contract = (props) => {
         setContractId(props.route.params.contractId)
         getContract()
         getPersonId()
-     
+
         getPersonContract()
       }
     });
@@ -84,19 +84,19 @@ const Contract = (props) => {
         setTerms(data.contractTermTemplate)
         setloader(false)
       });
-      fetch(`${apiUrl}/odata/StudentProgramContractInfo(${props.route.params.contractId})`, {
-        method: "get",
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + userId[0].access_Token
-        },
-      })
-        .then(response => response.json())
-        .then(response => {
-          setPersonData(response.value)
-          console.log(response.value);
-        });
+    fetch(`${apiUrl}/odata/StudentProgramContractInfo(${props.route.params.contractId})`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer ' + userId[0].access_Token
+      },
+    })
+      .then(response => response.json())
+      .then(response => {
+        setPersonData(response.value)
+        console.log(response.value);
+      });
   }
   const { navigation } = props;
   const steponeSubmit = () => {
@@ -147,7 +147,7 @@ const Contract = (props) => {
       });
   }
   function getPersonContract() {
-    fetch(`${apiUrl}/odata/Contract?$filter=ContractStatus eq 'Pending'`, { 
+    fetch(`${apiUrl}/odata/Contract?$filter=ContractStatus eq 'Pending'`, {
       method: "get",
       headers: {
         Accept: "*/*",
@@ -157,18 +157,18 @@ const Contract = (props) => {
     })
       .then(response => response.json())
       .then(data => {
-       // console.log(data)
+        // console.log(data)
         setContractData(data.value)
         let dateSolds = new Date(data.value[0].DateSold).toISOString().slice(0, 10);
-       // console.log(dateSolds)
+        // console.log(dateSolds)
         setDateSold(dateSolds)
       });
   }
   const submitForm = () => {
     setSuccessMessage("");
     const apiUrl = API_URL.trim();
-   // console.log(userPaymentSelected)
-  //  console.log('heres');
+    // console.log(userPaymentSelected)
+    //  console.log('heres');
     fetch(`${apiUrl}/odata/Contract(${props.route.params.contractId})`, {
       method: "patch",
       headers: {
@@ -202,20 +202,7 @@ const Contract = (props) => {
     <Container style={loginStyle.container}>
       <SideBarMenu title={"Contract "} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
-        <ImageBackground
-          style={{
-            width: "100%",
-            height: 150,
-            position: "absolute"
-          }}
-          source={require('./../../../assets/bg3.png')}
-          resizeMode={'stretch'}
-        >
-        </ImageBackground>
         <View style={loginStyle.contentContainer}>
-          <Body style={loginStyle.bodyContainer}>
-            <H2 style={globalStyle.h3}>Contract</H2>
-          </Body>
           {loader ?
             <View style={[styles.container, styles.horizontal]}>
               <ActivityIndicator size="large" color="#29ABE2" />
@@ -232,19 +219,27 @@ const Contract = (props) => {
                   }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: PayerSignatureTerms }} /></View>) : null}
                   <View style={{ paddingLeft: 20, paddingRight: 20 }}>
                     <Button
-                      style={[loginStyle.buttonSecondary, { marginTop: 30, }]}
+                      style={[loginStyle.buttonsSecondary, { marginTop: 30, }]}
                       onPress={() => { setShowSignature(true) }} full>
                       <Text style={loginStyle.buttonText} >{PayerSignatureTerms != '' ? "Update Signature" : "Add Signature"}</Text>
                     </Button>
                   </View>
                   {PayerSignatureTerms != '' ? (
                     <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-                      <Button
-                        style={[loginStyle.buttonSecondary, { marginTop: 30, }]}
-                        onPress={steponeSubmit}
-                        full>
-                        <Text style={loginStyle.buttonText} >Submit</Text>
-                      </Button>
+                      <ImageBackground
+                        style={[globalStyle.Btn, {
+                          width: '100%'
+                        }]}
+                        source={require('./../../../assets/Oval.png')}
+                        resizeMode={'stretch'}
+                      >
+                        <Button
+                          style={[loginStyle.buttons]}
+                          onPress={steponeSubmit}
+                          full>
+                          <Text style={loginStyle.buttonText} >Submit</Text>
+                        </Button>
+                      </ImageBackground>
                     </View>
                   ) : null}
                 </View>
@@ -254,16 +249,13 @@ const Contract = (props) => {
                   paddingRight: 20
                 }} >
                   <Text style={{
-                    fontSize: 20,
+                    fontSize: 24,
                     paddingLeft: 10,
                     fontWeight: "bold",
                     paddingBottom: 10
                   }}>Signature </Text>
                   <SignatureView
-                    style={{
-                      borderWidth: 2,
-                      height: 180,
-                    }}
+                    style={[globalStyle.signatureField]}
                     ref={signatureRef}
                     onSave={(val) => {
                       setPayerSignatureTerms(val)
@@ -272,15 +264,15 @@ const Contract = (props) => {
                       setPayerSignatureTerms('')
                     }}
                   />
-                  <View style={{ flexDirection: 'row', justifyContent: 'center', height: 50 }}>
+                  <View style={{ flexDirection: 'row', justifyContent: "flex-end", height: 50 }}>
                     <TouchableOpacity
-                      style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+                      style={{ justifyContent: 'center', alignItems: "flex-end", flex: 1 }}
                       onPress={() => {
                         signatureRef.current.clearSignature();
                       }}>
-                      <Text>Clear</Text>
+                      <Text style={{ paddingRight: 15, fontWeight: "bold", fontSize: 18 }}>Clear</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
                       onPress={() => {
                         signatureRef.current.saveSignature();
@@ -288,13 +280,33 @@ const Contract = (props) => {
                         setCheckNSignature(false)
                       }}>
                       <Text>Save</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
-                  <Button
-                    style={[loginStyle.buttonSecondary, { marginTop: 30 }]}
-                    onPress={() => { setShowSignature(false) }} full>
-                    <Text>Back</Text>
-                  </Button>
+                  <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                    <Button
+                      style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
+                      onPress={() => { setShowSignature(false) }} >
+                      <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
+                    </Button>
+                    <ImageBackground
+                      style={[globalStyle.Btn, {
+                        width: '50%',
+                        alignItems: "center"
+                      }]}
+                      source={require('./../../../assets/Oval.png')}
+                      resizeMode={'stretch'}
+                    >
+                      <Button
+                        style={[loginStyle.buttonSave, { alignSelf: "center" }]}
+                        onPress={() => {
+                          signatureRef.current.saveSignature();
+                          setShowSignature(false)
+                          setCheckNSignature(false)
+                        }} >
+                        <Text style={loginStyle.buttonText}>Save</Text>
+                      </Button>
+                    </ImageBackground>
+                  </View>
                 </View>
               : step2 ?
                 <View>
@@ -302,7 +314,7 @@ const Contract = (props) => {
                     paddingLeft: 20,
                     paddingRight: 20
                   }} >
-                    <H2 style={[globalStyle.h3, { fontSize: 20 }]}>Student Minor Acknowledgement </H2>
+                    <H2 style={[globalStyle.h3, { fontSize: 23, textAlign: "center", marginTop: -10, marginBottom: 15 }]}>Student Minor Acknowledgement </H2>
                     <Text style={{
                       fontSize: 20,
                       paddingLeft: 10,
@@ -310,10 +322,7 @@ const Contract = (props) => {
                       paddingBottom: 10
                     }}>Signature </Text>
                     <SignatureView
-                      style={{
-                        borderWidth: 2,
-                        height: 180,
-                      }}
+                      style={[globalStyle.signatureField]}
                       ref={signatureRef2}
                       onSave={(val) => {
                         setPayerSignatureMinor(val)
@@ -324,11 +333,11 @@ const Contract = (props) => {
                     />
                     <View style={{ flexDirection: 'row', justifyContent: 'center', height: 50 }}>
                       <TouchableOpacity
-                        style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+                        style={{ justifyContent: 'center', alignItems: 'flex-end', flex: 1 }}
                         onPress={() => {
                           signatureRef2.current.clearSignature();
                         }}>
-                        <Text>Clear</Text>
+                        <Text style={{ paddingRight: 15, fontWeight: "bold", fontSize: 18 }}>Clear</Text>
                       </TouchableOpacity>
                       {/* <TouchableOpacity
                         style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
@@ -338,19 +347,28 @@ const Contract = (props) => {
                         <Text>Save</Text>
                       </TouchableOpacity> */}
                     </View>
-                    <Button
-                      style={[loginStyle.buttonSecondary, { marginTop: 30 }]}
-                      onPress={stepTwoSubmit}
-                      full>
-                      <Text>Submit</Text>
-                    </Button>
+                    <ImageBackground
+                      style={[globalStyle.Btn, {
+                        width: '100%',
+                        alignItems: "center"
+                      }]}
+                      source={require('./../../../assets/Oval.png')}
+                      resizeMode={'stretch'}
+                    >
+                      <Button
+                        style={[loginStyle.buttonSave, { alignSelf: "center" }]}
+                        onPress={stepTwoSubmit}
+                        full>
+                        <Text style={loginStyle.buttonText}>Submit</Text>
+                      </Button>
+                    </ImageBackground>
                   </View>
                 </View>
                 :
                 paymentMethodCount > 0 ?
                   showSignature2 == false ?
                     <View style={{
-                      marginTop: 30,
+                      marginTop: 0,
                       padding: 15,
                       paddingBottom: 30
                     }}>
@@ -363,180 +381,217 @@ const Contract = (props) => {
                             contact.ContractId == contractId ?
                               <View key={index}>
                                 <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0 }}>General</Text>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 10 }}>Full name</Text>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Full name</Text>
 
-                                {contact.StudentFullNames.length > 0 ?
-                                  contact.StudentFullNames.map(function (student, index) {
-                                    return (<Item key={index} style={globalStyle.formGroup} floatingLabel >
-                                      <Input
-                                        value={student}
-                                        style={globalStyle.formControl}
-                                        placeholder="Full Name"
-                                        editable={false}
-                                      />
-                                    </Item>
-                                    );
-                                  })
-                                  : null}
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Full Price</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={"$" + contact.FullPrice}
-                                    style={globalStyle.formControl}
-                                    placeholder="Full Price"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Discount</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={"$" + contact.Discount}
-                                    style={globalStyle.formControl}
-                                    placeholder="Discount"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0, marginTop: 25 }}>Membership Options</Text>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Date Sold</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={dateSolds}
-                                    style={globalStyle.formControl}
-                                    placeholder="Date Sold"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Start Date </Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={dateStart}
-                                    style={globalStyle.formControl}
-                                    placeholder="Start Date"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>End Date</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={endDate}
-                                    style={globalStyle.formControl}
-                                    placeholder="End Date"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0, marginTop: 25 }}>Financial Information</Text>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Fee</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={"$" + contact.Fee}
-                                    style={globalStyle.formControl}
-                                    placeholder="Fee"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Down Payment</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={"$" + personData[0].DownPayment}
-                                    style={globalStyle.formControl}
-                                    placeholder="Down Payment"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Fee</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={"$" + personData[0].Fee}
-                                    style={globalStyle.formControl}
-                                    placeholder="Fee"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Discount</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={"$" + personData[0].Discount}
-                                    style={globalStyle.formControl}
-                                    placeholder="Discount"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Payment Schedule Discount</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={"$" + personData[0].PaymentScheduleDiscount}
-                                    style={globalStyle.formControl}
-                                    placeholder="Payment Schedule Discount"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Payment Schedule Discount Percentage</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={personData[0].PaymentScheduleDiscountPercentage}
-                                    style={globalStyle.formControl}
-                                    placeholder="PaymentScheduleDiscountPercentage"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Finance Charge</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={"$" + contact.FinanceCharge}
-                                    style={globalStyle.formControl}
-                                    placeholder="FinanceCharge"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Transfer Credit</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={"$" + contact.TransferCredit}
-                                    style={globalStyle.formControl}
-                                    placeholder="Transfer Credit"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Unpaid Balance</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={"$" + contact.UnpaidBalance}
-                                    style={globalStyle.formControl}
-                                    placeholder="Unpaid Balance"
-                                    editable={false}
-                                  />
-                                </Item>
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginTop: 20 }}>Frequency Type</Text>
-                                <Item style={globalStyle.formGroup} floatingLabel>
-                                  <Input
-                                    value={contact.FrequencyType}
-                                    style={globalStyle.formControl}
-                                    placeholder="FrequencyType"
-                                    editable={false}
-                                  />
-                                </Item>
-
-                                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10, marginTop: 25 }}>Select Payment Method</Text>
-                                <View style={globalStyle.formControl}>
-                                  <Picker
-                                    selectedValue={userPaymentSelected}
-                                    style={{ height: 50, width: '100%' }}
-                                    onValueChange={(itemValue, itemIndex) => setUserPaymentSelected(itemValue)}
-                                  ><Picker.Item label="Select Payment Method" value='' />
-                                    {paymentMethod.map((data) => <Picker.Item key={data.Nickname + data.PersonPaymentMethodId} label={data.Nickname} value={data.PersonPaymentMethodId} />)}
-                                  </Picker>
+                                  {contact.StudentFullNames.length > 0 ?
+                                    contact.StudentFullNames.map(function (student, index) {
+                                      return (<Item key={index} style={[globalStyle.formGroup, { marginBottom: 10 }]} floatingLabel >
+                                        <Input
+                                          value={student}
+                                          style={globalStyle.formControls}
+                                          placeholder="Full Name"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                      );
+                                    })
+                                    : null}
                                 </View>
-                                {PayerSignatureBilling != '' ? (<View style={{ marginTop: 20 }}><Text style={{
-                                  fontSize: 20,
-                                  fontWeight: "bold",
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Full Price</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={"$" + contact.FullPrice}
+                                      style={globalStyle.formControls}
+                                      placeholder="Full Price"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Discount</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={"$" + contact.Discount}
+                                      style={globalStyle.formControls}
+                                      placeholder="Discount"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0, marginTop: 25 }}>Membership Options</Text>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Date Sold</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={dateSolds}
+                                      style={globalStyle.formControls}
+                                      placeholder="Date Sold"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Start Date </Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={dateStart}
+                                      style={globalStyle.formControls}
+                                      placeholder="Start Date"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>End Date</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={endDate}
+                                      style={globalStyle.formControls}
+                                      placeholder="End Date"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0, marginTop: 25 }}>Financial Information</Text>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Fee</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={"$" + contact.Fee}
+                                      style={globalStyle.formControls}
+                                      placeholder="Fee"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Down Payment</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={"$" + personData[0].DownPayment}
+                                      style={globalStyle.formControls}
+                                      placeholder="Down Payment"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Fee</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={"$" + personData[0].Fee}
+                                      style={globalStyle.formControls}
+                                      placeholder="Fee"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Discount</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={"$" + personData[0].Discount}
+                                      style={globalStyle.formControls}
+                                      placeholder="Discount"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Payment Schedule Discount</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={"$" + personData[0].PaymentScheduleDiscount}
+                                      style={globalStyle.formControls}
+                                      placeholder="Payment Schedule Discount"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Payment Schedule Discount Percentage</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={personData[0].PaymentScheduleDiscountPercentage}
+                                      style={globalStyle.formControls}
+                                      placeholder="PaymentScheduleDiscountPercentage"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Finance Charge</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={"$" + contact.FinanceCharge}
+                                      style={globalStyle.formControls}
+                                      placeholder="FinanceCharge"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Transfer Credit</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={"$" + contact.TransferCredit}
+                                      style={globalStyle.formControls}
+                                      placeholder="Transfer Credit"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Unpaid Balance</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={"$" + contact.UnpaidBalance}
+                                      style={globalStyle.formControls}
+                                      placeholder="Unpaid Balance"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Frequency Type</Text>
+                                  <Item style={globalStyle.formGroup} floatingLabel>
+                                    <Input
+                                      value={contact.FrequencyType}
+                                      style={globalStyle.formControls}
+                                      placeholder="FrequencyType"
+                                      editable={false}
+                                    />
+                                  </Item>
+                                </View>
+                                <View style={globalStyle.formField}>
+                                  <Text style={globalStyle.formLabel}>Select Payment Method</Text>
+                                  <View style={globalStyle.formControls}>
+                                    <Picker
+                                      selectedValue={userPaymentSelected}
+                                      style={{ height: 50, width: '100%' }}
+                                      onValueChange={(itemValue, itemIndex) => setUserPaymentSelected(itemValue)}
+                                    ><Picker.Item label="Select Payment Method" value='' />
+                                      {paymentMethod.map((data) => <Picker.Item key={data.Nickname + data.PersonPaymentMethodId} label={data.Nickname} value={data.PersonPaymentMethodId} />)}
+                                    </Picker>
+                                  </View>
+                                </View>
+                                {PayerSignatureBilling != '' ? (
+                                  <View style={{ marginTop: 20 }}>
+                                    <Text style={{
+                                      fontSize: 20,
+                                      fontWeight: "bold",
 
-                                }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: PayerSignatureBilling }} /></View>) : null}
-                                <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+                                    }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: PayerSignatureBilling }} /></View>) : null}
+                                <View style={{ marginTop: 20, marginBottom: 20 }}>
+
                                   <Button
-                                    style={[loginStyle.buttonSecondary, { marginTop: 30, }]}
+                                    style={[loginStyle.buttonsSecondary]}
                                     onPress={() => { setShowSignature2(true) }} full>
                                     <Text style={loginStyle.buttonText} >{PayerSignatureBilling != '' ? "Update Signature" : "Add Signature"}</Text>
                                   </Button>
+
                                 </View>
                                 {errorMessage != "" ? (
                                   <Text style={globalStyle.errorText}>{errorMessage}</Text>
@@ -545,13 +600,21 @@ const Contract = (props) => {
                                   <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
                                 ) : null}
                                 {PayerSignatureBilling != '' ? (
-                                  <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-                                    <Button
-                                      style={[loginStyle.buttonSecondary, { marginTop: 30, }]}
-                                      onPress={submitForm}
-                                      full>
-                                      <Text style={loginStyle.buttonText} >Submit</Text>
-                                    </Button>
+                                  <View >
+                                    <ImageBackground
+                                      style={[globalStyle.Btn, {
+                                        width: '100%'
+                                      }]}
+                                      source={require('./../../../assets/Oval.png')}
+                                      resizeMode={'stretch'}
+                                    >
+                                      <Button
+                                        style={[loginStyle.buttons]}
+                                        onPress={submitForm}
+                                        full>
+                                        <Text style={loginStyle.buttonText} >Submit</Text>
+                                      </Button>
+                                    </ImageBackground>
                                   </View>
                                 ) : null}
 
@@ -566,16 +629,13 @@ const Contract = (props) => {
                       paddingRight: 20
                     }} >
                       <Text style={{
-                        fontSize: 20,
+                        fontSize: 24,
                         paddingLeft: 10,
                         fontWeight: "bold",
                         paddingBottom: 10
                       }}>Signature </Text>
                       <SignatureView
-                        style={{
-                          borderWidth: 2,
-                          height: 180,
-                        }}
+                        style={[globalStyle.signatureField]}
                         ref={signatureRef3}
                         onSave={(val) => {
                           setPayerSignatureBilling(val)
@@ -586,13 +646,13 @@ const Contract = (props) => {
                       />
                       <View style={{ flexDirection: 'row', justifyContent: 'center', height: 50 }}>
                         <TouchableOpacity
-                          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+                          style={{ justifyContent: 'center', alignItems: 'flex-end', flex: 1 }}
                           onPress={() => {
                             signatureRef3.current.clearSignature();
                           }}>
-                          <Text>Clear</Text>
+                          <Text style={{ paddingRight: 15, fontWeight: "bold", fontSize: 18 }}>Clear</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                           style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
                           onPress={() => {
                             signatureRef3.current.saveSignature();
@@ -600,13 +660,33 @@ const Contract = (props) => {
 
                           }}>
                           <Text>Save</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                       </View>
-                      <Button
-                        style={[loginStyle.buttonSecondary, { marginTop: 30 }]}
-                        onPress={() => { setShowSignature2(false) }} full>
-                        <Text>Back</Text>
-                      </Button>
+                      <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                        <Button
+                          style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
+                          onPress={() => { setShowSignature2(false) }} >
+                          <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
+                        </Button>
+                        <ImageBackground
+                          style={[globalStyle.Btn, {
+                            width: '50%',
+                            alignItems: "center"
+                          }]}
+                          source={require('./../../../assets/Oval.png')}
+                          resizeMode={'stretch'}
+                        >
+                          <Button
+                            style={[loginStyle.buttonSave, { alignSelf: "center" }]}
+                            onPress={() => {
+                              signatureRef3.current.saveSignature();
+                              setShowSignature2(false)
+
+                            }} >
+                            <Text style={loginStyle.buttonText}>Save</Text>
+                          </Button>
+                        </ImageBackground>
+                      </View>
                     </View>
                   :
                   <View>
@@ -614,14 +694,14 @@ const Contract = (props) => {
                       paddingLeft: 20,
                       paddingRight: 20
                     }} >
-                      <H2 style={[globalStyle.h3, { fontSize: 20, textAlign:"center" }]}>Payment Method Required </H2>
-                      <Text style={{ color: "#000", fontSize: 18,textAlign:"center", lineHeight: 30, marginTop: 20 }}>You don't have any payment method, Please add one and try again</Text>
+                      <H2 style={[globalStyle.h3, { fontSize: 20, textAlign: "center" }]}>Payment Method Required </H2>
+                      <Text style={{ color: "#000", fontSize: 18, textAlign: "center", lineHeight: 30, marginTop: 20 }}>You don't have any payment method, Please add one and try again</Text>
                       <Button
                         style={[loginStyle.buttonSecondary, { marginTop: 30 }]}
                         onPress={() => props.navigation.navigate("Payment Method")} full>
                         <Text>Add Payment Method</Text>
                       </Button>
-                     
+
                     </View>
                   </View>
           }

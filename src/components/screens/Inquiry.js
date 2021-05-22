@@ -1,7 +1,7 @@
 import React, { Children } from "react";
 import { View, Image, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, ImageBackground } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import CheckBox from "@react-native-community/checkbox";
 import {
   Container,
@@ -403,7 +403,7 @@ const Inquiry = (props) => {
     // })
     var children = "John|Smith|02/06/1990!Jason|Smith|02/06/2000";
     console.log(children);
-    const apiUrl =API_URL.trim();
+    const apiUrl = API_URL.trim();
     fetch(`${apiUrl}/odata/Inquiry`, {
       method: "post",
       headers: {
@@ -471,204 +471,199 @@ const Inquiry = (props) => {
 
         <View style={loginStyle.contentContainer}>
           <Body style={loginStyle.bodyContainer}>
-            {/* <H2 style={globalStyle.h3}>Inquiry!</H2> */}
             <Text style={globalStyle.small}>Fill out the form below </Text>
           </Body>
           {showSignature == false ?
             <Form>
               <View style={{
-                marginTop: 30,
+                marginTop: 10,
                 padding: 15,
                 paddingBottom: 30
               }}>
                 <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0 }}>Personal Information</Text>
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={checkFirstname
+                  ? globalStyle.formFieldError : globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>First Name</Text>
                   <Input
                     value={firstName}
                     onChangeText={(text) => setfirstName(text)}
-                    style={
-                      checkFirstname
-                        ? globalStyle.formControlError
-                        : globalStyle.formControl
+                    style={globalStyle.formControls
                     }
                     placeholder="First Name"
                   />
-                </Item>
+                </View>
                 {checkFirstname ? (
                   <Text style={globalStyle.error}>Enter First Name</Text>
                 ) : null}
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={checklastName
+                  ? globalStyle.formFieldError : globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Last Name</Text>
                   <Input
                     value={lastName}
                     onChangeText={(text) => setlasttName(text)}
-                    style={globalStyle.formControl}
+                    style={globalStyle.formControls}
                     placeholder="Last Name"
                   />
-                </Item>
+                </View>
                 {checklastName ? (
                   <Text style={globalStyle.error}>Enter Last Name </Text>
                 ) : null}
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={checkAddress1
+                  ? globalStyle.formFieldError : globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Primary Address</Text>
                   <Input
                     value={address1}
                     onChangeText={(text) => setaddress1(text)}
-                    style={
-                      checkAddress1
-                        ? globalStyle.formControlError
-                        : globalStyle.formControl
+                    style={globalStyle.formControls
                     }
-                    placeholder="Address1"
+                    placeholder="Primary Address"
                   />
-                </Item>
+                </View>
                 {checkAddress1 ? (
                   <Text style={globalStyle.error}>Enter Address </Text>
                 ) : null}
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Secondary Address</Text>
                   <Input
                     value={address2}
                     onChangeText={(text) => setaddress2(text)}
-                    style={globalStyle.formControl}
-                    placeholder="Address2"
+                    style={globalStyle.formControls}
+                    placeholder="Secondary Address"
                   />
-                </Item>
+                </View>
 
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={checkCity
+                  ? globalStyle.formFieldError : globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>City</Text>
                   <Input
                     value={city}
                     onChangeText={(text) => setcity(text)}
-                    style={
-                      checkCity
-                        ? globalStyle.formControlError
-                        : globalStyle.formControl
+                    style={globalStyle.formControls
                     }
                     placeholder="City "
                   />
-                </Item>
+                </View>
                 {checkCity ? (
                   <Text style={globalStyle.error}>Enter City</Text>
                 ) : null}
 
-                <Text style={{
-                  marginBottom: 10,
-                  marginTop: 0
-                }}></Text>
-                <View style={globalStyle.formControl}>
-                  <Picker
-                    selectedValue={state}
-                    style={{ height: 50, width: '100%' }}
-                    onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
-                  >
-                    <Picker.Item label="State" value="" />
-                    {stateList.map((data, index) => <Picker.Item key={data.index + data} label={data} value={index + 1} />)}
+                <View style={checkState
+                  ? globalStyle.formFieldError : globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>State</Text>
+                  <View style={globalStyle.formControls}>
+                    <Picker
+                      selectedValue={state}
+                      style={{ height: 50, width: '100%', fontSize: 24 }}
+                      onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
+                    >
+                      <Picker.Item label="State" value="" />
+                      {stateList.map((data, index) => <Picker.Item key={data.index + data} label={data} value={index + 1} />)}
 
-                  </Picker>
+                    </Picker>
+                  </View>
                 </View>
                 {checkState ? (
                   <Text style={globalStyle.error}>Enter State</Text>
                 ) : null}
 
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={checkZipCode
+                  ? globalStyle.formFieldError : globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Postal Code</Text>
                   <Input
                     value={zipCode}
                     onChangeText={(text) => setzipCode(text)}
-                    style={
-                      checkZipCode
-                        ? globalStyle.formControlError
-                        : globalStyle.formControl
-                    }
+                    style={globalStyle.formControls}
                     placeholder="Postal Code"
                   />
-                </Item>
+                </View>
                 {checkZipCode ? (
                   <Text style={globalStyle.error}>Enter ZipCode</Text>
                 ) : null}
 
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={checkEmail
+                  ? globalStyle.formFieldError : globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Primary Email</Text>
                   <Input
                     value={email}
                     onChangeText={(text) => setemail(text)}
-                    style={
-                      checkEmail
-                        ? globalStyle.formControlError
-                        : globalStyle.formControl
+                    style={globalStyle.formControls
                     }
                     placeholder="Primary Email "
                   />
-                </Item>
+                </View>
                 {checkEmail ? (
                   <Text style={globalStyle.error}>Enter Valid Email</Text>
                 ) : null}
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Secondary Email</Text>
                   <Input
                     value={secondaryemail}
                     onChangeText={(text) => setsecondaryemail(text)}
-                    style={globalStyle.formControl}
+                    style={globalStyle.formControls}
                     placeholder="Secondary Email "
                   />
-                </Item>
+                </View>
 
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={checkPhone1
+                  ? globalStyle.formFieldError : globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Primary Phone</Text>
                   <Input
                     value={phone1}
                     onChangeText={(text) => setphone1(text)}
-                    style={
-                      checkPhone1
-                        ? globalStyle.formControlError
-                        : globalStyle.formControl
+                    style={globalStyle.formControls
                     }
-                    placeholder="Phone1"
+                    placeholder="Primary Phone"
                   />
-                </Item>
+                </View>
                 {checkPhone1 ? (
                   <Text style={globalStyle.error}>Enter Phone Number </Text>
                 ) : null}
 
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Secondary Phone</Text>
                   <Input
                     value={phone2}
                     onChangeText={(text) => setphone2(text)}
-                    style={globalStyle.formControl}
-                    placeholder="Phone2"
+                    style={globalStyle.formControls}
+                    placeholder="Secondary Phone"
                   />
-                </Item>
+                </View>
 
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Other Phone</Text>
                   <Input
                     value={phone3}
                     onChangeText={(text) => setphone3(text)}
-                    style={globalStyle.formControl}
-                    placeholder="Phone3"
+                    style={globalStyle.formControls}
+                    placeholder="Other Phone"
                   />
-                </Item>
+                </View>
 
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={checkEmployer
+                  ? globalStyle.formFieldError : globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Employer</Text>
                   <Input
                     value={employer}
                     onChangeText={(text) => setemployer(text)}
-                    style={
-                      checkEmployer
-                        ? globalStyle.formControlError
-                        : globalStyle.formControl
-                    }
+                    style={globalStyle.formControls}
                     placeholder="Employer"
                   />
-                </Item>
+                </View>
                 {checkEmployer ? (
                   <Text style={globalStyle.error}>Enter Employement </Text>
                 ) : null}
 
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={checkEmployer
+                  ? globalStyle.formFieldError : globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Occupation</Text>
                   <Input
                     value={occupation}
                     onChangeText={(text) => setoccupation(text)}
-                    style={
-                      checkOccupation
-                        ? globalStyle.formControlError
-                        : globalStyle.formControl
+                    style={globalStyle.formControls
                     }
                     placeholder="Occupation"
                   />
-                </Item>
+                </View>
                 {checkOccupation ? (
                   <Text style={globalStyle.error}>Enter Occupation </Text>
                 ) : null}
@@ -699,38 +694,42 @@ const Inquiry = (props) => {
                     return (
                       <View key={index}>
                         <Text style={{ color: "#000", fontSize: 20, fontWeight: "bold", marginBottom: 0, marginTop: 20 }}>Enter Details Below</Text>
-                        <Item style={globalStyle.formGroup} floatingLabel>
+                        <View style={globalStyle.formField}>
+                          <Text style={globalStyle.formLabel}>First Name</Text>
                           <Input
                             value={data.FirstName}
                             onChangeText={(text) => updateFirstNameField(text, index)}
-                            style={globalStyle.formControl}
+                            style={globalStyle.formControls}
                             placeholder="First Name"
                           />
-                        </Item>
-                        <Item style={globalStyle.formGroup} floatingLabel>
+                        </View>
+                        <View style={globalStyle.formField}>
+                          <Text style={globalStyle.formLabel}>Last Name</Text>
                           <Input
                             value={data.LastName}
                             onChangeText={(text) => updatelastNameField(text, index)}
-                            style={globalStyle.formControl}
+                            style={globalStyle.formControls}
                             placeholder="Last Name"
                           />
-                        </Item>
-                        <TextInput
-                          keyboardType="number-pad"
-                          style={[globalStyle.formControl, { marginTop: 30 }]}
-                          maxLength={10}
-                          placeholder="DD/MM/YYYY"
-                          onChangeText={(e) => dateTimeInputChangeHandler(e, index)}
-                          value={data.DOB}
-                        />
-
+                        </View>
+                        <View style={globalStyle.formField}>
+                          <Text style={globalStyle.formLabel}>DOB</Text>
+                          <TextInput
+                            keyboardType="number-pad"
+                            style={[globalStyle.formControls, { marginTop: 10 }]}
+                            maxLength={10}
+                            placeholder="DD/MM/YYYY"
+                            onChangeText={(e) => dateTimeInputChangeHandler(e, index)}
+                            value={data.DOB}
+                          />
+                        </View>
                       </View>
                     );
                   })
                   : null}
-                <View style={{ paddingTop: 20, paddingBottom:20, }}>
+                <View style={{ paddingTop: 20, paddingBottom: 20, }}>
                   <Button onPress={addSection}
-                   style={[loginStyle.buttonSecondary]} full><Text style={loginStyle.buttonText}>Add Child Details</Text></Button>
+                    style={[loginStyle.buttonsSecondary]} full><Text style={loginStyle.buttonText}>Add Child Details</Text></Button>
                 </View>
               </View>
               <View style={{
@@ -809,7 +808,7 @@ const Inquiry = (props) => {
               </View>
               <View style={{ paddingLeft: 20, paddingRight: 20 }}>
                 <Button
-                  style={[loginStyle.buttonSecondary, { marginTop: 30, }]}
+                  style={[loginStyle.buttonsSecondary, { marginTop: 30, }]}
                   onPress={() => { setShowSignature(true) }} full>
                   <Text style={loginStyle.buttonText} >{signature != '' ? "Update Signature" : "Add Signature"}</Text>
                 </Button>
@@ -823,25 +822,31 @@ const Inquiry = (props) => {
                   <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
                 ) : null}
                 <Content style={loginStyle.formContainer}>
-                  <Button onPress={submitForm} style={loginStyle.button} full>
-                    <Text style={loginStyle.buttonText} >Send</Text>
-                  </Button>
+                  <ImageBackground
+                    style={[globalStyle.Btn, {
+                      width: '100%'
+                    }]}
+                    source={require('./../../../assets/Oval.png')}
+                    resizeMode={'stretch'}
+
+                  >
+                    <Button onPress={submitForm} style={loginStyle.buttons} full>
+                      <Text style={loginStyle.buttonText} >Send</Text>
+                    </Button>
+                  </ImageBackground>
                 </Content>
               </View>
             </Form>
             :
             <View >
               <Text style={{
-                fontSize: 20,
+                fontSize: 24,
                 paddingLeft: 10,
                 fontWeight: "bold",
                 paddingBottom: 10
               }}>Signature </Text>
               <SignatureView
-                style={{
-                  borderWidth: 2,
-                  height: 180,
-                }}
+                style={[globalStyle.signatureField]}
                 ref={signatureRef}
                 onSave={(val) => {
                   setSignature(val)
@@ -852,13 +857,13 @@ const Inquiry = (props) => {
               />
               <View style={{ flexDirection: 'row', justifyContent: 'center', height: 50 }}>
                 <TouchableOpacity
-                  style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+                  style={{ justifyContent: 'center', alignItems: "flex-end", flex: 1 }}
                   onPress={() => {
                     signatureRef.current.clearSignature();
                   }}>
-                  <Text>Clear</Text>
+                  <Text style={{ paddingRight: 15, fontWeight: "bold", fontSize: 18 }}>Clear</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
                   onPress={() => {
                     signatureRef.current.saveSignature();
@@ -866,13 +871,33 @@ const Inquiry = (props) => {
                     setCheckNSignature(false)
                   }}>
                   <Text>Save</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
-              <Button
-                style={[loginStyle.buttonSecondary, { marginTop: 30 }]}
-                onPress={() => { setShowSignature(false) }} full>
-                <Text>Back</Text>
-              </Button>
+              <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                <Button
+                  style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
+                  onPress={() => { setShowSignature(false) }} >
+                  <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
+                </Button>
+                <ImageBackground
+                  style={[globalStyle.Btn, {
+                    width: '50%',
+                    alignItems: "center"
+                  }]}
+                  source={require('./../../../assets/Oval.png')}
+                  resizeMode={'stretch'}
+                >
+                  <Button
+                    style={[loginStyle.buttonSave, { alignSelf: "center" }]}
+                    onPress={() => {
+                      signatureRef.current.saveSignature();
+                      setShowSignature(false)
+                      setCheckNSignature(false)
+                    }} >
+                    <Text style={loginStyle.buttonText}>Save</Text>
+                  </Button>
+                </ImageBackground>
+              </View>
             </View>
           }
         </View>

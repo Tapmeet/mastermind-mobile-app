@@ -50,6 +50,13 @@ export default StyleSheet.create({
         // elevation: 7,
         backgroundColor: "#F7F8F9"
     },
+    formControls: {
+        paddingBottom: 10,
+        paddingTop: 5,
+        marginBottom: 5,
+        color: "#8a898e",
+        fontSize: 18
+    },
     formControlError: {
         height: 55,
         borderRadius: 26,
@@ -119,19 +126,29 @@ export default StyleSheet.create({
 
     },
     formField: {
+        borderWidth: 2,
+        borderColor: '#D9E5E9',
+        borderRadius: 12,
+        marginTop: 30,
+        paddingLeft: 30
+    },
+    formFieldError: {
         borderWidth: 1,
-        borderColor: "#A9A8A8",
-        borderRadius: 22,
+        borderColor: "#ff0000",
+        borderRadius: 12,
         marginTop: 30,
         paddingLeft: 30
     },
     formLabel: {
-        marginTop: -20,
+        marginTop: -23,
         flex: 1,
         color: '#16161D',
         fontSize: 20,
-        padding: 5,
-        backgroundColor: "#fff"
+        padding: 8,
+        backgroundColor: "#fff",
+        alignSelf: "flex-start",
+        fontWeight: "bold",
+        textTransform: "uppercase"
     },
     barStylings: {
         backgroundColor: "transparent",
@@ -140,7 +157,7 @@ export default StyleSheet.create({
         paddingTop: 15,
         paddingBottom: 15,
         height: 80,
-
+        elevation: 0
     },
     titleStyling: {
         textAlign: "center",
@@ -151,7 +168,11 @@ export default StyleSheet.create({
     },
     titleBody: {
         minWidth: 200,
-        paddingLeft: 40
+        paddingLeft: 40,
+        alignSelf: "center",
+        justifyContent: "center",
+        display: "flex",
+        textAlign: "center"
     },
     emptylist: {
         padding: 10,
@@ -163,6 +184,65 @@ export default StyleSheet.create({
     },
     logo: {
         width: 15
-    }
+    },
+    Btn: {
+        width: '100%',
+        borderRadius: 15,
+        overflow: "hidden",
+        marginTop: 20,
+        height:70
+    },
+
+    tableList: {
+        flex: 1,
+        alignSelf: 'stretch',
+        flexDirection: 'row',
+        backgroundColor: "#fff",
+        padding: 15,
+        marginTop: 5,
+        alignItems: "center",
+        minHeight: 60
+    },
+    tableListOdd: {
+        flex: 1,
+        alignSelf: 'stretch',
+        flexDirection: 'row',
+        backgroundColor: "#f2f6ff",
+        padding: 15,
+        marginTop: 5,
+        alignItems: "center",
+        minHeight: 60
+    },
+    tableBoxshadow: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 7,
+        backgroundColor: '#fff',
+        width: '95%',
+        margin: 10,
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+        overflow: "hidden"
+    },
+    signatureField: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 6,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 7,
+        backgroundColor: '#fff',
+        borderRadius: 20,
+        height: 180,
+        overflow:"hidden",
+        marginTop:10
+    },
 
 })

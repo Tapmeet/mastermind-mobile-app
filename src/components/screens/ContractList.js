@@ -62,8 +62,8 @@ const ContractList = (props) => {
       .then(data => {
         setContractData(data.value)
         setloader(false)
-      //  console.log('here')
-       // console.log(data.value)
+        //  console.log('here')
+        // console.log(data.value)
       });
   }
   function getPersonContractPending() {
@@ -97,123 +97,126 @@ const ContractList = (props) => {
         >
         </ImageBackground> */}
 
-        <View style={[loginStyle.contentContainer, { height: 100 }]}>
-          <Body style={loginStyle.bodyContainer}>
-            <H2 style={globalStyle.h3}>Contracts!</H2>
-          </Body>
+        <View style={{ marginTop: 50 }}>
+
+          {loader ?
+            <View style={[styles.container, styles.horizontal]}>
+              <ActivityIndicator size="large" color="#29ABE2" />
+            </View>
+            :
+            <Form style={globalStyle.form}>
+              <TouchableOpacity onPress={toggleExpanded}>
+                <View style={loginStyle.textAccordians} >
+                  <Image
+                    style={loginStyle.iconLefts}
+                    source={require("../../../assets/businessman-information.png")}
+                    resizeMode={'contain'}
+                  />
+                  <Text style={{ color: "#000", fontSize: 22, marginBottom: 0, fontWeight: "bold" }}>Signed Contracts</Text>
+                  {collapsed ?
+                    <Image
+                      style={loginStyle.arrows}
+                      source={require("../../../assets/down-arrow.png")}
+                      resizeMode={'contain'}
+                    />
+                    : <Image
+                      style={loginStyle.arrows}
+                      source={require("../../../assets/up-arrow.png")}
+                      resizeMode={'contain'}
+                    />}
+                </View>
+              </TouchableOpacity>
+              <Collapsible collapsed={collapsed} align="center">
+                <View style={{
+                  paddingBottom: 30,
+                }}>
+                  <View style={globalStyle.tableBoxshadow}>
+                    <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#29ABE2", alignItems: "center" }}>
+                      <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Id</Text></View>
+                      <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ color: '#fff', fontSize: 17 }}>Name</Text></View>
+                      <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Action</Text></View>
+                    </View>
+
+                    {contractData.length > 0 ?
+                      contractData.map(function (contact, index) {
+                        return (
+                          <View key={index} style={(index % 2) == 0 ? globalStyle.tableList : globalStyle.tableListOdd}>
+                            <View style={{ width: "20%" }} ><Text style={{ fontSize: 17 }}>{contact.ContractId}</Text></View>
+                            <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ fontSize: 17 }}>
+                              {contact.StudentFullNames.length > 0 ?
+                                contact.StudentFullNames.map(function (student, index) {
+                                  return (<View key={index}><Text style={{ paddingTop: 10, flex: 1, }} >{student}</Text></View>
+                                  );
+                                })
+                                : null}
+                            </Text></View>
+                            <View style={{ width: "20%" }} ><Text onPress={() => props.navigation.navigate("SignedContract", {
+                              contractData: contact,
+                            })} style={{ fontSize: 17 }}>View</Text></View>
+                          </View>
+
+                        );
+                      })
+                      : null}
+                  </View>
+                </View>
+              </Collapsible>
+              <TouchableOpacity onPress={toggleExpanded2}>
+                <View style={loginStyle.textAccordians} >
+                  <Image
+                    style={loginStyle.iconLefts}
+                    source={require("../../../assets/contacts.png")}
+                    resizeMode={'contain'}
+                  />
+                  <Text style={{ color: "#000", fontSize: 22, marginBottom: 0, fontWeight: "bold" }}>Pending Contact</Text>
+                  {collapsed2 ?
+                    <Image
+                      style={loginStyle.arrows}
+                      source={require("../../../assets/down-arrow.png")}
+                      resizeMode={'contain'}
+                    />
+                    : <Image
+                      style={loginStyle.arrows}
+                      source={require("../../../assets/up-arrow.png")}
+                      resizeMode={'contain'}
+                    />}
+                </View>
+              </TouchableOpacity>
+              <Collapsible collapsed={collapsed2} align="center">
+                <View style={{ paddingBottom: 30 }}>
+                  <View style={globalStyle.tableBoxshadow}>
+                    <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#29ABE2",  alignItems: "center" }}>
+                      <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Id</Text></View>
+                      <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ color: '#fff', fontSize: 17 }}>Name</Text></View>
+                      <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Action</Text></View>
+                    </View>
+                    {contractDataPending.length > 0 ?
+                      contractDataPending.map(function (contact, index) {
+                        return (
+                          <View key={index} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, marginTop: 0, backgroundColor: "#f7f7f7", alignItems: "center" }}>
+                            <View style={{ width: "20%" }} ><Text style={{ fontSize: 17 }}>{contact.ContractId}</Text></View>
+                            <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ fontSize: 17 }}>
+                              {contact.StudentFullNames.length > 0 ?
+                                contact.StudentFullNames.map(function (student, index) {
+                                  return (<View key={index}><Text style={{ paddingBottom: 10, flex: 1, }}>{student}</Text></View>
+                                  );
+                                })
+                                : null}
+                            </Text></View>
+                            <View style={{ width: "20%" }} ><Text onPress={() => props.navigation.navigate("Contract", {
+                              contractId: contact.ContractId,
+                            })} style={{ fontSize: 17 }}>View</Text></View>
+                          </View>
+
+                        );
+                      })
+                      : null}
+                  </View>
+                </View>
+              </Collapsible>
+            </Form>
+          }
         </View>
-        {loader ?
-          <View style={[styles.container, styles.horizontal]}>
-            <ActivityIndicator size="large" color="#29ABE2" />
-          </View>
-          :
-          <Form style={globalStyle.form}>
-            <TouchableOpacity onPress={toggleExpanded}>
-              <View style={loginStyle.textAccordian} >
-                <Image
-                  style={loginStyle.iconLeft}
-                  source={require("../../../assets/businessman-information.png")}
-                  resizeMode={'contain'}
-                />
-                <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>Signed Contracts</Text>
-                {collapsed ?
-                  <Image
-                    style={loginStyle.arrow}
-                    source={require("../../../assets/down-arrow.png")}
-                    resizeMode={'contain'}
-                  />
-                  : <Image
-                    style={loginStyle.arrow}
-                    source={require("../../../assets/up-arrow.png")}
-                    resizeMode={'contain'}
-                  />}
-              </View>
-            </TouchableOpacity>
-            <Collapsible collapsed={collapsed} align="center">
-              <View style={{ paddingBottom: 30 }}>
-                <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#29ABE2", marginTop: 15, alignItems: "center" }}>
-                  <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Id</Text></View>
-                  <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ color: '#fff', fontSize: 17 }}>Name</Text></View>
-                  <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Action</Text></View>
-                </View>
-                {contractData.length > 0 ?
-                  contractData.map(function (contact, index) {
-                    return (
-
-                      <View key={index} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', backgroundColor: "#f7f7f7", padding: 15, marginTop: 5, alignItems: "center" }}>
-                        <View style={{ width: "20%" }} ><Text style={{ fontSize: 17 }}>{contact.ContractId}</Text></View>
-                        <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ fontSize: 17 }}>
-                          {contact.StudentFullNames.length > 0 ?
-                            contact.StudentFullNames.map(function (student, index) {
-                              return (<View key={index}><Text style={{ paddingBottom: 10, flex: 1, }} >{student}</Text></View>
-                              );
-                            })
-                            : null}
-                        </Text></View>
-                        <View style={{ width: "20%" }} ><Text onPress={() => props.navigation.navigate("SignedContract", {
-                          contractData: contact,
-                        })} style={{ fontSize: 17 }}>View</Text></View>
-                      </View>
-
-                    );
-                  })
-                  : null}
-              </View>
-            </Collapsible>
-            <TouchableOpacity onPress={toggleExpanded2}>
-              <View style={loginStyle.textAccordian} >
-                <Image
-                  style={loginStyle.iconLeft}
-                  source={require("../../../assets/contacts.png")}
-                  resizeMode={'contain'}
-                />
-                <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>Pending Contact</Text>
-                {collapsed2 ?
-                  <Image
-                    style={loginStyle.arrow}
-                    source={require("../../../assets/down-arrow.png")}
-                    resizeMode={'contain'}
-                  />
-                  : <Image
-                    style={loginStyle.arrow}
-                    source={require("../../../assets/up-arrow.png")}
-                    resizeMode={'contain'}
-                  />}
-              </View>
-            </TouchableOpacity>
-            <Collapsible collapsed={collapsed2} align="center">
-              <View style={{ paddingBottom: 30 }}>
-                <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#29ABE2", marginTop: 15, alignItems: "center" }}>
-                  <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Id</Text></View>
-                  <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ color: '#fff', fontSize: 17 }}>Name</Text></View>
-                  <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Action</Text></View>
-                </View>
-                {contractDataPending.length > 0 ?
-                  contractDataPending.map(function (contact, index) {
-                    return (
-                      <View key={index} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, marginTop: 5, backgroundColor: "#f7f7f7", alignItems: "center" }}>
-                        <View style={{ width: "20%" }} ><Text style={{ fontSize: 17 }}>{contact.ContractId}</Text></View>
-                        <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ fontSize: 17 }}>
-                          {contact.StudentFullNames.length > 0 ?
-                            contact.StudentFullNames.map(function (student, index) {
-                              return (<View key={index}><Text style={{ paddingBottom: 10, flex: 1, }}>{student}</Text></View>
-                              );
-                            })
-                            : null}
-                        </Text></View>
-                        <View style={{ width: "20%" }} ><Text onPress={() => props.navigation.navigate("Contract", {
-                          contractId: contact.ContractId,
-                        })} style={{ fontSize: 17 }}>View</Text></View>
-                      </View>
-
-                    );
-                  })
-                  : null}
-              </View>
-            </Collapsible>
-          </Form>
-        }
-
       </Content>
     </Container>
   );

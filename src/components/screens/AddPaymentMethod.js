@@ -111,20 +111,7 @@ const AddPaymentMethod = (props) => {
     <Container style={loginStyle.container}>
       <SideBarMenu title={"Payment Method "} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
-        <ImageBackground
-          style={{
-            width: "100%",
-            height: 150,
-            position: "absolute"
-          }}
-          source={require('./../../../assets/bg3.png')}
-          resizeMode={'stretch'}
-        >
-        </ImageBackground>
         <View style={loginStyle.contentContainer}>
-          <Body style={loginStyle.bodyContainer}>
-            <H2 style={globalStyle.h3}>Add Payment Method</H2>
-          </Body>
           {loader ?
             <View style={[styles.container, styles.horizontal]}>
               <ActivityIndicator size="large" color="#29ABE2" />
@@ -132,82 +119,87 @@ const AddPaymentMethod = (props) => {
             :
             <View style={{ padding: 15 }}>
               <View style={{ marginBottom: 15 }}>
-                <Item style={globalStyle.formGroup} floatingLabel>
+                <View style={checkNickname
+                  ? globalStyle.formFieldError : globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Nickname </Text>
                   <Input
                     value={Nickname}
                     onChangeText={(text) => setnickname(text)}
                     placeholderTextColor='#ccc'
-                    style={
-                      checkNickname
-                        ? globalStyle.formControlError
-                        : globalStyle.formControl
+                    style={globalStyle.formControls
                     }
                     placeholder="Nickname"
                   />
-                </Item>
+                </View>
                 {checkNickname ? (
                   <Text style={globalStyle.error}>Enter Nickname </Text>
                 ) : null}
               </View>
               <View style={{ marginBottom: 15 }}>
-                <Item style={[globalStyle.formGroup]} floatingLabel>
+                <View style={checkCardnumber
+                  ? globalStyle.formFieldError : globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Card Number </Text>
                   <Input
                     value={CardNumber}
                     keyboardType="number-pad"
                     onChangeText={(text) => setcardNumber(text)}
                     placeholderTextColor='#ccc'
-                    style={
-                      checkCardnumber
-                        ? globalStyle.formControlError
-                        : globalStyle.formControl
+                    style={globalStyle.formControls
                     }
                     placeholder="Card Number"
                   />
-                </Item>
+                </View>
                 {checkCardnumber ? (
                   <Text style={globalStyle.error}>Enter Card Number </Text>
                 ) : null}
               </View>
               <View style={{ marginBottom: 25 }}>
-                <Item style={[globalStyle.formGroup]} floatingLabel>
+                <View style={checkCardCode
+                  ? globalStyle.formFieldError : globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Card Code </Text>
                   <Input
                     value={CardCode}
                     onChangeText={(text) => setcardCode(text)}
                     placeholderTextColor='#ccc'
                     style={
-                      checkCardCode
-                        ? globalStyle.formControlError
-                        : globalStyle.formControl
+                      globalStyle.formControls
                     }
                     placeholder="Card Code"
                   />
-                </Item>
+                </View>
                 {checkCardCode ? (
                   <Text style={globalStyle.error}>Enter Card Code</Text>
                 ) : null}
               </View>
-              <View style={[globalStyle.formControl, { marginBottom: 15 }]}>
-                <DatePicker
-                  showIcon={false}
-                  androidMode="spinner"
-                  date={CardExpiration}
-                  mode="date"
-                  placeholder="YYYY-MM-DD"
-                  format="YYYY-MM-DD"
-                  //maxDate={moment().format('YYYY-MM-DD')}
-                  confirmBtnText="Chọn"
-                  cancelBtnText="Hủy"
-                  customStyles={{
-                    dateInput: {
-                      backgroundColor: '#F7F8F9',
-                      borderWidth: 0,
-                      borderColor: 'black',
-                      width: "100%",
-                      padding: 0
-                    },
-                  }}
-                  onDateChange={(date) => { setCardExpiration(date) }}
-                />
+
+              <View style={checkCardExpiration
+                ? globalStyle.formFieldError : globalStyle.formField}>
+                <Text style={globalStyle.formLabel}>Card Expiration </Text>
+                <View style={[globalStyle.formControls, { marginBottom: 15 }]}>
+                  <DatePicker
+                    showIcon={false}
+                    androidMode="spinner"
+                    date={CardExpiration}
+                    mode="date"
+                    placeholder="YYYY-MM-DD"
+                    format="YYYY-MM-DD"
+                    //maxDate={moment().format('YYYY-MM-DD')}
+                    confirmBtnText="Chọn"
+                    cancelBtnText="Hủy"
+                    style={{ fontSize: 20 }}
+                    customStyles={{
+                      dateInput: {
+                        backgroundColor: '#F7F8F9',
+                        borderWidth: 0,
+                        borderColor: 'black',
+                        width: "100%",
+                        padding: 0,
+                        fontSize: 20
+                      },
+                    }}
+                    onDateChange={(date) => { setCardExpiration(date) }}
+                  />
+                </View>
               </View>
               {checkCardExpiration ? (
                 <Text style={globalStyle.error}>Enter Card Expiry</Text>
@@ -218,13 +210,21 @@ const AddPaymentMethod = (props) => {
               {SuccessMessage != "" ? (
                 <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
               ) : null}
-              <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-                <Button
-                  style={[loginStyle.buttonSecondary, { marginTop: 30, }]}
-                  onPress={addMethod}
-                  full>
-                  <Text style={loginStyle.buttonText} >Submit</Text>
-                </Button>
+              <View style={{ paddingLeft: 0, paddingRight: 0, marginTop:20, marginBottom: 30 }}>
+                <ImageBackground
+                  style={[globalStyle.Btn, {  
+                    width: '100%'
+                  }]}
+                  source={require('./../../../assets/Oval.png')}
+                  resizeMode={'stretch'}
+                >
+                  <Button
+                    style={[loginStyle.buttons]}
+                    onPress={addMethod}
+                    full>
+                    <Text style={loginStyle.buttonText} >Submit</Text>
+                  </Button>
+                </ImageBackground>
               </View>
 
             </View>

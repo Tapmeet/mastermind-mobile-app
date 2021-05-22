@@ -9,7 +9,8 @@ export default StyleSheet.create({
   },
   bodyContainer: {
     flexDirection: "column",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginBottom: 20
   },
   formContainer: {
     marginTop: 20,
@@ -23,7 +24,44 @@ export default StyleSheet.create({
     height: 60,
     borderRadius: 30,
   },
-  buttonSecondary: {
+  buttonSave: {
+    marginTop: 0,
+    marginBottom: 0,
+    backgroundColor: "transparent",
+    color: colorPallete.secondary,
+    height: 70,
+    borderRadius: 0,
+    borderColor: 'transparent',
+    elevation: 0,
+    borderWidth: 0,
+    // borderRadius: 30,
+  },
+  buttons: {
+    marginTop: 0,
+    marginBottom: 0,
+    backgroundColor: "transparent",
+    color: colorPallete.secondary,
+    height: 70,
+    borderRadius: 0,
+    borderColor: 'transparent',
+    elevation: 0,
+    borderWidth: 0,
+    // borderRadius: 30,
+  },
+  buttonSecondarys: {
+    marginTop: 0,
+    marginBottom: 0,
+    backgroundColor: "#fff",
+    color: colorPallete.secondary,
+    height: 70,
+    borderRadius: 12,
+    borderColor: '#4574fe',
+    borderWidth: 2,
+    alignSelf:"center",
+    justifyContent:"center",
+    marginRight:10
+  },
+  buttonsSecondary: {
     marginTop: 10,
     marginBottom: 10,
     backgroundColor: colorPallete.secondaryButton,
@@ -31,11 +69,12 @@ export default StyleSheet.create({
     height: 60,
     borderRadius: 30,
     width: "100%",
-    textAlign:"center",
-    alignSelf:"center"
+    textAlign: "center",
+    alignSelf: "center"
   },
   buttonText: {
-    fontSize: 18
+    fontSize: 18,
+    fontWeight: "600"
   },
   logo: {
     height: 84,
@@ -87,7 +126,7 @@ export default StyleSheet.create({
   },
   contentContainer: {
     backgroundColor: "#fff",
-    marginTop: 50,
+    marginTop: 30,
     width: '90%',
     margin: "auto",
     alignSelf: "center"
@@ -96,21 +135,53 @@ export default StyleSheet.create({
     borderBottomColor: "#ccc",
     borderBottomWidth: 2,
     paddingBottom: 10,
-    display:"flex",
-    position:"relative",
+    display: "flex",
+    position: "relative",
     marginTop: 20,
-    paddingLeft:40
+    paddingLeft: 40
+  },
+  textAccordians: {
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    paddingBottom: 25,
+    paddingTop: 25,
+    paddingRight: 10,
+    display: "flex",
+    position: "relative",
+    marginTop: 20,
+    paddingLeft: 60,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 7,
+
   },
   arrow: {
     maxWidth: 15,
-    position:"absolute",
-    right:10,
-    top:-20
+    position: "absolute",
+    right: 10,
+    top: -20
   },
-  iconLeft:{
-    maxWidth:20,
-    position:"absolute",
+  arrows: {
+    maxWidth: 20,
+    position: "absolute",
+    right: 15,
+    top: 10
+  },
+  iconLeft: {
+    maxWidth: 20,
+    position: "absolute",
     left: 10,
-    top:-20
+    top: -20
+  },
+  iconLefts: {
+    maxWidth: 30,
+    position: "absolute",
+    left: 15,
+    top: 10
   }
 })

@@ -115,53 +115,66 @@ const LinkStudent = (props) => {
           <Body style={loginStyle.bodyContainer}>
             <Text style={globalStyle.small}>Fill out the form below </Text>
           </Body>
-          <Form style={globalStyle.form}>
-            <View style={globalStyle.formField}>
+          <Form >
+            <View style={checkFirstname
+              ? globalStyle.formFieldError : globalStyle.formField}>
               <Text style={globalStyle.formLabel}>First Name</Text>
               <Input
                 value={firstName}
                 onChangeText={(text) => setfirstName(text)}
-                // style={
-                //   checkFirstname
-                //     ? globalStyle.formControlError
-                //     : globalStyle.formControl
-                // }
+                style={
+                  globalStyle.formControls
+                }
                 placeholder="Enter your first name"
               />
             </View>
             {checkFirstname ? (
               <Text style={globalStyle.error}>Enter First Name</Text>
             ) : null}
-            <Item style={globalStyle.formGroup} floatingLabel>
+            <View style={checklastName
+              ? globalStyle.formFieldError : globalStyle.formField}>
+              <Text style={globalStyle.formLabel}>Last Name</Text>
               <Input
                 value={lastName}
                 onChangeText={(text) => setlasttName(text)}
-                style={globalStyle.formControl}
-                placeholder="Last Name"
+                style={
+                  globalStyle.formControls
+                }
+                placeholder="Enter your last name"
               />
-            </Item>
+            </View>
             {checklastName ? (
               <Text style={globalStyle.error}>Enter Last Name </Text>
             ) : null}
-            <Item style={globalStyle.formGroup} floatingLabel>
+            <View style={checkEmail
+              ? globalStyle.formFieldError : globalStyle.formField}>
+              <Text style={globalStyle.formLabel}>Email</Text>
               <Input
                 value={email}
                 onChangeText={(text) => setemail(text)}
                 style={
-                  checkEmail
-                    ? globalStyle.formControlError
-                    : globalStyle.formControl
+                  globalStyle.formControls
                 }
-                placeholder="Email "
+                placeholder="Enter your email address "
               />
-            </Item>
+            </View>
             {checkEmail ? (
               <Text style={globalStyle.error}>Enter Valid Email</Text>
             ) : null}
             <Content style={loginStyle.formContainer}>
-              <Button onPress={submitForm} style={loginStyle.button} full>
-                <Text style={loginStyle.buttonText} >Link Student</Text>
-              </Button>
+
+              <ImageBackground
+                style={[globalStyle.Btn, {
+                  width: '100%'
+                }]}
+                source={require('./../../../assets/Oval.png')}
+                resizeMode={'stretch'}
+                
+              >
+                <Button onPress={submitForm}  style={loginStyle.buttons} full>
+                  <Text style={loginStyle.buttonText} >Link Student</Text>
+                </Button>
+              </ImageBackground>
             </Content>
           </Form>
         </View>
