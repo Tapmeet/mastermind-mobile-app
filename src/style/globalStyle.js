@@ -190,7 +190,21 @@ export default StyleSheet.create({
         borderRadius: 15,
         overflow: "hidden",
         marginTop: 20,
-        height:70
+        height: 70
+    },
+    BtnFull: {
+        width: '100%',
+        borderRadius: 15,
+        overflow: "hidden",
+        marginTop: 20,
+        height: 70
+    },
+    BtnHalf: {
+        width: '50%',
+        borderRadius: 15,
+        overflow: "hidden",
+        marginTop: 20,
+        height: 70
     },
 
     tableList: {
@@ -241,8 +255,34 @@ export default StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 20,
         height: 180,
-        overflow:"hidden",
-        marginTop:10
+        overflow: "hidden",
+        marginTop: 10
     },
+    dflex: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "stretch",
+        width: "100%",
+        flexWrap: "nowrap",
+        alignItems: "center",
+        marginBottom: 30,
+        width: "90%",
+        position: "relative",
+        alignSelf: "center"
 
+    },
+    TopSection: {
+        flex: 1,
+        alignItems: "stretch",
+        width: '50%',
+        position: "relative",
+        justifyContent: "space-between",
+        zIndex: 99
+    },
+    line: {
+        position: "absolute",
+        backgroundColor: "#eee",
+        width: "100%",
+        height: 2
+    }
 })

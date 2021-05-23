@@ -54,6 +54,14 @@ const Contract = (props) => {
   const [paymentMethod, setPaymentMethod] = React.useState([])
   const [SuccessMessage, setSuccessMessage] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
+  const [counter, setCounter] = React.useState(1)
+
+  const increment = () => {
+    setCounter(parseInt(counter) + 1);
+  }
+  const decrement = () => {
+    setCounter(parseInt(counter) - 1);
+  }
   React.useEffect(() => {
     navigation.addListener('focus', () => {
       setloader(true)
@@ -203,6 +211,46 @@ const Contract = (props) => {
       <SideBarMenu title={"Contract "} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
+          <View style={globalStyle.dflex}>
+            <View style={[globalStyle.TopSection, { justifyContent: "flex-start" }]}>
+              {step1 == false ?
+                <Image style={{ height: 35, width: 35, resizeMode: 'contain', }} source={require('./../../../assets/lastCheck.png')} />
+                :
+                <Image style={{ height: 30, width: 30, resizeMode: 'contain', }} source={require('./../../../assets/activeicon.png')} />
+              }
+            </View>
+            <View style={[globalStyle.TopSection, { marginLeft: 40 }]}>
+              {step3 == true ?
+                <Image style={{ height: 30, width: 30, resizeMode: 'contain', }} source={require('./../../../assets/activeicon.png')} />
+                :
+                counter > 2 ?
+                  <Image style={{ height: 35, width: 35, resizeMode: 'contain', }} source={require('./../../../assets/lastCheck.png')} />
+                  :
+                  <Image style={{ height: 20, width: 20, resizeMode: 'contain', }} source={require('./../../../assets/iconTop.png')} />
+              }
+            </View>
+            <View style={[globalStyle.TopSection, { marginLeft: 40 }]}>
+              {counter == 3 ?
+                <Image style={{ height: 30, width: 30, resizeMode: 'contain', }} source={require('./../../../assets/activeicon.png')} />
+                :
+                counter > 3 ?
+                  <Image style={{ height: 35, width: 35, resizeMode: 'contain', }} source={require('./../../../assets/lastCheck.png')} />
+                  :
+                  <Image style={{ height: 20, width: 20, resizeMode: 'contain', }} source={require('./../../../assets/iconTop.png')} />
+              }
+            </View>
+            <View style={[globalStyle.TopSection, { justifyContent: "flex-end", alignItems: "flex-end" }]}>
+              {counter == 4 ?
+                <Image style={{ height: 30, width: 30, resizeMode: 'contain', }} source={require('./../../../assets/activeicon.png')} />
+                :
+                counter > 4 ?
+                  <Image style={{ height: 35, width: 35, resizeMode: 'contain', }} source={require('./../../../assets/lastCheck.png')} />
+                  :
+                  <Image style={{ height: 20, width: 20, resizeMode: 'contain', }} source={require('./../../../assets/iconTop.png')} />
+              }
+            </View>
+            <View style={globalStyle.line}></View>
+          </View>
           {loader ?
             <View style={[styles.container, styles.horizontal]}>
               <ActivityIndicator size="large" color="#29ABE2" />
@@ -297,7 +345,7 @@ const Contract = (props) => {
                       resizeMode={'stretch'}
                     >
                       <Button
-                        style={[loginStyle.buttonSave, { alignSelf: "center" }]}
+                        style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent: "center" }]}
                         onPress={() => {
                           signatureRef.current.saveSignature();
                           setShowSignature(false)
@@ -683,7 +731,7 @@ const Contract = (props) => {
                               setShowSignature2(false)
 
                             }} >
-                            <Text style={loginStyle.buttonText}>Save</Text>
+                            <Text style={[loginStyle.buttonText, { textAlign: "center" }]}>Save</Text>
                           </Button>
                         </ImageBackground>
                       </View>

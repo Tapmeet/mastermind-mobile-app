@@ -24,6 +24,9 @@ import { SignatureView } from 'react-native-signature-capture-view';
 const Inquiry = (props) => {
 
   const signatureRef = React.useRef(null);
+
+  const [counter, setCounter] = React.useState(1)
+
   const [signature, setSignature] = React.useState('')
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
@@ -119,6 +122,13 @@ const Inquiry = (props) => {
 
   const [childrenList, setChildrenList] = React.useState([]);
   const [counters, setCounters] = React.useState(0);
+
+  const increment = () => {
+    setCounter(parseInt(counter) + 1);
+  }
+  const decrement = () => {
+    setCounter(parseInt(counter) - 1);
+  }
   const addSection = () => {
     let newArr = [...childrenList];
     newArr[counters] = {
@@ -220,8 +230,10 @@ const Inquiry = (props) => {
   const setfirstName = (event) => {
     setFirstName(event);
     if (event == "") {
+
       setCheckFirstname(true);
     } else {
+
       setCheckFirstname(false);
     }
   };
@@ -322,49 +334,60 @@ const Inquiry = (props) => {
     setCheckChildBenifit(false);
     setCheckNSignature(false)
     if (firstName == "") {
+      setErrorMessage('Enter First Name')
       setCheckFirstname(true);
       return false;
     }
     if (lastName == "") {
+      setErrorMessage('Enter Last Name')
       setChecklastName(true)
       return false;
     }
     if (address1 == "") {
+      setErrorMessage('Enter Address ')
       setCheckAddress1(true);
       return false;
     }
     if (city == "") {
+      setErrorMessage('Enter City ')
       setCheckCity(true);
       return false;
     }
     if (zipCode == "") {
+      setErrorMessage('Enter Postal Code ')
       setCheckZipCode(true);
       return false;
     }
     if (state == "") {
+      setErrorMessage('Enter State ')
       setCheckState(true);
       return false;
     }
     if (email == "") {
+      setErrorMessage('Enter Email')
       setCheckEmail(true);
       return false;
     }
     let checkemail = ValidateEmail(email);
     if (checkemail == false) {
+      setErrorMessage('Enter Valid Email')
       setCheckEmail(true);
       return false;
     }
 
 
     if (phone1 == "") {
+      setErrorMessage('Enter Phone')
       setCheckPhone1(true);
       return false;
     }
     if (employer == "") {
+      setErrorMessage('Enter Employer')
       setCheckEmployer(true);
       return false;
     }
     if (occupation == "") {
+      setErrorMessage('Enter Occupation')
       setCheckOccupation(true);
       return false;
     }
@@ -470,205 +493,247 @@ const Inquiry = (props) => {
         </ImageBackground> */}
 
         <View style={loginStyle.contentContainer}>
-          <Body style={loginStyle.bodyContainer}>
-            <Text style={globalStyle.small}>Fill out the form below </Text>
-          </Body>
-          {showSignature == false ?
-            <Form>
-              <View style={{
-                marginTop: 10,
-                padding: 15,
-                paddingBottom: 30
-              }}>
-                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0 }}>Personal Information</Text>
-                <View style={checkFirstname
-                  ? globalStyle.formFieldError : globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>First Name</Text>
-                  <Input
-                    value={firstName}
-                    onChangeText={(text) => setfirstName(text)}
-                    style={globalStyle.formControls
-                    }
-                    placeholder="First Name"
-                  />
-                </View>
-                {checkFirstname ? (
-                  <Text style={globalStyle.error}>Enter First Name</Text>
-                ) : null}
-                <View style={checklastName
-                  ? globalStyle.formFieldError : globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Last Name</Text>
-                  <Input
-                    value={lastName}
-                    onChangeText={(text) => setlasttName(text)}
-                    style={globalStyle.formControls}
-                    placeholder="Last Name"
-                  />
-                </View>
-                {checklastName ? (
-                  <Text style={globalStyle.error}>Enter Last Name </Text>
-                ) : null}
-                <View style={checkAddress1
-                  ? globalStyle.formFieldError : globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Primary Address</Text>
-                  <Input
-                    value={address1}
-                    onChangeText={(text) => setaddress1(text)}
-                    style={globalStyle.formControls
-                    }
-                    placeholder="Primary Address"
-                  />
-                </View>
-                {checkAddress1 ? (
-                  <Text style={globalStyle.error}>Enter Address </Text>
-                ) : null}
-                <View style={globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Secondary Address</Text>
-                  <Input
-                    value={address2}
-                    onChangeText={(text) => setaddress2(text)}
-                    style={globalStyle.formControls}
-                    placeholder="Secondary Address"
-                  />
-                </View>
+          <View style={globalStyle.dflex}>
+            <View style={[globalStyle.TopSection, { justifyContent: "flex-start" }]}>
+              {counter > 1 ?
+                <Image style={{ height: 35, width: 35, resizeMode: 'contain', }} source={require('./../../../assets/lastCheck.png')} />
+                :
+                <Image style={{ height: 30, width: 30, resizeMode: 'contain', }} source={require('./../../../assets/activeicon.png')} />
+              }
+            </View>
+            <View style={[globalStyle.TopSection, { marginLeft: 40 }]}>
+              {counter == 2 ?
+                <Image style={{ height: 30, width: 30, resizeMode: 'contain', }} source={require('./../../../assets/activeicon.png')} />
+                :
+                counter > 2 ?
+                  <Image style={{ height: 35, width: 35, resizeMode: 'contain', }} source={require('./../../../assets/lastCheck.png')} />
+                  :
+                  <Image style={{ height: 20, width: 20, resizeMode: 'contain', }} source={require('./../../../assets/iconTop.png')} />
+              }
+            </View>
+            <View style={[globalStyle.TopSection, { marginLeft: 40 }]}>
+              {counter == 3 ?
+                <Image style={{ height: 30, width: 30, resizeMode: 'contain', }} source={require('./../../../assets/activeicon.png')} />
+                :
+                counter > 3 ?
+                  <Image style={{ height: 35, width: 35, resizeMode: 'contain', }} source={require('./../../../assets/lastCheck.png')} />
+                  :
+                  <Image style={{ height: 20, width: 20, resizeMode: 'contain', }} source={require('./../../../assets/iconTop.png')} />
+              }
+            </View>
+            <View style={[globalStyle.TopSection, { justifyContent: "flex-end", alignItems: "flex-end" }]}>
+              {counter == 4 ?
+                <Image style={{ height: 30, width: 30, resizeMode: 'contain', }} source={require('./../../../assets/activeicon.png')} />
+                :
+                counter > 4 ?
+                  <Image style={{ height: 35, width: 35, resizeMode: 'contain', }} source={require('./../../../assets/lastCheck.png')} />
+                  :
+                  <Image style={{ height: 20, width: 20, resizeMode: 'contain', }} source={require('./../../../assets/iconTop.png')} />
+              }
+            </View>
+            <View style={globalStyle.line}></View>
+          </View>
 
-                <View style={checkCity
-                  ? globalStyle.formFieldError : globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>City</Text>
-                  <Input
-                    value={city}
-                    onChangeText={(text) => setcity(text)}
-                    style={globalStyle.formControls
-                    }
-                    placeholder="City "
-                  />
-                </View>
-                {checkCity ? (
-                  <Text style={globalStyle.error}>Enter City</Text>
-                ) : null}
-
-                <View style={checkState
-                  ? globalStyle.formFieldError : globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>State</Text>
-                  <View style={globalStyle.formControls}>
-                    <Picker
-                      selectedValue={state}
-                      style={{ height: 50, width: '100%', fontSize: 24 }}
-                      onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
-                    >
-                      <Picker.Item label="State" value="" />
-                      {stateList.map((data, index) => <Picker.Item key={data.index + data} label={data} value={index + 1} />)}
-
-                    </Picker>
+          <Form>
+            <View style={{
+              marginTop: 10,
+              padding: 15,
+              paddingBottom: 30
+            }}>
+              {counter == 1 ?
+                <View>
+                  <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0 }}>Personal Information</Text>
+                  <View style={checkFirstname
+                    ? globalStyle.formFieldError : globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>First Name</Text>
+                    <Input
+                      value={firstName}
+                      onChangeText={(text) => setfirstName(text)}
+                      style={globalStyle.formControls
+                      }
+                      placeholder="First Name"
+                    />
                   </View>
-                </View>
-                {checkState ? (
-                  <Text style={globalStyle.error}>Enter State</Text>
-                ) : null}
+                  {checkFirstname ? (
+                    <Text style={globalStyle.error}>Enter First Name</Text>
+                  ) : null}
+                  <View style={checklastName
+                    ? globalStyle.formFieldError : globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>Last Name</Text>
+                    <Input
+                      value={lastName}
+                      onChangeText={(text) => setlasttName(text)}
+                      style={globalStyle.formControls}
+                      placeholder="Last Name"
+                    />
+                  </View>
+                  {checklastName ? (
+                    <Text style={globalStyle.error}>Enter Last Name </Text>
+                  ) : null}
+                  <View style={checkAddress1
+                    ? globalStyle.formFieldError : globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>Primary Address</Text>
+                    <Input
+                      value={address1}
+                      onChangeText={(text) => setaddress1(text)}
+                      style={globalStyle.formControls
+                      }
+                      placeholder="Primary Address"
+                    />
+                  </View>
+                  {checkAddress1 ? (
+                    <Text style={globalStyle.error}>Enter Address </Text>
+                  ) : null}
+                  <View style={globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>Secondary Address</Text>
+                    <Input
+                      value={address2}
+                      onChangeText={(text) => setaddress2(text)}
+                      style={globalStyle.formControls}
+                      placeholder="Secondary Address"
+                    />
+                  </View>
 
-                <View style={checkZipCode
-                  ? globalStyle.formFieldError : globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Postal Code</Text>
-                  <Input
-                    value={zipCode}
-                    onChangeText={(text) => setzipCode(text)}
-                    style={globalStyle.formControls}
-                    placeholder="Postal Code"
-                  />
-                </View>
-                {checkZipCode ? (
-                  <Text style={globalStyle.error}>Enter ZipCode</Text>
-                ) : null}
+                  <View style={checkCity
+                    ? globalStyle.formFieldError : globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>City</Text>
+                    <Input
+                      value={city}
+                      onChangeText={(text) => setcity(text)}
+                      style={globalStyle.formControls
+                      }
+                      placeholder="City "
+                    />
+                  </View>
+                  {checkCity ? (
+                    <Text style={globalStyle.error}>Enter City</Text>
+                  ) : null}
 
-                <View style={checkEmail
-                  ? globalStyle.formFieldError : globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Primary Email</Text>
-                  <Input
-                    value={email}
-                    onChangeText={(text) => setemail(text)}
-                    style={globalStyle.formControls
-                    }
-                    placeholder="Primary Email "
-                  />
-                </View>
-                {checkEmail ? (
-                  <Text style={globalStyle.error}>Enter Valid Email</Text>
-                ) : null}
-                <View style={globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Secondary Email</Text>
-                  <Input
-                    value={secondaryemail}
-                    onChangeText={(text) => setsecondaryemail(text)}
-                    style={globalStyle.formControls}
-                    placeholder="Secondary Email "
-                  />
-                </View>
+                  <View style={checkState
+                    ? globalStyle.formFieldError : globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>State</Text>
+                    <View style={globalStyle.formControls}>
+                      <Picker
+                        selectedValue={state}
+                        style={{ height: 50, width: '100%', fontSize: 24 }}
+                        onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
+                      >
+                        <Picker.Item label="State" value="" />
+                        {stateList.map((data, index) => <Picker.Item key={data.index + data} label={data} value={index + 1} />)}
 
-                <View style={checkPhone1
-                  ? globalStyle.formFieldError : globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Primary Phone</Text>
-                  <Input
-                    value={phone1}
-                    onChangeText={(text) => setphone1(text)}
-                    style={globalStyle.formControls
-                    }
-                    placeholder="Primary Phone"
-                  />
-                </View>
-                {checkPhone1 ? (
-                  <Text style={globalStyle.error}>Enter Phone Number </Text>
-                ) : null}
+                      </Picker>
+                    </View>
+                  </View>
+                  {checkState ? (
+                    <Text style={globalStyle.error}>Enter State</Text>
+                  ) : null}
 
-                <View style={globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Secondary Phone</Text>
-                  <Input
-                    value={phone2}
-                    onChangeText={(text) => setphone2(text)}
-                    style={globalStyle.formControls}
-                    placeholder="Secondary Phone"
-                  />
-                </View>
+                  <View style={checkZipCode
+                    ? globalStyle.formFieldError : globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>Postal Code</Text>
+                    <Input
+                      value={zipCode}
+                      onChangeText={(text) => setzipCode(text)}
+                      style={globalStyle.formControls}
+                      placeholder="Postal Code"
+                    />
+                  </View>
+                  {checkZipCode ? (
+                    <Text style={globalStyle.error}>Enter ZipCode</Text>
+                  ) : null}
 
-                <View style={globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Other Phone</Text>
-                  <Input
-                    value={phone3}
-                    onChangeText={(text) => setphone3(text)}
-                    style={globalStyle.formControls}
-                    placeholder="Other Phone"
-                  />
-                </View>
+                  <View style={checkEmail
+                    ? globalStyle.formFieldError : globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>Primary Email</Text>
+                    <Input
+                      value={email}
+                      onChangeText={(text) => setemail(text)}
+                      style={globalStyle.formControls
+                      }
+                      placeholder="Primary Email "
+                    />
+                  </View>
+                  {checkEmail ? (
+                    <Text style={globalStyle.error}>Enter Valid Email</Text>
+                  ) : null}
+                  <View style={globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>Secondary Email</Text>
+                    <Input
+                      value={secondaryemail}
+                      onChangeText={(text) => setsecondaryemail(text)}
+                      style={globalStyle.formControls}
+                      placeholder="Secondary Email "
+                    />
+                  </View>
 
-                <View style={checkEmployer
-                  ? globalStyle.formFieldError : globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Employer</Text>
-                  <Input
-                    value={employer}
-                    onChangeText={(text) => setemployer(text)}
-                    style={globalStyle.formControls}
-                    placeholder="Employer"
-                  />
-                </View>
-                {checkEmployer ? (
-                  <Text style={globalStyle.error}>Enter Employement </Text>
-                ) : null}
+                  <View style={checkPhone1
+                    ? globalStyle.formFieldError : globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>Primary Phone</Text>
+                    <Input
+                      value={phone1}
+                      onChangeText={(text) => setphone1(text)}
+                      style={globalStyle.formControls
+                      }
+                      placeholder="Primary Phone"
+                    />
+                  </View>
+                  {checkPhone1 ? (
+                    <Text style={globalStyle.error}>Enter Phone Number </Text>
+                  ) : null}
 
-                <View style={checkEmployer
-                  ? globalStyle.formFieldError : globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Occupation</Text>
-                  <Input
-                    value={occupation}
-                    onChangeText={(text) => setoccupation(text)}
-                    style={globalStyle.formControls
-                    }
-                    placeholder="Occupation"
-                  />
+                  <View style={globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>Secondary Phone</Text>
+                    <Input
+                      value={phone2}
+                      onChangeText={(text) => setphone2(text)}
+                      style={globalStyle.formControls}
+                      placeholder="Secondary Phone"
+                    />
+                  </View>
+
+                  <View style={globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>Other Phone</Text>
+                    <Input
+                      value={phone3}
+                      onChangeText={(text) => setphone3(text)}
+                      style={globalStyle.formControls}
+                      placeholder="Other Phone"
+                    />
+                  </View>
+
+                  <View style={checkEmployer
+                    ? globalStyle.formFieldError : globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>Employer</Text>
+                    <Input
+                      value={employer}
+                      onChangeText={(text) => setemployer(text)}
+                      style={globalStyle.formControls}
+                      placeholder="Employer"
+                    />
+                  </View>
+                  {checkEmployer ? (
+                    <Text style={globalStyle.error}>Enter Employement </Text>
+                  ) : null}
+
+                  <View style={checkEmployer
+                    ? globalStyle.formFieldError : globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>Occupation</Text>
+                    <Input
+                      value={occupation}
+                      onChangeText={(text) => setoccupation(text)}
+                      style={globalStyle.formControls
+                      }
+                      placeholder="Occupation"
+                    />
+                  </View>
+                  {checkOccupation ? (
+                    <Text style={globalStyle.error}>Enter Occupation </Text>
+                  ) : null}
                 </View>
-                {checkOccupation ? (
-                  <Text style={globalStyle.error}>Enter Occupation </Text>
-                ) : null}
-              </View>
-              {/* <Item style={globalStyle.formGroup} floatingLabel>
+                : null}
+            </View>
+
+            {/* <Item style={globalStyle.formGroup} floatingLabel>
             <Input
               value={InquiryTypeId}
               onChangeText={(text) => setsource(text)}
@@ -683,8 +748,9 @@ const Inquiry = (props) => {
           {checkSource ? (
             <Text style={globalStyle.error}>Enter Source </Text>
           ) : null} */}
+            {counter == 2 ?
               <View style={{
-                marginTop: 30,
+                marginTop: -20,
                 padding: 10,
                 paddingLeft: 20
               }}>
@@ -727,13 +793,16 @@ const Inquiry = (props) => {
                     );
                   })
                   : null}
+
                 <View style={{ paddingTop: 20, paddingBottom: 20, }}>
                   <Button onPress={addSection}
                     style={[loginStyle.buttonsSecondary]} full><Text style={loginStyle.buttonText}>Add Child Details</Text></Button>
                 </View>
               </View>
+              : null}
+            {counter == 3 ?
               <View style={{
-                marginTop: 30,
+                marginTop: -30,
                 padding: 10,
                 paddingLeft: 20
               }}>
@@ -800,106 +869,142 @@ const Inquiry = (props) => {
                     <Text style={globalStyle.error}>Please Check Options </Text>
                   ) : null}
                 </View>
-                {signature != '' ? (<View style={{ marginTop: 20 }}><Text style={{
-                  fontSize: 20,
-                  fontWeight: "bold",
-
-                }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: signature }} /></View>) : null}
               </View>
-              <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-                <Button
-                  style={[loginStyle.buttonsSecondary, { marginTop: 30, }]}
-                  onPress={() => { setShowSignature(true) }} full>
-                  <Text style={loginStyle.buttonText} >{signature != '' ? "Update Signature" : "Add Signature"}</Text>
-                </Button>
-                {checkNSignature != "" ? (
-                  <Text style={globalStyle.errorText}>Signature Required</Text>
-                ) : null}
-                {errorMessage != "" ? (
-                  <Text style={globalStyle.errorText}>{errorMessage}</Text>
-                ) : null}
-                {SuccessMessage != "" ? (
-                  <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
-                ) : null}
-                <Content style={loginStyle.formContainer}>
+              : null}
+            {counter == 4 ?
+              showSignature == false ?
+                <View style={{ marginTop: -30 }}>
+                  <Text style={{ color: "#000", fontSize: 30, fontWeight: "bold", marginBottom: 20, textAlign: "center" }}>Signature</Text>
+                  {signature != '' ? (<View style={{ marginTop: 20 }}><Text style={{
+                    fontSize: 20,
+                    fontWeight: "bold",
+
+                  }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: signature }} /></View>) : null}
+
+                  <Button
+                    style={[loginStyle.buttonsSecondary, { marginTop: 30, marginBottom: 30 }]}
+                    onPress={() => { setShowSignature(true) }} full>
+                    <Text style={loginStyle.buttonText} >{signature != '' ? "Update Signature" : "Add Signature"}</Text>
+                  </Button>
+                  <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+                    {checkNSignature != "" ? (
+                      <Text style={globalStyle.errorText}>Signature Required</Text>
+                    ) : null}
+                    {errorMessage != "" ? (
+                      <Text style={globalStyle.errorText}>{errorMessage}</Text>
+                    ) : null}
+                    {SuccessMessage != "" ? (
+                      <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
+                    ) : null}
+                    {signature != '' ?
+                      <Content style={loginStyle.formContainer}>
+                        <ImageBackground
+                          style={[globalStyle.Btn, {
+                            width: '100%'
+                          }]}
+                          source={require('./../../../assets/Oval.png')}
+                          resizeMode={'stretch'}
+                        >
+                          <Button onPress={submitForm} style={loginStyle.buttons} full>
+                            <Text style={loginStyle.buttonText} >Send</Text>
+                          </Button>
+                        </ImageBackground>
+                      </Content>
+                      : null}
+                  </View>
+                </View>
+                :
+                <View >
+                  <Text style={{
+                    fontSize: 24,
+                    paddingLeft: 10,
+                    fontWeight: "bold",
+                    paddingBottom: 10
+                  }}>Signature </Text>
+                  <SignatureView
+                    style={[globalStyle.signatureField]}
+                    ref={signatureRef}
+                    onSave={(val) => {
+                      setSignature(val)
+                    }}
+                    onClear={() => {
+                      setSignature('')
+                    }}
+                  />
+                  <View style={{ flexDirection: 'row', justifyContent: 'center', height: 50 }}>
+                    <TouchableOpacity
+                      style={{ justifyContent: 'center', alignItems: "flex-end", flex: 1 }}
+                      onPress={() => {
+                        signatureRef.current.clearSignature();
+                      }}>
+                      <Text style={{ paddingRight: 15, fontWeight: "bold", fontSize: 18 }}>Clear</Text>
+                    </TouchableOpacity>
+                    {/* <TouchableOpacity
+                      style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+                      onPress={() => {
+                        signatureRef.current.saveSignature();
+                        setShowSignature(false)
+                        setCheckNSignature(false)
+                      }}>
+                      <Text>Save</Text>
+                    </TouchableOpacity> */}
+                  </View>
+                  <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                    <Button
+                      style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
+                      onPress={() => { setShowSignature(false) }} >
+                      <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
+                    </Button>
+                    <ImageBackground
+                      style={[globalStyle.Btn, {
+                        width: '50%',
+                        alignItems: "center"
+                      }]}
+                      source={require('./../../../assets/Oval.png')}
+                      resizeMode={'stretch'}
+                    >
+                      <Button
+                        style={[loginStyle.buttonSave, { alignSelf: "center" }]}
+                        onPress={() => {
+                          signatureRef.current.saveSignature();
+                          setShowSignature(false)
+                          setCheckNSignature(false)
+                        }} >
+                        <Text style={loginStyle.buttonText}>Save</Text>
+                      </Button>
+                    </ImageBackground>
+                  </View>
+                </View>
+              : null}
+            {showSignature == false ?
+              <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 50, paddingLeft: 20, paddingRight: 20, marginTop: 50 }}>
+                {counter > 1 ?
+                  <Button
+                    style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
+                    onPress={decrement} >
+                    <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
+                  </Button>
+                  : null}
+                {counter < 4 ?
                   <ImageBackground
-                    style={[globalStyle.Btn, {
-                      width: '100%'
-                    }]}
+                    style={counter == 1 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '50%' }]
+                    }
                     source={require('./../../../assets/Oval.png')}
                     resizeMode={'stretch'}
-
                   >
-                    <Button onPress={submitForm} style={loginStyle.buttons} full>
-                      <Text style={loginStyle.buttonText} >Send</Text>
+                    <Button
+                      style={[loginStyle.buttonSave, { alignSelf: "center" }]}
+                      onPress={increment}
+                      full
+                    >
+                      <Text style={loginStyle.buttonText}>Next</Text>
                     </Button>
                   </ImageBackground>
-                </Content>
+                  : null}
               </View>
-            </Form>
-            :
-            <View >
-              <Text style={{
-                fontSize: 24,
-                paddingLeft: 10,
-                fontWeight: "bold",
-                paddingBottom: 10
-              }}>Signature </Text>
-              <SignatureView
-                style={[globalStyle.signatureField]}
-                ref={signatureRef}
-                onSave={(val) => {
-                  setSignature(val)
-                }}
-                onClear={() => {
-                  setSignature('')
-                }}
-              />
-              <View style={{ flexDirection: 'row', justifyContent: 'center', height: 50 }}>
-                <TouchableOpacity
-                  style={{ justifyContent: 'center', alignItems: "flex-end", flex: 1 }}
-                  onPress={() => {
-                    signatureRef.current.clearSignature();
-                  }}>
-                  <Text style={{ paddingRight: 15, fontWeight: "bold", fontSize: 18 }}>Clear</Text>
-                </TouchableOpacity>
-                {/* <TouchableOpacity
-                  style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
-                  onPress={() => {
-                    signatureRef.current.saveSignature();
-                    setShowSignature(false)
-                    setCheckNSignature(false)
-                  }}>
-                  <Text>Save</Text>
-                </TouchableOpacity> */}
-              </View>
-              <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                <Button
-                  style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
-                  onPress={() => { setShowSignature(false) }} >
-                  <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
-                </Button>
-                <ImageBackground
-                  style={[globalStyle.Btn, {
-                    width: '50%',
-                    alignItems: "center"
-                  }]}
-                  source={require('./../../../assets/Oval.png')}
-                  resizeMode={'stretch'}
-                >
-                  <Button
-                    style={[loginStyle.buttonSave, { alignSelf: "center" }]}
-                    onPress={() => {
-                      signatureRef.current.saveSignature();
-                      setShowSignature(false)
-                      setCheckNSignature(false)
-                    }} >
-                    <Text style={loginStyle.buttonText}>Save</Text>
-                  </Button>
-                </ImageBackground>
-              </View>
-            </View>
-          }
+              : null}
+          </Form>
+
         </View>
       </Content>
     </Container>
