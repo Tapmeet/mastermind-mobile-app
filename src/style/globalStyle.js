@@ -25,8 +25,8 @@ export default StyleSheet.create({
     },
     hyperlink: {
         color: colorPallete.primary,
-        fontWeight: "bold"
-
+        fontWeight: "bold",
+        fontSize: 18
     },
     form: {
         padding: 30,
@@ -172,7 +172,8 @@ export default StyleSheet.create({
         alignSelf: "center",
         justifyContent: "center",
         display: "flex",
-        textAlign: "center"
+        textAlign: "center",
+        alignItems: "center"
     },
     emptylist: {
         padding: 10,
@@ -284,5 +285,42 @@ export default StyleSheet.create({
         backgroundColor: "#eee",
         width: "100%",
         height: 2
+    },
+    slider: {
+        justifyContent: "flex-start",
+        textAlign: "left",
+        paddingTop: 10,
+        paddingLeft: 30
+    },
+    sliderWrapper: {
+        display: "flex",
+        flexDirection: "row",
+        alignSelf: "flex-start",
+        marginBottom: 15,
+        justifyContent: "flex-start",
+        borderRadius: 30,
+        padding: 10,
+        paddingLeft: 15,
+        paddingRight: 15,
+        backgroundColor: "#fff"
+    },
+    homeEvents: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 7,
+        backgroundColor: '#fff',
+        width: '96%',
+        margin: 10,
+        borderRadius: 15,
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "row",
+        padding: 15
     }
+
 })

@@ -34,7 +34,8 @@ export default StyleSheet.create({
     borderColor: 'transparent',
     elevation: 0,
     borderWidth: 0,
-    width: "100%"
+    width: "100%",
+    justifyContent:"center"
     // borderRadius: 30,
   },
   buttons: {

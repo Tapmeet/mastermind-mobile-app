@@ -174,6 +174,11 @@ const Contract = (props) => {
   }
   const submitForm = () => {
     setSuccessMessage("");
+    setErrorMessage("");
+    if (userPaymentSelected == '') {
+      setErrorMessage('Select Payment Method');
+      return false
+    }
     const apiUrl = API_URL.trim();
     // console.log(userPaymentSelected)
     //  console.log('heres');
@@ -220,7 +225,17 @@ const Contract = (props) => {
               }
             </View>
             <View style={[globalStyle.TopSection, { marginLeft: 40 }]}>
-              {step3 == true ?
+              {step3 == true && counter == 1 ?
+                <Image style={{ height: 30, width: 30, resizeMode: 'contain', }} source={require('./../../../assets/activeicon.png')} />
+                :
+                counter > 1 ?
+                  <Image style={{ height: 35, width: 35, resizeMode: 'contain', }} source={require('./../../../assets/lastCheck.png')} />
+                  :
+                  <Image style={{ height: 20, width: 20, resizeMode: 'contain', }} source={require('./../../../assets/iconTop.png')} />
+              }
+            </View>
+            <View style={[globalStyle.TopSection, { marginLeft: 40 }]}>
+              {counter == 2 ?
                 <Image style={{ height: 30, width: 30, resizeMode: 'contain', }} source={require('./../../../assets/activeicon.png')} />
                 :
                 counter > 2 ?
@@ -229,21 +244,11 @@ const Contract = (props) => {
                   <Image style={{ height: 20, width: 20, resizeMode: 'contain', }} source={require('./../../../assets/iconTop.png')} />
               }
             </View>
-            <View style={[globalStyle.TopSection, { marginLeft: 40 }]}>
+            <View style={[globalStyle.TopSection, { justifyContent: "flex-end", alignItems: "flex-end" }]}>
               {counter == 3 ?
                 <Image style={{ height: 30, width: 30, resizeMode: 'contain', }} source={require('./../../../assets/activeicon.png')} />
                 :
                 counter > 3 ?
-                  <Image style={{ height: 35, width: 35, resizeMode: 'contain', }} source={require('./../../../assets/lastCheck.png')} />
-                  :
-                  <Image style={{ height: 20, width: 20, resizeMode: 'contain', }} source={require('./../../../assets/iconTop.png')} />
-              }
-            </View>
-            <View style={[globalStyle.TopSection, { justifyContent: "flex-end", alignItems: "flex-end" }]}>
-              {counter == 4 ?
-                <Image style={{ height: 30, width: 30, resizeMode: 'contain', }} source={require('./../../../assets/activeicon.png')} />
-                :
-                counter > 4 ?
                   <Image style={{ height: 35, width: 35, resizeMode: 'contain', }} source={require('./../../../assets/lastCheck.png')} />
                   :
                   <Image style={{ height: 20, width: 20, resizeMode: 'contain', }} source={require('./../../../assets/iconTop.png')} />
@@ -428,244 +433,258 @@ const Contract = (props) => {
                           return (
                             contact.ContractId == contractId ?
                               <View key={index}>
-                                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0 }}>General</Text>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Full name</Text>
+                                {counter == 1 ?
+                                  <View>
+                                    <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0 }}>General</Text>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Full name</Text>
 
-                                  {contact.StudentFullNames.length > 0 ?
-                                    contact.StudentFullNames.map(function (student, index) {
-                                      return (<Item key={index} style={[globalStyle.formGroup, { marginBottom: 10 }]} floatingLabel >
+                                      {contact.StudentFullNames.length > 0 ?
+                                        contact.StudentFullNames.map(function (student, index) {
+                                          return (<Item key={index} style={[globalStyle.formGroup, { marginBottom: 10 }]} floatingLabel >
+                                            <Input
+                                              value={student}
+                                              style={globalStyle.formControls}
+                                              placeholder="Full Name"
+                                              editable={false}
+                                            />
+                                          </Item>
+                                          );
+                                        })
+                                        : null}
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Full Price</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
                                         <Input
-                                          value={student}
+                                          value={"$" + contact.FullPrice}
                                           style={globalStyle.formControls}
-                                          placeholder="Full Name"
+                                          placeholder="Full Price"
                                           editable={false}
                                         />
                                       </Item>
-                                      );
-                                    })
-                                    : null}
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Full Price</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={"$" + contact.FullPrice}
-                                      style={globalStyle.formControls}
-                                      placeholder="Full Price"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Discount</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={"$" + contact.Discount}
-                                      style={globalStyle.formControls}
-                                      placeholder="Discount"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0, marginTop: 25 }}>Membership Options</Text>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Date Sold</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={dateSolds}
-                                      style={globalStyle.formControls}
-                                      placeholder="Date Sold"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Start Date </Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={dateStart}
-                                      style={globalStyle.formControls}
-                                      placeholder="Start Date"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>End Date</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={endDate}
-                                      style={globalStyle.formControls}
-                                      placeholder="End Date"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0, marginTop: 25 }}>Financial Information</Text>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Fee</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={"$" + contact.Fee}
-                                      style={globalStyle.formControls}
-                                      placeholder="Fee"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Down Payment</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={"$" + personData[0].DownPayment}
-                                      style={globalStyle.formControls}
-                                      placeholder="Down Payment"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Fee</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={"$" + personData[0].Fee}
-                                      style={globalStyle.formControls}
-                                      placeholder="Fee"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Discount</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={"$" + personData[0].Discount}
-                                      style={globalStyle.formControls}
-                                      placeholder="Discount"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Payment Schedule Discount</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={"$" + personData[0].PaymentScheduleDiscount}
-                                      style={globalStyle.formControls}
-                                      placeholder="Payment Schedule Discount"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Payment Schedule Discount Percentage</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={personData[0].PaymentScheduleDiscountPercentage}
-                                      style={globalStyle.formControls}
-                                      placeholder="PaymentScheduleDiscountPercentage"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Finance Charge</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={"$" + contact.FinanceCharge}
-                                      style={globalStyle.formControls}
-                                      placeholder="FinanceCharge"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Transfer Credit</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={"$" + contact.TransferCredit}
-                                      style={globalStyle.formControls}
-                                      placeholder="Transfer Credit"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Unpaid Balance</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={"$" + contact.UnpaidBalance}
-                                      style={globalStyle.formControls}
-                                      placeholder="Unpaid Balance"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Frequency Type</Text>
-                                  <Item style={globalStyle.formGroup} floatingLabel>
-                                    <Input
-                                      value={contact.FrequencyType}
-                                      style={globalStyle.formControls}
-                                      placeholder="FrequencyType"
-                                      editable={false}
-                                    />
-                                  </Item>
-                                </View>
-                                <View style={globalStyle.formField}>
-                                  <Text style={globalStyle.formLabel}>Select Payment Method</Text>
-                                  <View style={globalStyle.formControls}>
-                                    <Picker
-                                      selectedValue={userPaymentSelected}
-                                      style={{ height: 50, width: '100%' }}
-                                      onValueChange={(itemValue, itemIndex) => setUserPaymentSelected(itemValue)}
-                                    ><Picker.Item label="Select Payment Method" value='' />
-                                      {paymentMethod.map((data) => <Picker.Item key={data.Nickname + data.PersonPaymentMethodId} label={data.Nickname} value={data.PersonPaymentMethodId} />)}
-                                    </Picker>
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Discount</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={"$" + contact.Discount}
+                                          style={globalStyle.formControls}
+                                          placeholder="Discount"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
                                   </View>
-                                </View>
-                                {PayerSignatureBilling != '' ? (
-                                  <View style={{ marginTop: 20 }}>
-                                    <Text style={{
-                                      fontSize: 20,
-                                      fontWeight: "bold",
+                                  : null}
+                                {counter == 2 ?
+                                  <View>
+                                    <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0, marginTop: 25 }}>Membership Options</Text>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Date Sold</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={dateSolds}
+                                          style={globalStyle.formControls}
+                                          placeholder="Date Sold"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Start Date </Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={dateStart}
+                                          style={globalStyle.formControls}
+                                          placeholder="Start Date"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>End Date</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={endDate}
+                                          style={globalStyle.formControls}
+                                          placeholder="End Date"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
+                                  </View>
+                                  : null}
+                                {counter == 3 ?
+                                  <View>
+                                    <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0, marginTop: 25 }}>Financial Information</Text>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Fee</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={"$" + contact.Fee}
+                                          style={globalStyle.formControls}
+                                          placeholder="Fee"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Down Payment</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={"$" + personData[0].DownPayment}
+                                          style={globalStyle.formControls}
+                                          placeholder="Down Payment"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Fee</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={"$" + personData[0].Fee}
+                                          style={globalStyle.formControls}
+                                          placeholder="Fee"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Discount</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={"$" + personData[0].Discount}
+                                          style={globalStyle.formControls}
+                                          placeholder="Discount"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Payment Schedule Discount</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={"$" + personData[0].PaymentScheduleDiscount}
+                                          style={globalStyle.formControls}
+                                          placeholder="Payment Schedule Discount"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Payment Schedule Discount Percentage</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={personData[0].PaymentScheduleDiscountPercentage}
+                                          style={globalStyle.formControls}
+                                          placeholder="PaymentScheduleDiscountPercentage"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Finance Charge</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={"$" + contact.FinanceCharge}
+                                          style={globalStyle.formControls}
+                                          placeholder="FinanceCharge"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Transfer Credit</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={"$" + contact.TransferCredit}
+                                          style={globalStyle.formControls}
+                                          placeholder="Transfer Credit"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Unpaid Balance</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={"$" + contact.UnpaidBalance}
+                                          style={globalStyle.formControls}
+                                          placeholder="Unpaid Balance"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Frequency Type</Text>
+                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                        <Input
+                                          value={contact.FrequencyType}
+                                          style={globalStyle.formControls}
+                                          placeholder="FrequencyType"
+                                          editable={false}
+                                        />
+                                      </Item>
+                                    </View>
+                                    <View style={globalStyle.formField}>
+                                      <Text style={globalStyle.formLabel}>Select Payment Method</Text>
+                                      <View style={globalStyle.formControls}>
+                                        <Picker
+                                          selectedValue={userPaymentSelected}
+                                          style={{ height: 50, width: '100%' }}
+                                          onValueChange={(itemValue, itemIndex) => setUserPaymentSelected(itemValue)}
+                                        ><Picker.Item label="Select Payment Method" value='' />
+                                          {paymentMethod.map((data) => <Picker.Item key={data.Nickname + data.PersonPaymentMethodId} label={data.Nickname} value={data.PersonPaymentMethodId} />)}
+                                        </Picker>
+                                      </View>
+                                    </View>
+                                  </View>
+                                  : null}
+                                {counter == 4 ?
+                                  <View>
+                                    {PayerSignatureBilling != '' ? (
+                                      <View style={{ marginTop: 20 }}>
+                                        <Text style={{
+                                          fontSize: 20,
+                                          fontWeight: "bold",
 
-                                    }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: PayerSignatureBilling }} /></View>) : null}
-                                <View style={{ marginTop: 20, marginBottom: 20 }}>
+                                        }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: PayerSignatureBilling }} /></View>) : null}
+                                    <View style={{ marginTop: 20, marginBottom: 20 }}>
 
-                                  <Button
-                                    style={[loginStyle.buttonsSecondary]}
-                                    onPress={() => { setShowSignature2(true) }} full>
-                                    <Text style={loginStyle.buttonText} >{PayerSignatureBilling != '' ? "Update Signature" : "Add Signature"}</Text>
-                                  </Button>
-
-                                </View>
-                                {errorMessage != "" ? (
-                                  <Text style={globalStyle.errorText}>{errorMessage}</Text>
-                                ) : null}
-                                {SuccessMessage != "" ? (
-                                  <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
-                                ) : null}
-                                {PayerSignatureBilling != '' ? (
-                                  <View >
-                                    <ImageBackground
-                                      style={[globalStyle.Btn, {
-                                        width: '100%'
-                                      }]}
-                                      source={require('./../../../assets/Oval.png')}
-                                      resizeMode={'stretch'}
-                                    >
                                       <Button
-                                        style={[loginStyle.buttons]}
-                                        onPress={submitForm}
-                                        full>
-                                        <Text style={loginStyle.buttonText} >Submit</Text>
+                                        style={[loginStyle.buttonsSecondary]}
+                                        onPress={() => { setShowSignature2(true) }} full>
+                                        <Text style={loginStyle.buttonText} >{PayerSignatureBilling != '' ? "Update Signature" : "Add Signature"}</Text>
                                       </Button>
-                                    </ImageBackground>
+                                    </View>
+                                    {errorMessage != "" ? (
+                                      <Text style={globalStyle.errorText}>{errorMessage}</Text>
+                                    ) : null}
+                                    {SuccessMessage != "" ? (
+                                      <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
+                                    ) : null}
+                                    {PayerSignatureBilling != '' ? (
+                                      <View >
+                                        <ImageBackground
+                                          style={[globalStyle.Btn, {
+                                            width: '100%'
+                                          }]}
+                                          source={require('./../../../assets/Oval.png')}
+                                          resizeMode={'stretch'}
+                                        >
+                                          <Button
+                                            style={[loginStyle.buttons]}
+                                            onPress={submitForm}
+                                            full>
+                                            <Text style={loginStyle.buttonText} >Submit</Text>
+                                          </Button>
+                                        </ImageBackground>
+                                      </View>
+                                    ) : null}
                                   </View>
-                                ) : null}
-
+                                  : null}
                               </View>
                               : null
                           );
@@ -725,7 +744,7 @@ const Contract = (props) => {
                           resizeMode={'stretch'}
                         >
                           <Button
-                            style={[loginStyle.buttonSave, { alignSelf: "center" }]}
+                            style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent: "center" }]}
                             onPress={() => {
                               signatureRef3.current.saveSignature();
                               setShowSignature2(false)
@@ -754,6 +773,35 @@ const Contract = (props) => {
                   </View>
           }
         </View>
+        {step3 == true ?
+          showSignature2 == false ?
+            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 50, paddingLeft: 20, paddingRight: 20, marginTop: 50 }}>
+              {counter > 1 ?
+                <Button
+                  style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
+                  onPress={decrement} >
+                  <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
+                </Button>
+                : null}
+              {counter < 4 ?
+                <ImageBackground
+                  style={counter == 1 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '50%' }]
+                  }
+                  source={require('./../../../assets/Oval.png')}
+                  resizeMode={'stretch'}
+                >
+                  <Button
+                    style={[loginStyle.buttonSave, { alignSelf: "center" }]}
+                    onPress={increment}
+                    full
+                  >
+                    <Text style={loginStyle.buttonText}>Next</Text>
+                  </Button>
+                </ImageBackground>
+                : null}
+            </View>
+            : null
+          : null}
       </Content>
     </Container>
   );

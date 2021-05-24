@@ -58,6 +58,7 @@ const LinkStudent = (props) => {
   };
   //Form Submission
   const submitForm = () => {
+    //props.navigation.navigate("Verification");
     if (firstName == "") {
       setCheckFirstname(true);
       return false;

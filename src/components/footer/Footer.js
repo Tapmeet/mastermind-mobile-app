@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Footer, FooterTab, Button, Icon } from 'native-base';
-import { ImageBackground } from 'react-native';
+import { ImageBackground, Image } from 'react-native';
 import globalStyle from "../../style/globalStyle";
 import { LinearGradient } from "expo-linear-gradient";
 export default class FooterTabs extends Component {
@@ -16,13 +16,16 @@ export default class FooterTabs extends Component {
         <Footer style={globalStyle.barStyling}>
           <FooterTab style={globalStyle.barStyling}>
             <Button>
-              <Icon name="library" />
+              <Image style={{ height: 25, width: 25, resizeMode: 'contain', }} source={require('./../../../assets/home.png')} />
+              {/* <Icon name="library" /> */}
             </Button>
             <Button>
-              <Icon name="chatbox" />
+              {/* <Icon name="chatbox" /> */}
+              <Image style={{ height: 25, width: 25, resizeMode: 'contain', }} source={require('./../../../assets/chat.png')} />
             </Button>
             <Button>
-              <Icon name="logo-facebook" />
+              {/* <Icon name="logo-facebook" /> */}
+              <Image style={{ height: 20, width: 20, resizeMode: 'contain', }} source={require('./../../../assets/facebook.png')} />
             </Button>
           </FooterTab>
         </Footer>

@@ -964,7 +964,7 @@ const Inquiry = (props) => {
                       resizeMode={'stretch'}
                     >
                       <Button
-                        style={[loginStyle.buttonSave, { alignSelf: "center" }]}
+                        style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent:"center" }]}
                         onPress={() => {
                           signatureRef.current.saveSignature();
                           setShowSignature(false)

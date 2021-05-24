@@ -28,14 +28,23 @@ export default StyleSheet.create({
   formControl: {
     height: 65,
     borderRadius: 10,
-    borderColor: '#888',
+    borderColor: '#eee',
     paddingLeft: 5,
     borderWidth: 2,
     marginBottom: 0,
     marginLeft: 5,
-    textAlign: "center"
+    textAlign: "center",
+    shadowColor: "#000",
+    backgroundColor: "#fff",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 7,
   },
-  
+
   spaceBetween: {
     display: 'flex',
     alignItems: "center",
@@ -45,30 +54,30 @@ export default StyleSheet.create({
   },
   redirectingWrapper: {
     backgroundColor: "white",
-    height:80,
-    display:"flex",
-    justifyContent:"center",
+    height: 80,
+    display: "flex",
+    justifyContent: "center",
     borderColor: '#fff',
-    paddingTop:12,
-    borderWidth:0,
-  
+    paddingTop: 12,
+    borderWidth: 0,
+
   },
-  redirectingText:{
-    color:'#B0B0B0',
-    fontSize:21,
-    fontWeight:"bold"
+  redirectingText: {
+    color: '#B0B0B0',
+    fontSize: 21,
+    fontWeight: "bold"
   },
-  subHeadingWrapper:{
+  subHeadingWrapper: {
     fontSize: 18,
     margin: 'auto',
     textAlign: "center",
     paddingTop: 10,
     lineHeight: 25
   },
-  form:{
-    paddingBottom:30,
-    paddingLeft:30,
-    paddingRight:30
+  form: {
+    paddingBottom: 30,
+    paddingLeft: 30,
+    paddingRight: 30
   },
   successText: {
     fontSize: 18,
