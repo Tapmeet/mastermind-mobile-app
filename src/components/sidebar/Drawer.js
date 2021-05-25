@@ -11,7 +11,9 @@ import {
   ContractScreen,
   ContractListScreen,
   SignedContractScreen,
-  AddPaymentMethodScreen
+  AddPaymentMethodScreen,
+  PaymentMethodListingsScreen,
+  AddAccountMethodScreen
 } from "../screens";
 import { SideBar } from ".";
 import { FlatList } from "react-native";
@@ -32,7 +34,9 @@ const Drawer = (props) => {
       <HomeDrawer.Screen name="Contract" component={ContractScreen} />
       <HomeDrawer.Screen name="Contracts" component={ContractListScreen} />
       <HomeDrawer.Screen name="SignedContract" component={SignedContractScreen} />
-      <HomeDrawer.Screen name="Payment Method" component={AddPaymentMethodScreen} />
+      <HomeDrawer.Screen name="Payment Methods" component={PaymentMethodListingsScreen} />
+      <HomeDrawer.Screen name="Payment Method Card" component={AddPaymentMethodScreen} />
+      <HomeDrawer.Screen name="Add Payment Account" component={AddAccountMethodScreen} />
     </HomeDrawer.Navigator>
   );
 };

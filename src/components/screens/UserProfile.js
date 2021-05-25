@@ -461,7 +461,7 @@ const UserProfile = (props) => {
                           value={SchoolName}
                           onChangeText={(text) => setschoolName(text)}
                           style={
-                            [globalStyle.formControls, { color: "#000" }]
+                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
                           }
                           placeholder="School Name "
                           placeholderTextColor="#000"
@@ -476,7 +476,7 @@ const UserProfile = (props) => {
                           value={StudentNumber}
                           // onChangeText={(text) => setemail(text)}
                           style={
-                            [globalStyle.formControls, { color: "#000" }]
+                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
                           }
                           placeholder="Student Number "
                           placeholderTextColor="#ddd"
@@ -491,7 +491,7 @@ const UserProfile = (props) => {
                           value={Rank}
                           //   onChangeText={(text) => setemail(text)}
                           style={
-                            [globalStyle.formControls, { color: "#000", borderWidth: 0, borderColor: "#eee", elevation: 0 }]
+                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
                           }
                           editable={false}
                           placeholder="Rank"
@@ -520,7 +520,7 @@ const UserProfile = (props) => {
                           value={AcademicSchool}
                           // onChangeText={(text) => setemail(text)}
                           style={
-                            [globalStyle.formControls, { color: "#000" }]
+                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
                           }
                           editable={false}
                           placeholder="Academic School"
@@ -596,7 +596,8 @@ const UserProfile = (props) => {
                         <Input
                           value={Employer}
                           onChangeText={(text) => setEmployer(text)}
-                          style={globalStyle.formControls
+                          style={
+                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
                           }
                           placeholder="Employer"
                           placeholderTextColor="#ddd"
@@ -641,7 +642,7 @@ const UserProfile = (props) => {
                   </View>
                 </TouchableOpacity>
                 <Collapsible collapsed={collapsed2} align="center">
-                  <View style={{ paddingBottom: 50 }}>
+                  <View style={{ paddingBottom: 50, paddingTop: 30 }}>
                     <View style={checkAddress1
                       ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Permanent Address</Text>
@@ -655,7 +656,7 @@ const UserProfile = (props) => {
                         />
                       </Item>
                     </View>
-                    <View style={globalStyle.formFields}>
+                    <View style={globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Current Address</Text>
                       <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
@@ -667,81 +668,97 @@ const UserProfile = (props) => {
                         />
                       </Item>
                     </View>
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={city}
-                        onChangeText={(text) => setcity(text)}
-                        style={
-                          [globalStyle.formControl, { color: "#999", backgroundColor: '#eee' }]
-                        }
-                        placeholder="City "
-                        editable={false}
-                      />
-                    </Item>
+                    <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                      <Text style={globalStyle.formLabel}>City</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={city}
+                          onChangeText={(text) => setcity(text)}
+                          style={
+                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                          }
+                          placeholder="City "
+                          editable={false}
+                        />
+                      </Item>
+                    </View>
                     {checkCity ? (
                       <Text style={globalStyle.error}>Enter City</Text>
                     ) : null}
                     {state != '' ? (
-                      <Item style={globalStyle.formGroup} floatingLabel>
-                        <Input
-                          value={state}
-                          //onChangeText={(text) => setzipCode(text)}
-                          editable={false}
-                          style={
-                            [globalStyle.formControl, { color: "#999", backgroundColor: '#eee' }]
-                          }
-                          placeholder="State"
-                        />
-                      </Item>
+                      <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                        <Text style={globalStyle.formLabel}>State</Text>
+                        <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                          <Input
+                            value={state}
+                            //onChangeText={(text) => setzipCode(text)}
+                            editable={false}
+                            style={
+                              [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                            }
+                            placeholder="State"
+                          />
+                        </Item>
+                      </View>
                     )
                       : null}
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={zipCode}
-                        onChangeText={(text) => setzipCode(text)}
-                        editable={false}
-                        style={
-                          [globalStyle.formControl, { color: "#999", backgroundColor: '#eee' }]
-                        }
-                        placeholder="Postal Code"
-                      />
-                    </Item>
+                    <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                      <Text style={globalStyle.formLabel}>Postal Code</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={zipCode}
+                          onChangeText={(text) => setzipCode(text)}
+                          editable={false}
+                          style={
+                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                          }
+                          placeholder="Postal Code"
+                        />
+                      </Item>
+                    </View>
                     {checkZipCode ? (
                       <Text style={globalStyle.error}>Enter ZipCode</Text>
                     ) : null}
 
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={phone1}
-                        onChangeText={(text) => setphone1(text)}
-                        style={
-                          checkPhone1
-                            ? globalStyle.formControlError
-                            : globalStyle.formControl
-                        }
-                        placeholder="Phone1"
-                      />
-                    </Item>
+                    <View style={checkPhone1
+                      ? globalStyle.formFieldError : globalStyle.formField}>
+                      <Text style={globalStyle.formLabel}>Phone1</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={phone1}
+                          onChangeText={(text) => setphone1(text)}
+                          style={globalStyle.formControls
+                          }
+                          placeholder="Phone1"
+                        />
+                      </Item>
+                    </View>
                     {checkPhone1 ? (
                       <Text style={globalStyle.error}>Enter Phone Number </Text>
                     ) : null}
 
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={phone2}
-                        onChangeText={(text) => setphone2(text)}
-                        style={globalStyle.formControl}
-                        placeholder="Phone2"
-                      />
-                    </Item>
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={EmergencyContact}
-                        onChangeText={(text) => setEmergencyContact(text)}
-                        style={globalStyle.formControl}
-                        placeholder="Emergency Contact"
-                      />
-                    </Item>
+                    <View style={[globalStyle.formField]}>
+                      <Text style={globalStyle.formLabel}>Phone2</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={phone2}
+                          onChangeText={(text) => setphone2(text)}
+                          style={globalStyle.formControls}
+                          placeholder="Phone2"
+                        />
+                      </Item>
+                    </View>
+                    <View style={[globalStyle.formField]}>
+                      <Text style={globalStyle.formLabel}>Emergency Contact</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={EmergencyContact}
+                          onChangeText={(text) => setEmergencyContact(text)}
+                          style={globalStyle.formControls}
+                          placeholder="Emergency Contact"
+                        />
+                      </Item>
+                    </View>
                   </View>
                 </Collapsible>
                 {errorMessage != "" ? (

@@ -151,7 +151,7 @@ export default StyleSheet.create({
     display: "flex",
     position: "relative",
     marginTop: 20,
-    paddingLeft: 60,
+    paddingLeft: 70,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -185,5 +185,11 @@ export default StyleSheet.create({
     position: "absolute",
     left: 15,
     top: 10
+  },
+  iconLeftss: {
+    maxWidth: 40,
+    position: "absolute",
+    left: 15,
+    top: -10
   }
 })

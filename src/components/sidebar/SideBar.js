@@ -13,7 +13,7 @@ const routes = [
   "Profile",
   "Inquiry",
   "Contracts",
-  "Payment Method"
+  "Payment Methods"
 
 ];
 import sideBar from "../../style/home/sidebarStyle";

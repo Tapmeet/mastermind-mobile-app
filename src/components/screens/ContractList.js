@@ -108,8 +108,8 @@ const ContractList = (props) => {
               <TouchableOpacity onPress={toggleExpanded}>
                 <View style={loginStyle.textAccordians} >
                   <Image
-                    style={loginStyle.iconLefts}
-                    source={require("../../../assets/businessman-information.png")}
+                    style={loginStyle.iconLeftss}
+                    source={require("../../../assets/file1.png")}
                     resizeMode={'contain'}
                   />
                   <Text style={{ color: "#000", fontSize: 22, marginBottom: 0, fontWeight: "bold" }}>Signed Contracts</Text>
@@ -164,8 +164,8 @@ const ContractList = (props) => {
               <TouchableOpacity onPress={toggleExpanded2}>
                 <View style={loginStyle.textAccordians} >
                   <Image
-                    style={loginStyle.iconLefts}
-                    source={require("../../../assets/contacts.png")}
+                    style={loginStyle.iconLeftss}
+                    source={require("../../../assets/file2.png")}
                     resizeMode={'contain'}
                   />
                   <Text style={{ color: "#000", fontSize: 22, marginBottom: 0, fontWeight: "bold" }}>Pending Contact</Text>

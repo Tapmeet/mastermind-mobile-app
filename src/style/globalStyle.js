@@ -50,6 +50,20 @@ export default StyleSheet.create({
         // elevation: 7,
         backgroundColor: "#F7F8F9"
     },
+    Boxshadow: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 7,
+        backgroundColor: "#fff",
+        margin: 10,
+        marginBottom: 30,
+        borderRadius: 15
+    },
     formControls: {
         paddingBottom: 10,
         paddingTop: 5,
@@ -320,7 +334,8 @@ export default StyleSheet.create({
         overflow: "hidden",
         display: "flex",
         flexDirection: "row",
-        padding: 15
+        padding: 15,
+
     }
 
 })

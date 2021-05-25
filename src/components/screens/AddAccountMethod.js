@@ -22,16 +22,16 @@ import DatePicker from 'react-native-datepicker';
 
 import moment from 'moment';
 const apiUrl = API_URL.trim();
-const AddPaymentMethod = (props) => {
+const AddAccountMethod = (props) => {
   const [loader, setloader] = React.useState(false);
   const [Nickname, setNickname] = React.useState('');
-  const [CardNumber, setCardNumber] = React.useState('');
-  const [CardCode, setCardCode] = React.useState('');
+  const [AccountNumber, setAccountNumber] = React.useState('');
+  const [Routing, setRouting] = React.useState('');
   const [CardExpiration, setCardExpiration] = React.useState('');
 
   const [checkNickname, setCheckNickname] = React.useState(false);
-  const [checkCardnumber, setCheckCardnumber] = React.useState(false);
-  const [checkCardCode, setCheckCardCode] = React.useState(false);
+  const [checkAccountNumber, setCheckAccountNumber] = React.useState(false);
+  const [checkRouting, setCheckRouting] = React.useState(false);
   const [checkCardExpiration, setCheckCardExpiration] = React.useState(false);
   const [SuccessMessage, setSuccessMessage] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
@@ -45,20 +45,20 @@ const AddPaymentMethod = (props) => {
       setCheckNickname(false);
     }
   };
-  const setcardNumber = (event) => {
-    setCardNumber(event);
+  const setaccountNumber = (event) => {
+    setAccountNumber(event);
     if (event == "") {
-      setCheckCardnumber(true);
+      setCheckAccountNumber(true);
     } else {
-      setCheckCardnumber(false);
+      setCheckAccountNumber(false);
     }
   };
-  const setcardCode = (event) => {
-    setCardCode(event);
+  const setrouting = (event) => {
+    setRouting(event);
     if (event == "") {
-      setCheckCardCode(true);
+      setCheckRouting(true);
     } else {
-      setCheckCardCode(false);
+      setCheckRouting(false);
     }
   };
   const addMethod = () => {
@@ -68,18 +68,18 @@ const AddPaymentMethod = (props) => {
       setCheckNickname(true);
       return false;
     }
-    if (CardNumber == "") {
-      setCheckCardnumber(true);
+    if (AccountNumber == "") {
+      setCheckAccountNumber(true);
       return false;
     }
-    if (CardCode == "") {
-      setCheckCardCode(true);
+    if (Routing == "") {
+      setCheckRouting(true);
       return false;
     }
-    if (CardExpiration == "") {
-      setCheckCardExpiration(true);
-      return false;
-    }
+    // if (CardExpiration == "") {
+    //   setCheckCardExpiration(true);
+    //   return false;
+    // }
     fetch(`${apiUrl}/odata/PaymentMethod`, {
       method: "post",
       headers: {
@@ -90,10 +90,10 @@ const AddPaymentMethod = (props) => {
       body: JSON.stringify({
         "PersonPaymentMethodId": 0,
         "Nickname": Nickname,
-        "CardNumber": CardNumber,
-        "CardCode": CardCode,
-        "PaymentType": "1",
-        "CardExpiration": CardExpiration
+        "Account": AccountNumber,
+        "Routing": Routing,
+        "PaymentType": "2",
+        
       }),
     })
       .then(response => response.json())
@@ -110,7 +110,7 @@ const AddPaymentMethod = (props) => {
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={" Add Payment Method "} navigation={props.navigation} />
+      <SideBarMenu title={" Add Account  "} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           {loader ?
@@ -137,43 +137,43 @@ const AddPaymentMethod = (props) => {
                 ) : null}
               </View>
               <View style={{ marginBottom: 15 }}>
-                <View style={checkCardnumber
+                <View style={checkAccountNumber
                   ? globalStyle.formFieldError : globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Card Number </Text>
+                  <Text style={globalStyle.formLabel}>Account Number  </Text>
                   <Input
-                    value={CardNumber}
+                    value={AccountNumber}
                     keyboardType="number-pad"
-                    onChangeText={(text) => setcardNumber(text)}
+                    onChangeText={(text) => setaccountNumber(text)}
                     placeholderTextColor='#ccc'
                     style={globalStyle.formControls
                     }
-                    placeholder="Card Number"
+                    placeholder="Account Number "
                   />
                 </View>
-                {checkCardnumber ? (
-                  <Text style={globalStyle.error}>Enter Card Number </Text>
+                {checkAccountNumber ? (
+                  <Text style={globalStyle.error}>Enter Account Number </Text>
                 ) : null}
               </View>
               <View style={{ marginBottom: 25 }}>
-                <View style={checkCardCode
+                <View style={checkRouting
                   ? globalStyle.formFieldError : globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Card Code </Text>
+                  <Text style={globalStyle.formLabel}>Routing </Text>
                   <Input
-                    value={CardCode}
-                    onChangeText={(text) => setcardCode(text)}
+                    value={Routing}
+                    onChangeText={(text) => setrouting(text)}
                     placeholderTextColor='#ccc'
                     style={
                       globalStyle.formControls
                     }
-                    placeholder="Card Code"
+                    placeholder="Routing"
                   />
                 </View>
-                {checkCardCode ? (
-                  <Text style={globalStyle.error}>Enter Card Code</Text>
+                {checkRouting ? (
+                  <Text style={globalStyle.error}>Enter Routing</Text>
                 ) : null}
               </View>
 
-              <View style={checkCardExpiration
+              {/* <View style={checkCardExpiration
                 ? globalStyle.formFieldError : globalStyle.formField}>
                 <Text style={globalStyle.formLabel}>Card Expiration </Text>
                 <View style={[globalStyle.formControls, { marginBottom: 15 }]}>
@@ -201,7 +201,7 @@ const AddPaymentMethod = (props) => {
                     onDateChange={(date) => { setCardExpiration(date) }}
                   />
                 </View>
-              </View>
+              </View> */}
               {checkCardExpiration ? (
                 <Text style={globalStyle.error}>Enter Card Expiry</Text>
               ) : null}
@@ -247,5 +247,5 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
-export default AddPaymentMethod;
+export default AddAccountMethod;
 

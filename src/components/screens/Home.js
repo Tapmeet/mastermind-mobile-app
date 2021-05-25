@@ -74,8 +74,6 @@ const Home = (props) => {
           marginBottom: 20
         }}>
           <Carousel
-            layout="dafault"
-
             ref={isCarousel}
             data={data}
             renderItem={CarouselCardItem}
@@ -85,20 +83,20 @@ const Home = (props) => {
           />
         </View>
         <Text style={{ marginTop: 10, fontWeight: "bold", fontSize: 24, marginBottom: 15 }}>Upcoming Classes</Text>
-        <View style={globalStyle.homeEvents}>
-          <View style={{ borderRadius: 25, overflow: "hidden" }}>
-            <Image
-              source={require('./../../../assets/img1.png')}
-              style={{ height: 110, width: 130, }}
-            />
-          </View>
-          <View style={{ paddingLeft: 15, paddingRight: 10 }}>
-            <Text style={{ fontSize: 20, fontWeight: "bold", color: "#16161D", paddingBottom: 10 }}>Kids Karate Workshop</Text>
-            <Text style={{ fontSize: 18, color: "#555" }}>May 12, 2021</Text>
-            <Text style={{ fontSize: 18, color: "#555", marginTop: 5 }}>05:00 - 07:00 PM</Text>
-          </View>
-        </View>
         <View style={{ marginBottom: 30 }}>
+          <View style={globalStyle.homeEvents}>
+            <View style={{ borderRadius: 25, overflow: "hidden" }}>
+              <Image
+                source={require('./../../../assets/img1.png')}
+                style={{ height: 110, width: 130, }}
+              />
+            </View>
+            <View style={{ paddingLeft: 15, paddingRight: 10 }}>
+              <Text style={{ fontSize: 20, fontWeight: "bold", color: "#16161D", paddingBottom: 10 }}>Kids Karate Workshop</Text>
+              <Text style={{ fontSize: 18, color: "#555" }}>May 12, 2021</Text>
+              <Text style={{ fontSize: 18, color: "#555", marginTop: 5 }}>05:00 - 07:00 PM</Text>
+            </View>
+          </View>
           <View style={globalStyle.homeEvents}>
             <View style={{ borderRadius: 25, overflow: "hidden" }}>
               <Image
@@ -116,6 +114,19 @@ const Home = (props) => {
             <View style={{ borderRadius: 25, overflow: "hidden" }}>
               <Image
                 source={require('./../../../assets/img3.png')}
+                style={{ height: 110, width: 130, }}
+              />
+            </View>
+            <View style={{ paddingLeft: 15, paddingRight: 10 }}>
+              <Text style={{ fontSize: 20, fontWeight: "bold", color: "#16161D", paddingBottom: 10 }}>Kids Karate Workshop</Text>
+              <Text style={{ fontSize: 18, color: "#555" }}>May 12, 2021</Text>
+              <Text style={{ fontSize: 18, color: "#555", marginTop: 5 }}>05:00 - 07:00 PM</Text>
+            </View>
+          </View>
+          <View style={globalStyle.homeEvents}>
+            <View style={{ borderRadius: 25, overflow: "hidden" }}>
+              <Image
+                source={require('./../../../assets/img1.png')}
                 style={{ height: 110, width: 130, }}
               />
             </View>

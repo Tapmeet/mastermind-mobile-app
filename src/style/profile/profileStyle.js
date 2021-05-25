@@ -25,7 +25,8 @@ export default StyleSheet.create({
     justifyContent:"flex-end",
     flexDirection:"row",
     paddingRight:30,
-    alignItems:"center"
+    alignItems:"center",
+    borderRadius:15
   },
   iconLeft:{
     position:"absolute",
