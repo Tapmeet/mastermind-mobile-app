@@ -35,7 +35,7 @@ const ContractList = (props) => {
   const [contractDataPending, setContractDataPending] = React.useState([])
   const toggleExpanded = () => {
     setCollapsed(!collapsed);
-    setCollapsed2(true);
+    setCollapsed2(true); 
   };
   const toggleExpanded2 = () => {
     setCollapsed2(!collapsed2);
@@ -43,7 +43,7 @@ const ContractList = (props) => {
   };
   React.useEffect(() => {
     navigation.addListener('focus', () => {
-      if (contractData.length == 0) {
+      if (typeof (contractData) !== 'undefined' && contractData.length == 0) {
         getPersonContract()
         getPersonContractPending()
       }
@@ -60,10 +60,14 @@ const ContractList = (props) => {
     })
       .then(response => response.json())
       .then(data => {
-        setContractData(data.value)
-        setloader(false)
+        if (data.value) {
+          setContractData(data.value)
+          setloader(false)
+        } else {
+          setloader(false)
+        }
         //  console.log('here')
-        // console.log(data.value)
+       // console.log(data)
       });
   }
   function getPersonContractPending() {
@@ -77,10 +81,16 @@ const ContractList = (props) => {
     })
       .then(response => response.json())
       .then(data => {
-        setloader(false)
-        setContractDataPending(data.value)
+       // console.log(data)
+        if (data.value) {
+          setloader(false)
+          setContractDataPending(data.value)
+        }
+        else {
+          setloader(false)
+        }
       });
-  }
+  } 
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
@@ -132,16 +142,16 @@ const ContractList = (props) => {
                 }}>
                   <View style={globalStyle.tableBoxshadow}>
                     <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#29ABE2", alignItems: "center" }}>
-                      <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Id</Text></View>
+                      
                       <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ color: '#fff', fontSize: 17 }}>Name</Text></View>
                       <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Action</Text></View>
                     </View>
 
-                    {contractData.length > 0 ?
+                    {typeof (contractData) !== 'undefined' && contractData.length ?
                       contractData.map(function (contact, index) {
                         return (
                           <View key={index} style={(index % 2) == 0 ? globalStyle.tableList : globalStyle.tableListOdd}>
-                            <View style={{ width: "20%" }} ><Text style={{ fontSize: 17 }}>{contact.ContractId}</Text></View>
+                           
                             <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ fontSize: 17 }}>
                               {contact.StudentFullNames.length > 0 ?
                                 contact.StudentFullNames.map(function (student, index) {
@@ -157,7 +167,9 @@ const ContractList = (props) => {
 
                         );
                       })
-                      : null}
+                      : <View style={globalStyle.tableList}>
+                        <Text>No Signed Contracts</Text>
+                      </View>}
                   </View>
                 </View>
               </Collapsible>
@@ -185,16 +197,15 @@ const ContractList = (props) => {
               <Collapsible collapsed={collapsed2} align="center">
                 <View style={{ paddingBottom: 30 }}>
                   <View style={globalStyle.tableBoxshadow}>
-                    <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#29ABE2",  alignItems: "center" }}>
-                      <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Id</Text></View>
+                    <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#29ABE2", alignItems: "center" }}>
                       <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ color: '#fff', fontSize: 17 }}>Name</Text></View>
                       <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Action</Text></View>
                     </View>
-                    {contractDataPending.length > 0 ?
+                    {typeof (contractDataPending) !== 'undefined' && contractDataPending.length ?
                       contractDataPending.map(function (contact, index) {
                         return (
                           <View key={index} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, marginTop: 0, backgroundColor: "#f7f7f7", alignItems: "center" }}>
-                            <View style={{ width: "20%" }} ><Text style={{ fontSize: 17 }}>{contact.ContractId}</Text></View>
+                           
                             <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ fontSize: 17 }}>
                               {contact.StudentFullNames.length > 0 ?
                                 contact.StudentFullNames.map(function (student, index) {
@@ -210,7 +221,9 @@ const ContractList = (props) => {
 
                         );
                       })
-                      : null}
+                      : <View style={globalStyle.tableList}>
+                        <Text>No Pending Contracts</Text>
+                      </View>}
                   </View>
                 </View>
               </Collapsible>

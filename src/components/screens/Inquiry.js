@@ -22,45 +22,33 @@ import { useSelector } from 'react-redux'
 import { SideBarMenu } from "../sidebar";
 import { SignatureView } from 'react-native-signature-capture-view';
 const Inquiry = (props) => {
-
   const signatureRef = React.useRef(null);
-
   const [counter, setCounter] = React.useState(1)
-
   const [signature, setSignature] = React.useState('')
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [secondaryemail, setSecondaryemail] = React.useState("");
-
   const [address1, setAddress1] = React.useState("");
   const [address2, setAddress2] = React.useState("");
-
   const [city, setCity] = React.useState("");
   const [state, setState] = React.useState("");
   const [zipCode, setZipCode] = React.useState("");
-
   const [phone1, setPhone1] = React.useState("");
   const [phone2, setPhone2] = React.useState("");
   const [phone3, setPhone3] = React.useState("");
   const [employer, setEmployer] = React.useState("");
   const [occupation, setOccupation] = React.useState("");
-
   const [checkFirstname, setCheckFirstname] = React.useState(false);
   const [checklastName, setChecklastName] = React.useState(false);
   const [checkEmail, setCheckEmail] = React.useState(false);
-
   const [checkCity, setCheckCity] = React.useState(false);
   const [checkState, setCheckState] = React.useState(false);
   const [checkZipCode, setCheckZipCode] = React.useState(false);
-
-
   const [checkAddress1, setCheckAddress1] = React.useState(false);
   const [checkPhone1, setCheckPhone1] = React.useState(false);
   const [checkEmployer, setCheckEmployer] = React.useState(false);
   const [checkOccupation, setCheckOccupation] = React.useState(false);
-
-
   const [checkAdultBenifit, setCheckAdultBenifit] = React.useState(false);
   const [checkChildBenifit, setCheckChildBenifit] = React.useState(false);
   const [checkNSignature, setCheckNSignature] = React.useState(false);
@@ -68,6 +56,35 @@ const Inquiry = (props) => {
   const [inquiry, setInquiry] = React.useState("");
   const [SuccessMessage, setSuccessMessage] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
+
+  React.useEffect(() => {
+    navigation.addListener('focus', () => {
+      clearData()
+    })
+  })
+
+  const clearData = () => {
+    setFirstName('');
+    setLastName('');
+    setAddress1('');
+    setAddress2(''),
+      setEmail('');
+    setSecondaryemail('');
+    setState('');
+    setZipCode('');
+    setOccupation('');
+    setCity('');
+    setCounter(1);
+    setPhone1('');
+    setPhone2('');
+    setPhone3('');
+    setSignature('');
+    setEmployer('');
+    setShowSignature(false);
+    setInquiry('');
+    setChildrenList([]);
+    setCounters(0)
+  }
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
   };
@@ -459,11 +476,11 @@ const Inquiry = (props) => {
       }),
     })
       .then((response) => {
-        console.log("hererssssssssss")
+        // console.log("hererssssssssss")
         let jsonData = JSON.stringify(response);
-        console.log(jsonData)
+        // console.log(jsonData)
         let jsonDataPrase = JSON.parse(jsonData);
-        console.log(jsonDataPrase.status)
+        // console.log(jsonDataPrase.status)
         if (jsonDataPrase.status != 200) {
           setErrorMessage("An error has occurred.");
         } else {
@@ -964,7 +981,7 @@ const Inquiry = (props) => {
                       resizeMode={'stretch'}
                     >
                       <Button
-                        style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent:"center" }]}
+                        style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent: "center" }]}
                         onPress={() => {
                           signatureRef.current.saveSignature();
                           setShowSignature(false)

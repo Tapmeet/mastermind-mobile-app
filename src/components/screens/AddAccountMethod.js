@@ -37,6 +37,16 @@ const AddAccountMethod = (props) => {
   const [errorMessage, setErrorMessage] = React.useState('');
   const userId = useSelector(state => state);
   const [date, setDate] = React.useState('');
+  React.useEffect(() => {
+    navigation.addListener('focus', () => {
+      clearData()
+    })
+  })
+  const clearData = () => { 
+    setNickname('');
+    setAccountNumber('');
+    setRouting('');
+  }
   const setnickname = (event) => {
     setNickname(event);
     if (event == "") {
@@ -93,7 +103,7 @@ const AddAccountMethod = (props) => {
         "Account": AccountNumber,
         "Routing": Routing,
         "PaymentType": "2",
-        
+
       }),
     })
       .then(response => response.json())
@@ -230,7 +240,7 @@ const AddAccountMethod = (props) => {
 
             </View>
           }
-          
+
         </View>
       </Content>
     </Container>

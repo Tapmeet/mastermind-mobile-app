@@ -67,14 +67,27 @@ const Contract = (props) => {
       setloader(true)
       //console.log(props.route.params.contractId);
       if (contractData.length == 0) {
+        clearData()
         setContractId(props.route.params.contractId)
         getContract()
         getPersonId()
-
         getPersonContract()
+
       }
     });
   })
+  const clearData = () => {
+    setCounter(1);
+    setStep1(true);
+    setStep2(false);
+    setStep3(false);
+    setUserPaymentSelected('');
+    setPayerSignatureMinor('');
+    setPayerSignatureBilling('');
+    setPayerSignatureTerms('');
+    showSignature(false);
+    showSignature2(false)
+  }
   function getContract() {
     fetch(`${apiUrl}/odata/Contract(${props.route.params.contractId})`, {
       method: "get",
@@ -103,7 +116,7 @@ const Contract = (props) => {
       .then(response => response.json())
       .then(response => {
         setPersonData(response.value)
-        console.log(response.value);
+        // console.log(response.value);
       });
   }
   const { navigation } = props;

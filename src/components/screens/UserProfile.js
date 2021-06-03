@@ -253,9 +253,9 @@ const UserProfile = (props) => {
     })
       .then((response) => {
         let jsonData = JSON.stringify(response);
-        console.log(jsonData)
+        //console.log(jsonData)
         let jsonDataPrase = JSON.parse(jsonData);
-        console.log(jsonDataPrase.status)
+       // console.log(jsonDataPrase.status)
         if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
           setSuccessMessage("Update Successfully");
         } else {
@@ -267,26 +267,10 @@ const UserProfile = (props) => {
       });
   };
   React.useEffect(() => {
-    const apiUrl = API_URL.trim();
-    if (data == '') {
-      fetch(`${apiUrl}/odata/StudentAccount`, {
-        method: "get",
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + userId[0].access_Token
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          setStudentIds(data.StudentIds)
-          if (data.StudentIds.length == 0) {
-            setloader(false)
-          }
-          getdata(data.StudentIds[0])
-        });
-      function getdata(id) {
-        fetch(`${apiUrl}/odata/StudentData(${id})`, {
+    navigation.addListener('focus', () => {
+      const apiUrl = API_URL.trim();
+      if (data == '') {
+        fetch(`${apiUrl}/odata/StudentAccount`, {
           method: "get",
           headers: {
             Accept: "*/*",
@@ -296,71 +280,90 @@ const UserProfile = (props) => {
         })
           .then(response => response.json())
           .then(data => {
-            setFirstName(data.FirstName)
-            setLastName(data.LastName)
-            setEmail(data.Email)
-            setStudentNumber(data.StudentNumber)
-            setAcademicSchool(data.AcademicSchool)
-            setMedicalInfo(data.MedicalInfo)
-            setOccupation(data.Occupation)
-            setRank(data.Rank)
-            setEmployer(data.Employer)
-            setAddress1(data.Address1)
-            setAddress2(data.Address2)
+           // console.log(data)
+            if (data.StudentIds) {
+              setStudentIds(data.StudentIds)
+              //console.log("where")
+              getdata(data.StudentIds[0])
+            }
+            else {
+            //  console.log("hhere")
+              setloader(false)
+            }
 
-            setCity(data.City)
-            setZipCode(data.PostalCode)
-            setPhone1(data.Phone1)
-            setPhone2(data.Phone2)
-            setUniformSize(data.UniformSizeId)
-            setBeltSize(data.BeltSizeId)
-            setEmergencyContact(data.EmergencyContact)
-            let dob = new Date(data.DOB).toISOString().slice(0, 10);
-            setDOB(dob)
-            console.log(dob);
-            stateList.map((statedata, index) => {
-              if (statedata[1] == data.State) {
-                setState(statedata[0])
-              }
-            })
-            setloader(false)
+          });
+        function getdata(id) {
+          fetch(`${apiUrl}/odata/StudentData(${id})`, {
+            method: "get",
+            headers: {
+              Accept: "*/*",
+              "Content-Type": "application/json",
+              'Authorization': 'Bearer ' + userId[0].access_Token
+            },
+          })
+            .then(response => response.json())
+            .then(data => {
+             // console.log(data)
+              setFirstName(data.FirstName)
+              setLastName(data.LastName)
+              setEmail(data.Email)
+              setStudentNumber(data.StudentNumber)
+              setAcademicSchool(data.AcademicSchool)
+              setMedicalInfo(data.MedicalInfo)
+              setOccupation(data.Occupation)
+              setRank(data.Rank)
+              setEmployer(data.Employer)
+              setAddress1(data.Address1)
+              setAddress2(data.Address2)
+
+              setCity(data.City)
+              setZipCode(data.PostalCode)
+              setPhone1(data.Phone1)
+              setPhone2(data.Phone2)
+              setUniformSize(data.UniformSizeId)
+              setBeltSize(data.BeltSizeId)
+              setEmergencyContact(data.EmergencyContact)
+              let dob = new Date(data.DOB).toISOString().slice(0, 10);
+              setDOB(dob)
+              //console.log(dob);
+              stateList.map((statedata, index) => {
+                if (statedata[1] == data.State) {
+                  setState(statedata[0])
+                }
+              })
+              setloader(false)
+            });
+        }
+        fetch(`${apiUrl}/odata/UniformSize`, {
+          method: "get",
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + userId[0].access_Token
+          },
+        })
+          .then(response => response.json())
+          .then(data => {
+            //console.log(data.value)
+            setUniformSizeList(data.value)
+          });
+        fetch(`${apiUrl}/odata/BeltSize`, {
+          method: "get",
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + userId[0].access_Token
+          },
+        })
+          .then(response => response.json())
+          .then(data => {
+            //console.log(data.value)
+            setBeltSizeList(data.value)
           });
       }
-      fetch(`${apiUrl}/odata/UniformSize`, {
-        method: "get",
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + userId[0].access_Token
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          //console.log(data.value)
-          setUniformSizeList(data.value)
-        });
-      fetch(`${apiUrl}/odata/BeltSize`, {
-        method: "get",
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + userId[0].access_Token
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          //console.log(data.value)
-          setBeltSizeList(data.value)
-        });
-    }
+    })
   }, [data]);
 
-  function userProfileid(id) {
-    console.log("here")
-    // props.navigation.navigate("StudentProfile", {
-    //   profileId: id,
-    // })
-  };
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
@@ -377,7 +380,7 @@ const UserProfile = (props) => {
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
           :
-          studentIds.length > 0 ?
+          typeof (studentIds) !== 'undefined' && studentIds.length > 0 ?
             studentIds.length == 1 ?
               <Form style={globalStyle.form}>
                 <TouchableOpacity onPress={toggleExpanded}>

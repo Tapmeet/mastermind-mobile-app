@@ -26,6 +26,17 @@ const LinkStudent = (props) => {
   const [checklastName, setChecklastName] = React.useState(false);
   const [checkEmail, setCheckEmail] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
+  React.useEffect(() => {
+    navigation.addListener('focus', () => {
+      clearData()
+    })
+  })
+  const clearData = () => {
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setErrorMessage('')
+  }
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
   };
@@ -170,9 +181,9 @@ const LinkStudent = (props) => {
                 }]}
                 source={require('./../../../assets/Oval.png')}
                 resizeMode={'stretch'}
-                
+
               >
-                <Button onPress={submitForm}  style={loginStyle.buttons} full>
+                <Button onPress={submitForm} style={loginStyle.buttons} full>
                   <Text style={loginStyle.buttonText} >Link Student</Text>
                 </Button>
               </ImageBackground>

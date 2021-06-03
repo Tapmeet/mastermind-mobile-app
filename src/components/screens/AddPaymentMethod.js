@@ -37,6 +37,17 @@ const AddPaymentMethod = (props) => {
   const [errorMessage, setErrorMessage] = React.useState('');
   const userId = useSelector(state => state);
   const [date, setDate] = React.useState('');
+  React.useEffect(() => {
+    navigation.addListener('focus', () => {
+      clearData()
+    })
+  })
+  const clearData = () => {
+    setNickname('');
+    setCardNumber('');
+    setCardCode('');
+    setCardExpiration('')
+  }
   const setnickname = (event) => {
     setNickname(event);
     if (event == "") {
@@ -230,7 +241,7 @@ const AddPaymentMethod = (props) => {
 
             </View>
           }
-          
+
         </View>
       </Content>
     </Container>
