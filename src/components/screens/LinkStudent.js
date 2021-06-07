@@ -69,7 +69,7 @@ const LinkStudent = (props) => {
   };
   //Form Submission
   const submitForm = () => {
-    //props.navigation.navigate("Verification");
+    props.navigation.navigate("Verification");
     if (firstName == "") {
       setCheckFirstname(true);
       return false;
@@ -84,6 +84,7 @@ const LinkStudent = (props) => {
     }
 
     const apiUrl = API_URL.trim();
+   // console.log(apiUrl)
     fetch(`${apiUrl}/odata/StudentLink`, {
       method: "post",
       headers: {
@@ -96,27 +97,47 @@ const LinkStudent = (props) => {
         FirstName: firstName,
         LastName: lastName,
       }),
+     })
+    .then((response) => response.json())
+    .then((response) => {
+     // console.log(response);
+      if (response["odata.error"]) {
+        console.log(response["odata.error"].message.value);
+        setErrorMessage(response["odata.error"].message.value);
+      } else {
+        props.navigation.navigate("Verification", {
+          studentAccountGuid: response["studentAccountGuid"],
+          studentId: response["studentId"],
+          Email: email,
+          FirstName: firstName,
+          LastName: lastName,
+        });
+      }
     })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-        if (response["odata.error"]) {
-          console.log(response["odata.error"].message.value);
-          setErrorMessage(response["odata.error"].message.value);
-        } else {
-          props.navigation.navigate("Verification", {
-            studentAccountGuid: response["studentAccountGuid"],
-            studentId: response["studentId"],
-            Email: email,
-            FirstName: firstName,
-            LastName: lastName,
-          });
-        }
-      })
-      .catch((response) => {
-        console.log(response);
-        setErrorMessage("An error has occurred. Please check all the fields");
-      });
+    .catch((response) => {
+  //    console.log(response);
+      setErrorMessage("An error has occurred. Please check all the fields");
+    });
+
+     //   .then((response) => {
+    //     let jsonData = JSON.stringify(response);
+    //     let jsonDataPrase = JSON.parse(jsonData);
+    //     console.log(jsonDataPrase)
+    //     if (jsonDataPrase.status != 200) {
+    //       setErrorMessage("An error has occurred.");
+    //     } else {
+    //       props.navigation.navigate("Verification", {
+    //         studentAccountGuid: response["studentAccountGuid"],
+    //         studentId: response["studentId"],
+    //         Email: email,
+    //         FirstName: firstName,
+    //         LastName: lastName,
+    //       });
+    //     }
+    //   })
+    //   .catch((response) => {
+    //     setErrorMessage("An error has occurred.");
+    //   });
   };
   const { navigation } = props;
   return (
@@ -172,6 +193,9 @@ const LinkStudent = (props) => {
             </View>
             {checkEmail ? (
               <Text style={globalStyle.error}>Enter Valid Email</Text>
+            ) : null}
+            {errorMessage != "" ? (
+              <Text style={[globalStyle.errorText, { marginTop: 15 }]}>{errorMessage}</Text>
             ) : null}
             <Content style={loginStyle.formContainer}>
 

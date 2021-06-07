@@ -30,9 +30,9 @@ const VerificationCode = (props) => {
   };
   const submitForm = () => {
     //props.navigation.navigate("StudentLinkSuccess");
-    console.log(otp)
-    console.log("Verifcation " + VerificationToken)
-    if (otp != VerificationToken) {
+    // console.log(otp)
+    // console.log("Verifcation " + VerificationToken)
+    if (otp.length < 6) {
       setErrorMessage("Wrong verifcation code");
     } else {
       const apiUrl = API_URL.trim();
@@ -48,7 +48,7 @@ const VerificationCode = (props) => {
           FirstName: props.route.params.FirstName,
           LastName: props.route.params.LastName,
           StudentId: props.route.params.studentId,
-          VerificationToken: VerificationToken,
+          VerificationToken: otp,
         }),
       })
         .then((response) => {
@@ -104,7 +104,7 @@ const VerificationCode = (props) => {
           <Body style={verificationStyle.spaceBetween}>
             <OtpInputs getOtp={(otp) => getOtp(otp)} />
           </Body>
-          
+
           <Content style={[loginStyle.formContainer, { paddingRight: 15, paddingLeft: 15 }]}>
             <ImageBackground
               style={[globalStyle.Btn, {

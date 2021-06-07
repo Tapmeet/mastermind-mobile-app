@@ -60,10 +60,10 @@ const ForgetPassword = (props) => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response["code"]);
+        console.log(response);
         if (response["odata.error"]) {
           // console.log(response["odata.error"].message.value)
-          setErrorMessage(response["odata.error"].innererror.message);
+          setErrorMessage(response["odata.error"].message.value);
         } else {
           //this.props.navigation.navigate('AccountSuccess')
           props.navigation.navigate("VerificationCode", {
