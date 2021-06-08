@@ -135,9 +135,7 @@ export default StyleSheet.create({
         marginBottom: -5
     },
     barStyling: {
-        backgroundColor: "transparent",
-
-
+        backgroundColor: "transparent"
     },
     formField: {
         borderWidth: 2,
