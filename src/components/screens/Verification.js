@@ -75,7 +75,7 @@ const VerificationCode = (props) => {
       <Content style={loginStyle.spacing} padder>
         <View style={loginStyle.backWrapper}>
           <Text
-            onPress={() => this.props.navigation.navigate("Link Student")}
+            onPress={() => props.navigation.navigate("Link Student")}
             style={loginStyle.backButtonStyle}
           >
             <Image

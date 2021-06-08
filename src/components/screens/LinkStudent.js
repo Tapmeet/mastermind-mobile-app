@@ -31,8 +31,9 @@ const LinkStudent = (props) => {
       clearData()
     })
   })
-  const clearData = () => {
+  const clearData = () => { 
     setFirstName('');
+    setCheckFirstname(false)
     setLastName('');
     setEmail('');
     setErrorMessage('')
@@ -69,7 +70,7 @@ const LinkStudent = (props) => {
   };
   //Form Submission
   const submitForm = () => {
-    props.navigation.navigate("Verification");
+    //props.navigation.navigate("Verification");
     if (firstName == "") {
       setCheckFirstname(true);
       return false;

@@ -67,8 +67,8 @@ const Inquiry = (props) => {
     setFirstName('');
     setLastName('');
     setAddress1('');
-    setAddress2(''),
-      setEmail('');
+    setAddress2('');
+    setEmail('');
     setSecondaryemail('');
     setState('');
     setZipCode('');
