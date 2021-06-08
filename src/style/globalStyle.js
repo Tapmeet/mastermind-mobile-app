@@ -170,7 +170,7 @@ export default StyleSheet.create({
         borderColor: "transparent",
         paddingTop: 15,
         paddingBottom: 15,
-        height: 80,
+        // height: 30,
         elevation: 0
     },
     titleStyling: {
@@ -182,7 +182,7 @@ export default StyleSheet.create({
     },
     titleBody: {
         minWidth: 200,
-        paddingLeft: 40,
+        paddingLeft: 0,
         alignSelf: "center",
         justifyContent: "center",
         display: "flex",

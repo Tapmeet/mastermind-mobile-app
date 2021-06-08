@@ -6,7 +6,7 @@ const SideBarMenu = (props) => {
   return (
     <ImageBackground
       style={{
-        height: 80
+        height: 110
       }}
       source={require('./../../../assets/bgtop.png')}
       resizeMode={'stretch'}
