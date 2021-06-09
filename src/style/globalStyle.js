@@ -170,7 +170,7 @@ export default StyleSheet.create({
         borderColor: "transparent",
         paddingTop: 15,
         paddingBottom: 15,
-        // height: 30,
+        minHeight: 80,
         elevation: 0
     },
     titleStyling: {
@@ -254,6 +254,22 @@ export default StyleSheet.create({
         backgroundColor: '#fff',
         width: '95%',
         margin: 10,
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+        overflow: "hidden"
+    },
+    tableBoxshadowContract: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 7,
+        marginLeft:25,
+        marginRight:25,
+        backgroundColor: '#fff',
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
         overflow: "hidden"

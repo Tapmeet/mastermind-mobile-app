@@ -114,9 +114,9 @@ const ContractList = (props) => {
               <ActivityIndicator size="large" color="#29ABE2" />
             </View>
             :
-            <Form style={globalStyle.form}>
+            <Form style={globalStyle.forms}>
               <TouchableOpacity onPress={toggleExpanded}>
-                <View style={loginStyle.textAccordians} >
+                <View style={loginStyle.textAccordiansContract} >
                   <Image
                     style={loginStyle.iconLeftss}
                     source={require("../../../assets/file1.png")}
@@ -140,8 +140,8 @@ const ContractList = (props) => {
                 <View style={{
                   paddingBottom: 30,
                 }}>
-                  <View style={globalStyle.tableBoxshadow}>
-                    <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#29ABE2", alignItems: "center" }}>
+                  <View style={globalStyle.tableBoxshadowContract}>
+                    <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#4895FF", alignItems: "center" }}>
                       
                       <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ color: '#fff', fontSize: 17 }}>Name</Text></View>
                       <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Action</Text></View>
@@ -174,7 +174,7 @@ const ContractList = (props) => {
                 </View>
               </Collapsible>
               <TouchableOpacity onPress={toggleExpanded2}>
-                <View style={loginStyle.textAccordians} >
+                <View style={loginStyle.textAccordiansContract} >
                   <Image
                     style={loginStyle.iconLeftss}
                     source={require("../../../assets/file2.png")}
@@ -196,8 +196,8 @@ const ContractList = (props) => {
               </TouchableOpacity>
               <Collapsible collapsed={collapsed2} align="center">
                 <View style={{ paddingBottom: 30 }}>
-                  <View style={globalStyle.tableBoxshadow}>
-                    <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#29ABE2", alignItems: "center" }}>
+                  <View style={globalStyle.tableBoxshadowContract}>
+                    <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#4895FF", alignItems: "center" }}>
                       <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ color: '#fff', fontSize: 17 }}>Name</Text></View>
                       <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Action</Text></View>
                     </View>

@@ -813,7 +813,11 @@ const Inquiry = (props) => {
 
                 <View style={{ paddingTop: 20, paddingBottom: 20, }}>
                   <Button onPress={addSection}
-                    style={[loginStyle.buttonsSecondary]} full><Text style={loginStyle.buttonText}>Add Child Details</Text></Button>
+                    style={[loginStyle.buttonsSecondary]} full><Image
+                      style={{height:15, marginRight:-10}}
+                      source={require("../../../assets/plus.png")}
+                      resizeMode={'contain'}
+                    /><Text style={loginStyle.buttonText}>Add Child Details</Text></Button>
                 </View>
               </View>
               : null}
