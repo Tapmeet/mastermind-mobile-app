@@ -8,7 +8,7 @@ export default class FooterTabs extends Component {
     return (
       <ImageBackground
         style={{
-
+          height: 70
         }}
         source={require('./../../../assets/bgBottom.png')}
         resizeMode={'stretch'}
