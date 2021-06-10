@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Text, List, ListItem, Thumbnail, View } from "native-base";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { ImageBackground } from "react-native";
 const routes = [
   "Home",
@@ -18,8 +18,17 @@ const routes = [
 ];
 import sideBar from "../../style/home/sidebarStyle";
 import { color } from "react-native-reanimated";
+import { useSelector, useDispatch } from 'react-redux'
+import LOGGED_OUT_USER from "./../../redux/User"
+
 
 const SideBar = (props) => {
+  const dispatch = useDispatch()
+  const userData = userInfo => dispatch({ type: "LOGGED_OUT_USER", payload: userInfo });
+  const userId = useSelector(state => state);
+  const logout = () => {
+    userData(userId[0].id)
+  }
   return (
     <ScrollView>
       <ImageBackground
@@ -36,7 +45,7 @@ const SideBar = (props) => {
           />
           <Text style={[sideBar.name, { color: "#333", marginLeft: 15, fontWeight: "bold" }]}>Michael Jordan</Text>
         </View>
-        <Container style={{ backgroundColor: "transparent", marginTop:60 }}>
+        <Container style={{ backgroundColor: "transparent", marginTop: 60 }}>
           <List
             dataArray={routes}
             style={{ backgroundColor: "transparent" }}
@@ -52,6 +61,13 @@ const SideBar = (props) => {
               );
             }}
           />
+          <TouchableOpacity
+            style={{ backgroundColor: "transparent", paddingLeft:20, marginTop: -10, position:"relative", marginBottom:40, zIndex:99999 }}
+            button
+            onPress={logout}
+          >
+            <Text style={{ color: '#fff', fontWeight: "bold" }}>Logout</Text>
+          </TouchableOpacity>
         </Container>
       </ImageBackground>
     </ScrollView>

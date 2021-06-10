@@ -814,7 +814,7 @@ const Inquiry = (props) => {
                 <View style={{ paddingTop: 20, paddingBottom: 20, }}>
                   <Button onPress={addSection}
                     style={[loginStyle.buttonsSecondary]} full><Image
-                      style={{height:15, marginRight:-10}}
+                      style={{ height: 15, marginRight: -10 }}
                       source={require("../../../assets/plus.png")}
                       resizeMode={'contain'}
                     /><Text style={loginStyle.buttonText}>Add Child Details</Text></Button>
@@ -846,18 +846,25 @@ const Inquiry = (props) => {
                     style={{
                       flexDirection: 'row',
                       flex: 1,
-                      alignItems: "center"
+                      alignItems: "center",
+                      marginBottom: 15
                     }}>
-                    <CheckBox
-
+                    <TouchableOpacity
+                      style={{ borderColor: "#ddd", borderRadius: 5, borderWidth: 2, height: 25, width: 28 }}
                       value={item.isChecked}
-                      onChange={() => {
+                      onPress={() => {
                         handleChange(item.id);
                       }}
-                    />
+                    >
+                      {item.isChecked ? <Image
+                        style={{ height: 15, marginRight: 0, marginTop: 2 }}
+                        source={require("../../../assets/checkTick.png")}
+                        resizeMode={'contain'}
+                      /> : null}
+                    </TouchableOpacity>
                     <Text style={{
                       fontSize: 20,
-                      paddingLeft: 10
+                      paddingLeft: 15
                     }}>{item.txt}</Text>
                   </View>))}
                   {checkAdultBenifit ? (
@@ -870,20 +877,27 @@ const Inquiry = (props) => {
                     style={{
                       flexDirection: 'row',
                       flex: 1,
-                      alignItems: "center"
+                      alignItems: "center",
+                      marginBottom: 15
                     }}
                     key={item.id + 100}
                   >
-                    <CheckBox
-
+                    <TouchableOpacity
+                      style={{ borderColor: "#ddd", borderRadius: 5, borderWidth: 2, height: 25, width: 28 }}
                       value={item.isChecked}
-                      onChange={() => {
+                      onPress={() => {
                         handleChangeBenifits(item.id);
                       }}
-                    />
+                    >
+                      {item.isChecked ? <Image
+                        style={{ height: 15, marginRight: 0, marginTop: 2 }}
+                        source={require("../../../assets/checkTick.png")}
+                        resizeMode={'contain'}
+                      /> : null}
+                    </TouchableOpacity>
                     <Text style={{
                       fontSize: 20,
-                      paddingLeft: 10
+                      paddingLeft: 15
                     }}>{item.txt}</Text>
                   </View>))}
                   {checkChildBenifit ? (
@@ -894,7 +908,7 @@ const Inquiry = (props) => {
               : null}
             {counter == 4 ?
               showSignature == false ?
-                <View style={{ marginTop: -30 }}>
+                <View style={{ marginTop: -30, paddingLeft:20, paddingRight:20 }}>
                   <Text style={{ color: "#000", fontSize: 30, fontWeight: "bold", marginBottom: 20, textAlign: "center" }}>Signature</Text>
                   {signature != '' ? (<View style={{ marginTop: 20 }}><Text style={{
                     fontSize: 20,
@@ -907,7 +921,7 @@ const Inquiry = (props) => {
                     onPress={() => { setShowSignature(true) }} full>
                     <Text style={loginStyle.buttonText} >{signature != '' ? "Update Signature" : "Add Signature"}</Text>
                   </Button>
-                  <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+                  <View style={{ paddingLeft: 0, paddingRight:0 }}>
                     {checkNSignature != "" ? (
                       <Text style={globalStyle.errorText}>Signature Required</Text>
                     ) : null}
@@ -935,12 +949,12 @@ const Inquiry = (props) => {
                   </View>
                 </View>
                 :
-                <View >
+                <View style={{ paddingLeft:10, paddingRight: 10}} >
                   <Text style={{
                     fontSize: 24,
                     paddingLeft: 10,
                     fontWeight: "bold",
-                    paddingBottom: 10
+                    paddingBottom: 10,
                   }}>Signature </Text>
                   <SignatureView
                     style={[globalStyle.signatureField]}
