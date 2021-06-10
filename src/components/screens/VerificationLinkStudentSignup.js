@@ -3,7 +3,7 @@ import { View, Image, StyleSheet } from "react-native";
 import OtpInputs from "./../Utility/Outinputs";
 import {
   Container,
-  CheckBox,
+  //CheckBox,
   Content,
   Form,
   Item,
@@ -27,7 +27,7 @@ const VerificationLinkStudentSignup = (props) => {
     setOtp(otp);
   };
   const submitForm = () => {
-    if (otp != VerificationToken) {
+    if (otp.length < 6) {
       setErrorMessage("Wrong verifcation code");
     } else {
       const apiUrl =API_URL.trim();
@@ -43,7 +43,7 @@ const VerificationLinkStudentSignup = (props) => {
           FirstName: props.route.params.FirstName,
           LastName: props.route.params.LastName,
           StudentId: props.route.params.studentId,
-          VerificationToken: VerificationToken,
+          VerificationToken: otp,
         }),
       })
         .then((response) => {

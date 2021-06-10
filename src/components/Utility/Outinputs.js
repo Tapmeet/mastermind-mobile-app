@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Content, Item, Input } from "native-base";
 import { Grid, Col } from "react-native-easy-grid";
 import verificationStyle from "../../style/verification/verifcationStyle";
@@ -49,9 +49,9 @@ class OtpInputs extends React.Component {
 
   render() {
     return (
-      <Content padder>
+      <View>
         <Grid style={styles.gridPad}>{this.renderInputs()}</Grid>
-      </Content>
+      </View>
     );
   }
 }

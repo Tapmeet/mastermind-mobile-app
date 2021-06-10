@@ -255,7 +255,7 @@ const UserProfile = (props) => {
         let jsonData = JSON.stringify(response);
         //console.log(jsonData)
         let jsonDataPrase = JSON.parse(jsonData);
-       // console.log(jsonDataPrase.status)
+        // console.log(jsonDataPrase.status)
         if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
           setSuccessMessage("Update Successfully");
         } else {
@@ -280,14 +280,14 @@ const UserProfile = (props) => {
         })
           .then(response => response.json())
           .then(data => {
-           // console.log(data)
-            if (data.StudentIds) {
+            console.log(data)
+            if (data.StudentIds.length > 0) {
               setStudentIds(data.StudentIds)
               //console.log("where")
               getdata(data.StudentIds[0])
             }
             else {
-            //  console.log("hhere")
+              //  console.log("hhere")
               setloader(false)
             }
 
@@ -303,7 +303,7 @@ const UserProfile = (props) => {
           })
             .then(response => response.json())
             .then(data => {
-             // console.log(data)
+              // console.log(data)
               setFirstName(data.FirstName)
               setLastName(data.LastName)
               setEmail(data.Email)

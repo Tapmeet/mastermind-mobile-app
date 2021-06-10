@@ -2,7 +2,6 @@ import React from "react";
 import { View, Image, StyleSheet, ImageBackground } from "react-native";
 import {
   Container,
-  CheckBox,
   Content,
   Form,
   Item,
@@ -128,6 +127,7 @@ const ForgetPassword = (props) => {
             <Input
               value={email}
               onChangeText={(text) => setemail(text)}
+              autoCapitalize='none'
               placeholderTextColor='#ccc'
               style={
                 checkEmail

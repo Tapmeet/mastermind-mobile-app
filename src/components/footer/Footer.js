@@ -8,13 +8,13 @@ export default class FooterTabs extends Component {
     return (
       <ImageBackground
         style={{
-          height: 50
+          height: 60
         }}
         source={require('./../../../assets/bgBottom.png')}
         resizeMode={'stretch'}
       >
         <Footer style={globalStyle.barStyling}>
-          <FooterTab style={[globalStyle.barStyling]}>
+          <FooterTab style={[globalStyle.barStyling, {paddingBottom:10, paddingTop:10}]}>
             <Button >
               <Image style={{ height: 25, width: 25, resizeMode: 'contain', }} source={require('./../../../assets/home.png')} />
               {/* <Icon name="library" /> */}
