@@ -19,7 +19,14 @@ import {
 import { Drawer } from "./src/components/sidebar";
 import { Logs } from 'expo'
 
-Logs.enableExpoCliLogging()
+if ( __DEV__ ) {
+  const isRemoteDebuggingEnabled = typeof atob !== 'undefined';
+  if (isRemoteDebuggingEnabled) {
+    Logs.disableExpoCliLogging();
+  } else {
+    Logs.enableExpoCliLogging();
+  }
+}
 LogBox.ignoreAllLogs();
 const Main = (props) => {
   const userId = useSelector(state => state);
