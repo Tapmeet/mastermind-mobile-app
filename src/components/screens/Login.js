@@ -134,6 +134,7 @@ const Login = (props) => {
               value={username}
               onChangeText={(text) => setusername(text)}
               placeholderTextColor='#ccc'
+              autoCapitalize='none'
               style={
                 checkUsername
                   ? globalStyle.formControlError

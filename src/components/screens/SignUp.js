@@ -332,6 +332,7 @@ const SignUp = (props) => {
           <Item style={globalStyle.formGroup} floatingLabel>
             <Input
               value={email}
+              autoCapitalize='none'
               onChangeText={(text) => setemail(text)}
               placeholderTextColor='#ccc'
               style={
