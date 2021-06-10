@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, ImageBackground } from "react-native";
 import OtpInputs from "./../Utility/Outinputs";
 import {
   Container,
-  CheckBox,
+  //CheckBox,
   Content,
   Form,
   Item,
