@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
 import {
   Container,
   Content,
@@ -284,7 +284,7 @@ const SignUp = (props) => {
             />
           </View>
         </ImageBackground>
-        <View style={{paddingLeft:30}}>
+        <View style={{ paddingLeft: 30 }}>
           <H3 style={globalStyle.h3}>Sign Up</H3>
         </View>
         <Form style={globalStyle.form} padder>
@@ -407,13 +407,24 @@ const SignUp = (props) => {
             <Text style={globalStyle.error}>Enter Mobile</Text>
           ) : null}
           <View style={loginStyle.radioSection}>
-            <CheckBox
+            {/* <CheckBox
               disabled={false}
               value={terms}
               onChange={setterms}
               
               style={loginStyle.checkbox}
-            />
+            /> */}
+            <TouchableOpacity
+              style={{ borderColor: "#ddd", borderRadius: 5, borderWidth: 2, height: 25, width: 28, marginRight:10 }}
+              value={terms}
+              onPress={setterms}
+            >
+              {terms ? <Image
+                style={{ height: 15, marginRight: 0, marginTop: 2 }}
+                source={require("../../../assets/checkTick.png")}
+                resizeMode={'contain'}
+              /> : null}
+            </TouchableOpacity>
             <Text style={loginStyle.text}>
               I agree to the Terms and Conditions
             </Text>
@@ -429,7 +440,7 @@ const SignUp = (props) => {
 
           <Content style={loginStyle.formContainer}>
             <Button style={loginStyle.button} onPress={submitForm} full>
-            <Text style={loginStyle.buttonText} >Create An Account</Text>
+              <Text style={loginStyle.buttonText} >Create An Account</Text>
             </Button>
           </Content>
         </Form>

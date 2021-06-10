@@ -2,7 +2,7 @@ import React from "react";
 import { View, Image, StyleSheet, ImageBackground, Dimensions } from "react-native";
 import {
   Container,
-  CheckBox,
+  //CheckBox,
   Footer,
   FooterTab,
   Content,
