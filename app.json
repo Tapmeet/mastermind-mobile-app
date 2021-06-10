@@ -20,19 +20,19 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.app.mastermind"
+      "bundleIdentifier": "com.martialartsschool.mastermind"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.app.mastermind"
+      "package": "com.martialartsschool.mastermind"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "sdkVersion": "41.0.0",
-    "description": "Best Karate School in your town"
+    "description": "Best Martial Arts School in Your Town"
   }
 }
