@@ -3,6 +3,7 @@
     "name": "Mastermind",
     "slug": "Mastermind",
     "version": "1.0.0",
+    "buildNumber": 2,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
