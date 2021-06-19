@@ -71,7 +71,7 @@ const Login = (props) => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         if (response["access_token"]) {
           userData({ "id": 1, "access_Token": response["access_token"] })
         }

@@ -254,7 +254,7 @@ export default StyleSheet.create({
         margin: 10,
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
-        overflow: "hidden"
+        // overflow: "hidden"
     },
     tableBoxshadowContract: {
         shadowColor: "#000",
@@ -265,12 +265,12 @@ export default StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 7,
-        marginLeft:25,
-        marginRight:25,
+        marginLeft: 25,
+        marginRight: 25,
         backgroundColor: '#fff',
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
-        overflow: "hidden"
+
     },
     signatureField: {
         shadowColor: "#000",
@@ -284,7 +284,7 @@ export default StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 20,
         height: 180,
-        overflow: "hidden",
+
         marginTop: 10
     },
     dflex: {
@@ -338,16 +338,16 @@ export default StyleSheet.create({
             width: 0,
             height: 5,
         },
-        shadowOpacity:1,
+        shadowOpacity: 1,
         shadowRadius: 3.84,
         elevation: 7,
         backgroundColor: '#fff',
         width: '97%',
-        marginLeft:5,
-        marginRight:5,
-        marginBottom:15,
+        marginLeft: 5,
+        marginRight: 5,
+        marginBottom: 15,
         borderRadius: 15,
-        overflow: "hidden",
+
         display: "flex",
         flexDirection: "row",
         padding: 15,

@@ -70,6 +70,21 @@ const UserProfile = (props) => {
   const [data, setData] = React.useState('');
   const userId = useSelector(state => state);
   const [SuccessMessage, setSuccessMessage] = React.useState('');
+
+
+  const clearData = () => {
+    setFirstName('');
+    setCheckFirstname(false)
+    setLastName('');
+    setEmail('');
+    setErrorMessage('');
+    setSchoolName();
+    setStudentNumber();
+    setRank();
+    setAcademicSchool()
+    //getdata()
+    setSuccessMessage('')
+  }
   const setschoolName = (event) => {
     setSchoolName(event);
   };
@@ -225,6 +240,7 @@ const UserProfile = (props) => {
     }
 
     const apiUrl = API_URL.trim();
+    //console.log(state)
     fetch(`${apiUrl}/odata/StudentData(${studentIds[0]})`, {
       method: "patch",
       headers: {
@@ -248,7 +264,12 @@ const UserProfile = (props) => {
         "Occupation": Occupation,
         "MedicalInfo": MedicalInfo,
         "BeltSizeId": BeltSize,
-        "UniformSizeId": UniformSize
+        "UniformSizeId": UniformSize,
+        "AcademicSchool": AcademicSchool,
+        "City": city,
+        "State": state,
+        "PostalCode": zipCode,
+
       }),
     })
       .then((response) => {
@@ -267,7 +288,10 @@ const UserProfile = (props) => {
       });
   };
   React.useEffect(() => {
+    
     navigation.addListener('focus', () => {
+      setloader(true)
+      clearData()
       const apiUrl = API_URL.trim();
       if (data == '') {
         fetch(`${apiUrl}/odata/StudentAccount`, {
@@ -303,7 +327,7 @@ const UserProfile = (props) => {
           })
             .then(response => response.json())
             .then(data => {
-              // console.log(data)
+             // console.log(data)
               setFirstName(data.FirstName)
               setLastName(data.LastName)
               setEmail(data.Email)
@@ -328,7 +352,7 @@ const UserProfile = (props) => {
               //console.log(dob);
               stateList.map((statedata, index) => {
                 if (statedata[1] == data.State) {
-                  setState(statedata[0])
+                  setState(statedata[1])
                 }
               })
               setloader(false)
@@ -516,16 +540,16 @@ const UserProfile = (props) => {
                         />
                       </Item>
                     </View>
-                    <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                    <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Academic School</Text>
                       <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0, borderWidth: 0, elevation: 0 }]} floatingLabel>
                         <Input
                           value={AcademicSchool}
-                          // onChangeText={(text) => setemail(text)}
+                          onChangeText={(text) => setAcademicSchool(text)}
                           style={
-                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                            [globalStyle.formControls, { color: "#999" }]
                           }
-                          editable={false}
+                          //editable={false}
                           placeholder="Academic School"
                           placeholderTextColor="#000"
                         />
@@ -593,14 +617,14 @@ const UserProfile = (props) => {
                         </View>
                       </View>
                     </View>
-                    <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                    <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Employer</Text>
                       <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={Employer}
                           onChangeText={(text) => setEmployer(text)}
                           style={
-                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                            [globalStyle.formControls, { color: "#999" }]
                           }
                           placeholder="Employer"
                           placeholderTextColor="#ddd"
@@ -671,17 +695,17 @@ const UserProfile = (props) => {
                         />
                       </Item>
                     </View>
-                    <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                    <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>City</Text>
                       <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={city}
                           onChangeText={(text) => setcity(text)}
                           style={
-                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                            [globalStyle.formControls, { color: "#999" }]
                           }
                           placeholder="City "
-                          editable={false}
+                        //editable={false}
                         />
                       </Item>
                     </View>
@@ -689,31 +713,47 @@ const UserProfile = (props) => {
                       <Text style={globalStyle.error}>Enter City</Text>
                     ) : null}
                     {state != '' ? (
-                      <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                      <View style={[globalStyle.formField]}>
                         <Text style={globalStyle.formLabel}>State</Text>
-                        <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <View style={globalStyle.formControls}>
+                          {/* <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                           <Input
                             value={state}
                             //onChangeText={(text) => setzipCode(text)}
-                            editable={false}
+                           // editable={false}
                             style={
-                              [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                              [globalStyle.formControls, { color: "#999" }]
                             }
                             placeholder="State"
                           />
-                        </Item>
+                        </Item> */}
+                          <Picker
+                            selectedValue={state}
+                            style={{ height: 50, width: '100%', fontSize: 24 }}
+                            onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
+                          >
+                            <Picker.Item label="State" value="" />
+                            {stateList.map((data, index) => {
+                              //console.log(state)
+                              return (
+                                <Picker.Item key={index} label={data[0]} value={data[1]} />)
+                            }
+                            )
+                            }
+                          </Picker>
+                        </View>
                       </View>
                     )
                       : null}
-                    <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                    <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Postal Code</Text>
                       <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={zipCode}
                           onChangeText={(text) => setzipCode(text)}
-                          editable={false}
+                          //editable={false}
                           style={
-                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                            [globalStyle.formControls, { color: "#999" }]
                           }
                           placeholder="Postal Code"
                         />

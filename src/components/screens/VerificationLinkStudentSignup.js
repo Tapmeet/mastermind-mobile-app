@@ -92,9 +92,9 @@ const VerificationLinkStudentSignup = (props) => {
               source={require("../../../assets/Envelop.png")}
             />
           </Body>
-          <Body style={verificationStyle.spaceBetween}>
+          <View style={verificationStyle.spaceBetween}>
             <OtpInputs getOtp={(otp) => getOtp(otp)} />
-          </Body>
+          </View>
           <Content style={loginStyle.formContainer}>
             <Button onPress={submitForm} style={loginStyle.button} full>
               <Text>Send</Text>

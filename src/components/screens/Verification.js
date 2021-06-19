@@ -101,9 +101,9 @@ const VerificationCode = (props) => {
               your verification code
           </Text>
           </Body>
-          <Body style={verificationStyle.spaceBetween}>
+          <View style={verificationStyle.spaceBetween}>
             <OtpInputs getOtp={(otp) => getOtp(otp)} />
-          </Body>
+          </View>
 
           <Content style={[loginStyle.formContainer, { paddingRight: 15, paddingLeft: 15 }]}>
             <ImageBackground

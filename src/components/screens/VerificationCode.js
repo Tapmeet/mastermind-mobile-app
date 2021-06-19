@@ -86,9 +86,9 @@ const VerificationCode = (props) => {
               source={require("../../../assets/Envelop.png")}
             /> */}
           </Body>
-          <Body style={[verificationStyle.spaceBetween,{ paddingLeft: 30, paddingRight:30}]}>
+          <View style={[verificationStyle.spaceBetween,{ paddingLeft: 30, paddingRight:30}]}>
             <OtpInputs getOtp={(otp) => getOtp(otp)} />
-          </Body>
+          </View>
           <Content style={[loginStyle.formContainer,{ paddingLeft: 30, paddingRight:30}]}>
             <Button onPress={submitForm} style={loginStyle.button} full>
               <Text>Send</Text>

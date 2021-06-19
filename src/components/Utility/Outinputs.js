@@ -16,7 +16,7 @@ class OtpInputs extends React.Component {
     const inputs = Array(6).fill(0);
     const txt = inputs.map((i, j) => (
       <Col key={j} style={styles.txtMargin}>
-        <Item  style={styles.gridPad} regular>
+        <Item style={styles.gridPad} regular>
           <Input
             style={verificationStyle.formControl}
             onChangeText={(v) => this.focusNext(j, v)}
@@ -49,7 +49,7 @@ class OtpInputs extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={{ display: "flex", width: "100%", position:"relative", zIndex: 9999 }}>
         <Grid style={styles.gridPad}>{this.renderInputs()}</Grid>
       </View>
     );

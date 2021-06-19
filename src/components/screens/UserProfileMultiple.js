@@ -247,12 +247,16 @@ const UserProfileMultiple = (props) => {
         "Occupation": Occupation,
         "MedicalInfo": MedicalInfo,
         "BeltSizeId": BeltSize,
-        "UniformSizeId": UniformSize
+        "UniformSizeId": UniformSize,
+        "AcademicSchool": AcademicSchool,
+        "City": city,
+        "State": state,
+        "PostalCode": zipCode,
       }),
     })
       .then((response) => {
         let jsonData = JSON.stringify(response);
-       // console.log(jsonData)
+        // console.log(jsonData)
         let jsonDataPrase = JSON.parse(jsonData);
         //console.log(jsonDataPrase.status)
         if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
@@ -265,10 +269,22 @@ const UserProfileMultiple = (props) => {
         setErrorMessage("An error has occurred.");
       });
   };
+  const clearData = () => {
+    setFirstName('');
+    setCheckFirstname(false)
+    setLastName('');
+    setEmail('');
+    setErrorMessage('');
+    setSchoolName();
+    setStudentNumber();
+    setRank();
+    setAcademicSchool()
+    //getdata()
+    setSuccessMessage('')
+  }
   React.useEffect(() => {
+    clearData();
     const apiUrl = API_URL.trim();
-    console.log("heress");
-    console.log(props.route.params.profileId);
     if (data == '') {
       getdata(props.route.params.profileId)
       function getdata(id) {
@@ -484,16 +500,16 @@ const UserProfileMultiple = (props) => {
                   />
                 </Item>
               </View>
-              <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+              <View style={[globalStyle.formField]}>
                 <Text style={globalStyle.formLabel}>Academic School</Text>
                 <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0, borderWidth: 0, elevation: 0 }]} floatingLabel>
                   <Input
                     value={AcademicSchool}
-                    // onChangeText={(text) => setemail(text)}
+                   onChangeText={(text) => setAcademicSchool(text)}
                     style={
-                      [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                      [globalStyle.formControls, { color: "#999" }]
                     }
-                    editable={false}
+                    //editable={false}
                     placeholder="Academic School"
                     placeholderTextColor="#000"
                   />
@@ -561,14 +577,14 @@ const UserProfileMultiple = (props) => {
                   </View>
                 </View>
               </View>
-              <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+              <View style={[globalStyle.formField]}>
                 <Text style={globalStyle.formLabel}>Employer</Text>
                 <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                   <Input
                     value={Employer}
                     onChangeText={(text) => setEmployer(text)}
                     style={
-                      [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                      [globalStyle.formControls, { color: "#999" }]
                     }
                     placeholder="Employer"
                     placeholderTextColor="#ddd"
@@ -639,17 +655,17 @@ const UserProfileMultiple = (props) => {
                   />
                 </Item>
               </View>
-              <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+              <View style={[globalStyle.formField]}>
                 <Text style={globalStyle.formLabel}>City</Text>
                 <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                   <Input
                     value={city}
                     onChangeText={(text) => setcity(text)}
                     style={
-                      [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                      [globalStyle.formControls, { color: "#999" }]
                     }
                     placeholder="City "
-                    editable={false}
+                  // editable={false}
                   />
                 </Item>
               </View>
@@ -657,19 +673,35 @@ const UserProfileMultiple = (props) => {
                 <Text style={globalStyle.error}>Enter City</Text>
               ) : null}
               {state != '' ? (
-                <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                <View style={[globalStyle.formField]}>
                   <Text style={globalStyle.formLabel}>State</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                    <Input
-                      value={state}
-                      //onChangeText={(text) => setzipCode(text)}
-                      editable={false}
-                      style={
-                        [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                  <View style={globalStyle.formControls}>
+                    {/* <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                   <Input
+                     value={state}
+                     //onChangeText={(text) => setzipCode(text)}
+                    // editable={false}
+                     style={
+                       [globalStyle.formControls, { color: "#999" }]
+                     }
+                     placeholder="State"
+                   />
+                 </Item> */}
+                    <Picker
+                      selectedValue={state}
+                      style={{ height: 50, width: '100%', fontSize: 24 }}
+                      onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
+                    >
+                      <Picker.Item label="State" value="" />
+                      {stateList.map((data, index) => {
+                        //console.log(state)
+                        return (
+                          <Picker.Item key={index} label={data[0]} value={data[1]} />)
                       }
-                      placeholder="State"
-                    />
-                  </Item>
+                      )
+                      }
+                    </Picker>
+                  </View>
                 </View>
               )
                 : null}
