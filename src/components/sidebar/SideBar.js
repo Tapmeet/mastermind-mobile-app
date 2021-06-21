@@ -16,19 +16,72 @@ const routes = [
   "Payment Methods"
 
 ];
+import { API_URL } from "./../Utility/AppConst";
 import sideBar from "../../style/home/sidebarStyle";
 import { color } from "react-native-reanimated";
 import { useSelector, useDispatch } from 'react-redux'
 import LOGGED_OUT_USER from "./../../redux/User"
-
-
 const SideBar = (props) => {
   const dispatch = useDispatch()
   const userData = userInfo => dispatch({ type: "LOGGED_OUT_USER", payload: userInfo });
   const userId = useSelector(state => state);
+  const [data, setData] = React.useState('');
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [loader, setloader] = React.useState(true);
+  const [studentIds, setStudentIds] = React.useState([]);
+  const [PhotoPath, setPhotoPath] = React.useState('');
   const logout = () => {
     userData(userId[0].id)
   }
+  React.useEffect(() => {
+    const apiUrl = API_URL.trim();
+    if (data == '') {
+      fetch(`${apiUrl}/odata/StudentAccount`, {
+        method: "get",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ' + userId[0].access_Token
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          if (data.StudentIds.length > 0) {
+            setStudentIds(data.StudentIds)
+            //console.log("where")
+            getdata(data.StudentIds[0])
+          }
+          else {
+            //  console.log("hhere")
+            setloader(false)
+          }
+
+        });
+      function getdata(id) {
+        fetch(`${apiUrl}/odata/StudentData(${id})`, {
+          method: "get",
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + userId[0].access_Token
+          },
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data)
+            setFirstName(data.FirstName)
+            setLastName(data.LastName)
+            setPhotoPath(data.PhotoPath)
+            setloader(false)
+          });
+      }
+
+    }
+
+  }, [data]);
+
   return (
     <ScrollView>
       <ImageBackground
@@ -37,13 +90,19 @@ const SideBar = (props) => {
         resizeMode={'stretch'}
       >
         <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-          <Thumbnail
+          {PhotoPath ? <Thumbnail
             source={{
-              uri:
-                "https://pickaface.net/gallery/avatar/20121015_175346_216_karatekid.png",
+              uri: "data:image/png;base64," + PhotoPath,
             }}
-          />
-          <Text style={[sideBar.name, { color: "#333", marginLeft: 15, fontWeight: "bold" }]}>Michael Jordan</Text>
+          /> :
+            <Thumbnail
+              source={{
+                uri:
+                  "https://pickaface.net/gallery/avatar/20121015_175346_216_karatekid.png",
+              }}
+            />
+          }
+          <Text style={[sideBar.name, { color: "#333", marginLeft: 15, fontWeight: "bold" }]}>{firstName ? firstName + ' ' + lastName : 'Michael Jordan'}</Text>
         </View>
         <Container style={{ backgroundColor: "transparent", marginTop: 60 }}>
           <List
@@ -62,7 +121,7 @@ const SideBar = (props) => {
             }}
           />
           <TouchableOpacity
-            style={{ backgroundColor: "transparent", paddingLeft:20, marginTop: -10, position:"relative", marginBottom:40, zIndex:99999 }}
+            style={{ backgroundColor: "transparent", paddingLeft: 20, marginTop: -10, position: "relative", marginBottom: 40, zIndex: 99999 }}
             button
             onPress={logout}
           >

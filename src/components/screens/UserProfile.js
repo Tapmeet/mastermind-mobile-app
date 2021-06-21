@@ -79,9 +79,17 @@ const UserProfile = (props) => {
     setEmail('');
     setErrorMessage('');
     setSchoolName();
-    setStudentNumber();
+    setStudentNumber('');
     setRank();
-    setAcademicSchool()
+    setAcademicSchool('')
+    setState('');
+    setCity('');
+    setEmployer('');
+    setZipCode('')
+    setAddress1('');
+    setAddress2('');
+    setPhone1('');
+    setPhone2('')
     //getdata()
     setSuccessMessage('')
   }
@@ -327,7 +335,7 @@ const UserProfile = (props) => {
           })
             .then(response => response.json())
             .then(data => {
-             // console.log(data)
+             console.log(data)
               setFirstName(data.FirstName)
               setLastName(data.LastName)
               setEmail(data.Email)
