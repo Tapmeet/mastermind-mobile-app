@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityInd
 import { API_URL } from "./../Utility/AppConst";
 import Collapsible from 'react-native-collapsible';
 import DatePicker from 'react-native-datepicker';
-import SelectBox from 'react-native-multi-selectbox'
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import {
   Container,
   Content,
@@ -15,7 +15,7 @@ import {
   Text,
   Body,
   H2,
-
+  Icon,
 } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
@@ -24,9 +24,7 @@ import { useSelector } from 'react-redux'
 import { SideBarMenu } from "../sidebar";
 import { Picker } from '@react-native-picker/picker';
 import { set } from "react-native-reanimated";
-
 import moment from 'moment';
-import { color } from "react-native-elements/dist/helpers";
 const UserProfile = (props) => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(null);
@@ -55,7 +53,6 @@ const UserProfile = (props) => {
   const [address2, setAddress2] = React.useState("");
   const [UniformSizeList, setUniformSizeList] = React.useState([]);
   const [UniformSize, setUniformSize] = React.useState("");
-  const [UniformSizeItem, setUniformSizeItem] = React.useState("");
   const [city, setCity] = React.useState("");
   const [state, setState] = React.useState(" ");
   const [zipCode, setZipCode] = React.useState("");
@@ -158,56 +155,56 @@ const UserProfile = (props) => {
     setCollapsed(true);
   };
   const stateList = [
-    ['Arizona', 'AZ'],
-    ['Alabama', 'AL'],
-    ['Alaska', 'AK'],
-    ['Arkansas', 'AR'],
-    ['California', 'CA'],
-    ['Colorado', 'CO'],
-    ['Connecticut', 'CT'],
-    ['Delaware', 'DE'],
-    ['Florida', 'FL'],
-    ['Georgia', 'GA'],
-    ['Hawaii', 'HI'],
-    ['Idaho', 'ID'],
-    ['Illinois', 'IL'],
-    ['Indiana', 'IN'],
-    ['Iowa', 'IA'],
-    ['Kansas', 'KS'],
-    ['Kentucky', 'KY'],
-    ['Louisiana', 'LA'],
-    ['Maine', 'ME'],
-    ['Maryland', 'MD'],
-    ['Massachusetts', 'MA'],
-    ['Michigan', 'MI'],
-    ['Minnesota', 'MN'],
-    ['Mississippi', 'MS'],
-    ['Missouri', 'MO'],
-    ['Montana', 'MT'],
-    ['Nebraska', 'NE'],
-    ['Nevada', 'NV'],
-    ['New Hampshire', 'NH'],
-    ['New Jersey', 'NJ'],
-    ['New Mexico', 'NM'],
-    ['New York', 'NY'],
-    ['North Carolina', 'NC'],
-    ['North Dakota', 'ND'],
-    ['Ohio', 'OH'],
-    ['Oklahoma', 'OK'],
-    ['Oregon', 'OR'],
-    ['Pennsylvania', 'PA'],
-    ['Rhode Island', 'RI'],
-    ['South Carolina', 'SC'],
-    ['South Dakota', 'SD'],
-    ['Tennessee', 'TN'],
-    ['Texas', 'TX'],
-    ['Utah', 'UT'],
-    ['Vermont', 'VT'],
-    ['Virginia', 'VA'],
-    ['Washington', 'WA'],
-    ['West Virginia', 'WV'],
-    ['Wisconsin', 'WI'],
-    ['Wyoming', 'WY'],
+    { label: 'Arizona', value: 'AZ' },
+    { label: 'Alabama', value: 'AL' },
+    { label: 'Alaska', value: 'AK' },
+    { label: 'Arkansas', value: 'AR' },
+    { label: 'California', value: 'CA' },
+    { label: 'Colorado', value: 'CO' },
+    { label: 'Connecticut', value: 'CT' },
+    { label: 'Delaware', value: 'DE' },
+    { label: 'Florida', value: 'FL' },
+    { label: 'Georgia', value: 'GA' },
+    { label: 'Hawaii', value: 'HI' },
+    { label: 'Idaho', value: 'ID' },
+    { label: 'Illinois', value: 'IL' },
+    { label: 'Indiana', value: 'IN' },
+    { label: 'Iowa', value: 'IA' },
+    { label: 'Kansas', value: 'KS' },
+    { label: 'Kentucky', value: 'KY' },
+    { label: 'Louisiana', value: 'LA' },
+    { label: 'Maine', value: 'ME' },
+    { label: 'Maryland', value: 'MD' },
+    { label: 'Massachusetts', value: 'MA' },
+    { label: 'Michigan', value: 'MI' },
+    { label: 'Minnesota', value: 'MN' },
+    { label: 'Mississippi', value: 'MS' },
+    { label: 'Missouri', value: 'MO' },
+    { label: 'Montana', value: 'MT' },
+    { label: 'Nebraska', value: 'NE' },
+    { label: 'Nevada', value: 'NV' },
+    { label: 'New Hampshire', value: 'NH' },
+    { label: 'New Jersey', value: 'NJ' },
+    { label: 'New Mexico', value: 'NM' },
+    { label: 'New York', value: 'NY' },
+    { label: 'North Carolina', value: 'NC' },
+    { label: 'North Dakota', value: 'ND' },
+    { label: 'Ohio', value: 'OH' },
+    { label: 'Oklahoma', value: 'OK' },
+    { label: 'Oregon', value: 'OR' },
+    { label: 'Pennsylvania', value: 'PA' },
+    { label: 'Rhode Island', value: 'RI' },
+    { label: 'South Carolina', value: 'SC' },
+    { label: 'South Dakota', value: 'SD' },
+    { label: 'Tennessee', value: 'TN' },
+    { label: 'Texas', value: 'TX' },
+    { label: 'Utah', value: 'UT' },
+    { label: 'Vermont', value: 'VT' },
+    { label: 'Virginia', value: 'VA' },
+    { label: 'Washington', value: 'WA' },
+    { label: 'West Virginia', value: 'WV' },
+    { label: 'Wisconsin', value: 'WI' },
+    { label: 'Wyoming', value: 'WY' },
   ]
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
@@ -255,7 +252,8 @@ const UserProfile = (props) => {
     }
 
     const apiUrl = API_URL.trim();
-    //console.log(state)
+    console.log('heree')
+    console.log(state)
     fetch(`${apiUrl}/odata/StudentData(${studentIds[0]})`, {
       method: "patch",
       headers: {
@@ -342,7 +340,7 @@ const UserProfile = (props) => {
           })
             .then(response => response.json())
             .then(data => {
-              //console.log(data)
+              console.log(data)
               setFirstName(data.FirstName)
               setLastName(data.LastName)
               setEmail(data.Email)
@@ -364,12 +362,13 @@ const UserProfile = (props) => {
               setEmergencyContact(data.EmergencyContact)
               let dob = new Date(data.DOB).toISOString().slice(0, 10);
               setDOB(dob)
-              console.log(data.UniformSizeId);
-              stateList.map((statedata, index) => {
-                if (statedata[1] == data.State) {
-                  setState(statedata[1])
-                }
-              })
+              setState(data.State)
+              //console.log(dob);
+              // stateList.map((statedata, index) => {
+              //   if (statedata[1] == data.State) {
+              //     setState(statedata[1])
+              //   }
+              // })
               setloader(false)
             });
         }
@@ -388,13 +387,8 @@ const UserProfile = (props) => {
             setUniformSizeList(data.value)
             let uniforms = []
             data.value.map((uniform) => {
-              if (UniformSize == uniform.UniformSizeId) {
-                setUniformSizeItem({ item: uniform.Name, id: uniform.UniformSizeId })
-              }
-              uniforms.push({ item: uniform.Name, id: uniform.UniformSizeId });
+              uniforms.push({ label: uniform.Name, value: uniform.UniformSizeId });
             })
-            // console.log("herere")
-            // console.log(uniforms)
             setItems(uniforms);
           });
         fetch(`${apiUrl}/odata/BeltSize`, {
@@ -407,15 +401,18 @@ const UserProfile = (props) => {
         })
           .then(response => response.json())
           .then(data => {
-            //console.log(data.value)
-            setBeltSizeList(data.value)
+            // console.log(data.value)
+            // setBeltSizeList(data.value)
+            let belts = []
+            data.value.map((belt) => {
+              belts.push({ label: belt.Name, value: belt.BeltSizeId });
+            })
+            setBeltSizeList(belts);
           });
       }
     })
   }, [data]);
-  function onChange() {
-    return (val) => {setUniformSize(val.id); setUniformSizeItem(val)}
-  }
+
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
@@ -616,31 +613,26 @@ const UserProfile = (props) => {
                     <View style={{
                       marginTop: 30,
                     }}>
-                      <View style={[globalStyle.formField, { position: "relative", zIndex: 999999 }]}>
+                      <View style={[globalStyle.formField]}>
                         <Text style={globalStyle.formLabel}>Uniform Size</Text>
-                        <View style={[globalStyle.formControls]}>
-                          {/* <DropDownPicker
-                            open={open}
-                            multiple={false}
-                            value={value}
+                        <View style={[globalStyle.formControls, { position: "relative", zIndex: 999 }]}>
+                          <RNPickerSelect
+                            value={UniformSize}
                             items={items}
-                            setOpen={setOpen}
-                            setValue={setValue}
-                            setItems={UniformSizeList}
-                            disableBorderRadius={true}
-                            zIndex={999999}
-                            style={{borderColor:"#fff"}}
-                          /> */}
-                          {items.length > 0 ?
-                            <SelectBox
-                              containerStyle={{ borderColor: "#fff" }}
-                              labelStyle={{ color: '#fff' }}
-                              options={items}
-                              value={UniformSizeItem}
-                              onChange={onChange()}
-                              hideInputFilter={true}
-                            />
-                            : null}
+                            onValueChange={(value) => setUniformSize(value)}
+                            style={{
+                              ...pickerSelectStyles,
+                              iconContainer: {
+                                top: 20,
+                                right: 10,
+                              },
+                              placeholder: {
+                                color: 'purple',
+                                fontSize: 12,
+                                fontWeight: 'bold',
+                              },
+                            }}
+                          />
                           {/* <Picker
                             selectedValue={UniformSize}
                             style={{ height: 50, width: '100%' }}
@@ -657,13 +649,30 @@ const UserProfile = (props) => {
                       <View style={[globalStyle.formField]}>
                         <Text style={globalStyle.formLabel}>Belt Size</Text>
                         <View style={globalStyle.formControls}>
-                          <Picker
+                          {/* <Picker
                             selectedValue={BeltSize}
                             style={{ height: 50, width: '100%' }}
                             onValueChange={(itemValue, itemIndex) => setBeltSize(itemValue)}
                           >
                             {BeltSizeList.map((data) => <Picker.Item key={data.label + data.value} label={data.Name} value={data.UniformSizeId} />)}
-                          </Picker>
+                          </Picker> */}
+                          <RNPickerSelect
+                            value={BeltSize}
+                            items={BeltSizeList}
+                            onValueChange={(value) => setBeltSize(value)}
+                            style={{
+                              ...pickerSelectStyles,
+                              iconContainer: {
+                                top: 20,
+                                right: 10,
+                              },
+                              placeholder: {
+                                color: 'purple',
+                                fontSize: 12,
+                                fontWeight: 'bold',
+                              },
+                            }}
+                          />
                         </View>
                       </View>
                     </View>
@@ -762,7 +771,10 @@ const UserProfile = (props) => {
                     {checkCity ? (
                       <Text style={globalStyle.error}>Enter City</Text>
                     ) : null}
-                    {state != '' ? (
+
+                    <View style={{
+                      marginTop: 30,
+                    }}>
                       <View style={[globalStyle.formField]}>
                         <Text style={globalStyle.formLabel}>State</Text>
                         <View style={globalStyle.formControls}>
@@ -777,7 +789,7 @@ const UserProfile = (props) => {
                             placeholder="State"
                           />
                         </Item> */}
-                          <Picker
+                          {/* <Picker
                             selectedValue={state}
                             style={{ height: 50, width: '100%', fontSize: 24 }}
                             onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
@@ -790,11 +802,27 @@ const UserProfile = (props) => {
                             }
                             )
                             }
-                          </Picker>
+                          </Picker> */}
+                          <RNPickerSelect
+                            value={state}
+                            items={stateList}
+                            onValueChange={(value) => setState(value)}
+                            style={{
+                              ...pickerSelectStyles,
+                              iconContainer: {
+                                top: 20,
+                                right: 10,
+                              },
+                              placeholder: {
+                                color: 'purple',
+                                fontSize: 12,
+                                fontWeight: 'bold',
+                              },
+                            }}
+                          />
                         </View>
                       </View>
-                    )
-                      : null}
+                    </View>
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Postal Code</Text>
                       <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
@@ -929,3 +957,25 @@ const styles = StyleSheet.create({
   },
 });
 export default UserProfile;
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});
