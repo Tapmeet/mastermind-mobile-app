@@ -3,6 +3,7 @@ import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityInd
 import { API_URL } from "./../Utility/AppConst";
 import Collapsible from 'react-native-collapsible';
 import DatePicker from 'react-native-datepicker';
+import SelectBox from 'react-native-multi-selectbox'
 import {
   Container,
   Content,
@@ -14,7 +15,7 @@ import {
   Text,
   Body,
   H2,
-  Icon,
+
 } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
@@ -23,8 +24,13 @@ import { useSelector } from 'react-redux'
 import { SideBarMenu } from "../sidebar";
 import { Picker } from '@react-native-picker/picker';
 import { set } from "react-native-reanimated";
+
 import moment from 'moment';
+import { color } from "react-native-elements/dist/helpers";
 const UserProfile = (props) => {
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState(null);
+  const [items, setItems] = React.useState([]);
   const [loader, setloader] = React.useState(true);
   const [studentIds, setStudentIds] = React.useState([]);
   const [firstName, setFirstName] = React.useState("");
@@ -49,6 +55,7 @@ const UserProfile = (props) => {
   const [address2, setAddress2] = React.useState("");
   const [UniformSizeList, setUniformSizeList] = React.useState([]);
   const [UniformSize, setUniformSize] = React.useState("");
+  const [UniformSizeItem, setUniformSizeItem] = React.useState("");
   const [city, setCity] = React.useState("");
   const [state, setState] = React.useState(" ");
   const [zipCode, setZipCode] = React.useState("");
@@ -296,7 +303,7 @@ const UserProfile = (props) => {
       });
   };
   React.useEffect(() => {
-    
+
     navigation.addListener('focus', () => {
       setloader(true)
       clearData()
@@ -312,7 +319,7 @@ const UserProfile = (props) => {
         })
           .then(response => response.json())
           .then(data => {
-            console.log(data)
+            //console.log(data)
             if (data.StudentIds.length > 0) {
               setStudentIds(data.StudentIds)
               //console.log("where")
@@ -335,7 +342,7 @@ const UserProfile = (props) => {
           })
             .then(response => response.json())
             .then(data => {
-             console.log(data)
+              //console.log(data)
               setFirstName(data.FirstName)
               setLastName(data.LastName)
               setEmail(data.Email)
@@ -357,7 +364,7 @@ const UserProfile = (props) => {
               setEmergencyContact(data.EmergencyContact)
               let dob = new Date(data.DOB).toISOString().slice(0, 10);
               setDOB(dob)
-              //console.log(dob);
+              console.log(data.UniformSizeId);
               stateList.map((statedata, index) => {
                 if (statedata[1] == data.State) {
                   setState(statedata[1])
@@ -376,8 +383,19 @@ const UserProfile = (props) => {
         })
           .then(response => response.json())
           .then(data => {
-            //console.log(data.value)
+            // console.log("herere")
+            // console.log(data)
             setUniformSizeList(data.value)
+            let uniforms = []
+            data.value.map((uniform) => {
+              if (UniformSize == uniform.UniformSizeId) {
+                setUniformSizeItem({ item: uniform.Name, id: uniform.UniformSizeId })
+              }
+              uniforms.push({ item: uniform.Name, id: uniform.UniformSizeId });
+            })
+            // console.log("herere")
+            // console.log(uniforms)
+            setItems(uniforms);
           });
         fetch(`${apiUrl}/odata/BeltSize`, {
           method: "get",
@@ -395,7 +413,9 @@ const UserProfile = (props) => {
       }
     })
   }, [data]);
-
+  function onChange() {
+    return (val) => {setUniformSize(val.id); setUniformSizeItem(val)}
+  }
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
@@ -596,16 +616,38 @@ const UserProfile = (props) => {
                     <View style={{
                       marginTop: 30,
                     }}>
-                      <View style={[globalStyle.formField]}>
+                      <View style={[globalStyle.formField, { position: "relative", zIndex: 999999 }]}>
                         <Text style={globalStyle.formLabel}>Uniform Size</Text>
-                        <View style={globalStyle.formControls}>
-                          <Picker
+                        <View style={[globalStyle.formControls]}>
+                          {/* <DropDownPicker
+                            open={open}
+                            multiple={false}
+                            value={value}
+                            items={items}
+                            setOpen={setOpen}
+                            setValue={setValue}
+                            setItems={UniformSizeList}
+                            disableBorderRadius={true}
+                            zIndex={999999}
+                            style={{borderColor:"#fff"}}
+                          /> */}
+                          {items.length > 0 ?
+                            <SelectBox
+                              containerStyle={{ borderColor: "#fff" }}
+                              labelStyle={{ color: '#fff' }}
+                              options={items}
+                              value={UniformSizeItem}
+                              onChange={onChange()}
+                              hideInputFilter={true}
+                            />
+                            : null}
+                          {/* <Picker
                             selectedValue={UniformSize}
                             style={{ height: 50, width: '100%' }}
                             onValueChange={(itemValue, itemIndex) => setUniformSize(itemValue)}
                           >
                             {UniformSizeList.map((data) => <Picker.Item key={data.label + data.value} label={data.Name} value={data.UniformSizeId} />)}
-                          </Picker>
+                          </Picker> */}
                         </View>
                       </View>
                     </View>

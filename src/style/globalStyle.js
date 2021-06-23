@@ -159,6 +159,7 @@ export default StyleSheet.create({
     alignSelf: "flex-start",
     fontWeight: "bold",
     textTransform: "uppercase",
+    
   },
   barStylings: {
     backgroundColor: "transparent",

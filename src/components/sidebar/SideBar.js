@@ -47,7 +47,7 @@ const SideBar = (props) => {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data)
+         // console.log(data)
           if (data.StudentIds.length > 0) {
             setStudentIds(data.StudentIds)
             //console.log("where")
@@ -70,7 +70,7 @@ const SideBar = (props) => {
         })
           .then(response => response.json())
           .then(data => {
-            console.log(data)
+            //console.log(data)
             setFirstName(data.FirstName)
             setLastName(data.LastName)
             setPhotoPath(data.PhotoPath)
