@@ -252,7 +252,6 @@ const UserProfile = (props) => {
     }
 
     const apiUrl = API_URL.trim();
-    console.log('heree')
     console.log(state)
     fetch(`${apiUrl}/odata/StudentData(${studentIds[0]})`, {
       method: "patch",
@@ -959,23 +958,23 @@ const styles = StyleSheet.create({
 export default UserProfile;
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    fontSize: 16,
+    fontSize: 18,
     paddingVertical: 20,
     paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 4,
-    color: 'black',
+    borderWidth: 0,
+    borderColor: '#fff',
+    borderRadius: 0,
+    color: '#8a898e',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
-    fontSize: 16,
+    fontSize: 18,
     paddingHorizontal: 10,
     paddingVertical: 20,
-    borderWidth: 0.5,
-    borderColor: 'purple',
-    borderRadius: 8,
-    color: 'black',
+    borderWidth: 0,
+    borderColor: '#fff',
+    borderRadius: 0,
+    color: '#8a898e',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });

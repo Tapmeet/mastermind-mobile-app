@@ -47,7 +47,7 @@ const SideBar = (props) => {
       })
         .then(response => response.json())
         .then(data => {
-         // console.log(data)
+          // console.log(data)
           if (data.StudentIds.length > 0) {
             setStudentIds(data.StudentIds)
             //console.log("where")
@@ -106,22 +106,25 @@ const SideBar = (props) => {
         </View>
         <Container style={{ backgroundColor: "transparent", marginTop: 60 }}>
           <List
-            dataArray={routes}
+            // dataArray={routes}
             style={{ backgroundColor: "transparent" }}
-            renderRow={(data) => {
+          >
+            {routes.map((item, index) => {
               return (
                 <ListItem
+                  key={index}
                   style={{ backgroundColor: "transparent" }}
                   button
-                  onPress={() => props.navigation.navigate(data)}
+                  onPress={() => props.navigation.navigate(item)}
                 >
-                  <Text style={{ color: '#fff', fontWeight: "bold" }}>{data}</Text>
+                  <Text style={{ color: '#fff', fontWeight: "bold" }}>{item}</Text>
                 </ListItem>
               );
-            }}
-          />
+            })
+            }
+          </List>
           <TouchableOpacity
-            style={{ backgroundColor: "transparent", paddingLeft: 20, marginTop: -10, position: "relative", marginBottom: 40, zIndex: 99999 }}
+            style={{ backgroundColor: "transparent", paddingLeft: 20, marginTop: 10, position: "relative", marginBottom: 0, zIndex: 99999 }}
             button
             onPress={logout}
           >

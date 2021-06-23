@@ -864,3 +864,25 @@ const UserProfileMultiple = (props) => {
   );
 };
 export default UserProfileMultiple;
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 18,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderWidth: 0,
+    borderColor: '#fff',
+    borderRadius: 0,
+    color: '#8a898e',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 18,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    borderWidth: 0,
+    borderColor: '#fff',
+    borderRadius: 0,
+    color: '#8a898e',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});
