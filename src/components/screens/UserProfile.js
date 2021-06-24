@@ -631,6 +631,13 @@ const UserProfile = (props) => {
                                 fontWeight: 'bold',
                               },
                             }}
+                            Icon={() => {
+                              return <Image
+                                style={{ width: 12, position: "absolute", top: -15, right: 15 }}
+                                source={require("../../../assets/arrow-down.png")}
+                                resizeMode={'contain'}
+                              />;
+                            }}
                           />
                           {/* <Picker
                             selectedValue={UniformSize}
@@ -670,6 +677,13 @@ const UserProfile = (props) => {
                                 fontSize: 12,
                                 fontWeight: 'bold',
                               },
+                            }}
+                            Icon={() => {
+                              return <Image
+                                style={{ width: 12, position: "absolute", top: -15, right: 15 }}
+                                source={require("../../../assets/arrow-down.png")}
+                                resizeMode={'contain'}
+                              />;
                             }}
                           />
                         </View>
@@ -817,6 +831,13 @@ const UserProfile = (props) => {
                                 fontSize: 12,
                                 fontWeight: 'bold',
                               },
+                            }}
+                            Icon={() => {
+                              return <Image
+                                style={{ width: 12, position: "absolute", top: -15, right: 15 }}
+                                source={require("../../../assets/arrow-down.png")}
+                                resizeMode={'contain'}
+                              />;
                             }}
                           />
                         </View>
