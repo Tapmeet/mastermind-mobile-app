@@ -35,7 +35,7 @@ const ContractList = (props) => {
   const [contractDataPending, setContractDataPending] = React.useState([])
   const toggleExpanded = () => {
     setCollapsed(!collapsed);
-    setCollapsed2(true); 
+    setCollapsed2(true);
   };
   const toggleExpanded2 = () => {
     setCollapsed2(!collapsed2);
@@ -67,7 +67,7 @@ const ContractList = (props) => {
           setloader(false)
         }
         //  console.log('here')
-       // console.log(data)
+        // console.log(data)
       });
   }
   function getPersonContractPending() {
@@ -81,7 +81,7 @@ const ContractList = (props) => {
     })
       .then(response => response.json())
       .then(data => {
-       // console.log(data)
+        // console.log(data)
         if (data.value) {
           setloader(false)
           setContractDataPending(data.value)
@@ -90,7 +90,7 @@ const ContractList = (props) => {
           setloader(false)
         }
       });
-  } 
+  }
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
@@ -142,7 +142,7 @@ const ContractList = (props) => {
                 }}>
                   <View style={globalStyle.tableBoxshadowContract}>
                     <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#4895FF", alignItems: "center" }}>
-                      
+
                       <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ color: '#fff', fontSize: 17 }}>Name</Text></View>
                       <View style={{ width: "20%" }} ><Text style={{ color: '#fff', fontSize: 17 }}>Action</Text></View>
                     </View>
@@ -151,15 +151,15 @@ const ContractList = (props) => {
                       contractData.map(function (contact, index) {
                         return (
                           <View key={index} style={(index % 2) == 0 ? globalStyle.tableList : globalStyle.tableListOdd}>
-                           
-                            <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ fontSize: 17 }}>
+
+                            <View style={{ flex: 1, alignSelf: 'stretch' }} >
                               {contact.StudentFullNames.length > 0 ?
                                 contact.StudentFullNames.map(function (student, index) {
                                   return (<View key={index}><Text style={{ paddingTop: 10, flex: 1, }} >{student}</Text></View>
                                   );
                                 })
                                 : null}
-                            </Text></View>
+                            </View>
                             <View style={{ width: "20%" }} ><Text onPress={() => props.navigation.navigate("SignedContract", {
                               contractData: contact,
                             })} style={{ fontSize: 17 }}>View</Text></View>
@@ -204,16 +204,15 @@ const ContractList = (props) => {
                     {typeof (contractDataPending) !== 'undefined' && contractDataPending.length ?
                       contractDataPending.map(function (contact, index) {
                         return (
-                          <View key={index} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, marginTop: 0, backgroundColor: "#f7f7f7", alignItems: "center" }}>
-                           
-                            <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ fontSize: 17 }}>
+                          <View key={index} style={(index % 2) == 0 ? globalStyle.tableList : globalStyle.tableListOdd}>
+                            <View style={{ flex: 1, alignSelf: 'stretch' }} >
                               {contact.StudentFullNames.length > 0 ?
                                 contact.StudentFullNames.map(function (student, index) {
                                   return (<View key={index}><Text style={{ paddingBottom: 10, flex: 1, }}>{student}</Text></View>
                                   );
                                 })
                                 : null}
-                            </Text></View>
+                            </View>
                             <View style={{ width: "20%" }} ><Text onPress={() => props.navigation.navigate("Contract", {
                               contractId: contact.ContractId,
                             })} style={{ fontSize: 17 }}>View</Text></View>

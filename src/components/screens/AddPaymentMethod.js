@@ -196,8 +196,8 @@ const AddPaymentMethod = (props) => {
                     placeholder="YYYY-MM-DD"
                     format="YYYY-MM-DD"
                     //maxDate={moment().format('YYYY-MM-DD')}
-                    confirmBtnText="Chọn"
-                    cancelBtnText="Hủy"
+                    confirmBtnText="Ok"
+                    cancelBtnText="Cancel"
                     style={{ fontSize: 20 }}
                     customStyles={{
                       dateInput: {

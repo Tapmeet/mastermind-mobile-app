@@ -551,8 +551,8 @@ const UserProfileMultiple = (props) => {
                       placeholder="YYYY-MM-DD"
                       format="YYYY-MM-DD"
                       maxDate={moment().format('YYYY-MM-DD')}
-                      confirmBtnText="Chọn"
-                      cancelBtnText="Hủy"
+                      confirmBtnText="Ok"
+                      cancelBtnText="Cancel"
                       style={{ fontSize: 20 }}
                       customStyles={{
                         dateInput: {
@@ -580,11 +580,11 @@ const UserProfileMultiple = (props) => {
                       style={{
                         ...pickerSelectStyles,
                         iconContainer: {
-                          top: 20,
+                          top: 22,
                           right: 10,
                         },
                         placeholder: {
-                          color: 'purple',
+                          color: '#8a898e',
                           fontSize: 12,
                           fontWeight: 'bold',
                         },
@@ -620,11 +620,11 @@ const UserProfileMultiple = (props) => {
                       style={{
                         ...pickerSelectStyles,
                         iconContainer: {
-                          top: 20,
+                          top: 22,
                           right: 10,
                         },
                         placeholder: {
-                          color: 'purple',
+                          color: '#8a898e',
                           fontSize: 12,
                           fontWeight: 'bold',
                         },
@@ -766,11 +766,11 @@ const UserProfileMultiple = (props) => {
                       style={{
                         ...pickerSelectStyles,
                         iconContainer: {
-                          top: 20,
+                          top: 22,
                           right: 10,
                         },
                         placeholder: {
-                          color: 'purple',
+                          color: '#8a898e',
                           fontSize: 12,
                           fontWeight: 'bold',
                         },
@@ -779,15 +779,14 @@ const UserProfileMultiple = (props) => {
                   </View>
                 </View>
               </View>
-              <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+              <View style={[globalStyle.formField]}>
                 <Text style={globalStyle.formLabel}>Postal Code</Text>
                 <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                   <Input
                     value={zipCode}
                     onChangeText={(text) => setzipCode(text)}
-                    editable={false}
                     style={
-                      [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                      [globalStyle.formControls]
                     }
                     placeholder="Postal Code"
                   />

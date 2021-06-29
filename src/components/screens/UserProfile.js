@@ -622,11 +622,11 @@ const UserProfile = (props) => {
                             style={{
                               ...pickerSelectStyles,
                               iconContainer: {
-                                top: 20,
+                                top: 22,
                                 right: 10,
                               },
                               placeholder: {
-                                color: 'purple',
+                                color: '#8a898e',
                                 fontSize: 12,
                                 fontWeight: 'bold',
                               },
@@ -669,11 +669,11 @@ const UserProfile = (props) => {
                             style={{
                               ...pickerSelectStyles,
                               iconContainer: {
-                                top: 20,
+                                top: 22,
                                 right: 10,
                               },
                               placeholder: {
-                                color: 'purple',
+                                color: '#8a898e',
                                 fontSize: 12,
                                 fontWeight: 'bold',
                               },
@@ -823,11 +823,11 @@ const UserProfile = (props) => {
                             style={{
                               ...pickerSelectStyles,
                               iconContainer: {
-                                top: 20,
+                                top: 22,
                                 right: 10,
                               },
                               placeholder: {
-                                color: 'purple',
+                                color: '#8a898e',
                                 fontSize: 12,
                                 fontWeight: 'bold',
                               },
