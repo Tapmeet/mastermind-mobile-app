@@ -2,6 +2,7 @@ import React, { Children } from "react";
 import { View, Image, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, ImageBackground } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import { Picker } from '@react-native-picker/picker';
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 //import CheckBox from "@react-native-community/checkbox";
 import {
   Container,
@@ -116,7 +117,58 @@ const Inquiry = (props) => {
     },
 
   ];
-  const stateList = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Federated States of Micronesia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
+  const stateList = [
+    { label: 'Arizona', value: 'Arizona' },
+    { label: 'Alabama', value: 'Alabama' },
+    { label: 'Alaska', value: 'Alaska' },
+    { label: 'Arkansas', value: 'Arkansas' },
+    { label: 'California', value: 'California' },
+    { label: 'Colorado', value: 'Colorado' },
+    { label: 'Connecticut', value: 'Connecticut' },
+    { label: 'Delaware', value: 'Delaware' },
+    { label: 'Florida', value: 'Florida' },
+    { label: 'Georgia', value: 'Georgia' },
+    { label: 'Hawaii', value: 'Hawaii' },
+    { label: 'Idaho', value: 'Idaho' },
+    { label: 'Illinois', value: 'Illinois' },
+    { label: 'Indiana', value: 'Indiana' },
+    { label: 'Iowa', value: 'Iowa' },
+    { label: 'Kansas', value: 'Kansas' },
+    { label: 'Kentucky', value: 'Kentucky' },
+    { label: 'Louisiana', value: 'Louisiana' },
+    { label: 'Maine', value: 'Maine' },
+    { label: 'Maryland', value: 'Maryland' },
+    { label: 'Massachusetts', value: 'Massachusetts' },
+    { label: 'Michigan', value: 'Michigan' },
+    { label: 'Minnesota', value: 'Minnesota' },
+    { label: 'Mississippi', value: 'Mississippi' },
+    { label: 'Missouri', value: 'Missouri' },
+    { label: 'Montana', value: 'Montana' },
+    { label: 'Nebraska', value: 'Nebraska' },
+    { label: 'Nevada', value: 'Nevada' },
+    { label: 'New Hampshire', value: 'New Hampshire' },
+    { label: 'New Jersey', value: 'New Jersey' },
+    { label: 'New Mexico', value: 'New Mexico' },
+    { label: 'New York', value: 'New York' },
+    { label: 'North Carolina', value: 'North Carolina' },
+    { label: 'North Dakota', value: 'North Dakota' },
+    { label: 'Ohio', value: 'Ohio' },
+    { label: 'Oklahoma', value: 'Oklahoma' },
+    { label: 'Oregon', value: 'Oregon' },
+    { label: 'Pennsylvania', value: 'Pennsylvania' },
+    { label: 'Rhode Island', value: 'Rhode Island' },
+    { label: 'South Carolina', value: 'South Carolina' },
+    { label: 'South Dakota', value: 'South Dakota' },
+    { label: 'Tennessee', value: 'Tennessee' },
+    { label: 'Texas', value: 'Texas' },
+    { label: 'Utah', value: 'Utah' },
+    { label: 'Vermont', value: 'Vermont' },
+    { label: 'Virginia', value: 'Virginia' },
+    { label: 'Washington', value: 'Washington' },
+    { label: 'West Virginia', value: 'West Virginia' },
+    { label: 'Wisconsin', value: 'Wisconsin' },
+    { label: 'Wyoming', value: 'Wyoming' },
+  ]
   const adultBenefitsList = [
     { id: 1, txt: 'Fitness', isChecked: false },
     { id: 2, txt: 'Family Time', isChecked: false },
@@ -626,19 +678,63 @@ const Inquiry = (props) => {
                     <Text style={globalStyle.error}>Enter City</Text>
                   ) : null}
 
-                  <View style={checkState
+                  <View style={{
+                    marginTop: 30,
+                  }}>
+                    <View style={checkState
                     ? globalStyle.formFieldError : globalStyle.formField}>
-                    <Text style={globalStyle.formLabel}>State</Text>
-                    <View style={globalStyle.formControls}>
-                      <Picker
-                        selectedValue={state}
-                        style={{ height: 50, width: '100%', fontSize: 24 }}
-                        onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
-                      >
-                        <Picker.Item label="State" value="" />
-                        {stateList.map((data, index) => <Picker.Item key={data.index + data} label={data} value={index + 1} />)}
-
-                      </Picker>
+                      <Text style={globalStyle.formLabel}>State</Text>
+                      <View style={globalStyle.formControls}>
+                        {/* <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                          <Input
+                            value={state}
+                            //onChangeText={(text) => setzipCode(text)}
+                           // editable={false}
+                            style={
+                              [globalStyle.formControls, { color: "#999" }]
+                            }
+                            placeholder="State"
+                          />
+                        </Item> */}
+                        {/* <Picker
+                            selectedValue={state}
+                            style={{ height: 50, width: '100%', fontSize: 24 }}
+                            onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
+                          >
+                            <Picker.Item label="State" value="" />
+                            {stateList.map((data, index) => {
+                              //console.log(state)
+                              return (
+                                <Picker.Item key={index} label={data[0]} value={data[1]} />)
+                            }
+                            )
+                            }
+                          </Picker> */}
+                        <RNPickerSelect
+                          value={state}
+                          items={stateList}
+                          onValueChange={(value) => setState(value)}
+                          style={{
+                            ...pickerSelectStyles,
+                            iconContainer: {
+                              top: Platform.OS === 'android' ? 20 : 25,
+                              right: 10,
+                            },
+                            placeholder: {
+                              color: '#8a898e',
+                              fontSize: 12,
+                              fontWeight: 'bold',
+                            },
+                          }}
+                          Icon={() => {
+                            return <Image
+                              style={{ width: 12, position: "absolute", top: -15, right: 15 }}
+                              source={require("../../../assets/arrow-down.png")}
+                              resizeMode={'contain'}
+                            />;
+                          }}
+                        />
+                      </View>
                     </View>
                   </View>
                   {checkState ? (
@@ -908,7 +1004,7 @@ const Inquiry = (props) => {
               : null}
             {counter == 4 ?
               showSignature == false ?
-                <View style={{ marginTop: -30, paddingLeft:20, paddingRight:20 }}>
+                <View style={{ marginTop: -30, paddingLeft: 20, paddingRight: 20 }}>
                   <Text style={{ color: "#000", fontSize: 30, fontWeight: "bold", marginBottom: 20, textAlign: "center" }}>Signature</Text>
                   {signature != '' ? (<View style={{ marginTop: 20 }}><Text style={{
                     fontSize: 20,
@@ -921,7 +1017,7 @@ const Inquiry = (props) => {
                     onPress={() => { setShowSignature(true) }} full>
                     <Text style={loginStyle.buttonText} >{signature != '' ? "Update Signature" : "Add Signature"}</Text>
                   </Button>
-                  <View style={{ paddingLeft: 0, paddingRight:0 }}>
+                  <View style={{ paddingLeft: 0, paddingRight: 0 }}>
                     {checkNSignature != "" ? (
                       <Text style={globalStyle.errorText}>Signature Required</Text>
                     ) : null}
@@ -949,7 +1045,7 @@ const Inquiry = (props) => {
                   </View>
                 </View>
                 :
-                <View style={{ paddingLeft:10, paddingRight: 10}} >
+                <View style={{ paddingLeft: 10, paddingRight: 10 }} >
                   <Text style={{
                     fontSize: 24,
                     paddingLeft: 10,
@@ -1046,3 +1142,25 @@ const Inquiry = (props) => {
   );
 };
 export default Inquiry;
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 18,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderWidth: 0,
+    borderColor: '#fff',
+    borderRadius: 0,
+    color: '#8a898e',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 18,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    borderWidth: 0,
+    borderColor: '#fff',
+    borderRadius: 0,
+    color: '#8a898e',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});

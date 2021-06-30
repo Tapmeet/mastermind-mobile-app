@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator, TouchableOpacity } from "react-native";
 import { API_URL } from "../Utility/AppConst"
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import {
   Container,
   Content,
@@ -85,8 +86,8 @@ const Contract = (props) => {
     setPayerSignatureMinor('');
     setPayerSignatureBilling('');
     setPayerSignatureTerms('');
-    showSignature(false);
-    showSignature2(false)
+    setShowSignature(false);
+    setShowSignature2(false)
   }
   function getContract() {
     fetch(`${apiUrl}/odata/Contract(${props.route.params.contractId})`, {
@@ -99,7 +100,7 @@ const Contract = (props) => {
     })
       .then(response => response.json())
       .then(data => {
-        // console.log(data)
+        //  console.log(data)
 
         setHasMinor(data.hasMinor)
         setTerms(data.contractTermTemplate)
@@ -125,8 +126,8 @@ const Contract = (props) => {
     if (hasMinor) {
       setStep2(true)
     } else {
-      setStep2(true)
-      //setStep3(true)
+      //setStep2(true)
+      setStep3(true)
     }
   };
   const stepTwoSubmit = () => {
@@ -161,10 +162,15 @@ const Contract = (props) => {
     })
       .then(response => response.json())
       .then(data => {
-        // console.log("pleae shere")
-        // console.log(data)
+        console.log("pleae shere")
+        console.log(data)
         setPaymentMethodCount(data.value.length)
-        setPaymentMethod(data.value)
+        let methods = []
+        data.value.map((method) => {
+          methods.push({ label: method.Nickname, value: method.PersonPaymentMethodId });
+        })
+        setPaymentMethod(methods);
+        //  setPaymentMethod(data.value)
       });
   }
   function getPersonContract() {
@@ -641,7 +647,44 @@ const Contract = (props) => {
                                         />
                                       </Item>
                                     </View>
-                                    <View style={globalStyle.formField}>
+                                    <View style={{
+                                      marginTop: 30,
+                                    }}>
+                                      <View style={[globalStyle.formField]}>
+                                        <Text style={globalStyle.formLabel}>Select Payment Method</Text>
+                                        <View style={globalStyle.formControls}>
+                                          <RNPickerSelect
+                                            value={userPaymentSelected}
+                                            items={paymentMethod}
+                                            placeholder={{
+                                              label: 'Select Payment Method',
+                                              value: null,
+                                          }}
+                                            onValueChange={(value) => setUserPaymentSelected(value)}
+                                            style={{
+                                              ...pickerSelectStyles,
+                                              iconContainer: {
+                                                top: Platform.OS === 'android' ? 20 : 25,
+                                                right: 10,
+                                              },
+                                              placeholder: {
+                                                color: '#8a898e',
+                                                fontSize: 12,
+                                                fontWeight: 'bold',
+                                              },
+                                            }}
+                                            Icon={() => {
+                                              return <Image
+                                                style={{ width: 12, position: "absolute", top: -15, right: 15 }}
+                                                source={require("../../../assets/arrow-down.png")}
+                                                resizeMode={'contain'}
+                                              />;
+                                            }}
+                                          />
+                                        </View>
+                                      </View>
+                                    </View>
+                                    {/* <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Select Payment Method</Text>
                                       <View style={globalStyle.formControls}>
                                         <Picker
@@ -652,7 +695,7 @@ const Contract = (props) => {
                                           {paymentMethod.map((data) => <Picker.Item key={data.Nickname + data.PersonPaymentMethodId} label={data.Nickname} value={data.PersonPaymentMethodId} />)}
                                         </Picker>
                                       </View>
-                                    </View>
+                                    </View> */}
                                   </View>
                                   : null}
                                 {counter == 4 ?
@@ -832,3 +875,25 @@ const styles = StyleSheet.create({
 });
 export default Contract;
 
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 18,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderWidth: 0,
+    borderColor: '#fff',
+    borderRadius: 0,
+    color: '#8a898e',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 18,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    borderWidth: 0,
+    borderColor: '#fff',
+    borderRadius: 0,
+    color: '#8a898e',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});

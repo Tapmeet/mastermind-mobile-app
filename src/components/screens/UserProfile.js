@@ -622,7 +622,7 @@ const UserProfile = (props) => {
                             style={{
                               ...pickerSelectStyles,
                               iconContainer: {
-                                top: 22,
+                                top: Platform.OS === 'android' ? 20 : 25,
                                 right: 10,
                               },
                               placeholder: {
@@ -669,7 +669,7 @@ const UserProfile = (props) => {
                             style={{
                               ...pickerSelectStyles,
                               iconContainer: {
-                                top: 22,
+                                top: Platform.OS === 'android' ? 20 : 25,
                                 right: 10,
                               },
                               placeholder: {
@@ -823,7 +823,7 @@ const UserProfile = (props) => {
                             style={{
                               ...pickerSelectStyles,
                               iconContainer: {
-                                top: 22,
+                                top: Platform.OS === 'android' ? 20 : 25,
                                 right: 10,
                               },
                               placeholder: {

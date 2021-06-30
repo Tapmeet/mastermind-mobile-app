@@ -580,7 +580,7 @@ const UserProfileMultiple = (props) => {
                       style={{
                         ...pickerSelectStyles,
                         iconContainer: {
-                          top: 22,
+                          top: Platform.OS === 'android' ? 20 : 25,
                           right: 10,
                         },
                         placeholder: {
@@ -588,6 +588,13 @@ const UserProfileMultiple = (props) => {
                           fontSize: 12,
                           fontWeight: 'bold',
                         },
+                      }}
+                      Icon={() => {
+                        return <Image
+                          style={{ width: 12, position: "absolute", top: -15, right: 15 }}
+                          source={require("../../../assets/arrow-down.png")}
+                          resizeMode={'contain'}
+                        />;
                       }}
                     />
                     {/* <Picker
@@ -620,7 +627,7 @@ const UserProfileMultiple = (props) => {
                       style={{
                         ...pickerSelectStyles,
                         iconContainer: {
-                          top: 22,
+                          top: Platform.OS === 'android' ? 20 : 25,
                           right: 10,
                         },
                         placeholder: {
@@ -628,6 +635,13 @@ const UserProfileMultiple = (props) => {
                           fontSize: 12,
                           fontWeight: 'bold',
                         },
+                      }}
+                      Icon={() => {
+                        return <Image
+                          style={{ width: 12, position: "absolute", top: -15, right: 15 }}
+                          source={require("../../../assets/arrow-down.png")}
+                          resizeMode={'contain'}
+                        />;
                       }}
                     />
                   </View>
@@ -766,7 +780,7 @@ const UserProfileMultiple = (props) => {
                       style={{
                         ...pickerSelectStyles,
                         iconContainer: {
-                          top: 22,
+                          top: Platform.OS === 'android' ? 20 : 25,
                           right: 10,
                         },
                         placeholder: {
@@ -774,6 +788,13 @@ const UserProfileMultiple = (props) => {
                           fontSize: 12,
                           fontWeight: 'bold',
                         },
+                      }}
+                      Icon={() => {
+                        return <Image
+                          style={{ width: 12, position: "absolute", top: -15, right: 15 }}
+                          source={require("../../../assets/arrow-down.png")}
+                          resizeMode={'contain'}
+                        />;
                       }}
                     />
                   </View>
