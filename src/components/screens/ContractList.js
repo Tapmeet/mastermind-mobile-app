@@ -21,7 +21,6 @@ import globalStyle from "../../style/globalStyle";
 import profilestyle from "../../style/profile/profileStyle";
 import { useSelector } from 'react-redux'
 import { SideBarMenu } from "../sidebar";
-import { Picker } from '@react-native-picker/picker';
 import { set } from "react-native-reanimated";
 import moment from 'moment';
 import Contract from "./Contract";

@@ -1,7 +1,7 @@
 import React, { Children } from "react";
 import { View, Image, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, ImageBackground } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
-import { Picker } from '@react-native-picker/picker';
+
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 //import CheckBox from "@react-native-community/checkbox";
 import {
@@ -682,7 +682,7 @@ const Inquiry = (props) => {
                     marginTop: 30,
                   }}>
                     <View style={checkState
-                    ? globalStyle.formFieldError : globalStyle.formField}>
+                      ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>State</Text>
                       <View style={globalStyle.formControls}>
                         {/* <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
@@ -925,7 +925,7 @@ const Inquiry = (props) => {
               }}>
                 <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>Additional Information</Text>
                 <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>How did you find out about our school?</Text>
-                <View style={globalStyle.formControl}>
+                {/* <View style={globalStyle.formControl}>
                   <Picker
                     selectedValue={inquiry}
                     style={{ height: 50, width: '100%' }}
@@ -933,6 +933,62 @@ const Inquiry = (props) => {
                   >
                     {enquiry.map((data) => <Picker.Item key={data.label + data.value} label={data.label} value={data.value} />)}
                   </Picker>
+                </View> */}
+                <View>
+                  <View style={globalStyle.formField}>
+                  <Text style={globalStyle.formLabel}>Information Source</Text>
+                    <View style={globalStyle.formControls }>
+                      {/* <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                          <Input
+                            value={state}
+                            //onChangeText={(text) => setzipCode(text)}
+                           // editable={false}
+                            style={
+                              [globalStyle.formControls, { color: "#999" }]
+                            }
+                            placeholder="State"
+                          />
+                        </Item> */}
+                      {/* <Picker
+                            selectedValue={state}
+                            style={{ height: 50, width: '100%', fontSize: 24 }}
+                            onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
+                          >
+                            <Picker.Item label="State" value="" />
+                            {stateList.map((data, index) => {
+                              //console.log(state)
+                              return (
+                                <Picker.Item key={index} label={data[0]} value={data[1]} />)
+                            }
+                            )
+                            }
+                          </Picker> */}
+                      <RNPickerSelect
+                        value={inquiry}
+                        items={enquiry}
+                        onValueChange={(value) => setInquiry(value)}
+                        style={{
+                          ...pickerSelectStyles,
+                          iconContainer: {
+                            top: Platform.OS === 'android' ? 20 : 25,
+                            right: 10,
+                          },
+                          placeholder: {
+                            color: '#8a898e',
+                            fontSize: 12,
+                            fontWeight: 'bold',
+                          },
+                        }}
+                        Icon={() => {
+                          return <Image
+                            style={{ width: 12, position: "absolute", top: -15, right: 15 }}
+                            source={require("../../../assets/arrow-down.png")}
+                            resizeMode={'contain'}
+                          />;
+                        }}
+                      />
+                    </View>
+                  </View>
                 </View>
 
                 <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", lineHeight: 26, marginBottom: 10, marginTop: 20 }}>Please check the benefits you are interested in:</Text>

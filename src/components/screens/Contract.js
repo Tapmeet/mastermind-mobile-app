@@ -20,7 +20,6 @@ import globalStyle from "../../style/globalStyle";
 import { useSelector } from 'react-redux'
 import { SideBarMenu } from "../sidebar";
 import HTML from "react-native-render-html";
-import { Picker } from '@react-native-picker/picker';
 import { SignatureView } from 'react-native-signature-capture-view';
 //import AddPaymentMethod from './AddPaymentMethod';
 const apiUrl = API_URL.trim();
