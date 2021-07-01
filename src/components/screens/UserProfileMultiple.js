@@ -579,7 +579,7 @@ const UserProfileMultiple = (props) => {
                       style={{
                         ...pickerSelectStyles,
                         iconContainer: {
-                          top: Platform.OS === 'android' ? 20 : 25,
+                          top: Platform.OS === 'android' ? 20 : 30,
                           right: 10,
                         },
                         placeholder: {
@@ -626,7 +626,7 @@ const UserProfileMultiple = (props) => {
                       style={{
                         ...pickerSelectStyles,
                         iconContainer: {
-                          top: Platform.OS === 'android' ? 20 : 25,
+                          top: Platform.OS === 'android' ? 20 : 30,
                           right: 10,
                         },
                         placeholder: {
@@ -779,7 +779,7 @@ const UserProfileMultiple = (props) => {
                       style={{
                         ...pickerSelectStyles,
                         iconContainer: {
-                          top: Platform.OS === 'android' ? 20 : 25,
+                          top: Platform.OS === 'android' ? 20 : 30,
                           right: 10,
                         },
                         placeholder: {
