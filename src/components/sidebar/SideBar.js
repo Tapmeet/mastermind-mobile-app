@@ -5,7 +5,6 @@ import { ImageBackground } from "react-native";
 const routes = [
   "Home",
   "Attendance",
-  "Memberships",
   "Merchandise",
   "Social Media",
   "Awards",
