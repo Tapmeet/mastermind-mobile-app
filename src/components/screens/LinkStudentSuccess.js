@@ -22,7 +22,7 @@ import globalStyle from "../../style/globalStyle";
 const windowHeight = Dimensions.get('window').height;
 const LinkStudentSuccess = (props) => {
   React.useEffect(() => {
-    setTimeout(() => props.navigation.navigate("Home"), 5000);
+    setTimeout(() => props.navigation.navigate("Home"), 3000);
   }, []);
 
   const { navigation } = props;

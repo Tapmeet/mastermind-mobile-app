@@ -12,7 +12,7 @@ const routes = [
   "Link Student",
   "Profile",
   "Inquiry",
-  "Contracts",
+  "Memberships",
   "Payment Methods"
 
 ];

@@ -85,7 +85,7 @@ const LinkStudent = (props) => {
     }
 
     const apiUrl = API_URL.trim();
-   // console.log(apiUrl)
+    //console.log("herer")
     fetch(`${apiUrl}/odata/StudentLink`, {
       method: "post",
       headers: {
@@ -101,7 +101,6 @@ const LinkStudent = (props) => {
      })
     .then((response) => response.json())
     .then((response) => {
-     // console.log(response);
       if (response["odata.error"]) {
         console.log(response["odata.error"].message.value);
         setErrorMessage(response["odata.error"].message.value);

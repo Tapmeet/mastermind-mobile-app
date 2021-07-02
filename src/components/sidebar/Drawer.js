@@ -30,9 +30,9 @@ const Drawer = (props) => {
       <HomeDrawer.Screen name="StudentLinkSuccess" component={LinkStudentSuccessScreen} />
       <HomeDrawer.Screen name="Inquiry" component={InquiryScreen} />
       <HomeDrawer.Screen name="Profile" component={UserProfileScreen} />
-      <HomeDrawer.Screen name="StudentProfile" component={UserProfileMultipleScreen} />
+      <HomeDrawer.Screen name="StudentProfile" component={UserProfileMultipleScreen}  />
       <HomeDrawer.Screen name="Contract" component={ContractScreen} />
-      <HomeDrawer.Screen name="Contracts" component={ContractListScreen} />
+      <HomeDrawer.Screen name="Memberships" component={ContractListScreen} />
       <HomeDrawer.Screen name="SignedContract" component={SignedContractScreen} />
       <HomeDrawer.Screen name="Payment Methods" component={PaymentMethodListingsScreen} />
       <HomeDrawer.Screen name="Payment Method Card" component={AddPaymentMethodScreen} />

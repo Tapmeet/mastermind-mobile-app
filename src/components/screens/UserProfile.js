@@ -251,7 +251,7 @@ const UserProfile = (props) => {
     }
 
     const apiUrl = API_URL.trim();
-    console.log(state)
+    // console.log(state)
     fetch(`${apiUrl}/odata/StudentData(${studentIds[0]})`, {
       method: "patch",
       headers: {
@@ -315,10 +315,10 @@ const UserProfile = (props) => {
         })
           .then(response => response.json())
           .then(data => {
-            //console.log(data)
+            //console.log(data) 
             if (data.StudentIds.length > 0) {
               setStudentIds(data.StudentIds)
-              //console.log("where")
+              console.log(data.StudentIds)
               getdata(data.StudentIds[0])
             }
             else {
@@ -338,7 +338,7 @@ const UserProfile = (props) => {
           })
             .then(response => response.json())
             .then(data => {
-              console.log(data)
+              // console.log(data)
               setFirstName(data.FirstName)
               setLastName(data.LastName)
               setEmail(data.Email)
@@ -410,7 +410,12 @@ const UserProfile = (props) => {
       }
     })
   }, [data]);
-
+  function setparms(id) {
+    props.navigation.navigate("StudentProfile", {
+      profileId: id,
+      merge: true,
+    })
+  }
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
@@ -504,7 +509,7 @@ const UserProfile = (props) => {
                     {checkEmail ? (
                       <Text style={globalStyle.error}>Enter Valid Email</Text>
                     ) : null}
-                    <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                    {/* <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
                       <Text style={globalStyle.formLabel}>School Name</Text>
                       <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
@@ -518,8 +523,8 @@ const UserProfile = (props) => {
                           editable={false}
                         />
                       </Item>
-                    </View>
-                    <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                    </View> */}
+                    {/* <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
                       <Text style={globalStyle.formLabel}>Student Number</Text>
                       <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
@@ -532,8 +537,8 @@ const UserProfile = (props) => {
                           placeholderTextColor="#ddd"
                           editable={false}
                         />
-                      </Item>
-                    </View>
+                      </Item> 
+                    </View> */}
                     <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
                       <Text style={globalStyle.formLabel}>Rank</Text>
                       <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0, borderWidth: 0, elevation: 0 }]} floatingLabel>
@@ -928,31 +933,39 @@ const UserProfile = (props) => {
               :
               <View>
                 <Text style={{ color: "#000", fontSize: 20, marginBottom: 10, textAlign: "center" }}>  You have {studentIds.length} students</Text>
-                {studentIds.map((item, index) => (
-                  <View key={item + 100}>
-                    <View >
-                      <TouchableOpacity
-                        style={profilestyle.list} onPress={() => props.navigation.navigate("StudentProfile", {
-                          profileId: item,
-                        })}>
-                        <Image
-                          style={profilestyle.iconLeft}
-                          source={require("../../../assets/user.png")}
-                          resizeMode={'contain'}
-                        />
-                        <Text style={{
-                          fontSize: 20,
-                          paddingLeft: 10
-                        }}> View Profile
-                        </Text>
-                        <Image
-                          style={profilestyle.iconRight}
-                          source={require("../../../assets/arrow-right.png")}
-                          resizeMode={'contain'}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>))
+                {studentIds.map((item, index) => {
+                  var studentId = '';
+                  studentId= item
+                  console.log(item)
+                  return (
+                    <View key={item + 100}>
+                      <View >
+                        <TouchableOpacity
+                          style={profilestyle.list}
+                          onPress={() => props.navigation.navigate("StudentProfile", {
+                            profileId: studentId,
+
+                          })}
+                        >
+                          <Image
+                            style={profilestyle.iconLeft}
+                            source={require("../../../assets/user.png")}
+                            resizeMode={'contain'}
+                          />
+                          <Text style={{
+                            fontSize: 20,
+                            paddingLeft: 10
+                          }}> View Profile
+                          </Text>
+                          <Image
+                            style={profilestyle.iconRight}
+                            source={require("../../../assets/arrow-right.png")}
+                            resizeMode={'contain'}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>)
+                })
                 }
               </View>
             : (

@@ -33,6 +33,7 @@ const AddPaymentMethod = (props) => {
   const [checkCardnumber, setCheckCardnumber] = React.useState(false);
   const [checkCardCode, setCheckCardCode] = React.useState(false);
   const [checkCardExpiration, setCheckCardExpiration] = React.useState(false);
+  const [loaderMessage, setLoaderMessage] = React.useState(false);
   const [SuccessMessage, setSuccessMessage] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
   const userId = useSelector(state => state);
@@ -47,6 +48,7 @@ const AddPaymentMethod = (props) => {
     setCardNumber('');
     setCardCode('');
     setCardExpiration('')
+    setErrorMessage('')
   }
   const setnickname = (event) => {
     setNickname(event);
@@ -91,6 +93,7 @@ const AddPaymentMethod = (props) => {
       setCheckCardExpiration(true);
       return false;
     }
+    setLoaderMessage(true)
     fetch(`${apiUrl}/odata/PaymentMethod`, {
       method: "post",
       headers: {
@@ -107,16 +110,32 @@ const AddPaymentMethod = (props) => {
         "CardExpiration": CardExpiration
       }),
     })
-      .then(response => response.json())
-      .then(response => {
-        console.log(response);
-        if (response["odata.error"]) {
-          console.log(response["odata.error"].message.value);
-          setErrorMessage(response["odata.error"].message.value);
-        } else {
-          setSuccessMessage('Card Added Successfully');
-        }
-      });
+    .then((response) => {
+      setLoaderMessage(false)
+      let jsonData = JSON.stringify(response);
+      console.log(jsonData)
+      let jsonDataPrase = JSON.parse(jsonData);
+      console.log(jsonDataPrase.status)
+      if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
+        setSuccessMessage('Card Added Successfully');
+      } else {
+        setErrorMessage("An error has occurred.");
+      }
+    })
+    .catch((response) => {
+      setErrorMessage("An error has occurred.");
+    });
+      // .then(response => response.json())
+      // .then(response => {
+      //   console.log(response);
+      //   setLoaderMessage(false)
+      //   if (response["odata.error"]) {
+      //     console.log(response["odata.error"].message.value);
+      //     setErrorMessage(response["odata.error"].message.value);
+      //   } else {
+      //     setSuccessMessage('Card Added Successfully');
+      //   }
+      // });
   }
   const { navigation } = props;
   return (
@@ -171,6 +190,7 @@ const AddPaymentMethod = (props) => {
                   <Text style={globalStyle.formLabel}>Card Code </Text>
                   <Input
                     value={CardCode}
+                    keyboardType="number-pad"
                     onChangeText={(text) => setcardCode(text)}
                     placeholderTextColor='#ccc'
                     style={
@@ -222,6 +242,11 @@ const AddPaymentMethod = (props) => {
               {SuccessMessage != "" ? (
                 <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
               ) : null}
+              {loaderMessage ?
+                <View style={[styles.container, styles.horizontal]}>
+                  <ActivityIndicator size="large" color="#29ABE2" />
+                </View>
+                : null}
               <View style={{ paddingLeft: 0, paddingRight: 0, marginTop: 20, marginBottom: 30 }}>
                 <ImageBackground
                   style={[globalStyle.Btn, {
