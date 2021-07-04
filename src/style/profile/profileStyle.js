@@ -22,10 +22,11 @@ export default StyleSheet.create({
     marginBottom:20,
     marginTop:10,
     paddingLeft:70,
-    justifyContent:"flex-end",
+    justifyContent:"space-between",
     flexDirection:"row",
     paddingRight:30,
-    alignItems:"center",
+   alignSelf:"center",
+    
     borderRadius:15
   },
   iconLeft:{

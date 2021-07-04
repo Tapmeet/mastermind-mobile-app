@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator, Thumbnail } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import Collapsible from 'react-native-collapsible';
 import DatePicker from 'react-native-datepicker';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Container,
   Content,
@@ -317,8 +318,23 @@ const UserProfile = (props) => {
           .then(data => {
             //console.log(data) 
             if (data.StudentIds.length > 0) {
-              setStudentIds(data.StudentIds)
-              console.log(data.StudentIds)
+              //console.log("herer")
+              data.StudentIds.map((id, index) => {
+                fetch(`${apiUrl}/odata/StudentData(${id})`, {
+                  method: "get",
+                  headers: {
+                    Accept: "*/*",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + userId[0].access_Token
+                  },
+                })
+                  .then(response => response.json())
+                  .then(data => {
+                    //console.log(data)
+                    setStudentIds(prevState => [...prevState, data]);
+                    //setStudentIds(data.StudentIds)
+                  })
+              })
               getdata(data.StudentIds[0])
             }
             else {
@@ -410,11 +426,15 @@ const UserProfile = (props) => {
       }
     })
   }, [data]);
-  function setparms(id) {
-    props.navigation.navigate("StudentProfile", {
-      profileId: id,
-      merge: true,
-    })
+  const storeData = async (value) => {
+    console.log(JSON.stringify(value));
+    let profileId = JSON.stringify(value);
+    try {
+      await AsyncStorage.setItem('profileId', profileId)
+      props.navigation.navigate("StudentProfile")
+    } catch (e) {
+      // saving error
+    }
   }
   const { navigation } = props;
   return (
@@ -934,29 +954,37 @@ const UserProfile = (props) => {
               <View>
                 <Text style={{ color: "#000", fontSize: 20, marginBottom: 10, textAlign: "center" }}>  You have {studentIds.length} students</Text>
                 {studentIds.map((item, index) => {
-                  var studentId = '';
-                  studentId= item
-                  console.log(item)
+                  //console.log(item.PhotoPath)
+                  var studentId = item.StudentId
                   return (
-                    <View key={item + 100}>
+                    <View key={index + 100}>
                       <View >
                         <TouchableOpacity
                           style={profilestyle.list}
-                          onPress={() => props.navigation.navigate("StudentProfile", {
-                            profileId: studentId,
-
-                          })}
+                          onPress={() => storeData(studentId)}
                         >
-                          <Image
+
+                          {/* <Image
                             style={profilestyle.iconLeft}
-                            source={require("../../../assets/user.png")}
+                            source={{
+                              uri: "data:image/png;base64," + item.PhotoPath,
+                            }}
                             resizeMode={'contain'}
-                          />
+                          /> */}
+
+                          <Text style={{
+                            fontSize: 20,
+                            paddingLeft: 10,
+                            textAlign:"left"
+                          }}> {item.FirstName} {item.LastName}
+                          </Text>
                           <Text style={{
                             fontSize: 20,
                             paddingLeft: 10
                           }}> View Profile
                           </Text>
+
+
                           <Image
                             style={profilestyle.iconRight}
                             source={require("../../../assets/arrow-right.png")}

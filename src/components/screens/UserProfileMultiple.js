@@ -3,6 +3,7 @@ import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityInd
 import { API_URL } from "./../Utility/AppConst";
 import Collapsible from 'react-native-collapsible';
 import DatePicker from 'react-native-datepicker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Container,
   Content,
@@ -29,6 +30,7 @@ const UserProfileMultiple = (props) => {
   const [items, setItems] = React.useState([]);
   const [studentIds, setStudentIds] = React.useState([]);
   const [firstName, setFirstName] = React.useState("");
+  const [profileId, setProfileId] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [SchoolName, setSchoolName] = React.useState("");
@@ -227,7 +229,7 @@ const UserProfileMultiple = (props) => {
     }
 
     const apiUrl = API_URL.trim();
-    fetch(`${apiUrl}/odata/StudentData(${props.route.params.profileId})`, {
+    fetch(`${apiUrl}/odata/StudentData(${profileId})`, {
       method: "patch",
       headers: {
         Accept: "*/*",
@@ -297,94 +299,104 @@ const UserProfileMultiple = (props) => {
     navigation.addListener('focus', () => {
       setloader(true)
       clearData();
-
-      const apiUrl = API_URL.trim();
       if (data == '') {
-        console.log(props.route);
-        getdata(props.route.params.profileId)
-        function getdata(id) {
-          fetch(`${apiUrl}/odata/StudentData(${id})`, {
-            method: "get",
-            headers: {
-              Accept: "*/*",
-              "Content-Type": "application/json",
-              'Authorization': 'Bearer ' + userId[0].access_Token
-            },
-          })
-            .then(response => response.json())
-            .then(data => {
-              // console.log('herer')
-              // console.log(data)
-              setFirstName(data.FirstName)
-              setLastName(data.LastName)
-              setEmail(data.Email)
-              setStudentNumber(data.StudentNumber)
-              setAcademicSchool(data.AcademicSchool)
-              setMedicalInfo(data.MedicalInfo)
-              setOccupation(data.Occupation)
-              setRank(data.Rank)
-              setEmployer(data.Employer)
-              setAddress1(data.Address1)
-              setAddress2(data.Address2)
+        async function getData() {
+          try {
+            const value = await AsyncStorage.getItem('profileId')
+            if (value !== null) {
+              setProfileId(value)
+              const apiUrl = API_URL.trim();
+              getdata(value)
+              function getdata(id) {
+                fetch(`${apiUrl}/odata/StudentData(${id})`, {
+                  method: "get",
+                  headers: {
+                    Accept: "*/*",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + userId[0].access_Token
+                  },
+                })
+                  .then(response => response.json())
+                  .then(data => {
+                    // console.log('herer')
+                    //console.log(data)
+                    setFirstName(data.FirstName)
+                    setLastName(data.LastName)
+                    setEmail(data.Email)
+                    setStudentNumber(data.StudentNumber)
+                    setAcademicSchool(data.AcademicSchool)
+                    setMedicalInfo(data.MedicalInfo)
+                    setOccupation(data.Occupation)
+                    setRank(data.Rank)
+                    setEmployer(data.Employer)
+                    setAddress1(data.Address1)
+                    setAddress2(data.Address2)
 
-              setCity(data.City)
-              setZipCode(data.PostalCode)
-              setPhone1(data.Phone1)
-              setPhone2(data.Phone2)
-              setUniformSize(data.UniformSizeId)
-              setBeltSize(data.BeltSizeId)
-              setEmergencyContact(data.EmergencyContact)
-              let dob = new Date(data.DOB).toISOString().slice(0, 10);
-              setDOB(dob)
-              //console.log(dob);
-              setState(data.State)
-              setData('set')
-              // stateList.map((statedata, index) => {
-              //   if (statedata[1] == data.State) {
-              //     setState(statedata[0])
-              //   }
-              // })
-              setloader(false)
+                    setCity(data.City)
+                    setZipCode(data.PostalCode)
+                    setPhone1(data.Phone1)
+                    setPhone2(data.Phone2)
+                    setUniformSize(data.UniformSizeId)
+                    setBeltSize(data.BeltSizeId)
+                    setEmergencyContact(data.EmergencyContact)
+                    let dob = new Date(data.DOB).toISOString().slice(0, 10);
+                    setDOB(dob)
+                    //console.log(dob);
+                    setState(data.State)
+                    setData('set')
+                    // stateList.map((statedata, index) => {
+                    //   if (statedata[1] == data.State) {
+                    //     setState(statedata[0])
+                    //   }
+                    // })
+                    setloader(false)
+                  });
+              }
+              fetch(`${apiUrl}/odata/UniformSize`, {
+                method: "get",
+                headers: {
+                  Accept: "*/*",
+                  "Content-Type": "application/json",
+                  'Authorization': 'Bearer ' + userId[0].access_Token
+                },
+              })
+                .then(response => response.json())
+                .then(data => {
+                  //console.log(data.value)
+                  setUniformSizeList(data.value)
+                  let uniforms = []
+                  data.value.map((uniform) => {
+                    uniforms.push({ label: uniform.Name, value: uniform.UniformSizeId });
+                  })
+                  setItems(uniforms);
+                });
+              fetch(`${apiUrl}/odata/BeltSize`, {
+                method: "get",
+                headers: {
+                  Accept: "*/*",
+                  "Content-Type": "application/json",
+                  'Authorization': 'Bearer ' + userId[0].access_Token
+                },
+              })
+                .then(response => response.json())
+                .then(data => {
+                  //console.log(data.value)
+                  //setBeltSizeList(data.value)
+                  let belts = []
+                  data.value.map((belt) => {
+                    belts.push({ label: belt.Name, value: belt.BeltSizeId });
+                  })
+                  setBeltSizeList(belts);
+                });
 
-            });
+            }
+          } catch (e) {
+
+          }
         }
-        fetch(`${apiUrl}/odata/UniformSize`, {
-          method: "get",
-          headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-            'Authorization': 'Bearer ' + userId[0].access_Token
-          },
-        })
-          .then(response => response.json())
-          .then(data => {
-            //console.log(data.value)
-            setUniformSizeList(data.value)
-            let uniforms = []
-            data.value.map((uniform) => {
-              uniforms.push({ label: uniform.Name, value: uniform.UniformSizeId });
-            })
-            setItems(uniforms);
-          });
-        fetch(`${apiUrl}/odata/BeltSize`, {
-          method: "get",
-          headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-            'Authorization': 'Bearer ' + userId[0].access_Token
-          },
-        })
-          .then(response => response.json())
-          .then(data => {
-            //console.log(data.value)
-            //setBeltSizeList(data.value)
-            let belts = []
-            data.value.map((belt) => {
-              belts.push({ label: belt.Name, value: belt.BeltSizeId });
-            })
-            setBeltSizeList(belts);
-          });
+        getData()
       }
+
     })
   }, [data]);
   const { navigation } = props;
