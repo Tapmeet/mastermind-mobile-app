@@ -100,7 +100,7 @@ export default StyleSheet.create({
   },
   signUpSection: {
     position: 'absolute',
-    bottom: 0
+    bottom: 35
   },
   backWrapper: {
     marginBottom: 40,
