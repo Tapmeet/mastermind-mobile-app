@@ -15,7 +15,8 @@ export default StyleSheet.create({
   safeview: {
     display: 'flex',
     flex: 1,
-    height: '100%'
+    height: '100%',
+    backgroundColor: 'white'
   },
   container: {
     display: "flex",
