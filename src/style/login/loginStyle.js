@@ -12,12 +12,6 @@ export default StyleSheet.create({
   text: {
     fontSize: 42,
   },
-  safeview: {
-    display: 'flex',
-    flex: 1,
-    height: '100%',
-    backgroundColor: 'white'
-  },
   container: {
     display: "flex",
     padding: 0,

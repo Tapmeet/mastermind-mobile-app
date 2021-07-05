@@ -107,101 +107,99 @@ const Login = (props) => {
 
   const { navigation } = props;
   return (
-    <SafeAreaView style={loginStyle.safeview}>
-      <Container style={loginStyle.container}>
-        <Content style={loginStyle.spacing}>
-          <ImageBackground
+    <Container style={loginStyle.container}>
+      <Content style={loginStyle.spacing}>
+        <ImageBackground
+          style={{
+            width: "100%",
+            height: 200,
+          }}
+          source={require("./../../../assets/bg.png")}
+          resizeMode={"stretch"}
+        >
+          <View
             style={{
-              width: "100%",
-              height: 200,
+              alignSelf: "center",
+              paddingTop: 40,
             }}
-            source={require("./../../../assets/bg.png")}
-            resizeMode={"stretch"}
           >
-            <View
-              style={{
-                alignSelf: "center",
-                paddingTop: 40,
-              }}
-            >
-              <Image
-                style={loginStyle.logo}
-                source={require("../../../assets/Logo.png")}
-              />
-            </View>
-          </ImageBackground>
-          <Body style={loginStyle.bodyContainer} padder>
-            <H2 style={globalStyle.h2}>Welcome!</H2>
-            <Text style={globalStyle.small}>Sign in to Continue</Text>
-          </Body>
-          <Form style={globalStyle.form} padder>
-            <Item style={globalStyle.formGroup} floatingLabel>
-              <Input
-                value={username}
-                onChangeText={(text) => setusername(text)}
-                placeholderTextColor="#ccc"
-                autoCapitalize="none"
-                style={
-                  checkUsername
-                    ? globalStyle.formControlError
-                    : globalStyle.formControl
-                }
-                placeholder="Enter Username"
-              />
-            </Item>
-            {checkUsername ? (
-              <Text style={globalStyle.error}>Enter Valid Username </Text>
-            ) : null}
-            <Item style={globalStyle.formGroup} floatingLabel>
-              <Input
-                secureTextEntry={true}
-                value={password}
-                onChangeText={(text) => setpassword(text)}
-                placeholderTextColor="#ccc"
-                style={
-                  checkPassword
-                    ? globalStyle.formControlError
-                    : globalStyle.formControl
-                }
-                placeholder="Password "
-              />
-            </Item>
-            {checkPassword ? (
-              <Text style={globalStyle.error}>Enter Password</Text>
-            ) : null}
-            {errorMessage != "" ? (
-              <Text style={[globalStyle.errorText, { marginTop: 15 }]}>
-                {errorMessage}
-              </Text>
-            ) : null}
-            <Content style={loginStyle.formContainer}>
-              <Button onPress={submitForm} style={loginStyle.button} full>
-                <Text style={loginStyle.buttonText}>Login</Text>
-              </Button>
-            </Content>
-          </Form>
-          <Body style={globalStyle.textRight}>
-            <Text
-              style={globalStyle.hyperlink}
-              onPress={() => props.navigation.navigate("ForgetPassword")}
-            >
-              Forgot Password?
+            <Image
+              style={loginStyle.logo}
+              source={require("../../../assets/Logo.png")}
+            />
+          </View>
+        </ImageBackground>
+        <Body style={loginStyle.bodyContainer} padder>
+          <H2 style={globalStyle.h2}>Welcome!</H2>
+          <Text style={globalStyle.small}>Sign in to Continue</Text>
+        </Body>
+        <Form style={globalStyle.form} padder>
+          <Item style={globalStyle.formGroup} floatingLabel>
+            <Input
+              value={username}
+              onChangeText={(text) => setusername(text)}
+              placeholderTextColor="#ccc"
+              autoCapitalize="none"
+              style={
+                checkUsername
+                  ? globalStyle.formControlError
+                  : globalStyle.formControl
+              }
+              placeholder="Enter Username"
+            />
+          </Item>
+          {checkUsername ? (
+            <Text style={globalStyle.error}>Enter Valid Username </Text>
+          ) : null}
+          <Item style={globalStyle.formGroup} floatingLabel>
+            <Input
+              secureTextEntry={true}
+              value={password}
+              onChangeText={(text) => setpassword(text)}
+              placeholderTextColor="#ccc"
+              style={
+                checkPassword
+                  ? globalStyle.formControlError
+                  : globalStyle.formControl
+              }
+              placeholder="Password "
+            />
+          </Item>
+          {checkPassword ? (
+            <Text style={globalStyle.error}>Enter Password</Text>
+          ) : null}
+          {errorMessage != "" ? (
+            <Text style={[globalStyle.errorText, { marginTop: 15 }]}>
+              {errorMessage}
             </Text>
-          </Body>
-        </Content>
-        <Body style={loginStyle.signUpSection}>
-          <Text>
-            Don’t have an account?
-            <Text
-              onPress={() => props.navigation.navigate("SignUp")}
-              style={globalStyle.hyperlink}
-            >
-              &nbsp; Sign Up Now!
-            </Text>
+          ) : null}
+          <Content style={loginStyle.formContainer}>
+            <Button onPress={submitForm} style={loginStyle.button} full>
+              <Text style={loginStyle.buttonText}>Login</Text>
+            </Button>
+          </Content>
+        </Form>
+        <Body style={globalStyle.textRight}>
+          <Text
+            style={globalStyle.hyperlink}
+            onPress={() => props.navigation.navigate("ForgetPassword")}
+          >
+            Forgot Password?
           </Text>
         </Body>
-      </Container>
-    </SafeAreaView>
+      </Content>
+      <Body style={loginStyle.signUpSection}>
+        <Text>
+          Don’t have an account?
+          <Text
+            onPress={() => props.navigation.navigate("SignUp")}
+            style={globalStyle.hyperlink}
+          >
+            &nbsp; Sign Up Now!
+          </Text>
+        </Text>
+      </Body>
+    </Container>
   );
 };
 export default Login;
