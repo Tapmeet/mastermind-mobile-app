@@ -167,7 +167,6 @@ export default StyleSheet.create({
     borderColor: "transparent",
     paddingTop: 15,
     paddingBottom: 15,
-    minHeight: 80,
     elevation: 0,
   },
   titleStyling: {
