@@ -12,7 +12,7 @@ export default StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 6.27,
     elevation: 10,
-    maxWidth: "90%",
+    width: "90%",
     backgroundColor: "#fff",
     padding: 10,
     paddingTop:25,
@@ -21,11 +21,11 @@ export default StyleSheet.create({
     marginRight:30,
     marginBottom:20,
     marginTop:10,
-    paddingLeft:70,
+    paddingLeft:10,
     justifyContent:"space-between",
     flexDirection:"row",
     paddingRight:30,
-   alignSelf:"center",
+    // alignSelf:"center",
     
     borderRadius:15
   },

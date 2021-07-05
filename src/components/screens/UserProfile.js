@@ -315,7 +315,7 @@ const UserProfile = (props) => {
           },
         })
           .then(response => response.json())
-          .then(data => {
+          .then(data => { 
             //console.log(data) 
             if (data.StudentIds.length > 0) {
               //console.log("herer")
@@ -971,13 +971,14 @@ const UserProfile = (props) => {
                             }}
                             resizeMode={'contain'}
                           /> */}
-
-                          <Text style={{
-                            fontSize: 20,
-                            paddingLeft: 10,
-                            textAlign:"left"
-                          }}> {item.FirstName} {item.LastName}
-                          </Text>
+                          <View style={{ minWidth: "45%", justifyContent:"flex-start" }}>
+                            <Text style={{
+                              fontSize: 20,
+                              paddingLeft: 10,
+                              textAlign: "left"
+                            }}> {item.FirstName} {item.LastName}
+                            </Text>
+                          </View>
                           <Text style={{
                             fontSize: 20,
                             paddingLeft: 10
