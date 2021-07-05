@@ -25,7 +25,7 @@ export default StyleSheet.create({
   hyperlink: {
     color: colorPallete.primary,
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 18
   },
   form: {
     paddingLeft: 30,

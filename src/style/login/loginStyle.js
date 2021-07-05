@@ -3,9 +3,25 @@ import { colorPallete } from "../colorPallete";
 
 export default StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  scrollView: {
+    backgroundColor: 'pink',
+    marginHorizontal: 20,
+  },
+  text: {
+    fontSize: 42,
+  },
+  safeview: {
+    display: 'flex',
+    flex: 1,
+    height: '100%'
+  },
+  container: {
     display: "flex",
     padding: 0,
-    margin: 0
+    margin: 0,
+    overflow: 'hidden'
   },
   bodyContainer: {
     flexDirection: "column",
@@ -89,7 +105,7 @@ export default StyleSheet.create({
   },
   signUpSection: {
     position: 'absolute',
-    bottom: 35
+    bottom: 0
   },
   backWrapper: {
     marginBottom: 40,
