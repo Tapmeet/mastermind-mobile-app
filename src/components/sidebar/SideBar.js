@@ -4,22 +4,19 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { ImageBackground } from "react-native";
 const routes = [
   "Home",
-  "Attendance",
-  "Merchandise",
-  "Social Media",
-  "Awards",
   "Link Student",
   "Profile",
   "Inquiry",
   "Memberships",
   "Payment Methods"
-
 ];
 import { API_URL } from "./../Utility/AppConst";
 import sideBar from "../../style/home/sidebarStyle";
 import { color } from "react-native-reanimated";
 import { useSelector, useDispatch } from 'react-redux'
 import LOGGED_OUT_USER from "./../../redux/User"
+import { Dimensions } from 'react-native';
+
 const SideBar = (props) => {
   const dispatch = useDispatch()
   const userData = userInfo => dispatch({ type: "LOGGED_OUT_USER", payload: userInfo });
@@ -30,6 +27,8 @@ const SideBar = (props) => {
   const [loader, setloader] = React.useState(true);
   const [studentIds, setStudentIds] = React.useState([]);
   const [PhotoPath, setPhotoPath] = React.useState('');
+  const win = Dimensions.get('window');
+
   const logout = () => {
     userData(userId[0].id)
   }
@@ -76,18 +75,16 @@ const SideBar = (props) => {
             setloader(false)
           });
       }
-
     }
-
   }, [data]);
 
   return (
     <ScrollView>
       <ImageBackground
-        style={{ width: undefined, padding: 16, paddingTop: 48 }}
+        style={{ padding: 16, paddingTop: 48, height: win.height }}
         source={require('./../../../assets/menu.png')}
         resizeMode={'stretch'}
-      >
+        >
         <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
           {PhotoPath ? <Thumbnail
             source={{
@@ -122,14 +119,14 @@ const SideBar = (props) => {
             })
             }
           </List>
-          <TouchableOpacity
-            style={{ backgroundColor: "transparent", paddingLeft: 20, marginTop: 10, position: "relative", marginBottom: 0, zIndex: 99999 }}
+        </Container>
+        <TouchableOpacity
+            style={{ backgroundColor: "transparent", paddingLeft: 15, position: "relative", marginBottom: 20, zIndex: 99 }}
             button
             onPress={logout}
           >
             <Text style={{ color: '#fff', fontWeight: "bold" }}>Logout</Text>
           </TouchableOpacity>
-        </Container>
       </ImageBackground>
     </ScrollView>
   );
