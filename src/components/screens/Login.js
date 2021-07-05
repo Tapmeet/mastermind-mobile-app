@@ -107,8 +107,8 @@ const Login = (props) => {
 
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container}>
-      <Content style={loginStyle.spacing}>
+    <Container style={loginStyle.container} scrollEnabled={false}>
+      <Content style={loginStyle.spacing} scrollEnabled={false}>
         <ImageBackground
           style={{
             width: "100%",
@@ -179,7 +179,9 @@ const Login = (props) => {
             </Button>
           </Content>
         </Form>
-        <Body style={globalStyle.textRight}>
+        <Body
+          style={globalStyle.textRight}
+        >
           <Text
             style={globalStyle.hyperlink}
             onPress={() => props.navigation.navigate("ForgetPassword")}
@@ -188,7 +190,9 @@ const Login = (props) => {
           </Text>
         </Body>
       </Content>
-      <Body style={loginStyle.signUpSection}>
+      <Body
+        style={loginStyle.signUpSection}
+      >
         <Text>
           Don’t have an account?
           <Text
