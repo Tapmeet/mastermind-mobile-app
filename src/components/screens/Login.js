@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  ImageBackground,
+  SafeAreaView,
+} from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import {
   Container,
@@ -101,8 +107,8 @@ const Login = (props) => {
 
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container}>
-      <Content style={loginStyle.spacing}>
+    <Container style={loginStyle.container} scrollEnabled={false}>
+      <Content style={loginStyle.spacing} scrollEnabled={false}>
         <ImageBackground
           style={{
             width: "100%",
@@ -167,8 +173,12 @@ const Login = (props) => {
               {errorMessage}
             </Text>
           ) : null}
-          <Content style={loginStyle.formContainer}>
-            <Button onPress={submitForm} style={loginStyle.button} full>
+          <Content style={loginStyle.formContainer} scrollEnabled={false}>
+            <Button
+              onPress={submitForm}
+              style={loginStyle.button}
+              full
+            >
               <Text style={loginStyle.buttonText}>Login</Text>
             </Button>
           </Content>
@@ -189,7 +199,7 @@ const Login = (props) => {
             onPress={() => props.navigation.navigate("SignUp")}
             style={globalStyle.hyperlink}
           >
-            Sign Up Now!
+            &nbsp; Sign Up Now!
           </Text>
         </Text>
       </Body>
