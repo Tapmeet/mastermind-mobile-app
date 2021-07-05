@@ -32,7 +32,7 @@ export default StyleSheet.create({
     backgroundColor: colorPallete.primary,
     color: colorPallete.secondary,
     height: 60,
-    borderRadius: 30,
+    borderRadius: 30
   },
   buttonSave: {
     marginTop: 0,

@@ -173,15 +173,17 @@ const Login = (props) => {
               {errorMessage}
             </Text>
           ) : null}
-          <Content style={loginStyle.formContainer}>
-            <Button onPress={submitForm} style={loginStyle.button} full>
+          <Content style={loginStyle.formContainer} scrollEnabled={false}>
+            <Button
+              onPress={submitForm}
+              style={loginStyle.button}
+              full
+            >
               <Text style={loginStyle.buttonText}>Login</Text>
             </Button>
           </Content>
         </Form>
-        <Body
-          style={globalStyle.textRight}
-        >
+        <Body style={globalStyle.textRight}>
           <Text
             style={globalStyle.hyperlink}
             onPress={() => props.navigation.navigate("ForgetPassword")}
@@ -190,9 +192,7 @@ const Login = (props) => {
           </Text>
         </Body>
       </Content>
-      <Body
-        style={loginStyle.signUpSection}
-      >
+      <Body style={loginStyle.signUpSection}>
         <Text>
           Don’t have an account?
           <Text
