@@ -88,8 +88,8 @@ export default StyleSheet.create({
     padding: 0,
   },
   signUpSection: {
-    marginTop: 40,
-    paddingBottom: 50
+    position: 'absolute',
+    bottom: 35
   },
   backWrapper: {
     marginBottom: 40,

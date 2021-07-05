@@ -32,6 +32,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "Best Martial Arts School in Your Town"
+    "description": "Best Martial Arts School in Your Town",
+    "sdkVersion": "42.0.0"
   }
 }

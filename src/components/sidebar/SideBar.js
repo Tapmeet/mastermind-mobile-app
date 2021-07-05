@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Text, List, ListItem, Thumbnail, View } from "native-base";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import { ImageBackground } from "react-native";
+import { ImageBackground, Dimensions } from "react-native";
 const routes = [
   "Home",
   "Link Student",
@@ -15,7 +15,6 @@ import sideBar from "../../style/home/sidebarStyle";
 import { color } from "react-native-reanimated";
 import { useSelector, useDispatch } from "react-redux";
 import LOGGED_OUT_USER from "./../../redux/User";
-import { Dimensions } from "react-native";
 
 const SideBar = (props) => {
   const dispatch = useDispatch();

@@ -28,7 +28,8 @@ export default StyleSheet.create({
     fontSize: 18,
   },
   form: {
-    padding: 30,
+    paddingLeft: 30,
+    paddingRight: 30,
     paddingTop: 0,
   },
   formControl: {
@@ -39,14 +40,6 @@ export default StyleSheet.create({
     borderWidth: 2,
     marginBottom: 0,
     marginLeft: 0,
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //     width: 0,
-    //     height: 2,
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 3.84,
-    // elevation: 7,
     backgroundColor: "#F7F8F9",
   },
   Boxshadow: {
@@ -91,7 +84,6 @@ export default StyleSheet.create({
   textRight: {
     display: "flex",
     alignSelf: "flex-end",
-    marginTop: -10,
     flexDirection: "row-reverse",
     marginLeft: 30,
   },
