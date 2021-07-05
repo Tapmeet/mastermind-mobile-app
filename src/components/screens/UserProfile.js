@@ -315,10 +315,12 @@ const UserProfile = (props) => {
           },
         })
           .then(response => response.json())
-          .then(data => { 
+          .then(data => {
             //console.log(data) 
             if (data.StudentIds.length > 0) {
+              var students = data.StudentIds.length;
               //console.log("herer")
+              setStudentIds([])
               data.StudentIds.map((id, index) => {
                 fetch(`${apiUrl}/odata/StudentData(${id})`, {
                   method: "get",
@@ -331,7 +333,9 @@ const UserProfile = (props) => {
                   .then(response => response.json())
                   .then(data => {
                     //console.log(data)
-                    setStudentIds(prevState => [...prevState, data]);
+                    if (studentIds.length <= students) {
+                      setStudentIds(prevState => [...prevState, data]);
+                    }
                     //setStudentIds(data.StudentIds)
                   })
               })
@@ -439,8 +443,14 @@ const UserProfile = (props) => {
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"My Profile"} navigation={props.navigation} />
+      <SideBarMenu title={"Profile"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
+
+        <View style={[loginStyle.contentContainer, { height: 100 }]}>
+          <Body style={loginStyle.bodyContainer}>
+            <H2 style={globalStyle.h3}>Student Profile!</H2>
+          </Body>
+        </View>
         {loader ?
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#29ABE2" />
@@ -946,7 +956,7 @@ const UserProfile = (props) => {
               </Form>
               :
               <View>
-                <Text style={{ color: "#000", fontSize: 20, marginTop: 20, marginBottom: 10, textAlign: "center" }}>You have {studentIds.length} students</Text>
+                <Text style={{ color: "#000", fontSize: 20, marginBottom: 10, textAlign: "center" }}>  You have {studentIds.length} students</Text>
                 {studentIds.map((item, index) => {
                   //console.log(item.PhotoPath)
                   var studentId = item.StudentId
@@ -965,7 +975,7 @@ const UserProfile = (props) => {
                             }}
                             resizeMode={'contain'}
                           /> */}
-                          <View style={{ minWidth: "45%", justifyContent:"flex-start" }}>
+                          <View style={{ minWidth: "45%", justifyContent: "flex-start" }}>
                             <Text style={{
                               fontSize: 20,
                               paddingLeft: 10,

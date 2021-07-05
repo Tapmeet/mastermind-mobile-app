@@ -4,6 +4,7 @@ import { API_URL } from "./../Utility/AppConst";
 import Collapsible from 'react-native-collapsible';
 import DatePicker from 'react-native-datepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PhoneInput from 'react-phone-number-input/react-native-input'
 import {
   Container,
   Content,
@@ -869,6 +870,7 @@ const UserProfileMultiple = (props) => {
                       style={globalStyle.formControls}
                       placeholder="Phone2"
                     />
+                    
                   </Item>
                 </View>
                 <View style={[globalStyle.formField]}>

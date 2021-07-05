@@ -70,7 +70,7 @@ const LinkStudent = (props) => {
   };
   //Form Submission
   const submitForm = () => {
-    props.navigation.navigate("StudentLinkSuccess");
+    //props.navigation.navigate("StudentLinkSuccess");
     if (firstName == "") {
       setCheckFirstname(true);
       return false;

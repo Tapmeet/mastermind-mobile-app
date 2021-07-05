@@ -1,7 +1,8 @@
 import React, { Children } from "react";
 import { View, Image, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, ImageBackground } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
-
+//import './react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input/react-native-input'
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 //import CheckBox from "@react-native-community/checkbox";
 import {
@@ -773,6 +774,7 @@ const Inquiry = (props) => {
                     <Text style={globalStyle.formLabel}>Secondary Email</Text>
                     <Input
                       value={secondaryemail}
+                      style={globalStyle.formControls}
                       onChangeText={(text) => setsecondaryemail(text)}
                       style={globalStyle.formControls}
                       placeholder="Secondary Email "
@@ -782,13 +784,19 @@ const Inquiry = (props) => {
                   <View style={checkPhone1
                     ? globalStyle.formFieldError : globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Primary Phone</Text>
-                    <Input
+                    <PhoneInput
+                      defaultCountry="US"
+                      placeholder="Primary Phone"
+                      value={phone1}
+                      style={globalStyle.formControls}
+                      onChange={(text) => setphone1(text)} />
+                    {/* <Input
                       value={phone1}
                       onChangeText={(text) => setphone1(text)}
                       style={globalStyle.formControls
                       }
                       placeholder="Primary Phone"
-                    />
+                    /> */}
                   </View>
                   {checkPhone1 ? (
                     <Text style={globalStyle.error}>Enter Phone Number </Text>
@@ -796,22 +804,35 @@ const Inquiry = (props) => {
 
                   <View style={globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Secondary Phone</Text>
-                    <Input
+                    {/* <Input
                       value={phone2}
                       onChangeText={(text) => setphone2(text)}
                       style={globalStyle.formControls}
                       placeholder="Secondary Phone"
-                    />
+                    /> */}
+                    <PhoneInput
+                      defaultCountry="US"
+                      initialValueFormat="national"
+                      placeholder="Secondary Phone"
+                      style={globalStyle.formControls}
+                      value={phone2}
+                      onChange={(text) => setphone2(text)} />
                   </View>
 
                   <View style={globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Other Phone</Text>
-                    <Input
+                    {/* <Input
                       value={phone3}
                       onChangeText={(text) => setphone3(text)}
                       style={globalStyle.formControls}
                       placeholder="Other Phone"
-                    />
+                    /> */}
+                    <PhoneInput
+                      defaultCountry="US"
+                      style={globalStyle.formControls}
+                      placeholder="Other Phone"
+                      value={phone3}
+                      onChange={(text) => setphone3(text)} />
                   </View>
 
                   <View style={checkEmployer
@@ -936,8 +957,8 @@ const Inquiry = (props) => {
                 </View> */}
                 <View>
                   <View style={globalStyle.formField}>
-                  <Text style={globalStyle.formLabel}>Information Source</Text>
-                    <View style={globalStyle.formControls }>
+                    <Text style={globalStyle.formLabel}>Information Source</Text>
+                    <View style={globalStyle.formControls}>
                       {/* <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                           <Input
                             value={state}
@@ -1023,39 +1044,44 @@ const Inquiry = (props) => {
                     <Text style={globalStyle.error}>Please Check Options </Text>
                   ) : null}
                 </View>
-                <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", lineHeight: 26, marginBottom: 10, marginTop: 20 }}>Please check the benefits Child interested in:</Text>
-                <View >
-                  {childrenBenefits.map((item) => (<View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 1,
-                      alignItems: "center",
-                      marginBottom: 15
-                    }}
-                    key={item.id + 100}
-                  >
-                    <TouchableOpacity
-                      style={{ borderColor: "#ddd", borderRadius: 5, borderWidth: 2, height: 25, width: 28 }}
-                      value={item.isChecked}
-                      onPress={() => {
-                        handleChangeBenifits(item.id);
-                      }}
-                    >
-                      {item.isChecked ? <Image
-                        style={{ height: 15, marginRight: 0, marginTop: 2 }}
-                        source={require("../../../assets/checkTick.png")}
-                        resizeMode={'contain'}
-                      /> : null}
-                    </TouchableOpacity>
-                    <Text style={{
-                      fontSize: 20,
-                      paddingLeft: 15
-                    }}>{item.txt}</Text>
-                  </View>))}
-                  {checkChildBenifit ? (
-                    <Text style={globalStyle.error}>Please Check Options </Text>
-                  ) : null}
-                </View>
+                {typeof childrenList != undefined && childrenList.length
+                  ?
+                  <View>
+                    <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", lineHeight: 26, marginBottom: 10, marginTop: 20 }}>Please check the benefits Child interested in:</Text>
+                    <View >
+                      {childrenBenefits.map((item) => (<View
+                        style={{
+                          flexDirection: 'row',
+                          flex: 1,
+                          alignItems: "center",
+                          marginBottom: 15
+                        }}
+                        key={item.id + 100}
+                      >
+                        <TouchableOpacity
+                          style={{ borderColor: "#ddd", borderRadius: 5, borderWidth: 2, height: 25, width: 28 }}
+                          value={item.isChecked}
+                          onPress={() => {
+                            handleChangeBenifits(item.id);
+                          }}
+                        >
+                          {item.isChecked ? <Image
+                            style={{ height: 15, marginRight: 0, marginTop: 2 }}
+                            source={require("../../../assets/checkTick.png")}
+                            resizeMode={'contain'}
+                          /> : null}
+                        </TouchableOpacity>
+                        <Text style={{
+                          fontSize: 20,
+                          paddingLeft: 15
+                        }}>{item.txt}</Text>
+                      </View>))}
+                      {checkChildBenifit ? (
+                        <Text style={globalStyle.error}>Please Check Options </Text>
+                      ) : null}
+                    </View>
+                  </View>
+                  : null}
               </View>
               : null}
             {counter == 4 ?
