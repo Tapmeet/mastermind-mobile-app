@@ -151,7 +151,7 @@ export default StyleSheet.create({
     alignSelf: "flex-start",
     fontWeight: "bold",
     textTransform: "uppercase",
-    
+
   },
   barStylings: {
     backgroundColor: "transparent",
@@ -164,7 +164,7 @@ export default StyleSheet.create({
   titleStyling: {
     textAlign: "center",
     justifyContent: "center",
-    fontSize: 24,
+    fontSize: 22,
     color: "#fff",
     textTransform: "uppercase",
   },
@@ -340,4 +340,22 @@ export default StyleSheet.create({
     flexDirection: "row",
     padding: 15,
   },
+  inquiryBox: {
+    shadowColor: "#CCC",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.54,
+    shadowRadius: 3.84,
+    elevation: 7,
+    backgroundColor: "#fff",
+    width: "97%",
+    marginBottom: 20,
+    borderRadius:5,
+    paddingLeft: 15,
+    paddingRight:15,
+    paddingTop: 15,
+    paddingBottom: 15
+  }
 });

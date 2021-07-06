@@ -25,7 +25,7 @@ import { SideBarMenu } from "../sidebar";
 import { SignatureView } from 'react-native-signature-capture-view';
 const Inquiry = (props) => {
   const signatureRef = React.useRef(null);
-  const [counter, setCounter] = React.useState(1)
+  const [counter, setCounter] = React.useState(0)
   const [signature, setSignature] = React.useState('')
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
@@ -76,7 +76,7 @@ const Inquiry = (props) => {
     setZipCode('');
     setOccupation('');
     setCity('');
-    setCounter(1);
+    setCounter(0);
     setPhone1('');
     setPhone2('');
     setPhone3('');
@@ -86,6 +86,9 @@ const Inquiry = (props) => {
     setInquiry('');
     setChildrenList([]);
     setCounters(0)
+    setInquiryFor('')
+    setAdultBenefits(adultBenefitsList);
+    setAdultBenefits(childrenBenefitsList);
   }
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
@@ -193,11 +196,120 @@ const Inquiry = (props) => {
   const [childrenList, setChildrenList] = React.useState([]);
   const [counters, setCounters] = React.useState(0);
 
+  const [inquiryFor, setInquiryFor] = React.useState('');
+
+  const setinquiryFor = (e) => {
+    setInquiryFor(e);
+  };
   const increment = () => {
-    setCounter(parseInt(counter) + 1);
+    let lastCounter = parseInt(counter) + 1;
+    if (lastCounter == 1) {
+      if (inquiryFor == "") {
+        return false;
+      }
+    }
+    if (lastCounter == 2) {
+      if (firstName == "") {
+        setErrorMessage('Enter First Name')
+        setCheckFirstname(true);
+        return false;
+      }
+      if (lastName == "") {
+        setErrorMessage('Enter Last Name')
+        setChecklastName(true)
+        return false;
+      }
+      if (address1 == "") {
+        setErrorMessage('Enter Address ')
+        setCheckAddress1(true);
+        return false;
+      }
+      if (city == "") {
+        setErrorMessage('Enter City ')
+        setCheckCity(true);
+        return false;
+      }
+      if (zipCode == "") {
+        setErrorMessage('Enter Postal Code ')
+        setCheckZipCode(true);
+        return false;
+      }
+      if (state == "") {
+        setErrorMessage('Enter State ')
+        setCheckState(true);
+        return false;
+      }
+      if (email == "") {
+        setErrorMessage('Enter Email')
+        setCheckEmail(true);
+        return false;
+      }
+      let checkemail = ValidateEmail(email);
+      if (checkemail == false) {
+        setErrorMessage('Enter Valid Email')
+        setCheckEmail(true);
+        return false;
+      }
+
+
+      if (phone1 == "") {
+        setErrorMessage('Enter Phone')
+        setCheckPhone1(true);
+        return false;
+      }
+      // if (employer == "") {
+      //   setErrorMessage('Enter Employer')
+      //   setCheckEmployer(true);
+      //   return false;
+      // }
+      // if (occupation == "") {
+      //   setErrorMessage('Enter Occupation')
+      //   setCheckOccupation(true);
+      //   return false;
+      // }
+
+    }
+    if (lastCounter == 4) {
+      let selected = adultBenefits.filter((adultBenefits) => adultBenefits.isChecked);
+      let adultSelectedBenifits = selected.map(a => a.txt);
+
+      if (Array.isArray(adultSelectedBenifits) && !adultSelectedBenifits.length) {
+        setCheckAdultBenifit(true);
+        return false;
+      }
+      // if (Array.isArray(childSelectedBenifits) && !childSelectedBenifits.length) {
+      //   setCheckChildBenifit(true);
+      //   return false;
+      // }
+      // if (signature == '') {
+      //   setCheckNSignature(true)
+      //   return false;
+      // }
+    }
+    if (inquiryFor == 'myself') {
+      if (counter == 1) {
+        setCounter(parseInt(counter) + 2);
+      }
+      else {
+        setCounter(parseInt(counter) + 1);
+      }
+    } else {
+      setCounter(parseInt(counter) + 1);
+    }
+
   }
   const decrement = () => {
-    setCounter(parseInt(counter) - 1);
+    if (inquiryFor == 'myself') {
+      if (counter == 3) {
+        setCounter(parseInt(counter) - 2);
+      }
+      else {
+        setCounter(parseInt(counter) - 1);
+      }
+    } else {
+      setCounter(parseInt(counter) - 1);
+    }
+
   }
   const addSection = () => {
     let newArr = [...childrenList];
@@ -283,6 +395,14 @@ const Inquiry = (props) => {
       return adultBenefits;
     });
     setAdultBenefits(temp);
+    let selected = temp.filter((adultBenefits) => adultBenefits.isChecked);
+    let adultSelectedBenifits = selected.map(a => a.txt);
+
+    if (Array.isArray(adultSelectedBenifits) && adultSelectedBenifits.length > 0) {
+      setCheckAdultBenifit(false);
+      // return false;
+    }
+
   };
   const handleChangeBenifits = (id) => {
     let temp = childrenBenefits.map((childrenBenefits) => {
@@ -291,6 +411,7 @@ const Inquiry = (props) => {
       }
       return childrenBenefits;
     });
+
     setChildrenBenefits(temp);
   };
 
@@ -303,7 +424,7 @@ const Inquiry = (props) => {
 
       setCheckFirstname(true);
     } else {
-
+      setErrorMessage('')
       setCheckFirstname(false);
     }
   };
@@ -313,6 +434,7 @@ const Inquiry = (props) => {
     if (event == "") {
       setChecklastName(true);
     } else {
+      setErrorMessage('')
       setChecklastName(false);
     }
   };
@@ -321,6 +443,7 @@ const Inquiry = (props) => {
     if (event == "") {
       setCheckAddress1(true);
     } else {
+      setErrorMessage('')
       setCheckAddress1(false);
     }
   };
@@ -332,6 +455,7 @@ const Inquiry = (props) => {
     if (event == "") {
       setCheckCity(true);
     } else {
+      setErrorMessage('')
       setCheckCity(false);
     }
   };
@@ -340,6 +464,7 @@ const Inquiry = (props) => {
     if (event == "") {
       setCheckState(true);
     } else {
+      setErrorMessage('')
       setCheckState(false);
     }
   };
@@ -348,6 +473,7 @@ const Inquiry = (props) => {
     if (event == "") {
       setCheckZipCode(true);
     } else {
+      setErrorMessage('')
       setCheckZipCode(false);
     }
   };
@@ -357,6 +483,7 @@ const Inquiry = (props) => {
     if (event == "") {
       setCheckEmail(true);
     } else {
+      setErrorMessage('')
       setCheckEmail(false);
     }
   };
@@ -370,6 +497,7 @@ const Inquiry = (props) => {
       setCheckPhone1(true);
     } else {
       setCheckPhone1(false);
+      setErrorMessage('')
     }
   };
   const setphone2 = (event) => {
@@ -383,6 +511,7 @@ const Inquiry = (props) => {
     if (event == "") {
       setCheckEmployer(true);
     } else {
+      setErrorMessage('')
       setCheckEmployer(false);
     }
   };
@@ -391,13 +520,14 @@ const Inquiry = (props) => {
     if (event == "") {
       setCheckOccupation(true);
     } else {
+      setErrorMessage('')
       setCheckOccupation(false);
     }
   };
 
   //Form Submission
   const submitForm = () => {
-    console.log("here")
+    //console.log("here")
     setErrorMessage('')
     setSuccessMessage('')
     setCheckAdultBenifit(false);
@@ -451,16 +581,16 @@ const Inquiry = (props) => {
       setCheckPhone1(true);
       return false;
     }
-    if (employer == "") {
-      setErrorMessage('Enter Employer')
-      setCheckEmployer(true);
-      return false;
-    }
-    if (occupation == "") {
-      setErrorMessage('Enter Occupation')
-      setCheckOccupation(true);
-      return false;
-    }
+    // if (employer == "") {
+    //   setErrorMessage('Enter Employer')
+    //   setCheckEmployer(true);
+    //   return false;
+    // }
+    // if (occupation == "") {
+    //   setErrorMessage('Enter Occupation')
+    //   setCheckOccupation(true);
+    //   return false;
+    // }
 
     let selected = adultBenefits.filter((adultBenefits) => adultBenefits.isChecked);
     let selectedBenifts = childrenBenefits.filter((childrenBenefits) => childrenBenefits.isChecked);
@@ -471,30 +601,30 @@ const Inquiry = (props) => {
       setCheckAdultBenifit(true);
       return false;
     }
-    if (Array.isArray(childSelectedBenifits) && !childSelectedBenifits.length) {
-      setCheckChildBenifit(true);
-      return false;
-    }
-    if (signature == '') {
-      setCheckNSignature(true)
-      return false;
-    }
-    console.log("here")
-    // var children = '';
-    // // var children = [];
-    // childrenList.map((data, index) => {
-    //   // let datas = JSON.stringify(data);
-    //   // children.push(datas);
-    //   if (index == 0) {
-    //     children = children + data.FirstName + "|" + data.LastName + "|" + data.DOB;
-    //   }
-    //   else {
-    //     children = children + "!" + data.FirstName + "|" + data.LastName + "|" + data.DOB;
-
-    //   }
-
-    // })
-    var children = "John|Smith|02/06/1990!Jason|Smith|02/06/2000";
+    // if (Array.isArray(childSelectedBenifits) && !childSelectedBenifits.length) {
+    //   setCheckChildBenifit(true);
+    //   return false;
+    // }
+    // if (signature == '') {
+    //   setCheckNSignature(true)
+    //   return false;
+    // }
+    // console.log("here")
+    var children = '';
+    // var children = [];
+    childrenList.map((data, index) => {
+      // let datas = JSON.stringify(data);
+      // children.push(datas);
+      if (data.FirstName) {
+        if (index == 0) {
+          children = children + data.FirstName + "|" + data.LastName + "|" + data.DOB;
+        }
+        else {
+          children = children + "!" + data.FirstName + "|" + data.LastName + "|" + data.DOB;
+        }
+      }
+    })
+    //var children = "John|Smith|02/06/1990!Jason|Smith|02/06/2000";
     console.log(children);
     const apiUrl = API_URL.trim();
     fetch(`${apiUrl}/odata/Inquiry`, {
@@ -531,7 +661,7 @@ const Inquiry = (props) => {
       .then((response) => {
         // console.log("hererssssssssss")
         let jsonData = JSON.stringify(response);
-        // console.log(jsonData)
+      //  console.log(jsonData)
         let jsonDataPrase = JSON.parse(jsonData);
         // console.log(jsonDataPrase.status)
         if (jsonDataPrase.status != 200) {
@@ -610,6 +740,20 @@ const Inquiry = (props) => {
               padding: 15,
               paddingBottom: 30
             }}>
+              {counter == 0 ?
+                <View  >
+                  <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 20 }}> Inquiry For</Text>
+                  <TouchableOpacity style={inquiryFor == 'child' ? [globalStyle.inquiryBox, { backgroundColor: "#4895FF" }] : globalStyle.inquiryBox} onPress={() => setinquiryFor('child')}>
+                    <Text style={inquiryFor == 'child' ? { color: "#fff", fontSize: 20, marginBottom: 0 } : { color: "#000", fontSize: 20, marginBottom: 0 }}>  For Child</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={inquiryFor == 'family' ? [globalStyle.inquiryBox, { backgroundColor: "#4895FF" }] : globalStyle.inquiryBox} onPress={() => setinquiryFor('family')}>
+                    <Text style={inquiryFor == 'family' ? { color: "#fff", fontSize: 20, marginBottom: 0 } : { color: "#000", fontSize: 20, marginBottom: 0 }}>  For Family</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={inquiryFor == 'myself' ? [globalStyle.inquiryBox, { backgroundColor: "#4895FF" }] : globalStyle.inquiryBox} onPress={() => setinquiryFor('myself')}>
+                    <Text style={inquiryFor == 'myself' ? { color: "#fff", fontSize: 20, marginBottom: 0 } : { color: "#000", fontSize: 20, marginBottom: 0 }}> For Myself</Text>
+                  </TouchableOpacity>
+                </View>
+                : null}
               {counter == 1 ?
                 <View>
                   <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0 }}>Personal Information</Text>
@@ -1200,7 +1344,7 @@ const Inquiry = (props) => {
                   : null}
                 {counter < 4 ?
                   <ImageBackground
-                    style={counter == 1 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '50%' }]
+                    style={counter <= 1 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '50%' }]
                     }
                     source={require('./../../../assets/Oval.png')}
                     resizeMode={'stretch'}
