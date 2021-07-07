@@ -972,7 +972,7 @@ const UserProfile = (props) => {
                           <View style={{ minWidth: "45%", justifyContent: "flex-start" }}>
                             <Text style={{
                               fontSize: 20,
-                              paddingLeft: 10,
+                              marginLeft: -10,
                               textAlign: "left"
                             }}> {item.FirstName} {item.LastName}
                             </Text>
