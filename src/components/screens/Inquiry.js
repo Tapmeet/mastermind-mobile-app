@@ -897,7 +897,7 @@ const Inquiry = (props) => {
                     />
                   </View>
                   {checkZipCode ? (
-                    <Text style={globalStyle.error}>Enter ZipCode</Text>
+                    <Text style={globalStyle.error}>Enter Postal Code</Text>
                   ) : null}
 
                   <View style={checkEmail
