@@ -443,14 +443,8 @@ const UserProfile = (props) => {
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"Profile"} navigation={props.navigation} />
+      <SideBarMenu title={"My Profile"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
-
-        <View style={[loginStyle.contentContainer, { height: 100 }]}>
-          <Body style={loginStyle.bodyContainer}>
-            <H2 style={globalStyle.h3}>Student Profile!</H2>
-          </Body>
-        </View>
         {loader ?
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#29ABE2" />
@@ -956,7 +950,7 @@ const UserProfile = (props) => {
               </Form>
               :
               <View>
-                <Text style={{ color: "#000", fontSize: 20, marginBottom: 10, textAlign: "center" }}>  You have {studentIds.length} students</Text>
+                <Text style={{ color: "#000", fontSize: 20, marginTop: 20, marginBottom: 10, textAlign: "center" }}>  You have {studentIds.length} students</Text>
                 {studentIds.map((item, index) => {
                   //console.log(item.PhotoPath)
                   var studentId = item.StudentId
