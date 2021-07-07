@@ -841,7 +841,7 @@ const UserProfileMultiple = (props) => {
                   </Item>
                 </View>
                 {checkZipCode ? (
-                  <Text style={globalStyle.error}>Enter ZipCode</Text>
+                  <Text style={globalStyle.error}>Enter Postal Code</Text>
                 ) : null}
 
                 <View style={checkPhone1
