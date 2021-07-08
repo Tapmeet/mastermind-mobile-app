@@ -26,6 +26,7 @@ import { SideBarMenu } from "../sidebar";
 import { set } from "react-native-reanimated";
 import moment from 'moment';
 const UserProfile = (props) => {
+  const [adult, setAdult] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(null);
   const [items, setItems] = React.useState([]);
@@ -300,12 +301,12 @@ const UserProfile = (props) => {
       });
   };
   React.useEffect(() => {
-
     navigation.addListener('focus', () => {
       setloader(true)
       clearData()
+      setStudentIds([])
       const apiUrl = API_URL.trim();
-      if (data == '') {
+      if (studentIds.length <= 0) {
         fetch(`${apiUrl}/odata/StudentAccount`, {
           method: "get",
           headers: {
@@ -318,8 +319,8 @@ const UserProfile = (props) => {
           .then(data => {
             //console.log(data) 
             if (data.StudentIds.length > 0) {
+
               var students = data.StudentIds.length;
-              //console.log("herer")
               setStudentIds([])
               data.StudentIds.map((id, index) => {
                 fetch(`${apiUrl}/odata/StudentData(${id})`, {
@@ -332,9 +333,11 @@ const UserProfile = (props) => {
                 })
                   .then(response => response.json())
                   .then(data => {
-                    //console.log(data)
                     if (studentIds.length <= students) {
+
+
                       setStudentIds(prevState => [...prevState, data]);
+                      //console.log(studentIds)
                     }
                     //setStudentIds(data.StudentIds)
                   })
@@ -370,7 +373,7 @@ const UserProfile = (props) => {
               setEmployer(data.Employer)
               setAddress1(data.Address1)
               setAddress2(data.Address2)
-
+              setAdult(data.IsAdult)
               setCity(data.City)
               setZipCode(data.PostalCode)
               setPhone1(data.Phone1)
@@ -711,34 +714,38 @@ const UserProfile = (props) => {
                         </View>
                       </View>
                     </View>
-                    <View style={[globalStyle.formField]}>
-                      <Text style={globalStyle.formLabel}>Employer</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                        <Input
-                          value={Employer}
-                          onChangeText={(text) => setEmployer(text)}
-                          style={
-                            [globalStyle.formControls, { color: "#999" }]
-                          }
-                          placeholder="Employer"
-                          placeholderTextColor="#ddd"
-                        />
-                      </Item>
-                    </View>
-                    <View style={[globalStyle.formField]}>
-                      <Text style={globalStyle.formLabel}>Occupation</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                        <Input
-                          value={Occupation}
-                          onChangeText={(text) => setOccupation(text)}
-                          style={
-                            globalStyle.formControls
-                          }
-                          placeholder="Occupation"
-                          placeholderTextColor="#ddd"
-                        />
-                      </Item>
-                    </View>
+                    {adult ?
+                      <View>
+                        <View style={[globalStyle.formField]}>
+                          <Text style={globalStyle.formLabel}>Employer</Text>
+                          <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                            <Input
+                              value={Employer}
+                              onChangeText={(text) => setEmployer(text)}
+                              style={
+                                [globalStyle.formControls, { color: "#999" }]
+                              }
+                              placeholder="Employer"
+                              placeholderTextColor="#ddd"
+                            />
+                          </Item>
+                        </View>
+                        <View style={[globalStyle.formField]}>
+                          <Text style={globalStyle.formLabel}>Occupation</Text>
+                          <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                            <Input
+                              value={Occupation}
+                              onChangeText={(text) => setOccupation(text)}
+                              style={
+                                globalStyle.formControls
+                              }
+                              placeholder="Occupation"
+                              placeholderTextColor="#ddd"
+                            />
+                          </Item>
+                        </View>
+                      </View>
+                      : null}
                   </View>
                 </Collapsible>
                 <TouchableOpacity onPress={toggleExpanded2}>
@@ -955,6 +962,7 @@ const UserProfile = (props) => {
                   //console.log(item.PhotoPath)
                   var studentId = item.StudentId
                   return (
+
                     <View key={index + 100}>
                       <View >
                         <TouchableOpacity

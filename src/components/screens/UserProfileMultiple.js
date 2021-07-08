@@ -42,6 +42,7 @@ const UserProfileMultiple = (props) => {
   const [Employer, setEmployer] = React.useState("");
   const [Occupation, setOccupation] = React.useState("");
   const [DOB, setDOB] = React.useState("");
+  const [adult, setAdult] = React.useState("");
 
   const [checkFirstname, setCheckFirstname] = React.useState(false);
   const [checklastName, setChecklastName] = React.useState(false);
@@ -320,7 +321,7 @@ const UserProfileMultiple = (props) => {
                   .then(response => response.json())
                   .then(data => {
                     // console.log('herer')
-                    //console.log(data)
+                    // console.log(data)
                     setFirstName(data.FirstName)
                     setLastName(data.LastName)
                     setEmail(data.Email)
@@ -340,6 +341,7 @@ const UserProfileMultiple = (props) => {
                     setUniformSize(data.UniformSizeId)
                     setBeltSize(data.BeltSizeId)
                     setEmergencyContact(data.EmergencyContact)
+                    setAdult(data.IsAdult)
                     let dob = new Date(data.DOB).toISOString().slice(0, 10);
                     setDOB(dob)
                     //console.log(dob);
@@ -674,34 +676,38 @@ const UserProfileMultiple = (props) => {
                     </View>
                   </View>
                 </View>
-                <View style={[globalStyle.formField]}>
-                  <Text style={globalStyle.formLabel}>Employer</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                    <Input
-                      value={Employer}
-                      onChangeText={(text) => setEmployer(text)}
-                      style={
-                        [globalStyle.formControls, { color: "#999" }]
-                      }
-                      placeholder="Employer"
-                      placeholderTextColor="#ddd"
-                    />
-                  </Item>
-                </View>
-                <View style={[globalStyle.formField]}>
-                  <Text style={globalStyle.formLabel}>Occupation</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                    <Input
-                      value={Occupation}
-                      onChangeText={(text) => setOccupation(text)}
-                      style={
-                        globalStyle.formControls
-                      }
-                      placeholder="Occupation"
-                      placeholderTextColor="#ddd"
-                    />
-                  </Item>
-                </View>
+                {adult ?
+                  <View>
+                    <View style={[globalStyle.formField]}>
+                      <Text style={globalStyle.formLabel}>Employer</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={Employer}
+                          onChangeText={(text) => setEmployer(text)}
+                          style={
+                            [globalStyle.formControls, { color: "#999" }]
+                          }
+                          placeholder="Employer"
+                          placeholderTextColor="#ddd"
+                        />
+                      </Item>
+                    </View>
+                    <View style={[globalStyle.formField]}>
+                      <Text style={globalStyle.formLabel}>Occupation</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={Occupation}
+                          onChangeText={(text) => setOccupation(text)}
+                          style={
+                            globalStyle.formControls
+                          }
+                          placeholder="Occupation"
+                          placeholderTextColor="#ddd"
+                        />
+                      </Item>
+                    </View>
+                  </View>
+                  : null}
               </View>
             </Collapsible>
             <TouchableOpacity onPress={toggleExpanded2}>
@@ -870,7 +876,7 @@ const UserProfileMultiple = (props) => {
                       style={globalStyle.formControls}
                       placeholder="Phone2"
                     />
-                    
+
                   </Item>
                 </View>
                 <View style={[globalStyle.formField]}>

@@ -1335,7 +1335,7 @@ const Inquiry = (props) => {
               : null}
             {showSignature == false ?
               <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 50, paddingLeft: 20, paddingRight: 20, marginTop: 50 }}>
-                {counter > 1 ?
+                {counter > 0 ?
                   <Button
                     style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
                     onPress={decrement} >
@@ -1344,7 +1344,7 @@ const Inquiry = (props) => {
                   : null}
                 {counter < 4 ?
                   <ImageBackground
-                    style={counter <= 1 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '50%' }]
+                    style={counter <= 0 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '50%' }]
                     }
                     source={require('./../../../assets/Oval.png')}
                     resizeMode={'stretch'}
