@@ -49,30 +49,15 @@ const SideBar = (props) => {
           if (data.StudentIds.length > 0) {
             setStudentIds(data.StudentIds);
             //console.log("where")
-            getdata(data.StudentIds[0]);
+            setFirstName(data.FirstName);
+            setLastName(data.LastName);
+            setPhotoPath(data.PhotoPath);
+            setloader(false);
           } else {
             //  console.log("hhere")
             setloader(false);
           }
         });
-      function getdata(id) {
-        fetch(`${apiUrl}/odata/StudentData(${id})`, {
-          method: "get",
-          headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + userId[0].access_Token,
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            //console.log(data)
-            setFirstName(data.FirstName);
-            setLastName(data.LastName);
-            setPhotoPath(data.PhotoPath);
-            setloader(false);
-          });
-      }
     }
   }, [data]);
 
