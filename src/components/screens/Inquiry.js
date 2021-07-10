@@ -527,7 +527,7 @@ const Inquiry = (props) => {
 
   //Form Submission
   const submitForm = () => {
-    //console.log("here")
+    console.log("here")
     setErrorMessage('')
     setSuccessMessage('')
     setCheckAdultBenifit(false);
@@ -661,7 +661,7 @@ const Inquiry = (props) => {
       .then((response) => {
         // console.log("hererssssssssss")
         let jsonData = JSON.stringify(response);
-      //  console.log(jsonData)
+        // console.log(jsonData)
         let jsonDataPrase = JSON.parse(jsonData);
         // console.log(jsonDataPrase.status)
         if (jsonDataPrase.status != 200) {
@@ -906,8 +906,8 @@ const Inquiry = (props) => {
                     <Input
                       value={email}
                       onChangeText={(text) => setemail(text)}
-                      style={globalStyle.formControls
-                      }
+                      style={globalStyle.formControls}
+                      autoCapitalize="none"
                       placeholder="Primary Email "
                     />
                   </View>
@@ -919,6 +919,7 @@ const Inquiry = (props) => {
                     <Input
                       value={secondaryemail}
                       style={globalStyle.formControls}
+                      autoCapitalize="none"
                       onChangeText={(text) => setsecondaryemail(text)}
                       style={globalStyle.formControls}
                       placeholder="Secondary Email "
@@ -1334,10 +1335,10 @@ const Inquiry = (props) => {
                 </View>
               : null}
             {showSignature == false ?
-              <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 50, paddingLeft: 20, paddingRight: 20, marginTop: 50 }}>
+              <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 50, paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
                 {counter > 0 ?
                   <Button
-                    style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
+                    style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 0, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
                     onPress={decrement} >
                     <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
                   </Button>
