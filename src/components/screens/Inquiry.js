@@ -257,16 +257,6 @@ const Inquiry = (props) => {
         setCheckPhone1(true);
         return false;
       }
-      // if (employer == "") {
-      //   setErrorMessage('Enter Employer')
-      //   setCheckEmployer(true);
-      //   return false;
-      // }
-      // if (occupation == "") {
-      //   setErrorMessage('Enter Occupation')
-      //   setCheckOccupation(true);
-      //   return false;
-      // }
 
     }
     if (lastCounter == 4) {
@@ -527,7 +517,6 @@ const Inquiry = (props) => {
 
   //Form Submission
   const submitForm = () => {
-    console.log("here")
     setErrorMessage('')
     setSuccessMessage('')
     setCheckAdultBenifit(false);
@@ -681,16 +670,6 @@ const Inquiry = (props) => {
     <Container style={loginStyle.container}>
       <SideBarMenu title={"Inquiry"} navigation={props.navigation} />
       <Content style={loginStyle.spacing} >
-        {/* <ImageBackground
-          style={{
-            width: "100%",
-            height: 150,
-            position: "absolute"
-          }}
-          source={require('./../../../assets/bg3.png')}
-          resizeMode={'stretch'}
-        >
-        </ImageBackground> */}
 
         <View style={loginStyle.contentContainer}>
           <View style={globalStyle.dflex}>
@@ -830,31 +809,6 @@ const Inquiry = (props) => {
                       ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>State</Text>
                       <View style={globalStyle.formControls}>
-                        {/* <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                          <Input
-                            value={state}
-                            //onChangeText={(text) => setzipCode(text)}
-                           // editable={false}
-                            style={
-                              [globalStyle.formControls, { color: "#999" }]
-                            }
-                            placeholder="State"
-                          />
-                        </Item> */}
-                        {/* <Picker
-                            selectedValue={state}
-                            style={{ height: 50, width: '100%', fontSize: 24 }}
-                            onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
-                          >
-                            <Picker.Item label="State" value="" />
-                            {stateList.map((data, index) => {
-                              //console.log(state)
-                              return (
-                                <Picker.Item key={index} label={data[0]} value={data[1]} />)
-                            }
-                            )
-                            }
-                          </Picker> */}
                         <RNPickerSelect
                           value={state}
                           items={stateList}
@@ -1011,22 +965,6 @@ const Inquiry = (props) => {
                 </View>
                 : null}
             </View>
-
-            {/* <Item style={globalStyle.formGroup} floatingLabel>
-            <Input
-              value={InquiryTypeId}
-              onChangeText={(text) => setsource(text)}
-              style={
-                checkSource
-                  ? globalStyle.formControlError
-                  : globalStyle.formControl
-              } style={globalStyle.formControl}
-              placeholder="Source"
-            />
-          </Item>
-          {checkSource ? (
-            <Text style={globalStyle.error}>Enter Source </Text>
-          ) : null} */}
             {counter == 2 ?
               <View style={{
                 marginTop: -20,
@@ -1104,31 +1042,6 @@ const Inquiry = (props) => {
                   <View style={globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Information Source</Text>
                     <View style={globalStyle.formControls}>
-                      {/* <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                          <Input
-                            value={state}
-                            //onChangeText={(text) => setzipCode(text)}
-                           // editable={false}
-                            style={
-                              [globalStyle.formControls, { color: "#999" }]
-                            }
-                            placeholder="State"
-                          />
-                        </Item> */}
-                      {/* <Picker
-                            selectedValue={state}
-                            style={{ height: 50, width: '100%', fontSize: 24 }}
-                            onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
-                          >
-                            <Picker.Item label="State" value="" />
-                            {stateList.map((data, index) => {
-                              //console.log(state)
-                              return (
-                                <Picker.Item key={index} label={data[0]} value={data[1]} />)
-                            }
-                            )
-                            }
-                          </Picker> */}
                       <RNPickerSelect
                         value={inquiry}
                         items={enquiry}
@@ -1297,15 +1210,6 @@ const Inquiry = (props) => {
                       }}>
                       <Text style={{ paddingRight: 15, fontWeight: "bold", fontSize: 18 }}>Clear</Text>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity
-                      style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
-                      onPress={() => {
-                        signatureRef.current.saveSignature();
-                        setShowSignature(false)
-                        setCheckNSignature(false)
-                      }}>
-                      <Text>Save</Text>
-                    </TouchableOpacity> */}
                   </View>
                   <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                     <Button
