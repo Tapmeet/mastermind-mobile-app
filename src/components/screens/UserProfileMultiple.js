@@ -1,10 +1,17 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { API_URL } from "./../Utility/AppConst";
-import Collapsible from 'react-native-collapsible';
-import DatePicker from 'react-native-datepicker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import PhoneInput from 'react-phone-number-input/react-native-input'
+import Collapsible from "react-native-collapsible";
+import DatePicker from "react-native-datepicker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import PhoneInput from "react-phone-number-input/react-native-input";
 import {
   Container,
   Content,
@@ -21,11 +28,11 @@ import {
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import profilestyle from "../../style/profile/profileStyle";
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 import { SideBarMenu } from "../sidebar";
 import { set } from "react-native-reanimated";
-import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
-import moment from 'moment';
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import moment from "moment";
 const UserProfileMultiple = (props) => {
   const [loader, setloader] = React.useState(true);
   const [items, setItems] = React.useState([]);
@@ -47,7 +54,7 @@ const UserProfileMultiple = (props) => {
   const [checkFirstname, setCheckFirstname] = React.useState(false);
   const [checklastName, setChecklastName] = React.useState(false);
   const [checkEmail, setCheckEmail] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState("");
   const [collapsed, setCollapsed] = React.useState(true);
   const [collapsed2, setCollapsed2] = React.useState(true);
   const [address1, setAddress1] = React.useState("");
@@ -72,9 +79,9 @@ const UserProfileMultiple = (props) => {
 
   const [BeltSizeList, setBeltSizeList] = React.useState([]);
   const [BeltSize, setBeltSize] = React.useState("");
-  const [data, setData] = React.useState('');
-  const userId = useSelector(state => state);
-  const [SuccessMessage, setSuccessMessage] = React.useState('');
+  const [data, setData] = React.useState("");
+  const userId = useSelector((state) => state);
+  const [SuccessMessage, setSuccessMessage] = React.useState("");
 
   const setschoolName = (event) => {
     setSchoolName(event);
@@ -134,57 +141,57 @@ const UserProfileMultiple = (props) => {
     setCollapsed(true);
   };
   const stateList = [
-    { label: 'Arizona', value: 'AZ' },
-    { label: 'Alabama', value: 'AL' },
-    { label: 'Alaska', value: 'AK' },
-    { label: 'Arkansas', value: 'AR' },
-    { label: 'California', value: 'CA' },
-    { label: 'Colorado', value: 'CO' },
-    { label: 'Connecticut', value: 'CT' },
-    { label: 'Delaware', value: 'DE' },
-    { label: 'Florida', value: 'FL' },
-    { label: 'Georgia', value: 'GA' },
-    { label: 'Hawaii', value: 'HI' },
-    { label: 'Idaho', value: 'ID' },
-    { label: 'Illinois', value: 'IL' },
-    { label: 'Indiana', value: 'IN' },
-    { label: 'Iowa', value: 'IA' },
-    { label: 'Kansas', value: 'KS' },
-    { label: 'Kentucky', value: 'KY' },
-    { label: 'Louisiana', value: 'LA' },
-    { label: 'Maine', value: 'ME' },
-    { label: 'Maryland', value: 'MD' },
-    { label: 'Massachusetts', value: 'MA' },
-    { label: 'Michigan', value: 'MI' },
-    { label: 'Minnesota', value: 'MN' },
-    { label: 'Mississippi', value: 'MS' },
-    { label: 'Missouri', value: 'MO' },
-    { label: 'Montana', value: 'MT' },
-    { label: 'Nebraska', value: 'NE' },
-    { label: 'Nevada', value: 'NV' },
-    { label: 'New Hampshire', value: 'NH' },
-    { label: 'New Jersey', value: 'NJ' },
-    { label: 'New Mexico', value: 'NM' },
-    { label: 'New York', value: 'NY' },
-    { label: 'North Carolina', value: 'NC' },
-    { label: 'North Dakota', value: 'ND' },
-    { label: 'Ohio', value: 'OH' },
-    { label: 'Oklahoma', value: 'OK' },
-    { label: 'Oregon', value: 'OR' },
-    { label: 'Pennsylvania', value: 'PA' },
-    { label: 'Rhode Island', value: 'RI' },
-    { label: 'South Carolina', value: 'SC' },
-    { label: 'South Dakota', value: 'SD' },
-    { label: 'Tennessee', value: 'TN' },
-    { label: 'Texas', value: 'TX' },
-    { label: 'Utah', value: 'UT' },
-    { label: 'Vermont', value: 'VT' },
-    { label: 'Virginia', value: 'VA' },
-    { label: 'Washington', value: 'WA' },
-    { label: 'West Virginia', value: 'WV' },
-    { label: 'Wisconsin', value: 'WI' },
-    { label: 'Wyoming', value: 'WY' },
-  ]
+    { label: "Arizona", value: "AZ" },
+    { label: "Alabama", value: "AL" },
+    { label: "Alaska", value: "AK" },
+    { label: "Arkansas", value: "AR" },
+    { label: "California", value: "CA" },
+    { label: "Colorado", value: "CO" },
+    { label: "Connecticut", value: "CT" },
+    { label: "Delaware", value: "DE" },
+    { label: "Florida", value: "FL" },
+    { label: "Georgia", value: "GA" },
+    { label: "Hawaii", value: "HI" },
+    { label: "Idaho", value: "ID" },
+    { label: "Illinois", value: "IL" },
+    { label: "Indiana", value: "IN" },
+    { label: "Iowa", value: "IA" },
+    { label: "Kansas", value: "KS" },
+    { label: "Kentucky", value: "KY" },
+    { label: "Louisiana", value: "LA" },
+    { label: "Maine", value: "ME" },
+    { label: "Maryland", value: "MD" },
+    { label: "Massachusetts", value: "MA" },
+    { label: "Michigan", value: "MI" },
+    { label: "Minnesota", value: "MN" },
+    { label: "Mississippi", value: "MS" },
+    { label: "Missouri", value: "MO" },
+    { label: "Montana", value: "MT" },
+    { label: "Nebraska", value: "NE" },
+    { label: "Nevada", value: "NV" },
+    { label: "New Hampshire", value: "NH" },
+    { label: "New Jersey", value: "NJ" },
+    { label: "New Mexico", value: "NM" },
+    { label: "New York", value: "NY" },
+    { label: "North Carolina", value: "NC" },
+    { label: "North Dakota", value: "ND" },
+    { label: "Ohio", value: "OH" },
+    { label: "Oklahoma", value: "OK" },
+    { label: "Oregon", value: "OR" },
+    { label: "Pennsylvania", value: "PA" },
+    { label: "Rhode Island", value: "RI" },
+    { label: "South Carolina", value: "SC" },
+    { label: "South Dakota", value: "SD" },
+    { label: "Tennessee", value: "TN" },
+    { label: "Texas", value: "TX" },
+    { label: "Utah", value: "UT" },
+    { label: "Vermont", value: "VT" },
+    { label: "Virginia", value: "VA" },
+    { label: "Washington", value: "WA" },
+    { label: "West Virginia", value: "WV" },
+    { label: "Wisconsin", value: "WI" },
+    { label: "Wyoming", value: "WY" },
+  ];
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
   };
@@ -222,7 +229,7 @@ const UserProfileMultiple = (props) => {
       return false;
     }
     if (lastName == "") {
-      setChecklastName(true)
+      setChecklastName(true);
       return false;
     }
     if (email == "") {
@@ -235,29 +242,29 @@ const UserProfileMultiple = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + userId[0].access_Token
+        Authorization: "Bearer " + userId[0].access_Token,
       },
       body: JSON.stringify({
-        "FirstName": firstName,
-        "LastName": lastName,
-        "Email": email,
-        "Address1": address1,
-        "Address2": address2,
-        "DOB": DOB,
-        "Phone1": phone1,
-        "Phone2": phone2,
-        "Phone1IsCell": false,
-        "Phone2IsCell": false,
-        "Employer": Employer,
-        "EmergencyContact": EmergencyContact,
-        "Occupation": Occupation,
-        "MedicalInfo": MedicalInfo,
-        "BeltSizeId": BeltSize,
-        "UniformSizeId": UniformSize,
-        "AcademicSchool": AcademicSchool,
-        "City": city,
-        "State": state,
-        "PostalCode": zipCode,
+        FirstName: firstName,
+        LastName: lastName,
+        Email: email,
+        Address1: address1,
+        Address2: address2,
+        DOB: DOB,
+        Phone1: phone1,
+        Phone2: phone2,
+        Phone1IsCell: false,
+        Phone2IsCell: false,
+        Employer: Employer,
+        EmergencyContact: EmergencyContact,
+        Occupation: Occupation,
+        MedicalInfo: MedicalInfo,
+        BeltSizeId: BeltSize,
+        UniformSizeId: UniformSize,
+        AcademicSchool: AcademicSchool,
+        City: city,
+        State: state,
+        PostalCode: zipCode,
       }),
     })
       .then((response) => {
@@ -276,83 +283,83 @@ const UserProfileMultiple = (props) => {
       });
   };
   const clearData = () => {
-    setFirstName('');
-    setCheckFirstname(false)
-    setLastName('');
-    setEmail('');
-    setErrorMessage('');
+    setFirstName("");
+    setCheckFirstname(false);
+    setLastName("");
+    setEmail("");
+    setErrorMessage("");
     setSchoolName();
-    setStudentNumber('');
+    setStudentNumber("");
     setRank();
-    setMedicalInfo('');
-    setAcademicSchool('');
-    setState('');
-    setCity('');
-    setEmployer('');
-    setZipCode('')
-    setAddress1('');
-    setAddress2('');
-    setPhone1('');
-    setPhone2('');
-    setData('');
-    setSuccessMessage('');
-  }
+    setMedicalInfo("");
+    setAcademicSchool("");
+    setState("");
+    setCity("");
+    setEmployer("");
+    setZipCode("");
+    setAddress1("");
+    setAddress2("");
+    setPhone1("");
+    setPhone2("");
+    setData("");
+    setSuccessMessage("");
+  };
   React.useEffect(() => {
-    navigation.addListener('focus', () => {
-      setloader(true)
+    navigation.addListener("focus", () => {
+      setloader(true);
       clearData();
-      if (data == '') {
+      if (data == "") {
         async function getData() {
           try {
-            const value = await AsyncStorage.getItem('profileId')
+            const value = await AsyncStorage.getItem("profileId");
             if (value !== null) {
-              setProfileId(value)
+              setProfileId(value);
               const apiUrl = API_URL.trim();
-              getdata(value)
+              getdata(value);
               function getdata(id) {
                 fetch(`${apiUrl}/odata/StudentData(${id})`, {
                   method: "get",
                   headers: {
                     Accept: "*/*",
                     "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + userId[0].access_Token
+                    Authorization: "Bearer " + userId[0].access_Token,
                   },
                 })
-                  .then(response => response.json())
-                  .then(data => {
+                  .then((response) => response.json())
+                  .then((data) => {
                     // console.log('herer')
                     // console.log(data)
-                    setFirstName(data.FirstName)
-                    setLastName(data.LastName)
-                    setEmail(data.Email)
-                    setStudentNumber(data.StudentNumber)                    
-                    setMedicalInfo(data.MedicalInfo)
-                    setAcademicSchool(data.AcademicSchool)
-                    setOccupation(data.Occupation)
-                    setRank(data.Rank)
-                    setEmployer(data.Employer)
-                    setAddress1(data.Address1)
-                    setAddress2(data.Address2)
+                    setFirstName(data.FirstName);
+                    setLastName(data.LastName);
+                    setEmail(data.Email);
+                    setStudentNumber(data.StudentNumber);
+                    setMedicalInfo(data.MedicalInfo);
+                    setAcademicSchool(data.AcademicSchool);
+                    setOccupation(data.Occupation);
+                    setRank(data.Rank);
+                    setEmployer(data.Employer);
+                    setAddress1(data.Address1);
+                    setAddress2(data.Address2);
 
-                    setCity(data.City)
-                    setZipCode(data.PostalCode)
-                    setPhone1(data.Phone1)
-                    setPhone2(data.Phone2)
-                    setUniformSize(data.UniformSizeId)
-                    setBeltSize(data.BeltSizeId)
-                    setEmergencyContact(data.EmergencyContact)
-                    setAdult(data.IsAdult)
+                    setCity(data.City);
+                    setZipCode(data.PostalCode);
+                    setPhone1(data.Phone1);
+                    setPhone2(data.Phone2);
+                    setUniformSize(data.UniformSizeId);
+                    setBeltSize(data.BeltSizeId);
+                    setEmergencyContact(data.EmergencyContact);
+                    setAdult(data.IsAdult);
                     let dob = new Date(data.DOB).toISOString().slice(0, 10);
-                    setDOB(dob)
+                    setDOB(dob);
                     //console.log(dob);
-                    setState(data.State)
-                    setData('set')
+                    setState(data.State);
+                    setData("set");
                     // stateList.map((statedata, index) => {
                     //   if (statedata[1] == data.State) {
                     //     setState(statedata[0])
                     //   }
                     // })
-                    setloader(false)
+                    setloader(false);
                   });
               }
               fetch(`${apiUrl}/odata/UniformSize`, {
@@ -360,17 +367,20 @@ const UserProfileMultiple = (props) => {
                 headers: {
                   Accept: "*/*",
                   "Content-Type": "application/json",
-                  'Authorization': 'Bearer ' + userId[0].access_Token
+                  Authorization: "Bearer " + userId[0].access_Token,
                 },
               })
-                .then(response => response.json())
-                .then(data => {
+                .then((response) => response.json())
+                .then((data) => {
                   //console.log(data.value)
-                  setUniformSizeList(data.value)
-                  let uniforms = []
+                  setUniformSizeList(data.value);
+                  let uniforms = [];
                   data.value.map((uniform) => {
-                    uniforms.push({ label: uniform.Name, value: uniform.UniformSizeId });
-                  })
+                    uniforms.push({
+                      label: uniform.Name,
+                      value: uniform.UniformSizeId,
+                    });
+                  });
                   setItems(uniforms);
                 });
               fetch(`${apiUrl}/odata/BeltSize`, {
@@ -378,27 +388,25 @@ const UserProfileMultiple = (props) => {
                 headers: {
                   Accept: "*/*",
                   "Content-Type": "application/json",
-                  'Authorization': 'Bearer ' + userId[0].access_Token
+                  Authorization: "Bearer " + userId[0].access_Token,
                 },
               })
-                .then(response => response.json())
-                .then(data => {
+                .then((response) => response.json())
+                .then((data) => {
                   //console.log(data.value)
                   //setBeltSizeList(data.value)
-                  let belts = []
+                  let belts = [];
                   data.value.map((belt) => {
                     belts.push({ label: belt.Name, value: belt.BeltSizeId });
-                  })
+                  });
                   setBeltSizeList(belts);
                 });
-
             }
-          } catch (e) {
-          }
+          } catch (e) {}
         }
-        getData()
+        getData();
       }
-    })
+    });
   }, [data]);
   const { navigation } = props;
   return (
@@ -410,45 +418,59 @@ const UserProfileMultiple = (props) => {
             <H2 style={globalStyle.h3}>Student Profile!</H2>
           </Body>
         </View>
-        {loader ?
+        {loader ? (
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
-          :
+        ) : (
           <Form style={globalStyle.form}>
             <TouchableOpacity onPress={toggleExpanded}>
-              <View style={loginStyle.textAccordians} >
+              <View style={loginStyle.textAccordians}>
                 <Image
                   style={loginStyle.iconLefts}
                   source={require("../../../assets/businessman-information.png")}
-                  resizeMode={'contain'}
+                  resizeMode={"contain"}
                 />
-                <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>Personal Information</Text>
-                {collapsed ?
+                <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>
+                  Personal Information
+                </Text>
+                {collapsed ? (
                   <Image
                     style={loginStyle.arrows}
                     source={require("../../../assets/down-arrow.png")}
-                    resizeMode={'contain'}
+                    resizeMode={"contain"}
                   />
-                  : <Image
+                ) : (
+                  <Image
                     style={loginStyle.arrows}
                     source={require("../../../assets/up-arrow.png")}
-                    resizeMode={'contain'}
-                  />}
+                    resizeMode={"contain"}
+                  />
+                )}
               </View>
             </TouchableOpacity>
             {/*Content of Single Collapsible*/}
             <Collapsible collapsed={collapsed} align="center">
               <View style={{ paddingBottom: 30, paddingTop: 10 }}>
-                <View style={checkFirstname
-                  ? globalStyle.formFieldError : globalStyle.formField}>
+                <View
+                  style={
+                    checkFirstname
+                      ? globalStyle.formFieldError
+                      : globalStyle.formField
+                  }
+                >
                   <Text style={globalStyle.formLabel}>First Name</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                  <Item
+                    style={[
+                      globalStyle.formGroup,
+                      { marginBottom: 10, marginTop: 0 },
+                    ]}
+                    floatingLabel
+                  >
                     <Input
                       value={firstName}
                       onChangeText={(text) => setfirstName(text)}
-                      style={globalStyle.formControls
-                      }
+                      style={globalStyle.formControls}
                       placeholder="First Name"
                       placeholderTextColor="#ddd"
                     />
@@ -457,10 +479,21 @@ const UserProfileMultiple = (props) => {
                 {checkFirstname ? (
                   <Text style={globalStyle.error}>Enter First Name</Text>
                 ) : null}
-                <View style={checklastName
-                  ? globalStyle.formFieldError : globalStyle.formField}>
+                <View
+                  style={
+                    checklastName
+                      ? globalStyle.formFieldError
+                      : globalStyle.formField
+                  }
+                >
                   <Text style={globalStyle.formLabel}>Last Name</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                  <Item
+                    style={[
+                      globalStyle.formGroup,
+                      { marginBottom: 10, marginTop: 0 },
+                    ]}
+                    floatingLabel
+                  >
                     <Input
                       value={lastName}
                       onChangeText={(text) => setlasttName(text)}
@@ -473,15 +506,25 @@ const UserProfileMultiple = (props) => {
                 {checklastName ? (
                   <Text style={globalStyle.error}>Enter Last Name </Text>
                 ) : null}
-                <View style={checkEmail
-                  ? globalStyle.formFieldError : globalStyle.formField}>
+                <View
+                  style={
+                    checkEmail
+                      ? globalStyle.formFieldError
+                      : globalStyle.formField
+                  }
+                >
                   <Text style={globalStyle.formLabel}>Email</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                  <Item
+                    style={[
+                      globalStyle.formGroup,
+                      { marginBottom: 10, marginTop: 0 },
+                    ]}
+                    floatingLabel
+                  >
                     <Input
                       value={email}
                       onChangeText={(text) => setemail(text)}
-                      style={globalStyle.formControls
-                      }
+                      style={globalStyle.formControls}
                       placeholder="Email "
                       placeholderTextColor="#ddd"
                     />
@@ -520,15 +563,29 @@ const UserProfileMultiple = (props) => {
                   />
                 </Item>
               </View> */}
-                <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                <View
+                  style={[globalStyle.formField, { backgroundColor: "#eee" }]}
+                >
                   <Text style={globalStyle.formLabel}>Rank</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0, borderWidth: 0, elevation: 0 }]} floatingLabel>
+                  <Item
+                    style={[
+                      globalStyle.formGroup,
+                      {
+                        marginBottom: 10,
+                        marginTop: 0,
+                        borderWidth: 0,
+                        elevation: 0,
+                      },
+                    ]}
+                    floatingLabel
+                  >
                     <Input
                       value={Rank}
                       //   onChangeText={(text) => setemail(text)}
-                      style={
-                        [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
-                      }
+                      style={[
+                        globalStyle.formControls,
+                        { color: "#999", backgroundColor: "#eee" },
+                      ]}
                       editable={false}
                       placeholder="Rank"
                       placeholderTextColor="#000"
@@ -537,35 +594,52 @@ const UserProfileMultiple = (props) => {
                 </View>
                 <View style={globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Medical Info</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                  <Item
+                    style={[
+                      globalStyle.formGroup,
+                      { marginBottom: 10, marginTop: 0 },
+                    ]}
+                    floatingLabel
+                  >
                     <Input
                       value={MedicalInfo}
                       onChangeText={(text) => setMedicalInfo(text)}
-                      style={
-                        [globalStyle.formControls, { color: "#999" }]
-                      }
+                      style={[globalStyle.formControls, { color: "#999" }]}
                       placeholder="Medical Info"
                       placeholderTextColor="#ddd"
                     />
                   </Item>
                 </View>
-                <View style={[globalStyle.formField]}>
-                  <Text style={globalStyle.formLabel}>Academic School</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0, borderWidth: 0, elevation: 0 }]} floatingLabel>
-                    <Input
-                      value={AcademicSchool}
-                      onChangeText={(text) => setAcademicSchool(text)}
-                      style={
-                        [globalStyle.formControls, { color: "#999" }]
-                      }
-                      placeholder="Academic School"
-                      placeholderTextColor="#ddd"
-                    />
-                  </Item>
-                </View>
-                <View style={{
-                  marginTop: 30,
-                }}>
+                {!adult ? (
+                  <View style={[globalStyle.formField]}>
+                    <Text style={globalStyle.formLabel}>Academic School</Text>
+                    <Item
+                      style={[
+                        globalStyle.formGroup,
+                        {
+                          marginBottom: 10,
+                          marginTop: 0,
+                          borderWidth: 0,
+                          elevation: 0,
+                        },
+                      ]}
+                      floatingLabel
+                    >
+                      <Input
+                        value={AcademicSchool}
+                        onChangeText={(text) => setAcademicSchool(text)}
+                        style={[globalStyle.formControls, { color: "#999" }]}
+                        placeholder="Academic School"
+                        placeholderTextColor="#ddd"
+                      />
+                    </Item>
+                  </View>
+                ) : null}
+                <View
+                  style={{
+                    marginTop: 30,
+                  }}
+                >
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>DOB</Text>
                     <View style={globalStyle.formControls}>
@@ -576,29 +650,37 @@ const UserProfileMultiple = (props) => {
                         mode="date"
                         placeholder="YYYY-MM-DD"
                         format="YYYY-MM-DD"
-                        maxDate={moment().format('YYYY-MM-DD')}
+                        maxDate={moment().format("YYYY-MM-DD")}
                         confirmBtnText="Ok"
                         cancelBtnText="Cancel"
                         style={{ fontSize: 20 }}
                         customStyles={{
                           dateInput: {
-
                             borderWidth: 0,
-                            borderColor: 'black',
-                            width: "100%"
+                            borderColor: "black",
+                            width: "100%",
                           },
                         }}
-                        onDateChange={(date) => { setDOB(date) }}
+                        onDateChange={(date) => {
+                          setDOB(date);
+                        }}
                       />
                     </View>
                   </View>
                 </View>
-                <View style={{
-                  marginTop: 30,
-                }}>
+                <View
+                  style={{
+                    marginTop: 30,
+                  }}
+                >
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>Uniform Size</Text>
-                    <View style={[globalStyle.formControls, { position: "relative", zIndex: 999 }]}>
+                    <View
+                      style={[
+                        globalStyle.formControls,
+                        { position: "relative", zIndex: 999 },
+                      ]}
+                    >
                       <RNPickerSelect
                         value={UniformSize}
                         items={items}
@@ -606,46 +688,41 @@ const UserProfileMultiple = (props) => {
                         style={{
                           ...pickerSelectStyles,
                           iconContainer: {
-                            top: Platform.OS === 'android' ? 20 : 30,
+                            top: Platform.OS === "android" ? 20 : 30,
                             right: 10,
                           },
                           placeholder: {
-                            color: '#8a898e',
+                            color: "#8a898e",
                             fontSize: 12,
-                            fontWeight: 'bold',
+                            fontWeight: "bold",
                           },
                         }}
                         Icon={() => {
-                          return <Image
-                            style={{ width: 12, position: "absolute", top: -15, right: 15 }}
-                            source={require("../../../assets/arrow-down.png")}
-                            resizeMode={'contain'}
-                          />;
+                          return (
+                            <Image
+                              style={{
+                                width: 12,
+                                position: "absolute",
+                                top: -15,
+                                right: 15,
+                              }}
+                              source={require("../../../assets/arrow-down.png")}
+                              resizeMode={"contain"}
+                            />
+                          );
                         }}
                       />
-                      {/* <Picker
-                            selectedValue={UniformSize}
-                            style={{ height: 50, width: '100%' }}
-                            onValueChange={(itemValue, itemIndex) => setUniformSize(itemValue)}
-                          >
-                            {UniformSizeList.map((data) => <Picker.Item key={data.label + data.value} label={data.Name} value={data.UniformSizeId} />)}
-                          </Picker> */}
                     </View>
                   </View>
                 </View>
-                <View style={{
-                  marginTop: 30,
-                }}>
+                <View
+                  style={{
+                    marginTop: 30,
+                  }}
+                >
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>Belt Size</Text>
                     <View style={globalStyle.formControls}>
-                      {/* <Picker
-                            selectedValue={BeltSize}
-                            style={{ height: 50, width: '100%' }}
-                            onValueChange={(itemValue, itemIndex) => setBeltSize(itemValue)}
-                          >
-                            {BeltSizeList.map((data) => <Picker.Item key={data.label + data.value} label={data.Name} value={data.UniformSizeId} />)}
-                          </Picker> */}
                       <RNPickerSelect
                         value={BeltSize}
                         items={BeltSizeList}
@@ -653,37 +730,48 @@ const UserProfileMultiple = (props) => {
                         style={{
                           ...pickerSelectStyles,
                           iconContainer: {
-                            top: Platform.OS === 'android' ? 20 : 30,
+                            top: Platform.OS === "android" ? 20 : 30,
                             right: 10,
                           },
                           placeholder: {
-                            color: '#8a898e',
+                            color: "#8a898e",
                             fontSize: 12,
-                            fontWeight: 'bold',
+                            fontWeight: "bold",
                           },
                         }}
                         Icon={() => {
-                          return <Image
-                            style={{ width: 12, position: "absolute", top: -15, right: 15 }}
-                            source={require("../../../assets/arrow-down.png")}
-                            resizeMode={'contain'}
-                          />;
+                          return (
+                            <Image
+                              style={{
+                                width: 12,
+                                position: "absolute",
+                                top: -15,
+                                right: 15,
+                              }}
+                              source={require("../../../assets/arrow-down.png")}
+                              resizeMode={"contain"}
+                            />
+                          );
                         }}
                       />
                     </View>
                   </View>
                 </View>
-                {adult ?
+                {adult ? (
                   <View>
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Employer</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                      <Item
+                        style={[
+                          globalStyle.formGroup,
+                          { marginBottom: 10, marginTop: 0 },
+                        ]}
+                        floatingLabel
+                      >
                         <Input
                           value={Employer}
                           onChangeText={(text) => setEmployer(text)}
-                          style={
-                            [globalStyle.formControls, { color: "#999" }]
-                          }
+                          style={[globalStyle.formControls, { color: "#999" }]}
                           placeholder="Employer"
                           placeholderTextColor="#ddd"
                         />
@@ -691,49 +779,68 @@ const UserProfileMultiple = (props) => {
                     </View>
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Occupation</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                      <Item
+                        style={[
+                          globalStyle.formGroup,
+                          { marginBottom: 10, marginTop: 0 },
+                        ]}
+                        floatingLabel
+                      >
                         <Input
                           value={Occupation}
                           onChangeText={(text) => setOccupation(text)}
-                          style={
-                            globalStyle.formControls
-                          }
+                          style={globalStyle.formControls}
                           placeholder="Occupation"
                           placeholderTextColor="#ddd"
                         />
                       </Item>
                     </View>
                   </View>
-                  : null}
+                ) : null}
               </View>
             </Collapsible>
             <TouchableOpacity onPress={toggleExpanded2}>
-              <View style={loginStyle.textAccordians} >
+              <View style={loginStyle.textAccordians}>
                 <Image
                   style={loginStyle.iconLefts}
                   source={require("../../../assets/contacts.png")}
-                  resizeMode={'contain'}
+                  resizeMode={"contain"}
                 />
-                <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>Contact Information</Text>
-                {collapsed2 ?
+                <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>
+                  Contact Information
+                </Text>
+                {collapsed2 ? (
                   <Image
                     style={loginStyle.arrows}
                     source={require("../../../assets/down-arrow.png")}
-                    resizeMode={'contain'}
+                    resizeMode={"contain"}
                   />
-                  : <Image
+                ) : (
+                  <Image
                     style={loginStyle.arrows}
                     source={require("../../../assets/up-arrow.png")}
-                    resizeMode={'contain'}
-                  />}
+                    resizeMode={"contain"}
+                  />
+                )}
               </View>
             </TouchableOpacity>
             <Collapsible collapsed={collapsed2} align="center">
               <View style={{ paddingBottom: 50, paddingTop: 30 }}>
-                <View style={checkAddress1
-                  ? globalStyle.formFieldError : globalStyle.formField}>
+                <View
+                  style={
+                    checkAddress1
+                      ? globalStyle.formFieldError
+                      : globalStyle.formField
+                  }
+                >
                   <Text style={globalStyle.formLabel}>Permanent Address</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                  <Item
+                    style={[
+                      globalStyle.formGroup,
+                      { marginBottom: 10, marginTop: 0 },
+                    ]}
+                    floatingLabel
+                  >
                     <Input
                       value={address1}
                       onChangeText={(text) => setaddress1(text)}
@@ -745,7 +852,13 @@ const UserProfileMultiple = (props) => {
                 </View>
                 <View style={globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Current Address</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                  <Item
+                    style={[
+                      globalStyle.formGroup,
+                      { marginBottom: 10, marginTop: 0 },
+                    ]}
+                    floatingLabel
+                  >
                     <Input
                       value={address2}
                       onChangeText={(text) => setaddress2(text)}
@@ -757,24 +870,30 @@ const UserProfileMultiple = (props) => {
                 </View>
                 <View style={[globalStyle.formField]}>
                   <Text style={globalStyle.formLabel}>City</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                  <Item
+                    style={[
+                      globalStyle.formGroup,
+                      { marginBottom: 10, marginTop: 0 },
+                    ]}
+                    floatingLabel
+                  >
                     <Input
                       value={city}
                       onChangeText={(text) => setcity(text)}
-                      style={
-                        [globalStyle.formControls, { color: "#999" }]
-                      }
+                      style={[globalStyle.formControls, { color: "#999" }]}
                       placeholder="City "
-                    // editable={false}
+                      // editable={false}
                     />
                   </Item>
                 </View>
                 {checkCity ? (
                   <Text style={globalStyle.error}>Enter City</Text>
                 ) : null}
-                <View style={{
-                  marginTop: 30,
-                }}>
+                <View
+                  style={{
+                    marginTop: 30,
+                  }}
+                >
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>State</Text>
                     <View style={globalStyle.formControls}>
@@ -785,21 +904,28 @@ const UserProfileMultiple = (props) => {
                         style={{
                           ...pickerSelectStyles,
                           iconContainer: {
-                            top: Platform.OS === 'android' ? 20 : 30,
+                            top: Platform.OS === "android" ? 20 : 30,
                             right: 10,
                           },
                           placeholder: {
-                            color: '#8a898e',
+                            color: "#8a898e",
                             fontSize: 12,
-                            fontWeight: 'bold',
+                            fontWeight: "bold",
                           },
                         }}
                         Icon={() => {
-                          return <Image
-                            style={{ width: 12, position: "absolute", top: -15, right: 15 }}
-                            source={require("../../../assets/arrow-down.png")}
-                            resizeMode={'contain'}
-                          />;
+                          return (
+                            <Image
+                              style={{
+                                width: 12,
+                                position: "absolute",
+                                top: -15,
+                                right: 15,
+                              }}
+                              source={require("../../../assets/arrow-down.png")}
+                              resizeMode={"contain"}
+                            />
+                          );
                         }}
                       />
                     </View>
@@ -807,13 +933,17 @@ const UserProfileMultiple = (props) => {
                 </View>
                 <View style={[globalStyle.formField]}>
                   <Text style={globalStyle.formLabel}>Postal Code</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                  <Item
+                    style={[
+                      globalStyle.formGroup,
+                      { marginBottom: 10, marginTop: 0 },
+                    ]}
+                    floatingLabel
+                  >
                     <Input
                       value={zipCode}
                       onChangeText={(text) => setzipCode(text)}
-                      style={
-                        [globalStyle.formControls]
-                      }
+                      style={[globalStyle.formControls]}
                       placeholder="Postal Code"
                     />
                   </Item>
@@ -822,15 +952,25 @@ const UserProfileMultiple = (props) => {
                   <Text style={globalStyle.error}>Enter Postal Code</Text>
                 ) : null}
 
-                <View style={checkPhone1
-                  ? globalStyle.formFieldError : globalStyle.formField}>
+                <View
+                  style={
+                    checkPhone1
+                      ? globalStyle.formFieldError
+                      : globalStyle.formField
+                  }
+                >
                   <Text style={globalStyle.formLabel}>Phone1</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                  <Item
+                    style={[
+                      globalStyle.formGroup,
+                      { marginBottom: 10, marginTop: 0 },
+                    ]}
+                    floatingLabel
+                  >
                     <Input
                       value={phone1}
                       onChangeText={(text) => setphone1(text)}
-                      style={globalStyle.formControls
-                      }
+                      style={globalStyle.formControls}
                       placeholder="Phone1"
                     />
                   </Item>
@@ -841,19 +981,30 @@ const UserProfileMultiple = (props) => {
 
                 <View style={[globalStyle.formField]}>
                   <Text style={globalStyle.formLabel}>Phone2</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                  <Item
+                    style={[
+                      globalStyle.formGroup,
+                      { marginBottom: 10, marginTop: 0 },
+                    ]}
+                    floatingLabel
+                  >
                     <Input
                       value={phone2}
                       onChangeText={(text) => setphone2(text)}
                       style={globalStyle.formControls}
                       placeholder="Phone2"
                     />
-
                   </Item>
                 </View>
                 <View style={[globalStyle.formField]}>
                   <Text style={globalStyle.formLabel}>Emergency Contact</Text>
-                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                  <Item
+                    style={[
+                      globalStyle.formGroup,
+                      { marginBottom: 10, marginTop: 0 },
+                    ]}
+                    floatingLabel
+                  >
                     <Input
                       value={EmergencyContact}
                       onChangeText={(text) => setEmergencyContact(text)}
@@ -872,20 +1023,22 @@ const UserProfileMultiple = (props) => {
             ) : null}
             <Content style={loginStyle.formContainer}>
               <ImageBackground
-                style={[globalStyle.Btn, {
-                  width: '100%'
-                }]}
-                source={require('./../../../assets/Oval.png')}
-                resizeMode={'stretch'}
-
+                style={[
+                  globalStyle.Btn,
+                  {
+                    width: "100%",
+                  },
+                ]}
+                source={require("./../../../assets/Oval.png")}
+                resizeMode={"stretch"}
               >
                 <Button onPress={submitForm} style={loginStyle.buttons} full>
-                  <Text style={loginStyle.buttonText} >Update</Text>
+                  <Text style={loginStyle.buttonText}>Update</Text>
                 </Button>
               </ImageBackground>
             </Content>
           </Form>
-        }
+        )}
       </Content>
     </Container>
   );
@@ -893,11 +1046,11 @@ const UserProfileMultiple = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     padding: 10,
   },
 });
@@ -908,9 +1061,9 @@ const pickerSelectStyles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 10,
     borderWidth: 0,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 0,
-    color: '#8a898e',
+    color: "#8a898e",
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
@@ -918,9 +1071,9 @@ const pickerSelectStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 20,
     borderWidth: 0,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 0,
-    color: '#8a898e',
+    color: "#8a898e",
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
