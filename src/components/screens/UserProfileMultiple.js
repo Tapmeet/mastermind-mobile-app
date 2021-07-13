@@ -405,10 +405,10 @@ const UserProfileMultiple = (props) => {
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"Profile"} navigation={props.navigation} />
+      <SideBarMenu title={"My Profile"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
-        <View style={[loginStyle.contentContainer, { height: 100 }]}>
-          <Body style={loginStyle.bodyContainer}>
+        <View style={[loginStyle.contentContainer]}>
+          <Body>
             <H2 style={globalStyle.h3}>Student Profile!</H2>
           </Body>
         </View>
