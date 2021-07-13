@@ -37,8 +37,8 @@ const UserProfileMultiple = (props) => {
   const [SchoolName, setSchoolName] = React.useState("");
   const [StudentNumber, setStudentNumber] = React.useState("");
   const [Rank, setRank] = React.useState("");
-  const [AcademicSchool, setAcademicSchool] = React.useState("");
   const [MedicalInfo, setMedicalInfo] = React.useState("");
+  const [AcademicSchool, setAcademicSchool] = React.useState("");
   const [Employer, setEmployer] = React.useState("");
   const [Occupation, setOccupation] = React.useState("");
   const [DOB, setDOB] = React.useState("");
@@ -229,7 +229,6 @@ const UserProfileMultiple = (props) => {
       setCheckEmail(true);
       return false;
     }
-
     const apiUrl = API_URL.trim();
     fetch(`${apiUrl}/odata/StudentData(${profileId})`, {
       method: "patch",
@@ -265,7 +264,7 @@ const UserProfileMultiple = (props) => {
         let jsonData = JSON.stringify(response);
         // console.log(jsonData)
         let jsonDataPrase = JSON.parse(jsonData);
-        //console.log(jsonDataPrase.status)
+        // console.log(jsonDataPrase.status)
         if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
           setSuccessMessage("Update Successfully");
         } else {
@@ -285,7 +284,8 @@ const UserProfileMultiple = (props) => {
     setSchoolName();
     setStudentNumber('');
     setRank();
-    setAcademicSchool('')
+    setMedicalInfo('');
+    setAcademicSchool('');
     setState('');
     setCity('');
     setEmployer('');
@@ -293,9 +293,9 @@ const UserProfileMultiple = (props) => {
     setAddress1('');
     setAddress2('');
     setPhone1('');
-    setPhone2('')
-    setData('')
-    setSuccessMessage('')
+    setPhone2('');
+    setData('');
+    setSuccessMessage('');
   }
   React.useEffect(() => {
     navigation.addListener('focus', () => {
@@ -325,9 +325,9 @@ const UserProfileMultiple = (props) => {
                     setFirstName(data.FirstName)
                     setLastName(data.LastName)
                     setEmail(data.Email)
-                    setStudentNumber(data.StudentNumber)
-                    setAcademicSchool(data.AcademicSchool)
+                    setStudentNumber(data.StudentNumber)                    
                     setMedicalInfo(data.MedicalInfo)
+                    setAcademicSchool(data.AcademicSchool)
                     setOccupation(data.Occupation)
                     setRank(data.Rank)
                     setEmployer(data.Employer)
@@ -394,12 +394,10 @@ const UserProfileMultiple = (props) => {
 
             }
           } catch (e) {
-
           }
         }
         getData()
       }
-
     })
   }, [data]);
   const { navigation } = props;
@@ -542,9 +540,9 @@ const UserProfileMultiple = (props) => {
                   <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                     <Input
                       value={MedicalInfo}
-                      //onChangeText={(text) => setemail(text)}
+                      onChangeText={(text) => setMedicalInfo(text)}
                       style={
-                        [globalStyle.formControls]
+                        [globalStyle.formControls, { color: "#999" }]
                       }
                       placeholder="Medical Info"
                       placeholderTextColor="#ddd"
@@ -560,9 +558,8 @@ const UserProfileMultiple = (props) => {
                       style={
                         [globalStyle.formControls, { color: "#999" }]
                       }
-                      //editable={false}
                       placeholder="Academic School"
-                      placeholderTextColor="#000"
+                      placeholderTextColor="#ddd"
                     />
                   </Item>
                 </View>
@@ -781,31 +778,6 @@ const UserProfileMultiple = (props) => {
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>State</Text>
                     <View style={globalStyle.formControls}>
-                      {/* <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                          <Input
-                            value={state}
-                            //onChangeText={(text) => setzipCode(text)}
-                           // editable={false}
-                            style={
-                              [globalStyle.formControls, { color: "#999" }]
-                            }
-                            placeholder="State"
-                          />
-                        </Item> */}
-                      {/* <Picker
-                            selectedValue={state}
-                            style={{ height: 50, width: '100%', fontSize: 24 }}
-                            onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
-                          >
-                            <Picker.Item label="State" value="" />
-                            {stateList.map((data, index) => {
-                              //console.log(state)
-                              return (
-                                <Picker.Item key={index} label={data[0]} value={data[1]} />)
-                            }
-                            )
-                            }
-                          </Picker> */}
                       <RNPickerSelect
                         value={state}
                         items={stateList}
