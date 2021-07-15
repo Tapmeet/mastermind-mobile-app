@@ -136,9 +136,7 @@ const ContractList = (props) => {
                 </View>
               </TouchableOpacity>
               <Collapsible collapsed={collapsed} align="center">
-                <View style={{
-                  paddingBottom: 30,
-                }}>
+                <View>
                   <View style={globalStyle.tableBoxshadowContract}>
                     <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#4895FF", alignItems: "center" }}>
 
@@ -194,7 +192,7 @@ const ContractList = (props) => {
                 </View>
               </TouchableOpacity>
               <Collapsible collapsed={collapsed2} align="center">
-                <View style={{ paddingBottom: 30 }}>
+                <View>
                   <View style={globalStyle.tableBoxshadowContract}>
                     <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 15, backgroundColor: "#4895FF", alignItems: "center" }}>
                       <View style={{ flex: 1, alignSelf: 'stretch' }} ><Text style={{ color: '#fff', fontSize: 17 }}>Name</Text></View>

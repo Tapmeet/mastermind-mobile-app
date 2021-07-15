@@ -287,8 +287,8 @@ const Contract = (props) => {
                     fontSize: 20,
                     fontWeight: "bold",
 
-                  }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: PayerSignatureTerms }} /></View>) : null}
-                  <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+                  }} >Signature</Text><Image style={{ height: 100, resizeMode: 'contain', borderColor: '#efefef', borderWidth: 1 }} source={{ uri: PayerSignatureTerms }} /></View>) : null}
+                  <View>
                     <Button
                       style={[loginStyle.buttonsSecondary, { marginTop: 30, }]}
                       onPress={() => { setShowSignature(true) }} full>
@@ -296,7 +296,7 @@ const Contract = (props) => {
                     </Button>
                   </View>
                   {PayerSignatureTerms != '' ? (
-                    <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+                    <View>
                       <ImageBackground
                         style={[globalStyle.Btn, {
                           width: '100%'
@@ -353,15 +353,10 @@ const Contract = (props) => {
                       <Text>Save</Text>
                     </TouchableOpacity> */}
                   </View>
-                  <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    <Button
-                      style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
-                      onPress={() => { setShowSignature(false) }} >
-                      <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
-                    </Button>
+                  <View style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                     <ImageBackground
                       style={[globalStyle.Btn, {
-                        width: '50%',
+                        width: '100%',
                         alignItems: "center"
                       }]}
                       source={require('./../../../assets/Oval.png')}
@@ -377,14 +372,16 @@ const Contract = (props) => {
                         <Text style={loginStyle.buttonText}>Save</Text>
                       </Button>
                     </ImageBackground>
+                    <Button
+                      style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
+                      onPress={() => { setShowSignature(false) }} >
+                      <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
+                    </Button>
                   </View>
                 </View>
               : step2 ?
                 <View>
-                  <View style={{
-                    paddingLeft: 20,
-                    paddingRight: 20
-                  }} >
+                  <View>
                     <H2 style={[globalStyle.h3, { fontSize: 23, textAlign: "center", marginTop: -10, marginBottom: 15 }]}>Student Minor Acknowledgement </H2>
                     <Text style={{
                       fontSize: 20,
@@ -410,13 +407,6 @@ const Contract = (props) => {
                         }}>
                         <Text style={{ paddingRight: 15, fontWeight: "bold", fontSize: 18 }}>Clear</Text>
                       </TouchableOpacity>
-                      {/* <TouchableOpacity
-                        style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
-                        onPress={() => {
-                          signatureRef2.current.saveSignature();
-                        }}>
-                        <Text>Save</Text>
-                      </TouchableOpacity> */}
                     </View>
                     <ImageBackground
                       style={[globalStyle.Btn, {
@@ -646,9 +636,7 @@ const Contract = (props) => {
                                         />
                                       </Item>
                                     </View>
-                                    <View style={{
-                                      marginTop: 30,
-                                    }}>
+                                    <View>
                                       <View style={[globalStyle.formField]}>
                                         <Text style={globalStyle.formLabel}>Select Payment Method</Text>
                                         <View style={globalStyle.formControls}>
@@ -707,7 +695,6 @@ const Contract = (props) => {
 
                                         }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: PayerSignatureBilling }} /></View>) : null}
                                     <View style={{ marginTop: 20, marginBottom: 20 }}>
-
                                       <Button
                                         style={[loginStyle.buttonsSecondary]}
                                         onPress={() => { setShowSignature2(true) }} full>
@@ -784,15 +771,10 @@ const Contract = (props) => {
                           <Text>Save</Text>
                         </TouchableOpacity> */}
                       </View>
-                      <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                        <Button
-                          style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
-                          onPress={() => { setShowSignature2(false) }} >
-                          <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
-                        </Button>
+                      <View style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                         <ImageBackground
                           style={[globalStyle.Btn, {
-                            width: '50%',
+                            width: '100%',
                             alignItems: "center"
                           }]}
                           source={require('./../../../assets/Oval.png')}
@@ -808,6 +790,11 @@ const Contract = (props) => {
                             <Text style={[loginStyle.buttonText, { textAlign: "center" }]}>Save</Text>
                           </Button>
                         </ImageBackground>
+                        <Button
+                          style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
+                          onPress={() => { setShowSignature2(false) }} >
+                          <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
+                        </Button>
                       </View>
                     </View>
                   :
@@ -830,17 +817,10 @@ const Contract = (props) => {
         </View>
         {step3 == true ?
           showSignature2 == false ?
-            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 50, paddingLeft: 20, paddingRight: 20, marginTop: 50 }}>
-              {counter > 1 ?
-                <Button
-                  style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
-                  onPress={decrement} >
-                  <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
-                </Button>
-                : null}
+            <View style={{ display: "flex", flexDirection: "columns", alignItems: "center", marginBottom: 0, paddingLeft: 40, paddingRight: 40, marginTop: 0 }}>
               {counter < 4 ?
                 <ImageBackground
-                  style={counter == 1 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '50%' }]
+                  style={counter == 1 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '100%' }]
                   }
                   source={require('./../../../assets/Oval.png')}
                   resizeMode={'stretch'}
@@ -853,6 +833,13 @@ const Contract = (props) => {
                     <Text style={loginStyle.buttonText}>Next</Text>
                   </Button>
                 </ImageBackground>
+                : null}
+                {counter > 1 ?
+                <Button
+                  style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 0, borderRadius: 20, alignSelf: "middle", width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
+                  onPress={decrement} >
+                  <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
+                </Button>
                 : null}
             </View>
             : null

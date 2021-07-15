@@ -769,7 +769,7 @@ const Inquiry = (props) => {
               style={{
                 marginTop: 10,
                 padding: 15,
-                paddingBottom: 30,
+                paddingBottom: 10,
               }}
             >
               {counter == 0 ? (
@@ -1594,14 +1594,39 @@ const Inquiry = (props) => {
                   <View
                     style={{
                       display: "flex",
-                      flexDirection: "row",
+                      flexDirection: "column",
                       alignItems: "center",
                     }}
                   >
+                  <ImageBackground
+                    style={[
+                      globalStyle.Btn,
+                      {
+                        width: "100%",
+                        alignItems: "center",
+                      },
+                    ]}
+                    source={require("./../../../assets/Oval.png")}
+                    resizeMode={"stretch"}
+                  >
+                    <Button
+                      style={[
+                        loginStyle.buttonSave,
+                        { alignSelf: "center", justifyContent: "center" },
+                      ]}
+                      onPress={() => {
+                        signatureRef.current.saveSignature();
+                        setShowSignature(false);
+                        setCheckNSignature(false);
+                      }}
+                    >
+                      <Text style={loginStyle.buttonText}>Save</Text>
+                    </Button>
+                  </ImageBackground>
                     <Button
                       style={[
                         loginStyle.buttonSecondarys,
-                        { marginTop: 20, width: "50%" },
+                        { marginTop: 20, width: "100%" },
                       ]}
                       onPress={() => {
                         setShowSignature(false);
@@ -1611,31 +1636,6 @@ const Inquiry = (props) => {
                         Previous
                       </Text>
                     </Button>
-                    <ImageBackground
-                      style={[
-                        globalStyle.Btn,
-                        {
-                          width: "50%",
-                          alignItems: "center",
-                        },
-                      ]}
-                      source={require("./../../../assets/Oval.png")}
-                      resizeMode={"stretch"}
-                    >
-                      <Button
-                        style={[
-                          loginStyle.buttonSave,
-                          { alignSelf: "center", justifyContent: "center" },
-                        ]}
-                        onPress={() => {
-                          signatureRef.current.saveSignature();
-                          setShowSignature(false);
-                          setCheckNSignature(false);
-                        }}
-                      >
-                        <Text style={loginStyle.buttonText}>Save</Text>
-                      </Button>
-                    </ImageBackground>
                   </View>
                 </View>
               )
@@ -1644,7 +1644,7 @@ const Inquiry = (props) => {
               <View
                 style={{
                   display: "flex",
-                  flexDirection: "row",
+                  flexDirection: "column",
                   alignItems: "center",
                   marginBottom: 50,
                   paddingLeft: 20,
@@ -1652,32 +1652,12 @@ const Inquiry = (props) => {
                   marginTop: 10,
                 }}
               >
-                {counter > 0 ? (
-                  <Button
-                    style={
-                      counter == 4
-                        ? [
-                            loginStyle.buttonSecondarys,
-                            { marginTop: 0, width: "100%" },
-                          ]
-                        : [
-                            loginStyle.buttonSecondarys,
-                            { marginTop: 20, width: "50%" },
-                          ]
-                    }
-                    onPress={decrement}
-                  >
-                    <Text style={[loginStyle.buttonText, { color: "#333" }]}>
-                      Previous
-                    </Text>
-                  </Button>
-                ) : null}
                 {counter < 4 ? (
                   <ImageBackground
                     style={
                       counter <= 0
                         ? globalStyle.BtnFull
-                        : [globalStyle.BtnHalf, { width: "50%" }]
+                        : [globalStyle.BtnHalf, { width: "100%" }]
                     }
                     source={require("./../../../assets/Oval.png")}
                     resizeMode={"stretch"}
@@ -1690,6 +1670,26 @@ const Inquiry = (props) => {
                       <Text style={loginStyle.buttonText}>Next</Text>
                     </Button>
                   </ImageBackground>
+                ) : null}
+                {counter > 0 ? (
+                  <Button
+                    style={
+                      counter == 4
+                        ? [
+                            loginStyle.buttonSecondarys,
+                            { marginTop: 0, width: "100%" },
+                          ]
+                        : [
+                            loginStyle.buttonSecondarys,
+                            { marginTop: 20, width: "100%" },
+                          ]
+                    }
+                    onPress={decrement}
+                  >
+                    <Text style={[loginStyle.buttonText, { color: "#333" }]}>
+                      Previous
+                    </Text>
+                  </Button>
                 ) : null}
               </View>
             ) : null}

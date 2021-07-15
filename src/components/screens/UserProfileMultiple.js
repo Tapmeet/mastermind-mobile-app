@@ -451,7 +451,7 @@ const UserProfileMultiple = (props) => {
             </TouchableOpacity>
             {/*Content of Single Collapsible*/}
             <Collapsible collapsed={collapsed} align="center">
-              <View style={{ paddingBottom: 30, paddingTop: 10 }}>
+              <View style={{ paddingBottom: 10, paddingTop: 10 }}>
                 <View
                   style={
                     checkFirstname
@@ -635,11 +635,7 @@ const UserProfileMultiple = (props) => {
                     </Item>
                   </View>
                 ) : null}
-                <View
-                  style={{
-                    marginTop: 30,
-                  }}
-                >
+                <View>
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>DOB</Text>
                     <View style={globalStyle.formControls}>
@@ -668,11 +664,7 @@ const UserProfileMultiple = (props) => {
                     </View>
                   </View>
                 </View>
-                <View
-                  style={{
-                    marginTop: 30,
-                  }}
-                >
+                <View>
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>Uniform Size</Text>
                     <View
@@ -715,11 +707,7 @@ const UserProfileMultiple = (props) => {
                     </View>
                   </View>
                 </View>
-                <View
-                  style={{
-                    marginTop: 30,
-                  }}
-                >
+                <View>
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>Belt Size</Text>
                     <View style={globalStyle.formControls}>
@@ -825,7 +813,7 @@ const UserProfileMultiple = (props) => {
               </View>
             </TouchableOpacity>
             <Collapsible collapsed={collapsed2} align="center">
-              <View style={{ paddingBottom: 50, paddingTop: 30 }}>
+              <View style={{ paddingBottom: 20, paddingTop: 30 }}>
                 <View
                   style={
                     checkAddress1

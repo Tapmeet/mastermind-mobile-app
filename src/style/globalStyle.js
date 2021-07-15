@@ -261,6 +261,8 @@ export default StyleSheet.create({
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
     overflow: "hidden",
+    borderWidth: 1,
+    borderColor: '#efefef'
   },
   signatureField: {
     shadowColor: "#000",
@@ -271,11 +273,12 @@ export default StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 7,
-    backgroundColor: "#fff",
     borderRadius: 20,
     height: 180,
     overflow: "hidden",
     marginTop: 10,
+    borderColor: '#efefef',
+    borderWidth: 2
   },
   dflex: {
     display: "flex",
