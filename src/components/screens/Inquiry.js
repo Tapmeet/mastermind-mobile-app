@@ -9,10 +9,8 @@ import {
   ImageBackground,
 } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
-//import './react-phone-number-input/style.css'
 import PhoneInput from "react-phone-number-input/react-native-input";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
-//import CheckBox from "@react-native-community/checkbox";
 import {
   Container,
   Content,
@@ -66,11 +64,25 @@ const Inquiry = (props) => {
   const [inquiry, setInquiry] = React.useState("");
   const [SuccessMessage, setSuccessMessage] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
+  const [schoolName, setSchoolName] = React.useState("");
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       clearData();
     });
+    const apiUrl = API_URL.trim();
+    fetch(`${apiUrl}/odata/StudentAccount`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setSchoolName(data.SchoolFullName);
+      });
   });
 
   const clearData = () => {
@@ -278,14 +290,6 @@ const Inquiry = (props) => {
         setCheckAdultBenifit(true);
         return false;
       }
-      // if (Array.isArray(childSelectedBenifits) && !childSelectedBenifits.length) {
-      //   setCheckChildBenifit(true);
-      //   return false;
-      // }
-      // if (signature == '') {
-      //   setCheckNSignature(true)
-      //   return false;
-      // }
     }
     if (inquiryFor == "myself") {
       if (counter == 1) {
@@ -341,15 +345,6 @@ const Inquiry = (props) => {
     };
     setChildrenList(newArr);
   };
-  // const updateDobField = (index) => (e) => {
-  //   let newArr = [...childrenList]; // copying the old datas array
-  //   newArr[index] = {
-  //     FirstName: newArr[index].FirstName,
-  //     LastName: newArr[index].LastName,
-  //     DOB: e.target.value
-  //   };
-  //   setChildrenList(newArr);
-  // };
   function checkValue(str, max) {
     if (str.charAt(0) !== "0" || str == "00") {
       var num = parseInt(str);
@@ -576,16 +571,6 @@ const Inquiry = (props) => {
       setCheckPhone1(true);
       return false;
     }
-    // if (employer == "") {
-    //   setErrorMessage('Enter Employer')
-    //   setCheckEmployer(true);
-    //   return false;
-    // }
-    // if (occupation == "") {
-    //   setErrorMessage('Enter Occupation')
-    //   setCheckOccupation(true);
-    //   return false;
-    // }
 
     let selected = adultBenefits.filter(
       (adultBenefits) => adultBenefits.isChecked
@@ -600,20 +585,8 @@ const Inquiry = (props) => {
       setCheckAdultBenifit(true);
       return false;
     }
-    // if (Array.isArray(childSelectedBenifits) && !childSelectedBenifits.length) {
-    //   setCheckChildBenifit(true);
-    //   return false;
-    // }
-    // if (signature == '') {
-    //   setCheckNSignature(true)
-    //   return false;
-    // }
-    // console.log("here")
     var children = "";
-    // var children = [];
     childrenList.map((data, index) => {
-      // let datas = JSON.stringify(data);
-      // children.push(datas);
       if (data.FirstName) {
         if (index == 0) {
           children =
@@ -661,23 +634,18 @@ const Inquiry = (props) => {
         AdultBenefits: adultSelectedBenifits,
         SignatureUri: signature,
       }),
-    })
-      .then((response) => {
-        // console.log("hererssssssssss")
-        let jsonData = JSON.stringify(response);
-        // console.log(jsonData)
-        let jsonDataPrase = JSON.parse(jsonData);
-        // console.log(jsonDataPrase.status)
-        if (jsonDataPrase.status != 200) {
-          setErrorMessage("An error has occurred.");
-        } else {
-          setSuccessMessage("Successfully Submitted.");
-        }
-      })
-      .catch((response) => {
-        console.log(response);
+    }).then((response) => {
+      // console.log("hererssssssssss")
+      let jsonData = JSON.stringify(response);
+      // console.log(jsonData)
+      let jsonDataPrase = JSON.parse(jsonData);
+      // console.log(jsonDataPrase.status)
+      if (jsonDataPrase.status != 200) {
         setErrorMessage("An error has occurred.");
-      });
+      } else {
+        setSuccessMessage("Successfully Submitted.");
+      }
+    });
   };
 
   const { navigation } = props;
@@ -1469,7 +1437,19 @@ const Inquiry = (props) => {
                     Signature
                   </Text>
                   {signature != "" ? (
-                    <View style={{ marginTop: 20 }}>
+                    <View>
+                      <Text
+                        style={{
+                          marginBottom: 20,
+                        }}
+                      >
+                        I, for myself and my heirs, waive and release all rights
+                        and claims I may have against <Text style={{fontWeight: "bold"}}> {schoolName}</Text> and its
+                        principals and/or representatives, whatsoever, in any
+                        manner, as a result of my child's participation in said
+                        marital arts instruction. I attest that my child is
+                        physically and mentally fit.
+                      </Text>
                       <Text
                         style={{
                           fontSize: 20,
@@ -1551,7 +1531,7 @@ const Inquiry = (props) => {
                       paddingBottom: 10,
                     }}
                   >
-                    Signature{" "}
+                    Signature
                   </Text>
                   <SignatureView
                     style={[globalStyle.signatureField]}
@@ -1598,31 +1578,31 @@ const Inquiry = (props) => {
                       alignItems: "center",
                     }}
                   >
-                  <ImageBackground
-                    style={[
-                      globalStyle.Btn,
-                      {
-                        width: "100%",
-                        alignItems: "center",
-                      },
-                    ]}
-                    source={require("./../../../assets/Oval.png")}
-                    resizeMode={"stretch"}
-                  >
-                    <Button
+                    <ImageBackground
                       style={[
-                        loginStyle.buttonSave,
-                        { alignSelf: "center", justifyContent: "center" },
+                        globalStyle.Btn,
+                        {
+                          width: "100%",
+                          alignItems: "center",
+                        },
                       ]}
-                      onPress={() => {
-                        signatureRef.current.saveSignature();
-                        setShowSignature(false);
-                        setCheckNSignature(false);
-                      }}
+                      source={require("./../../../assets/Oval.png")}
+                      resizeMode={"stretch"}
                     >
-                      <Text style={loginStyle.buttonText}>Save</Text>
-                    </Button>
-                  </ImageBackground>
+                      <Button
+                        style={[
+                          loginStyle.buttonSave,
+                          { alignSelf: "center", justifyContent: "center" },
+                        ]}
+                        onPress={() => {
+                          signatureRef.current.saveSignature();
+                          setShowSignature(false);
+                          setCheckNSignature(false);
+                        }}
+                      >
+                        <Text style={loginStyle.buttonText}>Save</Text>
+                      </Button>
+                    </ImageBackground>
                     <Button
                       style={[
                         loginStyle.buttonSecondarys,
