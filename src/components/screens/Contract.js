@@ -25,6 +25,7 @@ import { SignatureView } from 'react-native-signature-capture-view';
 const apiUrl = API_URL.trim();
 const Contract = (props) => {
   const signatureRef = React.useRef(null);
+  const [processing, setProcessing] = React.useState(false);
   const signatureRef2 = React.useRef(null);
   const signatureRef3 = React.useRef(null);
   const [personId, setPersonId] = React.useState('')
@@ -200,6 +201,7 @@ const Contract = (props) => {
     const apiUrl = API_URL.trim();
     // console.log(userPaymentSelected)
     //  console.log('heres');
+    setProcessing(true)
     fetch(`${apiUrl}/odata/Contract(${props.route.params.contractId})`, {
       method: "patch",
       headers: {
@@ -215,6 +217,7 @@ const Contract = (props) => {
       }),
     })
       .then((response) => {
+        setProcessing(false)
         let jsonData = JSON.stringify(response);
         console.log(jsonData)
         let jsonDataPrase = JSON.parse(jsonData);
@@ -226,6 +229,7 @@ const Contract = (props) => {
         }
       })
       .catch((response) => {
+        setProcessing(false)
         setErrorMessage("An error has occurred.");
       });
   };
@@ -646,7 +650,7 @@ const Contract = (props) => {
                                             placeholder={{
                                               label: 'Select Payment Method',
                                               value: null,
-                                          }}
+                                            }}
                                             onValueChange={(value) => setUserPaymentSelected(value)}
                                             style={{
                                               ...pickerSelectStyles,
@@ -707,6 +711,11 @@ const Contract = (props) => {
                                     {SuccessMessage != "" ? (
                                       <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
                                     ) : null}
+                                    {processing ?
+                                      <View style={[styles.container, styles.horizontal]}>
+                                        <ActivityIndicator size="large" color="#29ABE2" />
+                                      </View> : null
+                                    }
                                     {PayerSignatureBilling != '' ? (
                                       <View >
                                         <ImageBackground
@@ -834,7 +843,7 @@ const Contract = (props) => {
                   </Button>
                 </ImageBackground>
                 : null}
-                {counter > 1 ?
+              {counter > 1 ?
                 <Button
                   style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 0, borderRadius: 20, alignSelf: "middle", width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
                   onPress={decrement} >
