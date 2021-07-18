@@ -21,7 +21,7 @@ import { useSelector } from 'react-redux'
 import { SideBarMenu } from "../sidebar";
 import HTML from "react-native-render-html";
 import { SignatureView } from 'react-native-signature-capture-view';
-//import AddPaymentMethod from './AddPaymentMethod';
+
 const apiUrl = API_URL.trim();
 const Contract = (props) => {
   const signatureRef = React.useRef(null);
@@ -101,7 +101,6 @@ const Contract = (props) => {
       .then(response => response.json())
       .then(data => {
         //  console.log(data)
-
         setHasMinor(data.hasMinor)
         setTerms(data.contractTermTemplate)
         setloader(false)
@@ -146,7 +145,7 @@ const Contract = (props) => {
     })
       .then(response => response.json())
       .then(data => {
-        //console.log(data)
+        // console.log(data)
         setPersonId(data.PersonId)
         getPaymentMethod(data.PersonId)
       });
@@ -162,15 +161,12 @@ const Contract = (props) => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log("pleae shere")
-        console.log(data)
         setPaymentMethodCount(data.value.length)
         let methods = []
         data.value.map((method) => {
           methods.push({ label: method.Nickname, value: method.PersonPaymentMethodId });
         })
         setPaymentMethod(methods);
-        //  setPaymentMethod(data.value)
       });
   }
   function getPersonContract() {
@@ -199,7 +195,7 @@ const Contract = (props) => {
       return false
     }
     const apiUrl = API_URL.trim();
-    // console.log(userPaymentSelected)
+    console.log(userPaymentSelected)
     //  console.log('heres');
     setProcessing(true)
     fetch(`${apiUrl}/odata/Contract(${props.route.params.contractId})`, {
@@ -675,18 +671,6 @@ const Contract = (props) => {
                                         </View>
                                       </View>
                                     </View>
-                                    {/* <View style={globalStyle.formField}>
-                                      <Text style={globalStyle.formLabel}>Select Payment Method</Text>
-                                      <View style={globalStyle.formControls}>
-                                        <Picker
-                                          selectedValue={userPaymentSelected}
-                                          style={{ height: 50, width: '100%' }}
-                                          onValueChange={(itemValue, itemIndex) => setUserPaymentSelected(itemValue)}
-                                        ><Picker.Item label="Select Payment Method" value='' />
-                                          {paymentMethod.map((data) => <Picker.Item key={data.Nickname + data.PersonPaymentMethodId} label={data.Nickname} value={data.PersonPaymentMethodId} />)}
-                                        </Picker>
-                                      </View>
-                                    </View> */}
                                   </View>
                                   : null}
                                 {counter == 4 ?
@@ -770,15 +754,6 @@ const Contract = (props) => {
                           }}>
                           <Text style={{ paddingRight: 15, fontWeight: "bold", fontSize: 18 }}>Clear</Text>
                         </TouchableOpacity>
-                        {/* <TouchableOpacity
-                          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
-                          onPress={() => {
-                            signatureRef3.current.saveSignature();
-                            setShowSignature2(false)
-
-                          }}>
-                          <Text>Save</Text>
-                        </TouchableOpacity> */}
                       </View>
                       <View style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                         <ImageBackground
