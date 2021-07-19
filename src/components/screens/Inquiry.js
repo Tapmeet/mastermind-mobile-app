@@ -1436,20 +1436,22 @@ const Inquiry = (props) => {
                   >
                     Signature
                   </Text>
+
+                  <Text
+                    style={{
+                      marginBottom: 20,
+                    }}
+                  >
+                    I, for myself and my heirs, waive and release all rights and
+                    claims I may have against{" "}
+                    <Text style={{ fontWeight: "bold" }}> {schoolName}</Text>{" "}
+                    and its principals and/or representatives, whatsoever, in
+                    any manner, as a result of my child's participation in said
+                    marital arts instruction. I attest that my child is
+                    physically and mentally fit.
+                  </Text>
                   {signature != "" ? (
                     <View>
-                      <Text
-                        style={{
-                          marginBottom: 20,
-                        }}
-                      >
-                        I, for myself and my heirs, waive and release all rights
-                        and claims I may have against <Text style={{fontWeight: "bold"}}> {schoolName}</Text> and its
-                        principals and/or representatives, whatsoever, in any
-                        manner, as a result of my child's participation in said
-                        marital arts instruction. I attest that my child is
-                        physically and mentally fit.
-                      </Text>
                       <Text
                         style={{
                           fontSize: 20,
