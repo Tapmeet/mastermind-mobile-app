@@ -3,7 +3,7 @@ import { View, Image, StyleSheet } from "react-native";
 import OtpInputs from "./../Utility/Outinputs";
 import {
   Container,
-  CheckBox,
+  //CheckBox,
   Content,
   Form,
   Item,
@@ -18,7 +18,7 @@ import {
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
-import { API_URL } from "@env"
+import { API_URL } from "./../Utility/AppConst"
 const VerificationLinkStudentSignup = (props) => {
   const [otp, setOtp] = React.useState("");
   const VerificationToken = 'X9HXK6';
@@ -27,7 +27,7 @@ const VerificationLinkStudentSignup = (props) => {
     setOtp(otp);
   };
   const submitForm = () => {
-    if (otp != VerificationToken) {
+    if (otp.length < 6) {
       setErrorMessage("Wrong verifcation code");
     } else {
       const apiUrl =API_URL.trim();
@@ -43,7 +43,7 @@ const VerificationLinkStudentSignup = (props) => {
           FirstName: props.route.params.FirstName,
           LastName: props.route.params.LastName,
           StudentId: props.route.params.studentId,
-          VerificationToken: VerificationToken,
+          VerificationToken: otp,
         }),
       })
         .then((response) => {
@@ -92,9 +92,9 @@ const VerificationLinkStudentSignup = (props) => {
               source={require("../../../assets/Envelop.png")}
             />
           </Body>
-          <Body style={verificationStyle.spaceBetween}>
+          <View style={verificationStyle.spaceBetween}>
             <OtpInputs getOtp={(otp) => getOtp(otp)} />
-          </Body>
+          </View>
           <Content style={loginStyle.formContainer}>
             <Button onPress={submitForm} style={loginStyle.button} full>
               <Text>Send</Text>

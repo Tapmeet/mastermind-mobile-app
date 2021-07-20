@@ -7,7 +7,6 @@ import configureStore from './src/redux/store'
 import { View } from "react-native";
 import { Text } from "native-base";
 
-
 export default class App extends React.Component {
   state = {
     loading: true

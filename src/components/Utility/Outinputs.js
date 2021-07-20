@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Content, Item, Input } from "native-base";
 import { Grid, Col } from "react-native-easy-grid";
 import verificationStyle from "../../style/verification/verifcationStyle";
@@ -16,7 +16,7 @@ class OtpInputs extends React.Component {
     const inputs = Array(6).fill(0);
     const txt = inputs.map((i, j) => (
       <Col key={j} style={styles.txtMargin}>
-        <Item  style={styles.gridPad} regular>
+        <Item style={styles.gridPad} regular>
           <Input
             style={verificationStyle.formControl}
             onChangeText={(v) => this.focusNext(j, v)}
@@ -49,9 +49,9 @@ class OtpInputs extends React.Component {
 
   render() {
     return (
-      <Content padder>
+      <View style={{ display: "flex", width: "100%", position:"relative", zIndex: 9999 }}>
         <Grid style={styles.gridPad}>{this.renderInputs()}</Grid>
-      </Content>
+      </View>
     );
   }
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { View, Image, StyleSheet,ImageBackground } from "react-native";
 import {
   Container,
-  CheckBox,
+  //CheckBox,
   Content,
   Form,
   Item,
@@ -17,7 +17,7 @@ import {
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
-import {API_URL} from "@env"
+import { API_URL } from "./../Utility/AppConst"
 const ResetPassword = (props) => {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");

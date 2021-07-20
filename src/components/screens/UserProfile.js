@@ -1,8 +1,10 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator } from "react-native";
-import { API_URL } from "@env";
+import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator, Thumbnail } from "react-native";
+import { API_URL } from "./../Utility/AppConst";
 import Collapsible from 'react-native-collapsible';
 import DatePicker from 'react-native-datepicker';
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Container,
   Content,
@@ -21,10 +23,13 @@ import globalStyle from "../../style/globalStyle";
 import profilestyle from "../../style/profile/profileStyle";
 import { useSelector } from 'react-redux'
 import { SideBarMenu } from "../sidebar";
-import {Picker} from '@react-native-picker/picker';
 import { set } from "react-native-reanimated";
 import moment from 'moment';
 const UserProfile = (props) => {
+  const [adult, setAdult] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState(null);
+  const [items, setItems] = React.useState([]);
   const [loader, setloader] = React.useState(true);
   const [studentIds, setStudentIds] = React.useState([]);
   const [firstName, setFirstName] = React.useState("");
@@ -70,6 +75,29 @@ const UserProfile = (props) => {
   const [data, setData] = React.useState('');
   const userId = useSelector(state => state);
   const [SuccessMessage, setSuccessMessage] = React.useState('');
+
+
+  const clearData = () => {
+    setFirstName('');
+    setCheckFirstname(false)
+    setLastName('');
+    setEmail('');
+    setErrorMessage('');
+    setSchoolName();
+    setStudentNumber('');
+    setRank();
+    setAcademicSchool('')
+    setState('');
+    setCity('');
+    setEmployer('');
+    setZipCode('')
+    setAddress1('');
+    setAddress2('');
+    setPhone1('');
+    setPhone2('')
+    //getdata()
+    setSuccessMessage('')
+  }
   const setschoolName = (event) => {
     setSchoolName(event);
   };
@@ -128,56 +156,56 @@ const UserProfile = (props) => {
     setCollapsed(true);
   };
   const stateList = [
-    ['Arizona', 'AZ'],
-    ['Alabama', 'AL'],
-    ['Alaska', 'AK'],
-    ['Arkansas', 'AR'],
-    ['California', 'CA'],
-    ['Colorado', 'CO'],
-    ['Connecticut', 'CT'],
-    ['Delaware', 'DE'],
-    ['Florida', 'FL'],
-    ['Georgia', 'GA'],
-    ['Hawaii', 'HI'],
-    ['Idaho', 'ID'],
-    ['Illinois', 'IL'],
-    ['Indiana', 'IN'],
-    ['Iowa', 'IA'],
-    ['Kansas', 'KS'],
-    ['Kentucky', 'KY'],
-    ['Louisiana', 'LA'],
-    ['Maine', 'ME'],
-    ['Maryland', 'MD'],
-    ['Massachusetts', 'MA'],
-    ['Michigan', 'MI'],
-    ['Minnesota', 'MN'],
-    ['Mississippi', 'MS'],
-    ['Missouri', 'MO'],
-    ['Montana', 'MT'],
-    ['Nebraska', 'NE'],
-    ['Nevada', 'NV'],
-    ['New Hampshire', 'NH'],
-    ['New Jersey', 'NJ'],
-    ['New Mexico', 'NM'],
-    ['New York', 'NY'],
-    ['North Carolina', 'NC'],
-    ['North Dakota', 'ND'],
-    ['Ohio', 'OH'],
-    ['Oklahoma', 'OK'],
-    ['Oregon', 'OR'],
-    ['Pennsylvania', 'PA'],
-    ['Rhode Island', 'RI'],
-    ['South Carolina', 'SC'],
-    ['South Dakota', 'SD'],
-    ['Tennessee', 'TN'],
-    ['Texas', 'TX'],
-    ['Utah', 'UT'],
-    ['Vermont', 'VT'],
-    ['Virginia', 'VA'],
-    ['Washington', 'WA'],
-    ['West Virginia', 'WV'],
-    ['Wisconsin', 'WI'],
-    ['Wyoming', 'WY'],
+    { label: 'Arizona', value: 'AZ' },
+    { label: 'Alabama', value: 'AL' },
+    { label: 'Alaska', value: 'AK' },
+    { label: 'Arkansas', value: 'AR' },
+    { label: 'California', value: 'CA' },
+    { label: 'Colorado', value: 'CO' },
+    { label: 'Connecticut', value: 'CT' },
+    { label: 'Delaware', value: 'DE' },
+    { label: 'Florida', value: 'FL' },
+    { label: 'Georgia', value: 'GA' },
+    { label: 'Hawaii', value: 'HI' },
+    { label: 'Idaho', value: 'ID' },
+    { label: 'Illinois', value: 'IL' },
+    { label: 'Indiana', value: 'IN' },
+    { label: 'Iowa', value: 'IA' },
+    { label: 'Kansas', value: 'KS' },
+    { label: 'Kentucky', value: 'KY' },
+    { label: 'Louisiana', value: 'LA' },
+    { label: 'Maine', value: 'ME' },
+    { label: 'Maryland', value: 'MD' },
+    { label: 'Massachusetts', value: 'MA' },
+    { label: 'Michigan', value: 'MI' },
+    { label: 'Minnesota', value: 'MN' },
+    { label: 'Mississippi', value: 'MS' },
+    { label: 'Missouri', value: 'MO' },
+    { label: 'Montana', value: 'MT' },
+    { label: 'Nebraska', value: 'NE' },
+    { label: 'Nevada', value: 'NV' },
+    { label: 'New Hampshire', value: 'NH' },
+    { label: 'New Jersey', value: 'NJ' },
+    { label: 'New Mexico', value: 'NM' },
+    { label: 'New York', value: 'NY' },
+    { label: 'North Carolina', value: 'NC' },
+    { label: 'North Dakota', value: 'ND' },
+    { label: 'Ohio', value: 'OH' },
+    { label: 'Oklahoma', value: 'OK' },
+    { label: 'Oregon', value: 'OR' },
+    { label: 'Pennsylvania', value: 'PA' },
+    { label: 'Rhode Island', value: 'RI' },
+    { label: 'South Carolina', value: 'SC' },
+    { label: 'South Dakota', value: 'SD' },
+    { label: 'Tennessee', value: 'TN' },
+    { label: 'Texas', value: 'TX' },
+    { label: 'Utah', value: 'UT' },
+    { label: 'Vermont', value: 'VT' },
+    { label: 'Virginia', value: 'VA' },
+    { label: 'Washington', value: 'WA' },
+    { label: 'West Virginia', value: 'WV' },
+    { label: 'Wisconsin', value: 'WI' },
+    { label: 'Wyoming', value: 'WY' },
   ]
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
@@ -225,6 +253,7 @@ const UserProfile = (props) => {
     }
 
     const apiUrl = API_URL.trim();
+    // console.log(state)
     fetch(`${apiUrl}/odata/StudentData(${studentIds[0]})`, {
       method: "patch",
       headers: {
@@ -248,14 +277,19 @@ const UserProfile = (props) => {
         "Occupation": Occupation,
         "MedicalInfo": MedicalInfo,
         "BeltSizeId": BeltSize,
-        "UniformSizeId": UniformSize
+        "UniformSizeId": UniformSize,
+        "AcademicSchool": AcademicSchool,
+        "City": city,
+        "State": state,
+        "PostalCode": zipCode,
+
       }),
     })
       .then((response) => {
         let jsonData = JSON.stringify(response);
-        console.log(jsonData)
+        //console.log(jsonData)
         let jsonDataPrase = JSON.parse(jsonData);
-        console.log(jsonDataPrase.status)
+        // console.log(jsonDataPrase.status)
         if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
           setSuccessMessage("Update Successfully");
         } else {
@@ -267,26 +301,13 @@ const UserProfile = (props) => {
       });
   };
   React.useEffect(() => {
-    const apiUrl = API_URL.trim();
-    if (data == '') {
-      fetch(`${apiUrl}/odata/StudentAccount`, {
-        method: "get",
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + userId[0].access_Token
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          setStudentIds(data.StudentIds)
-          if(data.StudentIds.length == 0){
-            setloader(false)
-          }
-          getdata(data.StudentIds[0])
-        });
-      function getdata(id) {
-        fetch(`${apiUrl}/odata/StudentData(${id})`, {
+    navigation.addListener('focus', () => {
+      setloader(true)
+      clearData()
+      setStudentIds([])
+      const apiUrl = API_URL.trim();
+      if (studentIds.length <= 0) {
+        fetch(`${apiUrl}/odata/StudentAccount`, {
           method: "get",
           headers: {
             Accept: "*/*",
@@ -296,115 +317,161 @@ const UserProfile = (props) => {
         })
           .then(response => response.json())
           .then(data => {
-            setFirstName(data.FirstName)
-            setLastName(data.LastName)
-            setEmail(data.Email)
-            setStudentNumber(data.StudentNumber)
-            setAcademicSchool(data.AcademicSchool)
-            setMedicalInfo(data.MedicalInfo)
-            setOccupation(data.Occupation)
-            setRank(data.Rank)
-            setEmployer(data.Employer)
-            setAddress1(data.Address1)
-            setAddress2(data.Address2)
+            //console.log(data) 
+            if (data.StudentIds.length > 0) {
 
-            setCity(data.City)
-            setZipCode(data.PostalCode)
-            setPhone1(data.Phone1)
-            setPhone2(data.Phone2)
-            setUniformSize(data.UniformSizeId)
-            setBeltSize(data.BeltSizeId)
-            setEmergencyContact(data.EmergencyContact)
-            let dob = new Date(data.DOB).toISOString().slice(0, 10);
-            setDOB(dob)
-            console.log(dob);
-            stateList.map((statedata, index) => {
-              if (statedata[1] == data.State) {
-                setState(statedata[0])
-              }
+              var students = data.StudentIds.length;
+              setStudentIds([])
+              data.StudentIds.map((id, index) => {
+                fetch(`${apiUrl}/odata/StudentData(${id})`, {
+                  method: "get",
+                  headers: {
+                    Accept: "*/*",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + userId[0].access_Token
+                  },
+                })
+                  .then(response => response.json())
+                  .then(data => {
+                    if (studentIds.length <= students) {
+
+
+                      setStudentIds(prevState => [...prevState, data]);
+                      //console.log(studentIds)
+                    }
+                    //setStudentIds(data.StudentIds)
+                  })
+              })
+              getdata(data.StudentIds[0])
+            }
+            else {
+              //  console.log("hhere")
+              setloader(false)
+            }
+
+          });
+        function getdata(id) {
+          fetch(`${apiUrl}/odata/StudentData(${id})`, {
+            method: "get",
+            headers: {
+              Accept: "*/*",
+              "Content-Type": "application/json",
+              'Authorization': 'Bearer ' + userId[0].access_Token
+            },
+          })
+            .then(response => response.json())
+            .then(data => {
+              // console.log(data)
+              setFirstName(data.FirstName)
+              setLastName(data.LastName)
+              setEmail(data.Email)
+              setStudentNumber(data.StudentNumber)
+              setAcademicSchool(data.AcademicSchool)
+              setMedicalInfo(data.MedicalInfo)
+              setOccupation(data.Occupation)
+              setRank(data.Rank)
+              setEmployer(data.Employer)
+              setAddress1(data.Address1)
+              setAddress2(data.Address2)
+              setAdult(data.IsAdult)
+              setCity(data.City)
+              setZipCode(data.PostalCode)
+              setPhone1(data.Phone1)
+              setPhone2(data.Phone2)
+              setUniformSize(data.UniformSizeId)
+              setBeltSize(data.BeltSizeId)
+              setEmergencyContact(data.EmergencyContact)
+              let dob = new Date(data.DOB).toISOString().slice(0, 10);
+              setDOB(dob)
+              setState(data.State)
+              //console.log(dob);
+              // stateList.map((statedata, index) => {
+              //   if (statedata[1] == data.State) {
+              //     setState(statedata[1])
+              //   }
+              // })
+              setloader(false)
+            });
+        }
+        fetch(`${apiUrl}/odata/UniformSize`, {
+          method: "get",
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + userId[0].access_Token
+          },
+        })
+          .then(response => response.json())
+          .then(data => {
+            // console.log("herere")
+            // console.log(data)
+            setUniformSizeList(data.value)
+            let uniforms = []
+            data.value.map((uniform) => {
+              uniforms.push({ label: uniform.Name, value: uniform.UniformSizeId });
             })
-            setloader(false)
+            setItems(uniforms);
+          });
+        fetch(`${apiUrl}/odata/BeltSize`, {
+          method: "get",
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + userId[0].access_Token
+          },
+        })
+          .then(response => response.json())
+          .then(data => {
+            // console.log(data.value)
+            // setBeltSizeList(data.value)
+            let belts = []
+            data.value.map((belt) => {
+              belts.push({ label: belt.Name, value: belt.BeltSizeId });
+            })
+            setBeltSizeList(belts);
           });
       }
-      fetch(`${apiUrl}/odata/UniformSize`, {
-        method: "get",
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + userId[0].access_Token
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          //console.log(data.value)
-          setUniformSizeList(data.value)
-        });
-      fetch(`${apiUrl}/odata/BeltSize`, {
-        method: "get",
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + userId[0].access_Token
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          //console.log(data.value)
-          setBeltSizeList(data.value)
-        });
-    }
-  }, [data]);
-
-  const userProfile = (event) => {
-    props.navigation.navigate("StudentProfile", {
-      profileId: event,
     })
-  };
+  }, [data]);
+  const storeData = async (value) => {
+    console.log(JSON.stringify(value));
+    let profileId = JSON.stringify(value);
+    try {
+      await AsyncStorage.setItem('profileId', profileId)
+      props.navigation.navigate("StudentProfile")
+    } catch (e) {
+      // saving error
+    }
+  }
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"Profile"} navigation={props.navigation} />
+      <SideBarMenu title={"My Profile"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
-        <ImageBackground
-          style={{
-            width: "100%",
-            height: 150,
-            position: "absolute"
-          }}
-          source={require('./../../../assets/bg3.png')}
-          resizeMode={'stretch'}
-        >
-        </ImageBackground>
-
-        <View style={[loginStyle.contentContainer, { height: 100 }]}>
-          <Body style={loginStyle.bodyContainer}>
-            <H2 style={globalStyle.h3}>Student Profile!</H2>
-          </Body>
-        </View>
         {loader ?
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
           :
-          studentIds.length > 0 ?
+          typeof (studentIds) !== 'undefined' && studentIds.length > 0 ?
             studentIds.length == 1 ?
               <Form style={globalStyle.form}>
                 <TouchableOpacity onPress={toggleExpanded}>
-                  <View style={loginStyle.textAccordian} >
+                  <View style={loginStyle.textAccordians} >
                     <Image
-                      style={loginStyle.iconLeft}
+                      style={loginStyle.iconLefts}
                       source={require("../../../assets/businessman-information.png")}
                       resizeMode={'contain'}
                     />
                     <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>Personal Information</Text>
                     {collapsed ?
                       <Image
-                        style={loginStyle.arrow}
+                        style={loginStyle.arrows}
                         source={require("../../../assets/down-arrow.png")}
                         resizeMode={'contain'}
                       />
                       : <Image
-                        style={loginStyle.arrow}
+                        style={loginStyle.arrows}
                         source={require("../../../assets/up-arrow.png")}
                         resizeMode={'contain'}
                       />}
@@ -412,308 +479,456 @@ const UserProfile = (props) => {
                 </TouchableOpacity>
                 {/*Content of Single Collapsible*/}
                 <Collapsible collapsed={collapsed} align="center">
-                  <View style={{ paddingBottom: 30 }}>
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={firstName}
-                        onChangeText={(text) => setfirstName(text)}
-                        style={
-                          checkFirstname
-                            ? globalStyle.formControlError
-                            : globalStyle.formControl
-                        }
-                        placeholder="First Name"
-                        placeholderTextColor="#ddd"
-                      />
-                    </Item>
+                  <View style={{ paddingBottom: 30, paddingTop: 10 }}>
+                    <View style={checkFirstname
+                      ? globalStyle.formFieldError : globalStyle.formField}>
+                      <Text style={globalStyle.formLabel}>First Name</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={firstName}
+                          onChangeText={(text) => setfirstName(text)}
+                          style={globalStyle.formControls
+                          }
+                          placeholder="First Name"
+                          placeholderTextColor="#ddd"
+                        />
+                      </Item>
+                    </View>
                     {checkFirstname ? (
                       <Text style={globalStyle.error}>Enter First Name</Text>
                     ) : null}
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={lastName}
-                        onChangeText={(text) => setlasttName(text)}
-                        style={globalStyle.formControl}
-                        placeholder="Last Name"
-                        placeholderTextColor="#ddd"
-                      />
-                    </Item>
+                    <View style={checklastName
+                      ? globalStyle.formFieldError : globalStyle.formField}>
+                      <Text style={globalStyle.formLabel}>Last Name</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={lastName}
+                          onChangeText={(text) => setlasttName(text)}
+                          style={globalStyle.formControls}
+                          placeholder="Last Name"
+                          placeholderTextColor="#ddd"
+                        />
+                      </Item>
+                    </View>
                     {checklastName ? (
                       <Text style={globalStyle.error}>Enter Last Name </Text>
                     ) : null}
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={email}
-                        onChangeText={(text) => setemail(text)}
-                        style={
-                          checkEmail
-                            ? globalStyle.formControlError
-                            : globalStyle.formControl
-                        }
-                        placeholder="Email "
-                        placeholderTextColor="#ddd"
-                      />
-                    </Item>
+                    <View style={checkEmail
+                      ? globalStyle.formFieldError : globalStyle.formField}>
+                      <Text style={globalStyle.formLabel}>Email</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={email}
+                          onChangeText={(text) => setemail(text)}
+                          style={globalStyle.formControls
+                          }
+                          placeholder="Email "
+                          placeholderTextColor="#ddd"
+                        />
+                      </Item>
+                    </View>
                     {checkEmail ? (
                       <Text style={globalStyle.error}>Enter Valid Email</Text>
                     ) : null}
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={SchoolName}
-                        onChangeText={(text) => setschoolName(text)}
-                        style={
-                          [globalStyle.formControl, { color: "#999", backgroundColor: '#eee' }]
-                        }
-                        placeholder="SchoolName "
-                        placeholderTextColor="#ddd"
-                        editable={false}
-                      />
-                    </Item>
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={StudentNumber}
-                        // onChangeText={(text) => setemail(text)}
-                        style={
-                          [globalStyle.formControl, { color: "#999", backgroundColor: '#eee' }]
-                        }
-                        placeholder="Student Number "
-                        placeholderTextColor="#ddd"
-                        editable={false}
-                      />
-                    </Item>
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={Rank}
-                        //   onChangeText={(text) => setemail(text)}
-                        style={
-                          [globalStyle.formControl, { color: "#999", backgroundColor: '#eee' }]
-                        }
-                        editable={false}
-                        placeholder="Rank"
-                        placeholderTextColor="#ddd"
-                      />
-                    </Item>
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={MedicalInfo}
-                        //onChangeText={(text) => setemail(text)}
-                        style={
-                          [globalStyle.formControl]
-                        }
-                        placeholder="Medical Info"
-                        placeholderTextColor="#ddd"
-                      />
-                    </Item>
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={AcademicSchool}
-                        // onChangeText={(text) => setemail(text)}
-                        style={
-                          [globalStyle.formControl, { color: "#999", backgroundColor: '#eee' }]
-                        }
-                        editable={false}
-                        placeholder="Academic School"
-                        placeholderTextColor="#ddd"
-                      />
-                    </Item>
-                    <View style={{
-                      marginTop: 30,
-                    }}>
-                      <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>D.O.B</Text>
-                      <View style={globalStyle.formControl}>
-                        <DatePicker
-                          showIcon={false}
-                          androidMode="spinner"
-                          date={DOB}
-                          mode="date"
-                          placeholder="YYYY-MM-DD"
-                          format="YYYY-MM-DD"
-                          maxDate={moment().format('YYYY-MM-DD')}
-                          confirmBtnText="Chọn"
-                          cancelBtnText="Hủy"
-                          customStyles={{
-                            dateInput: {
-                              backgroundColor: '#F7F8F9',
-                              borderWidth: 0,
-                              borderColor: 'black',
-                              width: "100%"
-                            },
-                          }}
-                          onDateChange={(date) => { setDOB(date) }}
+                    {/* <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                      <Text style={globalStyle.formLabel}>School Name</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={SchoolName}
+                          onChangeText={(text) => setschoolName(text)}
+                          style={
+                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                          }
+                          placeholder="School Name "
+                          placeholderTextColor="#000"
+                          editable={false}
                         />
+                      </Item>
+                    </View> */}
+                    {/* <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                      <Text style={globalStyle.formLabel}>Student Number</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={StudentNumber}
+                          // onChangeText={(text) => setemail(text)}
+                          style={
+                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                          }
+                          placeholder="Student Number "
+                          placeholderTextColor="#ddd"
+                          editable={false}
+                        />
+                      </Item> 
+                    </View> */}
+                    <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
+                      <Text style={globalStyle.formLabel}>Rank</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0, borderWidth: 0, elevation: 0 }]} floatingLabel>
+                        <Input
+                          value={Rank}
+                          //   onChangeText={(text) => setemail(text)}
+                          style={
+                            [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
+                          }
+                          editable={false}
+                          placeholder="Rank"
+                          placeholderTextColor="#000"
+                        />
+                      </Item>
+                    </View>
+                    <View style={globalStyle.formField}>
+                      <Text style={globalStyle.formLabel}>Medical Info</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={MedicalInfo}
+                          //onChangeText={(text) => setemail(text)}
+                          style={
+                            [globalStyle.formControls]
+                          }
+                          placeholder="Medical Info"
+                          placeholderTextColor="#ddd"
+                        />
+                      </Item>
+                    </View>
+                    <View style={[globalStyle.formField]}>
+                      <Text style={globalStyle.formLabel}>Academic School</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0, borderWidth: 0, elevation: 0 }]} floatingLabel>
+                        <Input
+                          value={AcademicSchool}
+                          onChangeText={(text) => setAcademicSchool(text)}
+                          style={
+                            [globalStyle.formControls, { color: "#999" }]
+                          }
+                          //editable={false}
+                          placeholder="Academic School"
+                          placeholderTextColor="#000"
+                        />
+                      </Item>
+                    </View>
+                    <View style={{
+                      marginTop: 30,
+                    }}>
+                      <View style={[globalStyle.formField]}>
+                        <Text style={globalStyle.formLabel}>DOB</Text>
+                        <View style={globalStyle.formControls}>
+                          <DatePicker
+                            showIcon={false}
+                            androidMode="spinner"
+                            date={DOB}
+                            mode="date"
+                            placeholder="YYYY-MM-DD"
+                            format="YYYY-MM-DD"
+                            maxDate={moment().format('YYYY-MM-DD')}
+                            confirmBtnText="Okay"
+                            cancelBtnText="Cancel"
+                            style={{ fontSize: 20 }}
+                            customStyles={{
+                              dateInput: {
+
+                                borderWidth: 0,
+                                borderColor: 'black',
+                                width: "100%"
+                              },
+                            }}
+                            onDateChange={(date) => { setDOB(date) }}
+                          />
+                        </View>
                       </View>
                     </View>
                     <View style={{
                       marginTop: 30,
                     }}>
-                      <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Uniform Size</Text>
-                      <View style={globalStyle.formControl}>
-                        <Picker
-                          selectedValue={UniformSize}
-                          style={{ height: 50, width: '100%' }}
-                          onValueChange={(itemValue, itemIndex) => setUniformSize(itemValue)}
-                        >
-                          {UniformSizeList.map((data) => <Picker.Item key={data.label + data.value} label={data.Name} value={data.UniformSizeId} />)}
-                        </Picker>
+                      <View style={[globalStyle.formField]}>
+                        <Text style={globalStyle.formLabel}>Uniform Size</Text>
+                        <View style={[globalStyle.formControls, { position: "relative", zIndex: 999 }]}>
+                          <RNPickerSelect
+                            value={UniformSize}
+                            items={items}
+                            onValueChange={(value) => setUniformSize(value)}
+                            style={{
+                              ...pickerSelectStyles,
+                              iconContainer: {
+                                top: Platform.OS === 'android' ? 20 : 30,
+                                right: 10,
+                              },
+                              placeholder: {
+                                color: '#8a898e',
+                                fontSize: 12,
+                                fontWeight: 'bold',
+                              },
+                            }}
+                            Icon={() => {
+                              return <Image
+                                style={{ width: 12, position: "absolute", top: -15, right: 15 }}
+                                source={require("../../../assets/arrow-down.png")}
+                                resizeMode={'contain'}
+                              />;
+                            }}
+                          />
+                          {/* <Picker
+                            selectedValue={UniformSize}
+                            style={{ height: 50, width: '100%' }}
+                            onValueChange={(itemValue, itemIndex) => setUniformSize(itemValue)}
+                          >
+                            {UniformSizeList.map((data) => <Picker.Item key={data.label + data.value} label={data.Name} value={data.UniformSizeId} />)}
+                          </Picker> */}
+                        </View>
                       </View>
                     </View>
                     <View style={{
                       marginTop: 30,
                     }}>
-                      <Text style={{ color: "#000", fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Belt Size</Text>
-                      <View style={globalStyle.formControl}>
-                        <Picker
-                          selectedValue={BeltSize}
-                          style={{ height: 50, width: '100%' }}
-                          onValueChange={(itemValue, itemIndex) => setBeltSize(itemValue)}
-                        >
-                          {BeltSizeList.map((data) => <Picker.Item key={data.label + data.value} label={data.Name} value={data.UniformSizeId} />)}
-                        </Picker>
+                      <View style={[globalStyle.formField]}>
+                        <Text style={globalStyle.formLabel}>Belt Size</Text>
+                        <View style={globalStyle.formControls}>
+                          {/* <Picker
+                            selectedValue={BeltSize}
+                            style={{ height: 50, width: '100%' }}
+                            onValueChange={(itemValue, itemIndex) => setBeltSize(itemValue)}
+                          >
+                            {BeltSizeList.map((data) => <Picker.Item key={data.label + data.value} label={data.Name} value={data.UniformSizeId} />)}
+                          </Picker> */}
+                          <RNPickerSelect
+                            value={BeltSize}
+                            items={BeltSizeList}
+                            onValueChange={(value) => setBeltSize(value)}
+                            style={{
+                              ...pickerSelectStyles,
+                              iconContainer: {
+                                top: Platform.OS === 'android' ? 20 : 30,
+                                right: 10,
+                              },
+                              placeholder: {
+                                color: '#8a898e',
+                                fontSize: 12,
+                                fontWeight: 'bold',
+                              },
+                            }}
+                            Icon={() => {
+                              return <Image
+                                style={{ width: 12, position: "absolute", top: -15, right: 15 }}
+                                source={require("../../../assets/arrow-down.png")}
+                                resizeMode={'contain'}
+                              />;
+                            }}
+                          />
+                        </View>
                       </View>
                     </View>
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={Employer}
-                        //  onChangeText={(text) => setemail(text)}
-                        style={globalStyle.formControl
-                        }
-                        placeholder="Employer"
-                        placeholderTextColor="#ddd"
-                      />
-                    </Item>
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={Occupation}
-                        // onChangeText={(text) => setemail(text)}
-                        style={
-                          globalStyle.formControl
-                        }
-                        placeholder="Occupation"
-                        placeholderTextColor="#ddd"
-                      />
-                    </Item>
+                    {adult ?
+                      <View>
+                        <View style={[globalStyle.formField]}>
+                          <Text style={globalStyle.formLabel}>Employer</Text>
+                          <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                            <Input
+                              value={Employer}
+                              onChangeText={(text) => setEmployer(text)}
+                              style={
+                                [globalStyle.formControls, { color: "#999" }]
+                              }
+                              placeholder="Employer"
+                              placeholderTextColor="#ddd"
+                            />
+                          </Item>
+                        </View>
+                        <View style={[globalStyle.formField]}>
+                          <Text style={globalStyle.formLabel}>Occupation</Text>
+                          <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                            <Input
+                              value={Occupation}
+                              onChangeText={(text) => setOccupation(text)}
+                              style={
+                                globalStyle.formControls
+                              }
+                              placeholder="Occupation"
+                              placeholderTextColor="#ddd"
+                            />
+                          </Item>
+                        </View>
+                      </View>
+                      : null}
                   </View>
                 </Collapsible>
                 <TouchableOpacity onPress={toggleExpanded2}>
-                  <View style={loginStyle.textAccordian} >
+                  <View style={loginStyle.textAccordians} >
                     <Image
-                      style={loginStyle.iconLeft}
+                      style={loginStyle.iconLefts}
                       source={require("../../../assets/contacts.png")}
                       resizeMode={'contain'}
                     />
                     <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>Contact Information</Text>
                     {collapsed2 ?
                       <Image
-                        style={loginStyle.arrow}
+                        style={loginStyle.arrows}
                         source={require("../../../assets/down-arrow.png")}
                         resizeMode={'contain'}
                       />
                       : <Image
-                        style={loginStyle.arrow}
+                        style={loginStyle.arrows}
                         source={require("../../../assets/up-arrow.png")}
                         resizeMode={'contain'}
                       />}
                   </View>
                 </TouchableOpacity>
                 <Collapsible collapsed={collapsed2} align="center">
-                  <View style={{ paddingBottom: 50 }}>
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={address1}
-                        onChangeText={(text) => setaddress1(text)}
-                        style={
-                          checkAddress1
-                            ? globalStyle.formControlError
-                            : globalStyle.formControl
-                        }
-                        placeholder="Permanent Address"
-                        placeholderTextColor="#ddd"
-                      />
-                    </Item>
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={address2}
-                        onChangeText={(text) => setaddress2(text)}
-                        style={globalStyle.formControl}
-                        placeholder="Current Address"
-                        placeholderTextColor="#ddd"
-                      />
-                    </Item>
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={city}
-                        onChangeText={(text) => setcity(text)}
-                        style={
-                          [globalStyle.formControl, { color: "#999", backgroundColor: '#eee' }]
-                        }
-                        placeholder="City "
-                        editable={false}
-                      />
-                    </Item>
+                  <View style={{ paddingBottom: 50, paddingTop: 30 }}>
+                    <View style={checkAddress1
+                      ? globalStyle.formFieldError : globalStyle.formField}>
+                      <Text style={globalStyle.formLabel}>Permanent Address</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={address1}
+                          onChangeText={(text) => setaddress1(text)}
+                          style={globalStyle.formControls}
+                          placeholder="Permanent Address"
+                          placeholderTextColor="#ddd"
+                        />
+                      </Item>
+                    </View>
+                    <View style={globalStyle.formField}>
+                      <Text style={globalStyle.formLabel}>Current Address</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={address2}
+                          onChangeText={(text) => setaddress2(text)}
+                          style={globalStyle.formControls}
+                          placeholder="Current Address"
+                          placeholderTextColor="#ddd"
+                        />
+                      </Item>
+                    </View>
+                    <View style={[globalStyle.formField]}>
+                      <Text style={globalStyle.formLabel}>City</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={city}
+                          onChangeText={(text) => setcity(text)}
+                          style={
+                            [globalStyle.formControls, { color: "#999" }]
+                          }
+                          placeholder="City "
+                        //editable={false}
+                        />
+                      </Item>
+                    </View>
                     {checkCity ? (
                       <Text style={globalStyle.error}>Enter City</Text>
                     ) : null}
-                    {state != '' ? (
-                      <Item style={globalStyle.formGroup} floatingLabel>
+
+                    <View style={{
+                      marginTop: 30,
+                    }}>
+                      <View style={[globalStyle.formField]}>
+                        <Text style={globalStyle.formLabel}>State</Text>
+                        <View style={globalStyle.formControls}>
+                          {/* <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                          <Input
+                            value={state}
+                            //onChangeText={(text) => setzipCode(text)}
+                           // editable={false}
+                            style={
+                              [globalStyle.formControls, { color: "#999" }]
+                            }
+                            placeholder="State"
+                          />
+                        </Item> */}
+                          {/* <Picker
+                            selectedValue={state}
+                            style={{ height: 50, width: '100%', fontSize: 24 }}
+                            onValueChange={(itemValue, itemIndex) => setstate({ itemValue })}
+                          >
+                            <Picker.Item label="State" value="" />
+                            {stateList.map((data, index) => {
+                              //console.log(state)
+                              return (
+                                <Picker.Item key={index} label={data[0]} value={data[1]} />)
+                            }
+                            )
+                            }
+                          </Picker> */}
+                          <RNPickerSelect
+                            value={state}
+                            items={stateList}
+                            onValueChange={(value) => setState(value)}
+                            style={{
+                              ...pickerSelectStyles,
+                              iconContainer: {
+                                top: Platform.OS === 'android' ? 20 : 30,
+                                right: 10,
+                              },
+                              placeholder: {
+                                color: '#8a898e',
+                                fontSize: 12,
+                                fontWeight: 'bold',
+                              },
+                            }}
+                            Icon={() => {
+                              return <Image
+                                style={{ width: 12, position: "absolute", top: -15, right: 15 }}
+                                source={require("../../../assets/arrow-down.png")}
+                                resizeMode={'contain'}
+                              />;
+                            }}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                    <View style={[globalStyle.formField]}>
+                      <Text style={globalStyle.formLabel}>Postal Code</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
-                          value={state}
-                          //onChangeText={(text) => setzipCode(text)}
-                          editable={false}
+                          value={zipCode}
+                          onChangeText={(text) => setzipCode(text)}
+                          //editable={false}
                           style={
-                            [globalStyle.formControl, { color: "#999", backgroundColor: '#eee' }]
+                            [globalStyle.formControls, { color: "#999" }]
                           }
-                          placeholder="State"
+                          placeholder="Postal Code"
                         />
                       </Item>
-                    )
-                      : null}
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={zipCode}
-                        onChangeText={(text) => setzipCode(text)}
-                        editable={false}
-                        style={
-                          [globalStyle.formControl, { color: "#999", backgroundColor: '#eee' }]
-                        }
-                        placeholder="Postal Code"
-                      />
-                    </Item>
+                    </View>
                     {checkZipCode ? (
-                      <Text style={globalStyle.error}>Enter ZipCode</Text>
+                      <Text style={globalStyle.error}>Enter Postal Code</Text>
                     ) : null}
 
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={phone1}
-                        onChangeText={(text) => setphone1(text)}
-                        style={
-                          checkPhone1
-                            ? globalStyle.formControlError
-                            : globalStyle.formControl
-                        }
-                        placeholder="Phone1"
-                      />
-                    </Item>
+                    <View style={checkPhone1
+                      ? globalStyle.formFieldError : globalStyle.formField}>
+                      <Text style={globalStyle.formLabel}>Phone1</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={phone1}
+                          onChangeText={(text) => setphone1(text)}
+                          style={globalStyle.formControls
+                          }
+                          placeholder="Phone1"
+                        />
+                      </Item>
+                    </View>
                     {checkPhone1 ? (
                       <Text style={globalStyle.error}>Enter Phone Number </Text>
                     ) : null}
 
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={phone2}
-                        onChangeText={(text) => setphone2(text)}
-                        style={globalStyle.formControl}
-                        placeholder="Phone2"
-                      />
-                    </Item>
-                    <Item style={globalStyle.formGroup} floatingLabel>
-                      <Input
-                        value={EmergencyContact}
-                        onChangeText={(text) => setEmergencyContact(text)}
-                        style={globalStyle.formControl}
-                        placeholder="Emergency Contact"
-                      />
-                    </Item>
+                    <View style={[globalStyle.formField]}>
+                      <Text style={globalStyle.formLabel}>Phone2</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={phone2}
+                          onChangeText={(text) => setphone2(text)}
+                          style={globalStyle.formControls}
+                          placeholder="Phone2"
+                        />
+                      </Item>
+                    </View>
+                    <View style={[globalStyle.formField]}>
+                      <Text style={globalStyle.formLabel}>Emergency Contact</Text>
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <Input
+                          value={EmergencyContact}
+                          onChangeText={(text) => setEmergencyContact(text)}
+                          style={globalStyle.formControls}
+                          placeholder="Emergency Contact"
+                        />
+                      </Item>
+                    </View>
                   </View>
                 </Collapsible>
                 {errorMessage != "" ? (
@@ -723,37 +938,69 @@ const UserProfile = (props) => {
                   <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
                 ) : null}
                 <Content style={loginStyle.formContainer}>
-                  <Button onPress={submitForm} style={loginStyle.button} full>
+                  <ImageBackground
+                    style={[globalStyle.Btn, {
+                      width: '100%'
+                    }]}
+                    source={require('./../../../assets/Oval.png')}
+                    resizeMode={'stretch'}
+
+                  >
+                    <Button onPress={submitForm} style={loginStyle.buttons} full>
+                      <Text style={loginStyle.buttonText} >Update</Text>
+                    </Button>
+                  </ImageBackground>
+                  {/* <Button onPress={submitForm} style={loginStyle.button} full>
                     <Text style={loginStyle.buttonText} >Update</Text>
-                  </Button>
+                  </Button> */}
                 </Content>
               </Form>
               :
               <View>
-                <Text style={{ color: "#000", fontSize: 20, marginBottom: 10, textAlign: "center" }}>  You have {studentIds.length} students</Text>
-                {studentIds.map((item, index) => (
-                  <View key={item + 100}>
-                    <View >
-                      <TouchableOpacity
-                        style={profilestyle.list} onPress={(item) => userProfile(item)}>
-                        <Image
-                          style={profilestyle.iconLeft}
-                          source={require("../../../assets/user.png")}
-                          resizeMode={'contain'}
-                        />
-                        <Text style={{
-                          fontSize: 20,
-                          paddingLeft: 10
-                        }}> View Profile
-                  </Text>
-                        <Image
-                          style={profilestyle.iconRight}
-                          source={require("../../../assets/arrow-right.png")}
-                          resizeMode={'contain'}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>))
+                <Text style={{ color: "#000", fontSize: 20, marginTop: 20, marginBottom: 30, textAlign: "center" }}>  You have {studentIds.length} students</Text>
+                {studentIds.map((item, index) => {
+                  //console.log(item.PhotoPath)
+                  var studentId = item.StudentId
+                  return (
+
+                    <View key={index + 100}>
+                      <View >
+                        <TouchableOpacity
+                          style={profilestyle.list}
+                          onPress={() => storeData(studentId)}
+                        >
+
+                          {/* <Image
+                            style={profilestyle.iconLeft}
+                            source={{
+                              uri: "data:image/png;base64," + item.PhotoPath,
+                            }}
+                            resizeMode={'contain'}
+                          /> */}
+                          <View style={{ minWidth: "45%", justifyContent: "flex-start" }}>
+                            <Text style={{
+                              fontSize: 20,
+                              marginLeft: -10,
+                              textAlign: "left"
+                            }}> {item.FirstName} {item.LastName}
+                            </Text>
+                          </View>
+                          <Text style={{
+                            fontSize: 20,
+                            paddingLeft: 10
+                          }}> View Profile
+                          </Text>
+
+
+                          <Image
+                            style={profilestyle.iconRight}
+                            source={require("../../../assets/arrow-right.png")}
+                            resizeMode={'contain'}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>)
+                })
                 }
               </View>
             : (
@@ -777,3 +1024,25 @@ const styles = StyleSheet.create({
   },
 });
 export default UserProfile;
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 18,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderWidth: 0,
+    borderColor: '#fff',
+    borderRadius: 0,
+    color: '#8a898e',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 18,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    borderWidth: 0,
+    borderColor: '#fff',
+    borderRadius: 0,
+    color: '#8a898e',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});

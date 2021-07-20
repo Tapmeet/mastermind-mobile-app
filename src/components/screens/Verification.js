@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, ImageBackground } from "react-native";
 import OtpInputs from "./../Utility/Outinputs";
 import {
   Container,
-  CheckBox,
+  //CheckBox,
   Content,
   Form,
   Item,
@@ -19,7 +19,7 @@ import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { useSelector } from 'react-redux'
-import { API_URL } from "@env"
+import { API_URL } from "./../Utility/AppConst"
 const VerificationCode = (props) => {
   const userId = useSelector(state => state);
   const [otp, setOtp] = React.useState("");
@@ -29,12 +29,13 @@ const VerificationCode = (props) => {
     setOtp(otp);
   };
   const submitForm = () => {
-    console.log(otp)
-    console.log("Verifcation " + VerificationToken)
-    if (otp != VerificationToken) {
+    //props.navigation.navigate("StudentLinkSuccess");
+    // console.log(otp)
+    // console.log("Verifcation " + VerificationToken)
+    if (otp.length < 6) {
       setErrorMessage("Wrong verifcation code");
     } else {
-      const apiUrl =API_URL.trim();
+      const apiUrl = API_URL.trim();
       fetch(`${apiUrl}/odata/StudentLink('${props.route.params.studentAccountGuid}')`, {
         method: "PUT",
         headers: {
@@ -47,7 +48,7 @@ const VerificationCode = (props) => {
           FirstName: props.route.params.FirstName,
           LastName: props.route.params.LastName,
           StudentId: props.route.params.studentId,
-          VerificationToken: VerificationToken,
+          VerificationToken: otp,
         }),
       })
         .then((response) => {
@@ -74,7 +75,7 @@ const VerificationCode = (props) => {
       <Content style={loginStyle.spacing} padder>
         <View style={loginStyle.backWrapper}>
           <Text
-            onPress={() => this.props.navigation.navigate("Link Student")}
+            onPress={() => props.navigation.navigate("Link Student")}
             style={loginStyle.backButtonStyle}
           >
             <Image
@@ -83,32 +84,49 @@ const VerificationCode = (props) => {
             />
           </Text>
         </View>
-        <Body style={loginStyle.bodyContainer}>
-          <H3 style={globalStyle.h3}>Enter Email Code</H3>
-          <Text style={verificationStyle.subHeading}>
-            Please enter your the verification code.
-          </Text>
-        </Body>
+
         <Form>
           <Body>
             <Image
               style={verificationStyle.envelop}
-              source={require("../../../assets/Envelop.png")}
+              source={require("../../../assets/success.png")}
             />
           </Body>
-          <Body style={verificationStyle.spaceBetween}>
-            <OtpInputs getOtp={(otp) => getOtp(otp)} />
+          <Body style={[loginStyle.bodyContainer, { marginTop: -40 }]}>
+            <H3 style={globalStyle.h3}>Enter Verification Code</H3>
+            <Text style={[verificationStyle.subHeading, { fontSize: 22, }]}>
+              Please enter
+          </Text>
+            <Text style={[verificationStyle.subHeading, { lineHeight: 10, fontSize: 22 }]}>
+              your verification code
+          </Text>
           </Body>
-          <Content style={loginStyle.formContainer}>
-            <Button onPress={submitForm} style={loginStyle.button} full>
+          <View style={verificationStyle.spaceBetween}>
+            <OtpInputs getOtp={(otp) => getOtp(otp)} />
+          </View>
+
+          <Content style={[loginStyle.formContainer, { paddingRight: 15, paddingLeft: 15 }]}>
+            <ImageBackground
+              style={[globalStyle.Btn, {
+                width: '100%'
+              }]}
+              source={require('./../../../assets/Oval.png')}
+              resizeMode={'stretch'}
+
+            >
+              <Button onPress={submitForm} style={loginStyle.buttons} full>
+                <Text style={loginStyle.buttonText} >Submit</Text>
+              </Button>
+            </ImageBackground>
+            {/* <Button onPress={submitForm} style={loginStyle.button} full>
               <Text>Send</Text>
-            </Button>
+            </Button> */}
             {errorMessage != "" ? (
               <Text style={globalStyle.errorText}>{errorMessage}</Text>
             ) : null}
 
-            <Body style={verificationStyle.resendSection}>
-              <Text>
+            <Body style={[verificationStyle.resendSection, { marginTop: 20 }]}>
+              <Text style={{ fontSize: 18 }}>
                 Didn't recieve code?{" "}
                 <Text style={globalStyle.hyperlink}>Resend</Text>
               </Text>

@@ -19,18 +19,20 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.martialartsschool.mastermind"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.martialartsschool.mastermind"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "sdkVersion": "41.0.0",
-    "description": ""
+    "description": "Best Martial Arts School in Your Town",
+    "sdkVersion": "42.0.0"
   }
 }

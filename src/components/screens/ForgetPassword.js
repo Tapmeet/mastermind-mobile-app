@@ -2,7 +2,6 @@ import React from "react";
 import { View, Image, StyleSheet, ImageBackground } from "react-native";
 import {
   Container,
-  CheckBox,
   Content,
   Form,
   Item,
@@ -17,7 +16,7 @@ import {
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
-import { API_URL } from "@env"
+import { API_URL } from "./../Utility/AppConst"
 const ForgetPassword = (props) => {
   const [email, setEmail] = React.useState("");
   const [checkEmail, setCheckEmail] = React.useState(false);
@@ -60,10 +59,10 @@ const ForgetPassword = (props) => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response["code"]);
+        console.log(response);
         if (response["odata.error"]) {
           // console.log(response["odata.error"].message.value)
-          setErrorMessage(response["odata.error"].innererror.message);
+          setErrorMessage(response["odata.error"].message.value);
         } else {
           //this.props.navigation.navigate('AccountSuccess')
           props.navigation.navigate("VerificationCode", {
@@ -128,6 +127,7 @@ const ForgetPassword = (props) => {
             <Input
               value={email}
               onChangeText={(text) => setemail(text)}
+              autoCapitalize='none'
               placeholderTextColor='#ccc'
               style={
                 checkEmail

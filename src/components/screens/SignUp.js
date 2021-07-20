@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
 import {
   Container,
   Content,
@@ -15,8 +15,7 @@ import {
 } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
-import CheckBox from "@react-native-community/checkbox";
-import { API_URL } from "@env"
+import { API_URL } from "./../Utility/AppConst"
 
 import PhoneInput from 'react-phone-number-input/react-native-input'
 
@@ -284,7 +283,7 @@ const SignUp = (props) => {
             />
           </View>
         </ImageBackground>
-        <View style={{paddingLeft:30}}>
+        <View style={{ paddingLeft: 30 }}>
           <H3 style={globalStyle.h3}>Sign Up</H3>
         </View>
         <Form style={globalStyle.form} padder>
@@ -332,6 +331,7 @@ const SignUp = (props) => {
           <Item style={globalStyle.formGroup} floatingLabel>
             <Input
               value={email}
+              autoCapitalize='none'
               onChangeText={(text) => setemail(text)}
               placeholderTextColor='#ccc'
               style={
@@ -348,6 +348,7 @@ const SignUp = (props) => {
           <Item style={globalStyle.formGroup} floatingLabel>
             <Input
               value={confirmEmail}
+              autoCapitalize='none'
               onChangeText={(text) => setconfirmemail(text)}
               placeholderTextColor='#ccc'
               style={
@@ -390,29 +391,22 @@ const SignUp = (props) => {
               }
               placeholder="Mobile "
             />
-            {/* <PhoneInput
-              defaultCountry="US"
-              placeholder="Enter phone number"
-              value={mobile}
-              onChange={(text) => setmobile(text)}
-              style={
-                checkmobile
-                  ? globalStyle.formControlError
-                  : globalStyle.formControl
-              }
-            /> */}
           </Item>
           {checkmobile ? (
             <Text style={globalStyle.error}>Enter Mobile</Text>
           ) : null}
           <View style={loginStyle.radioSection}>
-            <CheckBox
-              disabled={false}
+            <TouchableOpacity
+              style={{ borderColor: "#ddd", borderRadius: 5, borderWidth: 2, height: 25, width: 28, marginRight:10 }}
               value={terms}
-              onChange={setterms}
-              
-              style={loginStyle.checkbox}
-            />
+              onPress={setterms}
+            >
+              {terms ? <Image
+                style={{ height: 15, marginRight: 0, marginTop: 2 }}
+                source={require("../../../assets/checkTick.png")}
+                resizeMode={'contain'}
+              /> : null}
+            </TouchableOpacity>
             <Text style={loginStyle.text}>
               I agree to the Terms and Conditions
             </Text>
@@ -428,7 +422,7 @@ const SignUp = (props) => {
 
           <Content style={loginStyle.formContainer}>
             <Button style={loginStyle.button} onPress={submitForm} full>
-            <Text style={loginStyle.buttonText} >Create An Account</Text>
+              <Text style={loginStyle.buttonText} >Create An Account</Text>
             </Button>
           </Content>
         </Form>

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Image, StyleSheet, ImageBackground } from "react-native";
-import { API_URL } from "@env"
+import { API_URL } from "./../Utility/AppConst"
 import {
   Container,
   Content,
@@ -26,6 +26,18 @@ const LinkStudent = (props) => {
   const [checklastName, setChecklastName] = React.useState(false);
   const [checkEmail, setCheckEmail] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
+  React.useEffect(() => {
+    navigation.addListener('focus', () => {
+      clearData()
+    })
+  })
+  const clearData = () => { 
+    setFirstName('');
+    setCheckFirstname(false)
+    setLastName('');
+    setEmail('');
+    setErrorMessage('')
+  }
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
   };
@@ -58,6 +70,7 @@ const LinkStudent = (props) => {
   };
   //Form Submission
   const submitForm = () => {
+    //props.navigation.navigate("StudentLinkSuccess");
     if (firstName == "") {
       setCheckFirstname(true);
       return false;
@@ -71,7 +84,8 @@ const LinkStudent = (props) => {
       return false;
     }
 
-    const apiUrl =API_URL.trim();
+    const apiUrl = API_URL.trim();
+    //console.log("herer")
     fetch(`${apiUrl}/odata/StudentLink`, {
       method: "post",
       headers: {
@@ -84,96 +98,119 @@ const LinkStudent = (props) => {
         FirstName: firstName,
         LastName: lastName,
       }),
+     })
+    .then((response) => response.json())
+    .then((response) => {
+      if (response["odata.error"]) {
+        console.log(response["odata.error"].message.value);
+        setErrorMessage(response["odata.error"].message.value);
+      } else {
+        props.navigation.navigate("Verification", {
+          studentAccountGuid: response["studentAccountGuid"],
+          studentId: response["studentId"],
+          Email: email,
+          FirstName: firstName,
+          LastName: lastName,
+        });
+      }
     })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-        if (response["odata.error"]) {
-          console.log(response["odata.error"].message.value);
-          setErrorMessage(response["odata.error"].message.value);
-        } else {
-          props.navigation.navigate("Verification", {
-            studentAccountGuid: response["studentAccountGuid"],
-            studentId: response["studentId"],
-            Email: email,
-            FirstName: firstName,
-            LastName: lastName,
-          });
-        }
-      })
-      .catch((response) => {
-        console.log(response);
-        setErrorMessage("An error has occurred. Please check all the fields");
-      });
+    .catch((response) => {
+  //    console.log(response);
+      setErrorMessage("An error has occurred. Please check all the fields");
+    });
+
+     //   .then((response) => {
+    //     let jsonData = JSON.stringify(response);
+    //     let jsonDataPrase = JSON.parse(jsonData);
+    //     console.log(jsonDataPrase)
+    //     if (jsonDataPrase.status != 200) {
+    //       setErrorMessage("An error has occurred.");
+    //     } else {
+    //       props.navigation.navigate("Verification", {
+    //         studentAccountGuid: response["studentAccountGuid"],
+    //         studentId: response["studentId"],
+    //         Email: email,
+    //         FirstName: firstName,
+    //         LastName: lastName,
+    //       });
+    //     }
+    //   })
+    //   .catch((response) => {
+    //     setErrorMessage("An error has occurred.");
+    //   });
   };
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
       <SideBarMenu title={"Link Student "} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
-        <ImageBackground
-          style={{
-            width: "100%",
-            height: 150,
-            position: "absolute"
-          }}
-          source={require('./../../../assets/bg3.png')}
-          resizeMode={'stretch'}
-        >
-        </ImageBackground>
-
         <View style={loginStyle.contentContainer}>
-
           <Body style={loginStyle.bodyContainer}>
-            <H2 style={globalStyle.h3}>Link Student!</H2>
             <Text style={globalStyle.small}>Fill out the form below </Text>
           </Body>
-          <Form style={globalStyle.form}>
-            <Item style={globalStyle.formGroup} floatingLabel>
+          <Form >
+            <View style={checkFirstname
+              ? globalStyle.formFieldError : globalStyle.formField}>
+              <Text style={globalStyle.formLabel}>First Name</Text>
               <Input
                 value={firstName}
                 onChangeText={(text) => setfirstName(text)}
                 style={
-                  checkFirstname
-                    ? globalStyle.formControlError
-                    : globalStyle.formControl
+                  globalStyle.formControls
                 }
-                placeholder="First Name"
+                placeholder="Enter your first name"
               />
-            </Item>
+            </View>
             {checkFirstname ? (
               <Text style={globalStyle.error}>Enter First Name</Text>
             ) : null}
-            <Item style={globalStyle.formGroup} floatingLabel>
+            <View style={checklastName
+              ? globalStyle.formFieldError : globalStyle.formField}>
+              <Text style={globalStyle.formLabel}>Last Name</Text>
               <Input
                 value={lastName}
                 onChangeText={(text) => setlasttName(text)}
-                style={globalStyle.formControl}
-                placeholder="Last Name"
+                style={
+                  globalStyle.formControls
+                }
+                placeholder="Enter your last name"
               />
-            </Item>
+            </View>
             {checklastName ? (
               <Text style={globalStyle.error}>Enter Last Name </Text>
             ) : null}
-            <Item style={globalStyle.formGroup} floatingLabel>
+            <View style={checkEmail
+              ? globalStyle.formFieldError : globalStyle.formField}>
+              <Text style={globalStyle.formLabel}>Email</Text>
               <Input
                 value={email}
                 onChangeText={(text) => setemail(text)}
                 style={
-                  checkEmail
-                    ? globalStyle.formControlError
-                    : globalStyle.formControl
+                  globalStyle.formControls
                 }
-                placeholder="Email "
+                placeholder="Enter your email address "
               />
-            </Item>
+            </View>
             {checkEmail ? (
               <Text style={globalStyle.error}>Enter Valid Email</Text>
             ) : null}
+            {errorMessage != "" ? (
+              <Text style={[globalStyle.errorText, { marginTop: 15 }]}>{errorMessage}</Text>
+            ) : null}
             <Content style={loginStyle.formContainer}>
-              <Button onPress={submitForm} style={loginStyle.button} full>
-                <Text style={loginStyle.buttonText} >Link Student</Text>
-              </Button>
+
+              <ImageBackground
+                style={[globalStyle.Btn, {
+                  width: '100%'
+                }]}
+                source={require('./../../../assets/Oval.png')}
+                resizeMode={'stretch'}
+
+              >
+                <Button onPress={submitForm} style={loginStyle.buttons} full>
+                  <Text style={loginStyle.buttonText} >Link Student</Text>
+                </Button>
+              </ImageBackground>
             </Content>
           </Form>
         </View>

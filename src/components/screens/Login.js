@@ -1,7 +1,12 @@
-
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground } from "react-native";
-import { API_URL } from "@env"
+import {
+  View,
+  Image,
+  StyleSheet,
+  ImageBackground,
+  SafeAreaView,
+} from "react-native";
+import { API_URL } from "./../Utility/AppConst";
 import {
   Container,
   Content,
@@ -17,17 +22,18 @@ import {
 } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
-import { useSelector, useDispatch } from 'react-redux'
-import LOGGED_IN_USER from "./../../redux/User"
+import { useSelector, useDispatch } from "react-redux";
+import LOGGED_IN_USER from "./../../redux/User";
 
 const Login = (props) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [checkUsername, setCheckUsername] = React.useState(false);
   const [checkPassword, setCheckPassword] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState('');
-  const dispatch = useDispatch()
-  const userData = userInfo => dispatch({ type: "LOGGED_IN_USER", payload: userInfo })
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const dispatch = useDispatch();
+  const userData = (userInfo) =>
+    dispatch({ type: "LOGGED_IN_USER", payload: userInfo });
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
   };
@@ -61,7 +67,7 @@ const Login = (props) => {
     }
     formBody = formBody.join("&");
     const apiUrl = API_URL.trim();
-    console.log(apiUrl)
+    console.log(apiUrl);
     fetch(`${apiUrl}/token`, {
       method: "POST",
       headers: {
@@ -71,14 +77,12 @@ const Login = (props) => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         if (response["access_token"]) {
-          userData({ "id": 1, "access_Token": response["access_token"] })
+          userData({ id: 1, access_Token: response["access_token"] });
+        } else {
+          setErrorMessage(response["error_description"]);
         }
-        else {
-          setErrorMessage(response["error_description"] );
-        }
-
       })
       .catch(function (data) {
         console.log("Error", data);
@@ -103,20 +107,22 @@ const Login = (props) => {
 
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container}>
-      <Content style={loginStyle.spacing} >
+    <Container style={loginStyle.container} scrollEnabled={false}>
+      <Content style={loginStyle.spacing} scrollEnabled={false}>
         <ImageBackground
           style={{
             width: "100%",
             height: 200,
           }}
-          source={require('./../../../assets/bg.png')}
-          resizeMode={'stretch'}
+          source={require("./../../../assets/bg.png")}
+          resizeMode={"stretch"}
         >
-          <View style={{
-            alignSelf: "center",
-            paddingTop: 40
-          }}>
+          <View
+            style={{
+              alignSelf: "center",
+              paddingTop: 40,
+            }}
+          >
             <Image
               style={loginStyle.logo}
               source={require("../../../assets/Logo.png")}
@@ -124,7 +130,6 @@ const Login = (props) => {
           </View>
         </ImageBackground>
         <Body style={loginStyle.bodyContainer} padder>
-
           <H2 style={globalStyle.h2}>Welcome!</H2>
           <Text style={globalStyle.small}>Sign in to Continue</Text>
         </Body>
@@ -133,7 +138,8 @@ const Login = (props) => {
             <Input
               value={username}
               onChangeText={(text) => setusername(text)}
-              placeholderTextColor='#ccc'
+              placeholderTextColor="#ccc"
+              autoCapitalize="none"
               style={
                 checkUsername
                   ? globalStyle.formControlError
@@ -150,7 +156,7 @@ const Login = (props) => {
               secureTextEntry={true}
               value={password}
               onChangeText={(text) => setpassword(text)}
-              placeholderTextColor='#ccc'
+              placeholderTextColor="#ccc"
               style={
                 checkPassword
                   ? globalStyle.formControlError
@@ -163,11 +169,17 @@ const Login = (props) => {
             <Text style={globalStyle.error}>Enter Password</Text>
           ) : null}
           {errorMessage != "" ? (
-            <Text style={[globalStyle.errorText,{ marginTop:15}]}>{errorMessage}</Text>
+            <Text style={[globalStyle.errorText, { marginTop: 15 }]}>
+              {errorMessage}
+            </Text>
           ) : null}
-          <Content style={loginStyle.formContainer}>
-            <Button onPress={submitForm} style={loginStyle.button} full>
-              <Text style={loginStyle.buttonText} >Login</Text>
+          <Content style={loginStyle.formContainer} scrollEnabled={false}>
+            <Button
+              onPress={submitForm}
+              style={loginStyle.button}
+              full
+            >
+              <Text style={loginStyle.buttonText}>Login</Text>
             </Button>
           </Content>
         </Form>
@@ -179,20 +191,18 @@ const Login = (props) => {
             Forgot Password?
           </Text>
         </Body>
-
-        <Body style={loginStyle.signUpSection}>
-          <Text>
-            Don’t have an account?
-            <Text
-              onPress={() => props.navigation.navigate("SignUp")}
-              style={globalStyle.hyperlink}
-            >
-              {" "}
-              Sign Up Now!
-            </Text>
-          </Text>
-        </Body>
       </Content>
+      <Body style={loginStyle.signUpSection}>
+        <Text>
+          Don’t have an account?
+          <Text
+            onPress={() => props.navigation.navigate("SignUp")}
+            style={globalStyle.hyperlink}
+          >
+            &nbsp; Sign Up Now!
+          </Text>
+        </Text>
+      </Body>
     </Container>
   );
 };
