@@ -43,7 +43,6 @@ const SignedContract = (props) => {
     dateStart = new Date(props.route.params.contractData.StartDate).toISOString().slice(0, 10);
     endDate = new Date(props.route.params.contractData.EndDate).toISOString().slice(0, 10);
 
-    console.log(props.route.params.contractData.ContractId)
     if (loader) {
       fetch(`${apiUrl}/odata/StudentProgramContractInfo(${props.route.params.contractData.ContractId})`, {
         method: "get",
@@ -57,7 +56,6 @@ const SignedContract = (props) => {
         .then(response => {
           setPersonData(response.value)
           setloader(false)
-          console.log(response.value);
         });
     }
 
@@ -327,17 +325,10 @@ const SignedContract = (props) => {
                   </View>
                   : null}
               </View>
-              <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 50, paddingLeft: 20, paddingRight: 20, marginTop: 50 }}>
-                {counter > 1 ?
-                  <Button
-                    style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
-                    onPress={decrement} >
-                    <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
-                  </Button>
-                  : null}
+              <View style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 50, paddingLeft: 0, paddingRight: 0, marginTop: 20 }}>
                 {counter < 4 ?
                   <ImageBackground
-                    style={counter == 1 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '50%' }]
+                    style={counter == 1 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '100%' }]
                     }
                     source={require('./../../../assets/Oval.png')}
                     resizeMode={'stretch'}
@@ -350,6 +341,13 @@ const SignedContract = (props) => {
                       <Text style={loginStyle.buttonText}>Next</Text>
                     </Button>
                   </ImageBackground>
+                  : null}
+                  {counter > 1 ?
+                  <Button
+                    style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
+                    onPress={decrement} >
+                    <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
+                  </Button>
                   : null}
               </View>
             </View>
