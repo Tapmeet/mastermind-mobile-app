@@ -15,7 +15,6 @@ import {
 } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
-//import CheckBox from "@react-native-community/checkbox";
 import { API_URL } from "./../Utility/AppConst"
 
 import PhoneInput from 'react-phone-number-input/react-native-input'
@@ -392,29 +391,11 @@ const SignUp = (props) => {
               }
               placeholder="Mobile "
             />
-            {/* <PhoneInput
-              defaultCountry="US"
-              placeholder="Enter phone number"
-              value={mobile}
-              onChange={(text) => setmobile(text)}
-              style={
-                checkmobile
-                  ? globalStyle.formControlError
-                  : globalStyle.formControl
-              }
-            /> */}
           </Item>
           {checkmobile ? (
             <Text style={globalStyle.error}>Enter Mobile</Text>
           ) : null}
           <View style={loginStyle.radioSection}>
-            {/* <CheckBox
-              disabled={false}
-              value={terms}
-              onChange={setterms}
-              
-              style={loginStyle.checkbox}
-            /> */}
             <TouchableOpacity
               style={{ borderColor: "#ddd", borderRadius: 5, borderWidth: 2, height: 25, width: 28, marginRight:10 }}
               value={terms}
