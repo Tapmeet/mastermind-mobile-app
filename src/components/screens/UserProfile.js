@@ -446,7 +446,7 @@ const UserProfile = (props) => {
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
-        ) : typeof studentIds !== "undefined" && studentIds.length >= 0 ? (
+        ) : typeof studentIds !== "undefined" && studentIds.length > 0 ? (
           studentIds.length == 1 ? (
             <Form style={globalStyle.form}>
               <TouchableOpacity onPress={toggleExpanded}>
@@ -1051,7 +1051,6 @@ const UserProfile = (props) => {
                   textAlign: "center",
                 }}
               >
-                {" "}
                 You have {studentIds.length} students
               </Text>
               {studentIds.map((item, index) => {

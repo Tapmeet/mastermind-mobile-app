@@ -180,8 +180,8 @@ export default StyleSheet.create({
   emptylist: {
     padding: 10,
     textAlign: "center",
-    backgroundColor: "#f7f7f7",
     marginTop: 10,
+    fontSize: 20,
     marginLeft: 30,
     marginRight: 30,
   },
