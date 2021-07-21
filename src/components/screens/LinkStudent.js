@@ -185,6 +185,7 @@ const LinkStudent = (props) => {
               <Input
                 value={email}
                 onChangeText={(text) => setemail(text)}
+                autoCapitalize='none'
                 style={
                   globalStyle.formControls
                 }
