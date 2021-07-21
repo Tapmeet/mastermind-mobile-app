@@ -351,14 +351,8 @@ const UserProfileMultiple = (props) => {
                     setAdult(data.IsAdult);
                     let dob = new Date(data.DOB).toISOString().slice(0, 10);
                     setDOB(dob);
-                    //console.log(dob);
                     setState(data.State);
                     setData("set");
-                    // stateList.map((statedata, index) => {
-                    //   if (statedata[1] == data.State) {
-                    //     setState(statedata[0])
-                    //   }
-                    // })
                     setloader(false);
                   });
               }
@@ -449,7 +443,6 @@ const UserProfileMultiple = (props) => {
                 )}
               </View>
             </TouchableOpacity>
-            {/*Content of Single Collapsible*/}
             <Collapsible collapsed={collapsed} align="center">
               <View style={{ paddingBottom: 10, paddingTop: 10 }}>
                 <View
@@ -533,36 +526,6 @@ const UserProfileMultiple = (props) => {
                 {checkEmail ? (
                   <Text style={globalStyle.error}>Enter Valid Email</Text>
                 ) : null}
-                {/* <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
-                <Text style={globalStyle.formLabel}>School Name</Text>
-                <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                  <Input
-                    value={SchoolName}
-                    onChangeText={(text) => setschoolName(text)}
-                    style={
-                      [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
-                    }
-                    placeholder="School Name "
-                    placeholderTextColor="#000"
-                    editable={false}
-                  />
-                </Item>
-              </View>
-              <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
-                <Text style={globalStyle.formLabel}>Student Number</Text>
-                <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                  <Input
-                    value={StudentNumber}
-                    // onChangeText={(text) => setemail(text)}
-                    style={
-                      [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
-                    }
-                    placeholder="Student Number "
-                    placeholderTextColor="#ddd"
-                    editable={false}
-                  />
-                </Item>
-              </View> */}
                 <View
                   style={[globalStyle.formField, { backgroundColor: "#eee" }]}
                 >
@@ -870,7 +833,6 @@ const UserProfileMultiple = (props) => {
                       onChangeText={(text) => setcity(text)}
                       style={[globalStyle.formControls, { color: "#999" }]}
                       placeholder="City "
-                      // editable={false}
                     />
                   </Item>
                 </View>
