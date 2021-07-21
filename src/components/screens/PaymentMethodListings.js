@@ -194,16 +194,25 @@ const PaymentMethodListings = (props) => {
           }
           {loader == false
             ?
-            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 50 }}>
-              <Button
-                style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
-                onPress={() => props.navigation.navigate("Payment Method Card")}
-              >
-                <Text style={[loginStyle.buttonText, { color: "#333" }]}>Add Card</Text>
-              </Button>
+            <View style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 50 }}>
               <ImageBackground
                 style={[globalStyle.Btn, {
-                  width: '50%',
+                  width: '100%',
+                  alignItems: "center"
+                }]}
+                source={require('./../../../assets/Oval.png')}
+                resizeMode={'stretch'}
+              >
+                <Button
+                  style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent: "center" }]}
+                  onPress={() => props.navigation.navigate("Payment Method Card")}
+                  >
+                  <Text style={[loginStyle.buttonText, { textAlign: "center" }]}>Add Card</Text>
+                </Button>
+              </ImageBackground>
+              <ImageBackground
+                style={[globalStyle.Btn, {
+                  width: '100%',
                   alignItems: "center"
                 }]}
                 source={require('./../../../assets/Oval.png')}
