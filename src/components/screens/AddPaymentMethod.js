@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator } from "react-native";
 import { API_URL } from "../Utility/AppConst"
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import {
   Container,
   Content,
@@ -33,11 +34,77 @@ const AddPaymentMethod = (props) => {
   const [checkCardnumber, setCheckCardnumber] = React.useState(false);
   const [checkCardCode, setCheckCardCode] = React.useState(false);
   const [checkCardExpiration, setCheckCardExpiration] = React.useState(false);
+  const [checkCardExpirationDate, setCheckCardExpirationDate] = React.useState(false);
   const [loaderMessage, setLoaderMessage] = React.useState(false);
   const [SuccessMessage, setSuccessMessage] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
   const userId = useSelector(state => state);
   const [date, setDate] = React.useState('');
+  const [year, setYear] = React.useState(" ");
+  const [month, setMonth] = React.useState(" ");
+  const [day, setDay] = React.useState(" ");
+  const yearList = [
+    { label: "2021", value: "2021" },
+    { label: "2022", value: "2022" },
+    { label: "2023", value: "2023" },
+    { label: "2024", value: "2024" },
+    { label: "2025", value: "2025" },
+    { label: "2026", value: "2026" },
+    { label: "2027", value: "2027" },
+    { label: "2028", value: "2028" },
+    { label: "2029", value: "2029" },
+    { label: "2030", value: "2030" },
+
+  ];
+  const monthList = [
+    { label: "01", value: "01" },
+    { label: "02", value: "02" },
+    { label: "03", value: "03" },
+    { label: "04", value: "04" },
+    { label: "05", value: "05" },
+    { label: "06", value: "06" },
+    { label: "07", value: "07" },
+    { label: "08", value: "08" },
+    { label: "09", value: "09" },
+    { label: "10", value: "10" },
+    { label: "11", value: "11" },
+    { label: "12", value: "12" },
+  ];
+  const dayList = [
+    { label: "01", value: "01" },
+    { label: "02", value: "02" },
+    { label: "03", value: "03" },
+    { label: "04", value: "04" },
+    { label: "05", value: "05" },
+    { label: "06", value: "06" },
+    { label: "07", value: "07" },
+    { label: "08", value: "08" },
+    { label: "09", value: "09" },
+    { label: "10", value: "10" },
+
+    { label: "11", value: "11" },
+    { label: "12", value: "12" },
+    { label: "13", value: "13" },
+    { label: "14", value: "14" },
+    { label: "15", value: "15" },
+    { label: "16", value: "16" },
+    { label: "17", value: "17" },
+    { label: "18", value: "18" },
+    { label: "19", value: "19" },
+    { label: "20", value: "20" },
+
+    { label: "21", value: "21" },
+    { label: "22", value: "22" },
+    { label: "23", value: "23" },
+    { label: "24", value: "24" },
+    { label: "25", value: "25" },
+    { label: "26", value: "26" },
+    { label: "27", value: "27" },
+    { label: "28", value: "28" },
+    { label: "29", value: "29" },
+    { label: "30", value: "30" },
+    { label: "31", value: "31" },
+  ];
   React.useEffect(() => {
     navigation.addListener('focus', () => {
       clearData()
@@ -49,6 +116,7 @@ const AddPaymentMethod = (props) => {
     setCardCode('');
     setCardExpiration('')
     setErrorMessage('')
+    setCheckCardExpirationDate(false)
   }
   const setnickname = (event) => {
     setNickname(event);
@@ -89,9 +157,22 @@ const AddPaymentMethod = (props) => {
       setCheckCardCode(true);
       return false;
     }
-    if (CardExpiration == "") {
+    if (day == "" || year == "" || month == "") {
       setCheckCardExpiration(true);
       return false;
+    }
+   
+    setCardExpiration(year + '-' + month + '-' + day);
+    var dates= year + '-' + month + '-' + day;
+    var varDate = new Date(dates); //dd-mm-YYYY
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    if (varDate <= today) {
+      setCheckCardExpirationDate(true)
+      return false;
+    }
+    else{
+      setCheckCardExpirationDate(false) 
     }
     setLoaderMessage(true)
     fetch(`${apiUrl}/odata/PaymentMethod`, {
@@ -110,33 +191,45 @@ const AddPaymentMethod = (props) => {
         "CardExpiration": CardExpiration
       }),
     })
-    .then((response) => {
-      setLoaderMessage(false)
-      let jsonData = JSON.stringify(response);
-      console.log(jsonData)
-      let jsonDataPrase = JSON.parse(jsonData);
-      console.log(jsonDataPrase.status)
-      if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
-        setSuccessMessage('Card Added Successfully');
-      } else {
+      .then((response) => {
+        setLoaderMessage(false)
+        let jsonData = JSON.stringify(response);
+        console.log(jsonData)
+        let jsonDataPrase = JSON.parse(jsonData);
+        console.log(jsonDataPrase.status)
+        if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
+          setSuccessMessage('Card Added Successfully');
+          setTimeout(function () { setSuccessMessage("") }, 3000);
+        } else {
+          setErrorMessage("An error has occurred.");
+          setTimeout(function () { setErrorMessage("") }, 3000);
+        }
+      })
+      .catch((response) => {
         setErrorMessage("An error has occurred.");
-      }
-    })
-    .catch((response) => {
-      setErrorMessage("An error has occurred.");
-    });
-      // .then(response => response.json())
-      // .then(response => {
-      //   console.log(response);
-      //   setLoaderMessage(false)
-      //   if (response["odata.error"]) {
-      //     console.log(response["odata.error"].message.value);
-      //     setErrorMessage(response["odata.error"].message.value);
-      //   } else {
-      //     setSuccessMessage('Card Added Successfully');
-      //   }
-      // });
+        setTimeout(function () { setErrorMessage("") }, 3000);
+      });
+    // .then(response => response.json())
+    // .then(response => {
+    //   console.log(response);
+    //   setLoaderMessage(false)
+    //   if (response["odata.error"]) {
+    //     console.log(response["odata.error"].message.value);
+    //     setErrorMessage(response["odata.error"].message.value);
+    //   } else {
+    //     setSuccessMessage('Card Added Successfully');
+    //   }
+    // });
   }
+  const placeholder = {
+    label: 'YYYY',
+  };
+  const placeholderMonth = {
+    label: 'MM',
+  };
+  const placeholderDay = {
+    label: 'DD',
+  };
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
@@ -205,10 +298,113 @@ const AddPaymentMethod = (props) => {
               </View>
 
               <View style={checkCardExpiration
-                ? globalStyle.formFieldError : globalStyle.formField}>
+                ? [globalStyle.formFieldError, { paddingLeft: 15 }] : [globalStyle.formField, { paddingLeft: 15 }]}>
                 <Text style={globalStyle.formLabel}>Card Expiration </Text>
-                <View style={[globalStyle.formControls, { marginBottom: 15 }]}>
-                  <DatePicker
+                <View style={[globalStyle.formControls, { marginBottom: 15, }]}>
+                  <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+                    <RNPickerSelect
+                      key={yearList}
+                      value={year}
+                      items={yearList}
+                      placeholder={placeholder}
+                      onValueChange={(value) => setYear(value)}
+                      style={{
+                        ...pickerSelectStyles,
+                        iconContainer: {
+                          top: Platform.OS === "android" ? 20 : 30,
+                          right: 10,
+                        },
+                        placeholder: {
+                          color: "#8a898e",
+                          fontSize: 12,
+                          fontWeight: "bold",
+
+                        },
+                      }}
+                      Icon={() => {
+                        return (
+                          <Image
+                            style={{
+                              width: 12,
+                              position: "absolute",
+                              top: -15,
+                              right: 15,
+                            }}
+                            source={require("../../../assets/arrow-down.png")}
+                            resizeMode={"contain"}
+                          />
+                        );
+                      }}
+                    />
+                    <RNPickerSelect
+
+                      value={month}
+                      items={monthList}
+                      placeholder={placeholderMonth}
+                      onValueChange={(value) => setMonth(value)}
+                      style={{
+                        ...pickerSelectStyles,
+                        iconContainer: {
+                          top: Platform.OS === "android" ? 20 : 30,
+                          right: 10,
+                        },
+                        placeholder: {
+                          color: "#8a898e",
+                          fontSize: 12,
+                          fontWeight: "bold",
+
+                        },
+                      }}
+                      Icon={() => {
+                        return (
+                          <Image
+                            style={{
+                              width: 12,
+                              position: "absolute",
+                              top: -15,
+                              right: 15,
+                            }}
+                            source={require("../../../assets/arrow-down.png")}
+                            resizeMode={"contain"}
+                          />
+                        );
+                      }}
+                    />
+                    <RNPickerSelect
+                      value={day}
+                      items={dayList}
+                      placeholder={placeholderDay}
+                      onValueChange={(value) => setDay(value)}
+                      style={{
+                        ...pickerSelectStyles,
+                        iconContainer: {
+                          top: Platform.OS === "android" ? 20 : 30,
+                          right: 10,
+                        },
+                        placeholder: {
+                          color: "#8a898e",
+                          fontSize: 12,
+                          fontWeight: "bold",
+
+                        },
+                      }}
+                      Icon={() => {
+                        return (
+                          <Image
+                            style={{
+                              width: 12,
+                              position: "absolute",
+                              top: -15,
+                              right: 15,
+                            }}
+                            source={require("../../../assets/arrow-down.png")}
+                            resizeMode={"contain"}
+                          />
+                        );
+                      }}
+                    />
+                  </View>
+                  {/* <DatePicker
                     showIcon={false}
                     androidMode="spinner"
                     date={CardExpiration}
@@ -230,11 +426,14 @@ const AddPaymentMethod = (props) => {
                       },
                     }}
                     onDateChange={(date) => { setCardExpiration(date) }}
-                  />
+                  /> */}
                 </View>
               </View>
               {checkCardExpiration ? (
                 <Text style={globalStyle.error}>Enter Card Expiry</Text>
+              ) : null}
+                {checkCardExpirationDate ? (
+                <Text style={globalStyle.error}>Invalid Card Expiry</Text>
               ) : null}
               {errorMessage != "" ? (
                 <Text style={globalStyle.errorText}>{errorMessage}</Text>
@@ -281,6 +480,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,
+  },
+});
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 18,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderWidth: 0,
+    borderColor: "#fff",
+    borderRadius: 0,
+    color: "#8a898e",
+    width: "50%",
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 18,
+    minWidth: 105,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    borderWidth: 0,
+    borderColor: "#fff",
+    borderRadius: 0,
+    color: "#8a898e",
+    paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
 export default AddPaymentMethod;

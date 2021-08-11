@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ImageBackground,
   SafeAreaView,
+  ActivityIndicator
 } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import {
@@ -31,6 +32,7 @@ const Login = (props) => {
   const [checkUsername, setCheckUsername] = React.useState(false);
   const [checkPassword, setCheckPassword] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
+  const [loaderMessage, setLoaderMessage] = React.useState(false);
   const dispatch = useDispatch();
   const userData = (userInfo) =>
     dispatch({ type: "LOGGED_IN_USER", payload: userInfo });
@@ -68,6 +70,7 @@ const Login = (props) => {
     formBody = formBody.join("&");
     const apiUrl = API_URL.trim();
     console.log(apiUrl);
+    setLoaderMessage(true)
     fetch(`${apiUrl}/token`, {
       method: "POST",
       headers: {
@@ -78,6 +81,7 @@ const Login = (props) => {
       .then((response) => response.json())
       .then((response) => {
         //console.log(response);
+        setLoaderMessage(false)
         if (response["access_token"]) {
           userData({ id: 1, access_Token: response["access_token"] });
         } else {
@@ -173,6 +177,11 @@ const Login = (props) => {
               {errorMessage}
             </Text>
           ) : null}
+          {loaderMessage ?
+            <View style={[styles.container, styles.horizontal]}>
+              <ActivityIndicator size="large" color="#29ABE2" />
+            </View>
+            : null}
           <Content style={loginStyle.formContainer} scrollEnabled={false}>
             <Button
               onPress={submitForm}
@@ -206,4 +215,16 @@ const Login = (props) => {
     </Container>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+    marginTop:10
+  },
+});
 export default Login;

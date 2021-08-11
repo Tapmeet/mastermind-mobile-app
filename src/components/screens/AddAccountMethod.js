@@ -28,7 +28,7 @@ const AddAccountMethod = (props) => {
   const [AccountNumber, setAccountNumber] = React.useState('');
   const [Routing, setRouting] = React.useState('');
   const [CardExpiration, setCardExpiration] = React.useState('');
-
+  const [loaderMessage, setLoaderMessage] = React.useState(false);
   const [checkNickname, setCheckNickname] = React.useState(false);
   const [checkAccountNumber, setCheckAccountNumber] = React.useState(false);
   const [checkRouting, setCheckRouting] = React.useState(false);
@@ -90,6 +90,7 @@ const AddAccountMethod = (props) => {
     //   setCheckCardExpiration(true);
     //   return false;
     // }
+    setLoaderMessage(true)
     fetch(`${apiUrl}/odata/PaymentMethod`, {
       method: "post",
       headers: {
@@ -109,6 +110,7 @@ const AddAccountMethod = (props) => {
       .then(response => response.json())
       .then(response => {
         console.log(response);
+        setLoaderMessage(false)
         if (response["odata.error"]) {
           console.log(response["odata.error"].message.value);
           setErrorMessage(response["odata.error"].message.value);
@@ -221,6 +223,11 @@ const AddAccountMethod = (props) => {
               {SuccessMessage != "" ? (
                 <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
               ) : null}
+               {loaderMessage ?
+                <View style={[styles.container, styles.horizontal]}>
+                  <ActivityIndicator size="large" color="#29ABE2" />
+                </View>
+                : null}
               <View style={{ paddingLeft: 0, paddingRight: 0, marginTop: 20, marginBottom: 30 }}>
                 <ImageBackground
                   style={[globalStyle.Btn, {
@@ -257,5 +264,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
 export default AddAccountMethod;
 
