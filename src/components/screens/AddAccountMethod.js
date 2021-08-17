@@ -109,10 +109,10 @@ const AddAccountMethod = (props) => {
     })
       .then(response => response.json())
       .then(response => {
-        console.log(response);
+        // console.log(response);
         setLoaderMessage(false)
         if (response["odata.error"]) {
-          console.log(response["odata.error"].message.value);
+          // console.log(response["odata.error"].message.value);
           setErrorMessage(response["odata.error"].message.value);
         } else {
           setSuccessMessage('Card Added Successfully');

@@ -194,9 +194,9 @@ const AddPaymentMethod = (props) => {
       .then((response) => {
         setLoaderMessage(false)
         let jsonData = JSON.stringify(response);
-        console.log(jsonData)
+        // console.log(jsonData)
         let jsonDataPrase = JSON.parse(jsonData);
-        console.log(jsonDataPrase.status)
+        // console.log(jsonDataPrase.status)
         if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
           setSuccessMessage('Card Added Successfully');
           setTimeout(function () { setSuccessMessage("") }, 3000);

@@ -172,7 +172,7 @@ const SignUp = (props) => {
       })
         .then((response) => response.json())
         .then((response) => {
-          console.log(response["access_token"]);
+          // console.log(response["access_token"]);
           setAccessToken(response["access_token"])
           linkStudent()
         })
@@ -197,10 +197,10 @@ const SignUp = (props) => {
       })
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response["odata.error"]) {
             props.navigation.navigate("AccountSuccess");
-            console.log(response["odata.error"].message.value);
+            // console.log(response["odata.error"].message.value);
             setErrorMessage(response["odata.error"].message.value);
           } else {
             props.navigation.navigate("VerificationLinkStudentSignup", {
@@ -236,9 +236,9 @@ const SignUp = (props) => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response["odata.error"]) {
-          console.log(response["odata.error"].message.value);
+          // console.log(response["odata.error"].message.value);
           setErrorMessage(response["odata.error"].message.value);
         } else {
           login();

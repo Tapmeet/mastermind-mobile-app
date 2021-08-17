@@ -40,7 +40,7 @@ const VerificationCode = (props) => {
 
   const { navigation } = props;
   const { route } = props;
-  console.log(route)
+  // console.log(route)
   return (
     <Container style={loginStyle.container}>
       <Content style={loginStyle.spacing} >

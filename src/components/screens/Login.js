@@ -69,7 +69,7 @@ const Login = (props) => {
     }
     formBody = formBody.join("&");
     const apiUrl = API_URL.trim();
-    console.log(apiUrl);
+    // console.log(apiUrl);
     setLoaderMessage(true)
     fetch(`${apiUrl}/token`, {
       method: "POST",
