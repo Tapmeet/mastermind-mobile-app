@@ -165,6 +165,9 @@ const Contract = (props) => {
         let methods = []
         data.value.map((method) => {
           methods.push({ label: method.Nickname, value: method.PersonPaymentMethodId });
+          if(method.IsDefault){
+            setUserPaymentSelected(method.PersonPaymentMethodId)
+          }
         })
         setPaymentMethod(methods);
       });

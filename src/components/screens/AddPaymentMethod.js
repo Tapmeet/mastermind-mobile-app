@@ -161,8 +161,9 @@ const AddPaymentMethod = (props) => {
       setCheckCardExpiration(true);
       return false;
     }
-   
+   let cardexpiration = year + '-' + month + '-' + day;
     setCardExpiration(year + '-' + month + '-' + day);
+     console.log(CardExpiration) 
     var dates= year + '-' + month + '-' + day;
     var varDate = new Date(dates); //dd-mm-YYYY
     var today = new Date();
@@ -175,6 +176,8 @@ const AddPaymentMethod = (props) => {
       setCheckCardExpirationDate(false) 
     }
     setLoaderMessage(true)
+    console.log(CardCode)
+    console.log(cardexpiration) 
     fetch(`${apiUrl}/odata/PaymentMethod`, {
       method: "post",
       headers: {
@@ -188,38 +191,38 @@ const AddPaymentMethod = (props) => {
         "CardNumber": CardNumber,
         "CardCode": CardCode,
         "PaymentType": "1",
-        "CardExpiration": CardExpiration
+        "CardExpiration": cardexpiration
       }),
     })
-      .then((response) => {
-        setLoaderMessage(false)
-        let jsonData = JSON.stringify(response);
-        console.log(jsonData)
-        let jsonDataPrase = JSON.parse(jsonData);
-        console.log(jsonDataPrase.status)
-        if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
-          setSuccessMessage('Card Added Successfully');
-          setTimeout(function () { setSuccessMessage("") }, 3000);
-        } else {
-          setErrorMessage("An error has occurred.");
-          setTimeout(function () { setErrorMessage("") }, 3000);
-        }
-      })
-      .catch((response) => {
-        setErrorMessage("An error has occurred.");
-        setTimeout(function () { setErrorMessage("") }, 3000);
-      });
-    // .then(response => response.json())
-    // .then(response => {
-    //   console.log(response);
-    //   setLoaderMessage(false)
-    //   if (response["odata.error"]) {
-    //     console.log(response["odata.error"].message.value);
-    //     setErrorMessage(response["odata.error"].message.value);
-    //   } else {
-    //     setSuccessMessage('Card Added Successfully');
-    //   }
-    // });
+      // .then((response) => {
+      //   setLoaderMessage(false)
+      //   let jsonData = JSON.stringify(response);
+      //   console.log(jsonData)
+      //   let jsonDataPrase = JSON.parse(jsonData);
+      //   console.log(jsonDataPrase.status)
+      //   if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
+      //     setSuccessMessage('Card Added Successfully');
+      //     setTimeout(function () { setSuccessMessage("") }, 3000);
+      //   } else {
+      //     setErrorMessage("An error has occurred.");
+      //     setTimeout(function () { setErrorMessage("") }, 3000);
+      //   }
+      // })
+      // .catch((response) => {
+      //   setErrorMessage("An error has occurred.");
+      //   setTimeout(function () { setErrorMessage("") }, 3000);
+      // });
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+      setLoaderMessage(false)
+      if (response["odata.error"]) {
+        console.log(response["odata.error"].message.value);
+        setErrorMessage(response["odata.error"].message.value);
+      } else {
+        setSuccessMessage('Card Added Successfully');
+      }
+    });
   }
   const placeholder = {
     label: 'YYYY',
