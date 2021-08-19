@@ -161,23 +161,23 @@ const AddPaymentMethod = (props) => {
       setCheckCardExpiration(true);
       return false;
     }
-   let cardexpiration = year + '-' + month + '-' + day;
+    let cardexpiration = year + '-' + month + '-' + day;
     setCardExpiration(year + '-' + month + '-' + day);
-     console.log(CardExpiration) 
-    var dates= year + '-' + month + '-' + day;
+    console.log(CardExpiration)
+    var dates = year + '-' + month + '-' + day;
     var varDate = new Date(dates); //dd-mm-YYYY
     var today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
     if (varDate <= today) {
       setCheckCardExpirationDate(true)
       return false;
     }
-    else{
-      setCheckCardExpirationDate(false) 
+    else {
+      setCheckCardExpirationDate(false)
     }
     setLoaderMessage(true)
     console.log(CardCode)
-    console.log(cardexpiration) 
+    console.log(cardexpiration)
     fetch(`${apiUrl}/odata/PaymentMethod`, {
       method: "post",
       headers: {
@@ -194,35 +194,38 @@ const AddPaymentMethod = (props) => {
         "CardExpiration": cardexpiration
       }),
     })
-      // .then((response) => {
-      //   setLoaderMessage(false)
-      //   let jsonData = JSON.stringify(response);
-      //   console.log(jsonData)
-      //   let jsonDataPrase = JSON.parse(jsonData);
-      //   console.log(jsonDataPrase.status)
-      //   if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
-      //     setSuccessMessage('Card Added Successfully');
-      //     setTimeout(function () { setSuccessMessage("") }, 3000);
-      //   } else {
-      //     setErrorMessage("An error has occurred.");
-      //     setTimeout(function () { setErrorMessage("") }, 3000);
-      //   }
-      // })
-      // .catch((response) => {
-      //   setErrorMessage("An error has occurred.");
-      //   setTimeout(function () { setErrorMessage("") }, 3000);
-      // });
-    .then(response => response.json())
-    .then(response => {
-      console.log(response);
-      setLoaderMessage(false)
-      if (response["odata.error"]) {
-        console.log(response["odata.error"].message.value);
-        setErrorMessage(response["odata.error"].message.value);
-      } else {
-        setSuccessMessage('Card Added Successfully');
-      }
-    });
+      .then((response) => {
+        setLoaderMessage(false)
+        let jsonData = JSON.stringify(response);
+        console.log(jsonData)
+        let jsonDataPrase = JSON.parse(jsonData);
+        console.log(jsonDataPrase.status)
+        if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
+          setSuccessMessage('Card Added Successfully');
+          setTimeout(function () {
+            props.navigation.navigate("Payment Methods");
+            setSuccessMessage("");
+          }, 3000);
+        } else {
+          setErrorMessage("Invalid Card");
+          setTimeout(function () { setErrorMessage("") }, 3000);
+        }
+      })
+      .catch((response) => {
+        setErrorMessage("An error has occurred.");
+        setTimeout(function () { setErrorMessage("") }, 3000);
+      });
+    // .then(response => response.json())
+    // .then(response => {
+    //   console.log(response);
+    //   setLoaderMessage(false)
+    //   if (response["odata.error"]) {
+    //     console.log(response["odata.error"].message.value);
+    //     setErrorMessage(response["odata.error"].message.value);
+    //   } else {
+    //     setSuccessMessage('Card Added Successfully');
+    //   }
+    // });
   }
   const placeholder = {
     label: 'YYYY',
@@ -435,7 +438,7 @@ const AddPaymentMethod = (props) => {
               {checkCardExpiration ? (
                 <Text style={globalStyle.error}>Enter Card Expiry</Text>
               ) : null}
-                {checkCardExpirationDate ? (
+              {checkCardExpirationDate ? (
                 <Text style={globalStyle.error}>Invalid Card Expiry</Text>
               ) : null}
               {errorMessage != "" ? (
