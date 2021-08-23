@@ -218,13 +218,13 @@ const Login = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-    marginTop:10
+    position: 'absolute',
+    width: '100%',
+    left: 30,
+    top: -18
   },
 });
 export default Login;

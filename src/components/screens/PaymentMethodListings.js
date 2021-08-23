@@ -291,7 +291,7 @@ const PaymentMethodListings = (props) => {
                   style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent: "center" }]}
                   onPress={() => props.navigation.navigate("Payment Method Card")}
                 >
-                  <Text style={[loginStyle.buttonText, { textAlign: "center" }]}>Add Card</Text>
+                  <Text style={[loginStyle.buttonText, { textAlign: "center" }]}>Add Credit Card</Text>
                 </Button>
               </ImageBackground>
               <ImageBackground
@@ -306,7 +306,7 @@ const PaymentMethodListings = (props) => {
                   style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent: "center" }]}
                   onPress={() => props.navigation.navigate("Add Payment Account")}
                 >
-                  <Text style={[loginStyle.buttonText, { textAlign: "center" }]}>Add Account</Text>
+                  <Text style={[loginStyle.buttonText, { textAlign: "center" }]}>Add Bank Account</Text>
                 </Button>
               </ImageBackground>
             </View>
