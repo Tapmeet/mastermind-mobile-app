@@ -1,31 +1,11 @@
 import React from "react";
-import {
-  View,
-  Image,
-  StyleSheet,
-  ImageBackground,
-  TouchableOpacity,
-  ActivityIndicator,
-  Thumbnail,
-} from "react-native";
+import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator, Thumbnail } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import Collapsible from "react-native-collapsible";
 import DatePicker from "react-native-datepicker";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H2,
-  Icon,
-} from "native-base";
+import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import profilestyle from "../../style/profile/profileStyle";
@@ -296,7 +276,9 @@ const UserProfile = (props) => {
         let jsonDataPrase = JSON.parse(jsonData);
         // console.log(jsonDataPrase.status)
         if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
-          setSuccessMessage("Update Successfully");
+          const timeout = setTimeout(() => {
+            setSuccessMessage("Update Successfully");
+          }, 3000);
         } else {
           setErrorMessage("An error has occurred.");
         }
@@ -322,7 +304,7 @@ const UserProfile = (props) => {
         })
           .then((response) => response.json())
           .then((data) => {
-            //console.log(data)
+            // console.log(data)
             if (data.StudentIds.length > 0) {
               var students = data.StudentIds.length;
               setStudentIds([]);
@@ -428,7 +410,6 @@ const UserProfile = (props) => {
     });
   }, [data]);
   const storeData = async (value) => {
-    console.log(JSON.stringify(value));
     let profileId = JSON.stringify(value);
     try {
       await AsyncStorage.setItem("profileId", profileId);
@@ -440,7 +421,7 @@ const UserProfile = (props) => {
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"My Profile"} navigation={props.navigation} />
+      <SideBarMenu title={studentIds.length !== 1 ? "My Profiles" : "My Profile"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         {loader ? (
           <View style={[styles.container, styles.horizontal]}>
@@ -451,49 +432,21 @@ const UserProfile = (props) => {
             <Form style={globalStyle.form}>
               <TouchableOpacity onPress={toggleExpanded}>
                 <View style={loginStyle.textAccordians}>
-                  <Image
-                    style={loginStyle.iconLefts}
-                    source={require("../../../assets/businessman-information.png")}
-                    resizeMode={"contain"}
-                  />
-                  <Text
-                    style={{ color: "#000", fontSize: 18, marginBottom: 0 }}
-                  >
-                    Personal Information
-                  </Text>
+                  <Image style={loginStyle.iconLefts} source={require("../../../assets/businessman-information.png")} resizeMode={"contain"} />
+                  <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>Personal Information</Text>
                   {collapsed ? (
-                    <Image
-                      style={loginStyle.arrows}
-                      source={require("../../../assets/down-arrow.png")}
-                      resizeMode={"contain"}
-                    />
+                    <Image style={loginStyle.arrows} source={require("../../../assets/down-arrow.png")} resizeMode={"contain"} />
                   ) : (
-                    <Image
-                      style={loginStyle.arrows}
-                      source={require("../../../assets/up-arrow.png")}
-                      resizeMode={"contain"}
-                    />
+                    <Image style={loginStyle.arrows} source={require("../../../assets/up-arrow.png")} resizeMode={"contain"} />
                   )}
                 </View>
               </TouchableOpacity>
               {/*Content of Single Collapsible*/}
               <Collapsible collapsed={collapsed} align="center">
                 <View style={{ paddingBottom: 30, paddingTop: 10 }}>
-                  <View
-                    style={
-                      checkFirstname
-                        ? globalStyle.formFieldError
-                        : globalStyle.formField
-                    }
-                  >
+                  <View style={checkFirstname ? globalStyle.formFieldError : globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>First Name</Text>
-                    <Item
-                      style={[
-                        globalStyle.formGroup,
-                        { marginBottom: 10, marginTop: 0 },
-                      ]}
-                      floatingLabel
-                    >
+                    <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                       <Input
                         value={firstName}
                         onChangeText={(text) => setfirstName(text)}
@@ -503,24 +456,10 @@ const UserProfile = (props) => {
                       />
                     </Item>
                   </View>
-                  {checkFirstname ? (
-                    <Text style={globalStyle.error}>Enter First Name</Text>
-                  ) : null}
-                  <View
-                    style={
-                      checklastName
-                        ? globalStyle.formFieldError
-                        : globalStyle.formField
-                    }
-                  >
+                  {checkFirstname ? <Text style={globalStyle.error}>Enter First Name</Text> : null}
+                  <View style={checklastName ? globalStyle.formFieldError : globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Last Name</Text>
-                    <Item
-                      style={[
-                        globalStyle.formGroup,
-                        { marginBottom: 10, marginTop: 0 },
-                      ]}
-                      floatingLabel
-                    >
+                    <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                       <Input
                         value={lastName}
                         onChangeText={(text) => setlasttName(text)}
@@ -530,24 +469,10 @@ const UserProfile = (props) => {
                       />
                     </Item>
                   </View>
-                  {checklastName ? (
-                    <Text style={globalStyle.error}>Enter Last Name </Text>
-                  ) : null}
-                  <View
-                    style={
-                      checkEmail
-                        ? globalStyle.formFieldError
-                        : globalStyle.formField
-                    }
-                  >
+                  {checklastName ? <Text style={globalStyle.error}>Enter Last Name </Text> : null}
+                  <View style={checkEmail ? globalStyle.formFieldError : globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Email</Text>
-                    <Item
-                      style={[
-                        globalStyle.formGroup,
-                        { marginBottom: 10, marginTop: 0 },
-                      ]}
-                      floatingLabel
-                    >
+                    <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                       <Input
                         value={email}
                         onChangeText={(text) => setemail(text)}
@@ -557,12 +482,8 @@ const UserProfile = (props) => {
                       />
                     </Item>
                   </View>
-                  {checkEmail ? (
-                    <Text style={globalStyle.error}>Enter Valid Email</Text>
-                  ) : null}
-                  <View
-                    style={[globalStyle.formField, { backgroundColor: "#eee" }]}
-                  >
+                  {checkEmail ? <Text style={globalStyle.error}>Enter Valid Email</Text> : null}
+                  <View style={[globalStyle.formField, { backgroundColor: "#eee" }]}>
                     <Text style={globalStyle.formLabel}>Rank</Text>
                     <Item
                       style={[
@@ -578,10 +499,7 @@ const UserProfile = (props) => {
                     >
                       <Input
                         value={Rank}
-                        style={[
-                          globalStyle.formControls,
-                          { color: "#999", backgroundColor: "#eee" },
-                        ]}
+                        style={[globalStyle.formControls, { color: "#999", backgroundColor: "#eee" }]}
                         editable={false}
                         placeholder="Rank"
                         placeholderTextColor="#000"
@@ -590,13 +508,7 @@ const UserProfile = (props) => {
                   </View>
                   <View style={globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Medical Info</Text>
-                    <Item
-                      style={[
-                        globalStyle.formGroup,
-                        { marginBottom: 10, marginTop: 0 },
-                      ]}
-                      floatingLabel
-                    >
+                    <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                       <Input
                         value={MedicalInfo}
                         //onChangeText={(text) => setemail(text)}
@@ -670,12 +582,7 @@ const UserProfile = (props) => {
                   >
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Uniform Size</Text>
-                      <View
-                        style={[
-                          globalStyle.formControls,
-                          { position: "relative", zIndex: 999 },
-                        ]}
-                      >
+                      <View style={[globalStyle.formControls, { position: "relative", zIndex: 999 }]}>
                         <RNPickerSelect
                           value={UniformSize}
                           items={items}
@@ -756,20 +663,11 @@ const UserProfile = (props) => {
                     <View>
                       <View style={[globalStyle.formField]}>
                         <Text style={globalStyle.formLabel}>Employer</Text>
-                        <Item
-                          style={[
-                            globalStyle.formGroup,
-                            { marginBottom: 10, marginTop: 0 },
-                          ]}
-                          floatingLabel
-                        >
+                        <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                           <Input
                             value={Employer}
                             onChangeText={(text) => setEmployer(text)}
-                            style={[
-                              globalStyle.formControls,
-                              { color: "#999" },
-                            ]}
+                            style={[globalStyle.formControls, { color: "#999" }]}
                             placeholder="Employer"
                             placeholderTextColor="#ddd"
                           />
@@ -777,13 +675,7 @@ const UserProfile = (props) => {
                       </View>
                       <View style={[globalStyle.formField]}>
                         <Text style={globalStyle.formLabel}>Occupation</Text>
-                        <Item
-                          style={[
-                            globalStyle.formGroup,
-                            { marginBottom: 10, marginTop: 0 },
-                          ]}
-                          floatingLabel
-                        >
+                        <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                           <Input
                             value={Occupation}
                             onChangeText={(text) => setOccupation(text)}
@@ -799,48 +691,20 @@ const UserProfile = (props) => {
               </Collapsible>
               <TouchableOpacity onPress={toggleExpanded2}>
                 <View style={loginStyle.textAccordians}>
-                  <Image
-                    style={loginStyle.iconLefts}
-                    source={require("../../../assets/contacts.png")}
-                    resizeMode={"contain"}
-                  />
-                  <Text
-                    style={{ color: "#000", fontSize: 18, marginBottom: 0 }}
-                  >
-                    Contact Information
-                  </Text>
+                  <Image style={loginStyle.iconLefts} source={require("../../../assets/contacts.png")} resizeMode={"contain"} />
+                  <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>Contact Information</Text>
                   {collapsed2 ? (
-                    <Image
-                      style={loginStyle.arrows}
-                      source={require("../../../assets/down-arrow.png")}
-                      resizeMode={"contain"}
-                    />
+                    <Image style={loginStyle.arrows} source={require("../../../assets/down-arrow.png")} resizeMode={"contain"} />
                   ) : (
-                    <Image
-                      style={loginStyle.arrows}
-                      source={require("../../../assets/up-arrow.png")}
-                      resizeMode={"contain"}
-                    />
+                    <Image style={loginStyle.arrows} source={require("../../../assets/up-arrow.png")} resizeMode={"contain"} />
                   )}
                 </View>
               </TouchableOpacity>
               <Collapsible collapsed={collapsed2} align="center">
                 <View style={{ paddingBottom: 50, paddingTop: 30 }}>
-                  <View
-                    style={
-                      checkAddress1
-                        ? globalStyle.formFieldError
-                        : globalStyle.formField
-                    }
-                  >
+                  <View style={checkAddress1 ? globalStyle.formFieldError : globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Permanent Address</Text>
-                    <Item
-                      style={[
-                        globalStyle.formGroup,
-                        { marginBottom: 10, marginTop: 0 },
-                      ]}
-                      floatingLabel
-                    >
+                    <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                       <Input
                         value={address1}
                         onChangeText={(text) => setaddress1(text)}
@@ -852,13 +716,7 @@ const UserProfile = (props) => {
                   </View>
                   <View style={globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Current Address</Text>
-                    <Item
-                      style={[
-                        globalStyle.formGroup,
-                        { marginBottom: 10, marginTop: 0 },
-                      ]}
-                      floatingLabel
-                    >
+                    <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                       <Input
                         value={address2}
                         onChangeText={(text) => setaddress2(text)}
@@ -870,13 +728,7 @@ const UserProfile = (props) => {
                   </View>
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>City</Text>
-                    <Item
-                      style={[
-                        globalStyle.formGroup,
-                        { marginBottom: 10, marginTop: 0 },
-                      ]}
-                      floatingLabel
-                    >
+                    <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                       <Input
                         value={city}
                         onChangeText={(text) => setcity(text)}
@@ -886,9 +738,7 @@ const UserProfile = (props) => {
                       />
                     </Item>
                   </View>
-                  {checkCity ? (
-                    <Text style={globalStyle.error}>Enter City</Text>
-                  ) : null}
+                  {checkCity ? <Text style={globalStyle.error}>Enter City</Text> : null}
 
                   <View
                     style={{
@@ -934,13 +784,7 @@ const UserProfile = (props) => {
                   </View>
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>Postal Code</Text>
-                    <Item
-                      style={[
-                        globalStyle.formGroup,
-                        { marginBottom: 10, marginTop: 0 },
-                      ]}
-                      floatingLabel
-                    >
+                    <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                       <Input
                         value={zipCode}
                         onChangeText={(text) => setzipCode(text)}
@@ -950,63 +794,25 @@ const UserProfile = (props) => {
                       />
                     </Item>
                   </View>
-                  {checkZipCode ? (
-                    <Text style={globalStyle.error}>Enter Postal Code</Text>
-                  ) : null}
+                  {checkZipCode ? <Text style={globalStyle.error}>Enter Postal Code</Text> : null}
 
-                  <View
-                    style={
-                      checkPhone1
-                        ? globalStyle.formFieldError
-                        : globalStyle.formField
-                    }
-                  >
+                  <View style={checkPhone1 ? globalStyle.formFieldError : globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Phone1</Text>
-                    <Item
-                      style={[
-                        globalStyle.formGroup,
-                        { marginBottom: 10, marginTop: 0 },
-                      ]}
-                      floatingLabel
-                    >
-                      <Input
-                        value={phone1}
-                        onChangeText={(text) => setphone1(text)}
-                        style={globalStyle.formControls}
-                        placeholder="Phone1"
-                      />
+                    <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                      <Input value={phone1} onChangeText={(text) => setphone1(text)} style={globalStyle.formControls} placeholder="Phone1" />
                     </Item>
                   </View>
-                  {checkPhone1 ? (
-                    <Text style={globalStyle.error}>Enter Phone Number </Text>
-                  ) : null}
+                  {checkPhone1 ? <Text style={globalStyle.error}>Enter Phone Number </Text> : null}
 
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>Phone2</Text>
-                    <Item
-                      style={[
-                        globalStyle.formGroup,
-                        { marginBottom: 10, marginTop: 0 },
-                      ]}
-                      floatingLabel
-                    >
-                      <Input
-                        value={phone2}
-                        onChangeText={(text) => setphone2(text)}
-                        style={globalStyle.formControls}
-                        placeholder="Phone2"
-                      />
+                    <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                      <Input value={phone2} onChangeText={(text) => setphone2(text)} style={globalStyle.formControls} placeholder="Phone2" />
                     </Item>
                   </View>
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>Emergency Contact</Text>
-                    <Item
-                      style={[
-                        globalStyle.formGroup,
-                        { marginBottom: 10, marginTop: 0 },
-                      ]}
-                      floatingLabel
-                    >
+                    <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                       <Input
                         value={EmergencyContact}
                         onChangeText={(text) => setEmergencyContact(text)}
@@ -1017,12 +823,8 @@ const UserProfile = (props) => {
                   </View>
                 </View>
               </Collapsible>
-              {errorMessage != "" ? (
-                <Text style={globalStyle.errorText}>{errorMessage}</Text>
-              ) : null}
-              {SuccessMessage != "" ? (
-                <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
-              ) : null}
+              {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
+              {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
               <Content style={loginStyle.formContainer}>
                 <ImageBackground
                   style={[
@@ -1058,10 +860,7 @@ const UserProfile = (props) => {
                 return (
                   <View key={index + 100}>
                     <View>
-                      <TouchableOpacity
-                        style={profilestyle.list}
-                        onPress={() => storeData(studentId)}
-                      >
+                      <TouchableOpacity style={profilestyle.list} onPress={() => storeData(studentId)}>
                         <View
                           style={{
                             minWidth: "45%",
@@ -1075,7 +874,6 @@ const UserProfile = (props) => {
                               textAlign: "left",
                             }}
                           >
-                            {" "}
                             {item.FirstName} {item.LastName}
                           </Text>
                         </View>
@@ -1088,11 +886,7 @@ const UserProfile = (props) => {
                           {" "}
                           View Profile
                         </Text>
-                        <Image
-                          style={profilestyle.iconRight}
-                          source={require("../../../assets/arrow-right.png")}
-                          resizeMode={"contain"}
-                        />
+                        <Image style={profilestyle.iconRight} source={require("../../../assets/arrow-right.png")} resizeMode={"contain"} />
                       </TouchableOpacity>
                     </View>
                   </View>

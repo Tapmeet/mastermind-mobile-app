@@ -2,14 +2,7 @@ import React from "react";
 import { Container, Text, List, ListItem, Thumbnail, View } from "native-base";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { ImageBackground, Dimensions } from "react-native";
-const routes = [
-  "Home",
-  "Link Student",
-  "Profile",
-  "Inquiry",
-  "Memberships",
-  "Payment Methods",
-];
+const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Payment Methods"];
 import { API_URL } from "./../Utility/AppConst";
 import sideBar from "../../style/home/sidebarStyle";
 import { color } from "react-native-reanimated";
@@ -18,8 +11,7 @@ import LOGGED_OUT_USER from "./../../redux/User";
 
 const SideBar = (props) => {
   const dispatch = useDispatch();
-  const userData = (userInfo) =>
-    dispatch({ type: "LOGGED_OUT_USER", payload: userInfo });
+  const userData = (userInfo) => dispatch({ type: "LOGGED_OUT_USER", payload: userInfo });
   const userId = useSelector((state) => state);
   const [data, setData] = React.useState("");
   const [firstName, setFirstName] = React.useState("");
@@ -34,7 +26,7 @@ const SideBar = (props) => {
   };
   React.useEffect(() => {
     const apiUrl = API_URL.trim();
-    if (data == "") {
+    if (typeof data !== "undefined" && data == "") {
       fetch(`${apiUrl}/odata/StudentAccount`, {
         method: "get",
         headers: {
@@ -88,12 +80,7 @@ const SideBar = (props) => {
               }}
             />
           )}
-          <Text
-            style={[
-              sideBar.name,
-              { color: "#333", marginLeft: 15, fontWeight: "bold" },
-            ]}
-          >
+          <Text style={[sideBar.name, { color: "#333", marginLeft: 15, fontWeight: "bold" }]}>
             {firstName ? firstName + " " + lastName : "Michael Jordan"}
           </Text>
         </View>
@@ -101,15 +88,8 @@ const SideBar = (props) => {
           <List style={{ backgroundColor: "transparent" }}>
             {routes.map((item, index) => {
               return (
-                <ListItem
-                  key={index}
-                  button
-                  underlayColor="transparent"
-                  onPress={() => props.navigation.navigate(item)}
-                >
-                  <Text style={{ color: "#fff", fontWeight: "bold", backgroundColor: "transparent" }}>
-                    {item}
-                  </Text>
+                <ListItem key={index} button underlayColor="transparent" onPress={() => props.navigation.navigate(item)}>
+                  <Text style={{ color: "#fff", fontWeight: "bold", backgroundColor: "transparent" }}>{item}</Text>
                 </ListItem>
               );
             })}
