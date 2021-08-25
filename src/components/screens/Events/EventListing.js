@@ -1,99 +1,44 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View } from "native-base";
 import { Image, ImageBackground, Dimensions } from "react-native";
 import React from "react";
-import FooterTabs from "../footer/Footer";
-import { SideBarMenu } from "../sidebar";
-import globalStyle from "../../style/globalStyle";
+import FooterTabs from "../../footer/Footer";
+import { SideBarMenu } from "../../sidebar";
+import globalStyle from "../../../style/globalStyle";
 import Carousel from "react-native-snap-carousel";
-const Home = (props) => {
-  const isCarousel = React.useRef(null);
-  const data = [
-    {
-      rating: "4.9",
-      title: "Kids Master Karate",
-      text: "06 Months",
-    },
-    {
-      rating: "4.8",
-      title: "Kids Master Karate",
-      text: "03 Months",
-    },
-    {
-      rating: "4.7",
-      title: "Kids Master Karate",
-      text: "05 Months",
-    },
-  ];
 
+const EventListing = (props) => {
   const SLIDER_WIDTH = Dimensions.get("window").width + 60;
   const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
-  const CarouselCardItem = ({ item, index }) => {
-    return (
-      <ImageBackground
-        style={[
-          globalStyle.slider,
-          {
-            width: "100%",
-            height: 180,
-            justifyContent: "center",
-          },
-        ]}
-        source={require("./../../../assets/sliderbg.png")}
-        resizeMode={"stretch"}
-      >
-        <View style={globalStyle.sliderWrapper}>
-          <Text style={{ fontSize: 18, color: "#333", marginRight: 5 }}>{item.rating}</Text>
-          <Image source={require("./../../../assets/star.png")} style={{ height: 20, width: 20 }} />
-        </View>
-        <Text
-          style={{
-            fontSize: 22,
-            fontWeight: "bold",
-            color: "#fff",
-            paddingBottom: 10,
-          }}
-        >
-          {item.title}
-        </Text>
-        <Text style={{ fontSize: 18, color: "#fff" }}>{item.text}</Text>
-      </ImageBackground>
-    );
-  };
+
   return (
-    <Container>
-      <SideBarMenu title={"Home"} navigation={props.navigation} />
-      <Content padder>
-        <Text style={{ marginTop: 20, fontWeight: "bold", fontSize: 24 }}>Top Courses</Text>
-        <View
-          style={{
-            marginLeft: -70,
-            marginTop: 20,
-            marginBottom: 20,
-          }}
-        >
-          <Carousel
-            ref={isCarousel}
-            data={data}
-            renderItem={CarouselCardItem}
-            sliderWidth={SLIDER_WIDTH}
-            itemWidth={ITEM_WIDTH}
-            useScrollView={false}
-          />
-        </View>
-        <Text
-          style={{
-            marginTop: 10,
-            fontWeight: "bold",
-            fontSize: 24,
-            marginBottom: 15,
-          }}
-        >
-          Upcoming Classes
-        </Text>
+    <Container
+      style={{
+        backgroundColor: "#f1f1f1",
+      }}
+    >
+      <SideBarMenu title={"Events"} navigation={props.navigation} />
+      <Text
+        style={{
+          paddingTop: 10,
+          fontWeight: "bold",
+          fontSize: 24,
+          paddingLeft: 15,
+          paddingBottom: 10,
+          backgroundColor: "white",
+        }}
+      >
+        254 Events
+      </Text>
+      <Content
+        padder
+        style={{
+          marginTop: 10,
+        }}
+      >
         <View style={{ marginBottom: 30 }}>
           <View style={globalStyle.homeEvents}>
             <View style={{ borderRadius: 25, overflow: "hidden" }}>
-              <Image source={require("./../../../assets/img1.png")} style={{ height: 110, width: 130 }} />
+              <Image source={require("./../../../../assets/img1.png")} style={{ height: 110, width: 130 }} />
             </View>
             <View style={{ paddingLeft: 15, paddingRight: 10 }}>
               <Text
@@ -112,7 +57,7 @@ const Home = (props) => {
           </View>
           <View style={globalStyle.homeEvents}>
             <View style={{ borderRadius: 25, overflow: "hidden" }}>
-              <Image source={require("./../../../assets/img2.png")} style={{ height: 110, width: 130 }} />
+              <Image source={require("./../../../../assets/img2.png")} style={{ height: 110, width: 130 }} />
             </View>
             <View style={{ paddingLeft: 15, paddingRight: 10 }}>
               <Text
@@ -131,7 +76,7 @@ const Home = (props) => {
           </View>
           <View style={globalStyle.homeEvents}>
             <View style={{ borderRadius: 25, overflow: "hidden" }}>
-              <Image source={require("./../../../assets/img3.png")} style={{ height: 110, width: 130 }} />
+              <Image source={require("./../../../../assets/img3.png")} style={{ height: 110, width: 130 }} />
             </View>
             <View style={{ paddingLeft: 15, paddingRight: 10 }}>
               <Text
@@ -150,7 +95,7 @@ const Home = (props) => {
           </View>
           <View style={globalStyle.homeEvents}>
             <View style={{ borderRadius: 25, overflow: "hidden" }}>
-              <Image source={require("./../../../assets/img1.png")} style={{ height: 110, width: 130 }} />
+              <Image source={require("./../../../../assets/img1.png")} style={{ height: 110, width: 130 }} />
             </View>
             <View style={{ paddingLeft: 15, paddingRight: 10 }}>
               <Text
@@ -173,4 +118,4 @@ const Home = (props) => {
     </Container>
   );
 };
-export default Home;
+export default EventListing;

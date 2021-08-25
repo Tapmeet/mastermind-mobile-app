@@ -2,12 +2,13 @@ import React from "react";
 import { Container, Text, List, ListItem, Thumbnail, View } from "native-base";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { ImageBackground, Dimensions } from "react-native";
-const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Payment Methods"];
 import { API_URL } from "./../Utility/AppConst";
 import sideBar from "../../style/home/sidebarStyle";
 import { color } from "react-native-reanimated";
 import { useSelector, useDispatch } from "react-redux";
 import LOGGED_OUT_USER from "./../../redux/User";
+
+const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Payment Methods", "Events"];
 
 const SideBar = (props) => {
   const dispatch = useDispatch();
