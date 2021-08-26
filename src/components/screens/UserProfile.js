@@ -240,7 +240,7 @@ const UserProfile = (props) => {
     }
 
     const apiUrl = API_URL.trim();
-    fetch(`${apiUrl}/odata/StudentData(${studentIds[0]})`, {
+    fetch(`${apiUrl}/odata/StudentData(${studentIds[0].StudentId})`, {
       method: "patch",
       headers: {
         Accept: "*/*",
@@ -272,13 +272,11 @@ const UserProfile = (props) => {
     })
       .then((response) => {
         let jsonData = JSON.stringify(response);
-        //console.log(jsonData)
+        // console.log(jsonData);
         let jsonDataPrase = JSON.parse(jsonData);
-        // console.log(jsonDataPrase.status)
+        // console.log(jsonDataPrase.status);
         if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
-          const timeout = setTimeout(() => {
-            setSuccessMessage("Update Successfully");
-          }, 3000);
+          setSuccessMessage("Update Successfully");
         } else {
           setErrorMessage("An error has occurred.");
         }
@@ -287,6 +285,13 @@ const UserProfile = (props) => {
         setErrorMessage("An error has occurred.");
       });
   };
+  React.useEffect(() => {
+    if (SuccessMessage !== "") {
+      setTimeout(() => setSuccessMessage(""), 3000);
+    } else if (setErrorMessage !== "") {
+      setTimeout(() => setErrorMessage(""), 3000);
+    }
+  }, [SuccessMessage]);
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       setloader(true);
@@ -321,7 +326,7 @@ const UserProfile = (props) => {
                   .then((data) => {
                     if (studentIds.length <= students) {
                       setStudentIds((prevState) => [...prevState, data]);
-                      //console.log(studentIds)
+                      // console.log(studentIds)
                     }
                     //setStudentIds(data.StudentIds)
                   });
@@ -398,7 +403,7 @@ const UserProfile = (props) => {
         })
           .then((response) => response.json())
           .then((data) => {
-            // console.log(data.value)
+            // console.log(data.value);
             // setBeltSizeList(data.value)
             let belts = [];
             data.value.map((belt) => {
@@ -443,7 +448,7 @@ const UserProfile = (props) => {
               </TouchableOpacity>
               {/*Content of Single Collapsible*/}
               <Collapsible collapsed={collapsed} align="center">
-                <View style={{ paddingBottom: 30, paddingTop: 10 }}>
+                <View style={{ paddingBottom: 10, paddingTop: 10 }}>
                   <View style={checkFirstname ? globalStyle.formFieldError : globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>First Name</Text>
                     <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
@@ -508,18 +513,6 @@ const UserProfile = (props) => {
                   </View>
                   <View style={globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Medical Info</Text>
-                    <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                      <Input
-                        value={MedicalInfo}
-                        //onChangeText={(text) => setemail(text)}
-                        style={[globalStyle.formControls]}
-                        placeholder="Medical Info"
-                        placeholderTextColor="#ddd"
-                      />
-                    </Item>
-                  </View>
-                  <View style={[globalStyle.formField]}>
-                    <Text style={globalStyle.formLabel}>Academic School</Text>
                     <Item
                       style={[
                         globalStyle.formGroup,
@@ -533,137 +526,141 @@ const UserProfile = (props) => {
                       floatingLabel
                     >
                       <Input
+                        value={MedicalInfo}
+                        onChangeText={(text) => setMedicalInfo(text)}
+                        style={globalStyle.formControls}
+                        placeholder="Medical Info"
+                        placeholderTextColor="#DDD"
+                      />
+                    </Item>
+                  </View>
+                  <View style={[globalStyle.formField, { color: "#999", backgroundColor: "#eee" }]}>
+                    <Text style={globalStyle.formLabel}>Academic School</Text>
+                    <Item
+                      style={[
+                        globalStyle.formGroup,
+                        {
+                          marginBottom: 10,
+                          marginTop: 10,
+                          borderWidth: 0,
+                          elevation: 0,
+                        },
+                      ]}
+                      floatingLabel
+                    >
+                      <Input
                         value={AcademicSchool}
-                        onChangeText={(text) => setAcademicSchool(text)}
-                        style={[globalStyle.formControls, { color: "#999" }]}
-                        //editable={false}
+                        style={[globalStyle.formControls, { color: "#999", backgroundColor: "#eee" }]}
+                        editable={false}
                         placeholder="Academic School"
                         placeholderTextColor="#000"
                       />
                     </Item>
                   </View>
-                  <View
-                    style={{
-                      marginTop: 30,
-                    }}
-                  >
-                    <View style={[globalStyle.formField]}>
-                      <Text style={globalStyle.formLabel}>DOB</Text>
-                      <View style={globalStyle.formControls}>
-                        <DatePicker
-                          showIcon={false}
-                          androidMode="spinner"
-                          date={DOB}
-                          mode="date"
-                          placeholder="YYYY-MM-DD"
-                          format="YYYY-MM-DD"
-                          maxDate={moment().format("YYYY-MM-DD")}
-                          confirmBtnText="Okay"
-                          cancelBtnText="Cancel"
-                          style={{ fontSize: 20 }}
-                          customStyles={{
-                            dateInput: {
-                              borderWidth: 0,
-                              borderColor: "black",
-                              width: "100%",
-                            },
-                          }}
-                          onDateChange={(date) => {
-                            setDOB(date);
-                          }}
-                        />
-                      </View>
+                  <View style={globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>DOB</Text>
+                    <View style={globalStyle.formControls}>
+                      <DatePicker
+                        showIcon={false}
+                        androidMode="spinner"
+                        date={DOB}
+                        mode="date"
+                        placeholder="YYYY-MM-DD"
+                        format="YYYY-MM-DD"
+                        maxDate={moment().format("YYYY-MM-DD")}
+                        confirmBtnText="Okay"
+                        cancelBtnText="Cancel"
+                        style={{ fontSize: 20 }}
+                        customStyles={{
+                          dateInput: {
+                            borderWidth: 0,
+                            borderColor: "black",
+                            width: "100%",
+                          },
+                        }}
+                        onDateChange={(date) => {
+                          setDOB(date);
+                        }}
+                      />
                     </View>
                   </View>
-                  <View
-                    style={{
-                      marginTop: 30,
-                    }}
-                  >
-                    <View style={[globalStyle.formField]}>
-                      <Text style={globalStyle.formLabel}>Uniform Size</Text>
-                      <View style={[globalStyle.formControls, { position: "relative", zIndex: 999 }]}>
-                        <RNPickerSelect
-                          value={UniformSize}
-                          items={items}
-                          onValueChange={(value) => setUniformSize(value)}
-                          style={{
-                            ...pickerSelectStyles,
-                            iconContainer: {
-                              top: Platform.OS === "android" ? 20 : 30,
-                              right: 10,
-                            },
-                            placeholder: {
-                              color: "#8a898e",
-                              fontSize: 12,
-                              fontWeight: "bold",
-                            },
-                          }}
-                          Icon={() => {
-                            return (
-                              <Image
-                                style={{
-                                  width: 12,
-                                  position: "absolute",
-                                  top: -15,
-                                  right: 15,
-                                }}
-                                source={require("../../../assets/arrow-down.png")}
-                                resizeMode={"contain"}
-                              />
-                            );
-                          }}
-                        />
-                      </View>
+                  <View style={globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>Uniform Size</Text>
+                    <View style={[globalStyle.formControls, { position: "relative", zIndex: 999 }]}>
+                      <RNPickerSelect
+                        value={UniformSize}
+                        items={items}
+                        onValueChange={(value) => setUniformSize(value)}
+                        style={{
+                          ...pickerSelectStyles,
+                          iconContainer: {
+                            top: Platform.OS === "android" ? 20 : 30,
+                            right: 10,
+                          },
+                          placeholder: {
+                            color: "#8a898e",
+                            fontSize: 12,
+                            fontWeight: "bold",
+                          },
+                        }}
+                        Icon={() => {
+                          return (
+                            <Image
+                              style={{
+                                width: 12,
+                                position: "absolute",
+                                top: -15,
+                                right: 15,
+                              }}
+                              source={require("../../../assets/arrow-down.png")}
+                              resizeMode={"contain"}
+                            />
+                          );
+                        }}
+                      />
                     </View>
                   </View>
-                  <View
-                    style={{
-                      marginTop: 30,
-                    }}
-                  >
-                    <View style={[globalStyle.formField]}>
-                      <Text style={globalStyle.formLabel}>Belt Size</Text>
-                      <View style={globalStyle.formControls}>
-                        <RNPickerSelect
-                          value={BeltSize}
-                          items={BeltSizeList}
-                          onValueChange={(value) => setBeltSize(value)}
-                          style={{
-                            ...pickerSelectStyles,
-                            iconContainer: {
-                              top: Platform.OS === "android" ? 20 : 30,
-                              right: 10,
-                            },
-                            placeholder: {
-                              color: "#8a898e",
-                              fontSize: 12,
-                              fontWeight: "bold",
-                            },
-                          }}
-                          Icon={() => {
-                            return (
-                              <Image
-                                style={{
-                                  width: 12,
-                                  position: "absolute",
-                                  top: -15,
-                                  right: 15,
-                                }}
-                                source={require("../../../assets/arrow-down.png")}
-                                resizeMode={"contain"}
-                              />
-                            );
-                          }}
-                        />
-                      </View>
+                  <View style={globalStyle.formField}>
+                    <Text style={globalStyle.formLabel}>Belt Size</Text>
+                    <View style={globalStyle.formControls}>
+                      <RNPickerSelect
+                        value={BeltSize}
+                        items={BeltSizeList}
+                        onValueChange={(value) => setBeltSize(value)}
+                        style={{
+                          ...pickerSelectStyles,
+                          iconContainer: {
+                            top: Platform.OS === "android" ? 20 : 30,
+                            right: 10,
+                          },
+                          placeholder: {
+                            color: "#8a898e",
+                            fontSize: 12,
+                            fontWeight: "bold",
+                          },
+                        }}
+                        Icon={() => {
+                          return (
+                            <Image
+                              style={{
+                                width: 12,
+                                position: "absolute",
+                                top: -15,
+                                right: 15,
+                              }}
+                              source={require("../../../assets/arrow-down.png")}
+                              resizeMode={"contain"}
+                            />
+                          );
+                        }}
+                      />
                     </View>
                   </View>
                   {adult ? (
                     <View>
-                      <View style={[globalStyle.formField]}>
+                      <View style={globalStyle.formField}>
                         <Text style={globalStyle.formLabel}>Employer</Text>
-                        <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <View style={[globalStyle.formControls, { position: "relative", zIndex: 999 }]}>
                           <Input
                             value={Employer}
                             onChangeText={(text) => setEmployer(text)}
@@ -671,11 +668,11 @@ const UserProfile = (props) => {
                             placeholder="Employer"
                             placeholderTextColor="#ddd"
                           />
-                        </Item>
+                        </View>
                       </View>
-                      <View style={[globalStyle.formField]}>
+                      <View style={globalStyle.formField}>
                         <Text style={globalStyle.formLabel}>Occupation</Text>
-                        <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                        <View style={[globalStyle.formControls, { position: "relative", zIndex: 999 }]}>
                           <Input
                             value={Occupation}
                             onChangeText={(text) => setOccupation(text)}
@@ -683,7 +680,7 @@ const UserProfile = (props) => {
                             placeholder="Occupation"
                             placeholderTextColor="#ddd"
                           />
-                        </Item>
+                        </View>
                       </View>
                     </View>
                   ) : null}
@@ -726,60 +723,52 @@ const UserProfile = (props) => {
                       />
                     </Item>
                   </View>
-                  <View style={[globalStyle.formField]}>
+                  <View style={globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>City</Text>
                     <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                       <Input
                         value={city}
                         onChangeText={(text) => setcity(text)}
                         style={[globalStyle.formControls, { color: "#999" }]}
-                        placeholder="City "
-                        //editable={false}
+                        placeholder="City"
                       />
                     </Item>
                   </View>
                   {checkCity ? <Text style={globalStyle.error}>Enter City</Text> : null}
-
-                  <View
-                    style={{
-                      marginTop: 30,
-                    }}
-                  >
-                    <View style={[globalStyle.formField]}>
-                      <Text style={globalStyle.formLabel}>State</Text>
-                      <View style={globalStyle.formControls}>
-                        <RNPickerSelect
-                          value={state}
-                          items={stateList}
-                          onValueChange={(value) => setState(value)}
-                          style={{
-                            ...pickerSelectStyles,
-                            iconContainer: {
-                              top: Platform.OS === "android" ? 20 : 30,
-                              right: 10,
-                            },
-                            placeholder: {
-                              color: "#8a898e",
-                              fontSize: 12,
-                              fontWeight: "bold",
-                            },
-                          }}
-                          Icon={() => {
-                            return (
-                              <Image
-                                style={{
-                                  width: 12,
-                                  position: "absolute",
-                                  top: -15,
-                                  right: 15,
-                                }}
-                                source={require("../../../assets/arrow-down.png")}
-                                resizeMode={"contain"}
-                              />
-                            );
-                          }}
-                        />
-                      </View>
+                  <View style={[globalStyle.formField]}>
+                    <Text style={globalStyle.formLabel}>State</Text>
+                    <View style={globalStyle.formControls}>
+                      <RNPickerSelect
+                        value={state}
+                        items={stateList}
+                        onValueChange={(value) => setState(value)}
+                        style={{
+                          ...pickerSelectStyles,
+                          iconContainer: {
+                            top: Platform.OS === "android" ? 20 : 30,
+                            right: 10,
+                          },
+                          placeholder: {
+                            color: "#8a898e",
+                            fontSize: 12,
+                            fontWeight: "bold",
+                          },
+                        }}
+                        Icon={() => {
+                          return (
+                            <Image
+                              style={{
+                                width: 12,
+                                position: "absolute",
+                                top: -15,
+                                right: 15,
+                              }}
+                              source={require("../../../assets/arrow-down.png")}
+                              resizeMode={"contain"}
+                            />
+                          );
+                        }}
+                      />
                     </View>
                   </View>
                   <View style={[globalStyle.formField]}>
@@ -788,14 +777,12 @@ const UserProfile = (props) => {
                       <Input
                         value={zipCode}
                         onChangeText={(text) => setzipCode(text)}
-                        //editable={false}
                         style={[globalStyle.formControls, { color: "#999" }]}
                         placeholder="Postal Code"
                       />
                     </Item>
                   </View>
                   {checkZipCode ? <Text style={globalStyle.error}>Enter Postal Code</Text> : null}
-
                   <View style={checkPhone1 ? globalStyle.formFieldError : globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Phone1</Text>
                     <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
@@ -803,7 +790,6 @@ const UserProfile = (props) => {
                     </Item>
                   </View>
                   {checkPhone1 ? <Text style={globalStyle.error}>Enter Phone Number </Text> : null}
-
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>Phone2</Text>
                     <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>

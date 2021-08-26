@@ -100,6 +100,7 @@ export default StyleSheet.create({
     borderColor: "white",
     paddingBottom: 0,
     marginBottom: 0,
+    borderBottomColor: "transparent"
   },
   flex: {
     display: "flex",
