@@ -149,7 +149,7 @@ const Login = (props) => {
                   ? globalStyle.formControlError
                   : globalStyle.formControl
               }
-              placeholder="Enter Username"
+              placeholder="Enter Email Address"
             />
           </Item>
           {checkUsername ? (
