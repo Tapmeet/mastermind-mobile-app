@@ -35,6 +35,7 @@
     "react-native-screens": "~3.4.0",
     "react-native-signature-capture-view": "^1.0.5",
     "react-native-snap-carousel": "^3.9.1",
+    "react-native-svg": "12.1.1",
     "react-native-webview": "11.6.2",
     "react-phone-number-input": "^3.1.23",
     "react-redux": "^7.2.4",
@@ -42,8 +43,7 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.3.1",
     "styled-system": "^5.1.5",
-    "symbol-observable": "^4.0.0",
-    "react-native-svg": "12.1.1"
+    "symbol-observable": "^4.0.0"
   },
   "private": true
 }

@@ -400,4 +400,11 @@ export default StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "#efefef"
   },
+  eventDetailLocations: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    backgroundColor: "#fff",
+    marginBottom: 10,
+  },
 });
