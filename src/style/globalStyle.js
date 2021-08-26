@@ -11,6 +11,12 @@ export default StyleSheet.create({
     lineHeight: 48,
     fontFamily: "HKGrotesk-Regular",
   },
+  p :{
+    fontSize: 19,
+    lineHeight: 32,
+    fontFamily: "HKGrotesk-Regular",
+    fontWeight: "600"
+  },
   h3: {
     marginTop: 20,
     marginBottom: 10,
@@ -407,4 +413,30 @@ export default StyleSheet.create({
     backgroundColor: "#fff",
     marginBottom: 10,
   },
+  accordianStyle : {
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    paddingBottom: 25,
+    paddingTop: 25,
+    paddingRight: 10,
+    display: "flex",
+    position: "relative",
+    marginTop: 0,
+  },
+  arrow: {
+    maxWidth: 15,
+    position: "absolute",
+    right: 10,
+    top: -20,
+  },
+  arrows: {
+    maxWidth: 20,
+    position: "absolute",
+    right: 15,
+    top: 10,
+  },
+  trainersimg: {
+    height : 120,
+    width: 120
+  }
 });
