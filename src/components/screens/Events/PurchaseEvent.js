@@ -217,7 +217,7 @@ const PurchaseEvent = (props) => {
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"Inquiry"} navigation={props.navigation} />
+      <SideBarMenu title={"PURCHASE EVENT"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           <Form style={{marginBottom: 20}}>
