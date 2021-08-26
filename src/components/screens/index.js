@@ -21,3 +21,4 @@ export { default as PaymentMethodListingsScreen } from './PaymentMethodListings'
 export { default as VerificationLinkStudentSignupScreen } from './VerificationLinkStudentSignup';
 export { default as AddAccountMethodScreen } from './AddAccountMethod';
 export { default as EventListing } from './Events/EventListing';
+export { default as EventDetails } from './Events/EventDetails';
