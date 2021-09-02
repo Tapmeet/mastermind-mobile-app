@@ -30,7 +30,6 @@ const LinkStudent = (props) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
   };
   const userId = useSelector((state) => state);
-  // Setting data to variables and validations
   const setfirstName = (event) => {
     setFirstName(event);
     if (event == "") {
@@ -58,7 +57,6 @@ const LinkStudent = (props) => {
   };
   //Form Submission
   const submitForm = () => {
-    //props.navigation.navigate("StudentLinkSuccess");
     if (firstName == "") {
       setCheckFirstname(true);
       return false;
@@ -73,7 +71,6 @@ const LinkStudent = (props) => {
     }
 
     const apiUrl = API_URL.trim();
-    //console.log("herer")
     fetch(`${apiUrl}/odata/StudentLink`, {
       method: "post",
       headers: {
@@ -103,29 +100,8 @@ const LinkStudent = (props) => {
         }
       })
       .catch((response) => {
-        //    console.log(response);
         setErrorMessage("An error has occurred. Please check all the fields");
       });
-
-    //   .then((response) => {
-    //     let jsonData = JSON.stringify(response);
-    //     let jsonDataPrase = JSON.parse(jsonData);
-    //     console.log(jsonDataPrase)
-    //     if (jsonDataPrase.status != 200) {
-    //       setErrorMessage("An error has occurred.");
-    //     } else {
-    //       props.navigation.navigate("Verification", {
-    //         studentAccountGuid: response["studentAccountGuid"],
-    //         studentId: response["studentId"],
-    //         Email: email,
-    //         FirstName: firstName,
-    //         LastName: lastName,
-    //       });
-    //     }
-    //   })
-    //   .catch((response) => {
-    //     setErrorMessage("An error has occurred.");
-    //   });
   };
   const { navigation } = props;
   return (
