@@ -50,10 +50,15 @@ const PurchaseEvent = (props) => {
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
-      // clearData();
+       clearData();
     });
 
   });
+  const clearData = () => {
+    setPaymentMethod([])
+    setSuccessMessage("")
+    setErrorMessage("")
+  }
   const selectStudent = (id) => {
     let temp = studentIds.map((studentIds) => {
       if (id === studentIds.id) {
@@ -405,16 +410,17 @@ const PurchaseEvent = (props) => {
                     marginBottom: 20,
                   }}
                 >
-
-                  <Carousel
-                    ref={isCarousel}
-                    data={paymentMethod}
-                    renderItem={CarouselCardItem}
-                    sliderWidth={SLIDER_WIDTH}
-                    itemWidth={ITEM_WIDTH}
-                    useScrollView={false}
-                    currentIndex={activeindex}
-                  />
+                  {loader == false ?
+                    <Carousel
+                      ref={isCarousel}
+                      data={paymentMethod}
+                      renderItem={CarouselCardItem}
+                      sliderWidth={SLIDER_WIDTH}
+                      itemWidth={ITEM_WIDTH}
+                      useScrollView={false}
+                      currentIndex={activeindex}
+                    />
+                    : null}
                 </View>
                 {errorMessage != "" ? (
                   <Text style={globalStyle.errorText}>{errorMessage}</Text>
