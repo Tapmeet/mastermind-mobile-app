@@ -45,7 +45,9 @@ const PurchaseEvent = (props) => {
   const [paymentMethod, setPaymentMethod] = React.useState([])
   const [defaultId, setDefaultId] = React.useState('');
   const [activeindex, setActiveIndex] = React.useState('0');
-  
+  const [SuccessMessage, setSuccessMessage] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState("");
+
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       // clearData();
@@ -62,13 +64,8 @@ const PurchaseEvent = (props) => {
     setStudentIds(temp);
   };
 
-  const submitForm = () => {
-    setErrorMessage("");
-    setSuccessMessage("");
 
-  };
   const selectAccount = (id) => {
-    console.log(id)
     setDefaultId(id)
   };
   React.useEffect(() => {
@@ -152,6 +149,82 @@ const PurchaseEvent = (props) => {
         }
       });
   }
+  const submitForm = () => {
+    setErrorMessage("");
+    setSuccessMessage("");
+    let selectedstudent = studentIds.filter(
+      (studentIds) => studentIds.isChecked
+    );
+    let selectedStudentArray = selectedstudent.map((a) => a.id);
+    // console.log(selectedStudentArray);
+    // console.log(defaultId);
+    // console.log(eventid)
+    if (selectedStudentArray.length <= 0) {
+      setErrorMessage("Please Select Student");
+      return false
+    }
+    fetch(`${apiUrl}/odata/PurchaseOfSale`, {
+      method: "post",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId[0].access_Token,
+      },
+      body: JSON.stringify({
+        PosItemId: eventid,
+        LinkedStudentIds: selectedStudentArray,
+        PersonPaymentMethodId: defaultId,
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        // setLoaderMessage(false);
+        if (response["order"]) {
+          setSuccessMessage("Event Purchased  Successfully");
+          setTimeout(function () {
+            props.navigation.navigate("Events");
+            setSuccessMessage("");
+          }, 3000);
+        } else {
+          setErrorMessage("An error has occurred.");
+          setTimeout(function () {
+            //props.navigation.navigate("Payment Methods");
+            setErrorMessage("");
+          }, 3000);
+        }
+      })
+      .catch(function (data) {
+        console.log("Error", data);
+      });
+    // .then((response) => {
+    //   console.log(response);
+    //   setLoaderMessage(false);
+    //   let jsonData = JSON.stringify(response);
+    //   console.log(jsonData);
+    //   let jsonDataPrase = JSON.parse(jsonData);
+    //   console.log(jsonDataPrase.status);
+    //   if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
+    //     setSuccessMessage("Event Purchased  Successfully");
+    //     // setTimeout(function () {
+    //     //   props.navigation.navigate("Payment Methods");
+    //     //   setSuccessMessage("");
+    //     // }, 3000);
+    //   } else {
+    //     setErrorMessage("An error has occurred.");
+    //     setTimeout(function () {
+    //       setErrorMessage("");
+    //     }, 3000);
+    //   }
+    // })
+    // .catch((response) => {
+    //   setErrorMessage("An error has occurred.");
+    //   setTimeout(function () {
+    //     setErrorMessage("");
+    //   }, 3000);
+    // });
+
+  };
   const { navigation } = props;
   const SLIDER_WIDTH = Dimensions.get("window").width + 60;
   const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
@@ -162,7 +235,7 @@ const PurchaseEvent = (props) => {
           <ImageBackground
             style={[
               globalStyle.slider,
-              { 
+              {
                 width: "100%",
                 height: 180,
                 justifyContent: "center",
@@ -340,10 +413,17 @@ const PurchaseEvent = (props) => {
                     sliderWidth={SLIDER_WIDTH}
                     itemWidth={ITEM_WIDTH}
                     useScrollView={false}
-                    currentIndex = {activeindex}
+                    currentIndex={activeindex}
                   />
                 </View>
-
+                {errorMessage != "" ? (
+                  <Text style={globalStyle.errorText}>{errorMessage}</Text>
+                ) : null}
+                {SuccessMessage != "" ? (
+                  <Text style={globalStyle.sucessText}>
+                    {SuccessMessage}
+                  </Text>
+                ) : null}
                 <Content style={loginStyle.formContainer}>
                   <ImageBackground
                     style={[
