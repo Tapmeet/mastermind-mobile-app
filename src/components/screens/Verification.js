@@ -23,7 +23,6 @@ import { API_URL } from "./../Utility/AppConst"
 const VerificationCode = (props) => {
   const userId = useSelector(state => state);
   const [otp, setOtp] = React.useState("");
-  const VerificationToken = 'MHK2JG';
   const [errorMessage, setErrorMessage] = React.useState("");
   const getOtp = (otp) => {
     setOtp(otp);

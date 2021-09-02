@@ -1,22 +1,10 @@
 import React from "react";
 import { View, Image, StyleSheet, ImageBackground } from "react-native";
-import { API_URL } from "./../Utility/AppConst"
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H2,
-  Icon,
-} from "native-base";
+import { API_URL } from "./../Utility/AppConst";
+import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 import { SideBarMenu } from "../sidebar";
 const LinkStudent = (props) => {
   const [firstName, setFirstName] = React.useState("");
@@ -25,23 +13,23 @@ const LinkStudent = (props) => {
   const [checkFirstname, setCheckFirstname] = React.useState(false);
   const [checklastName, setChecklastName] = React.useState(false);
   const [checkEmail, setCheckEmail] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState("");
   React.useEffect(() => {
-    navigation.addListener('focus', () => {
-      clearData()
-    })
-  })
-  const clearData = () => { 
-    setFirstName('');
-    setCheckFirstname(false)
-    setLastName('');
-    setEmail('');
-    setErrorMessage('')
-  }
+    navigation.addListener("focus", () => {
+      clearData();
+    });
+  });
+  const clearData = () => {
+    setFirstName("");
+    setCheckFirstname(false);
+    setLastName("");
+    setEmail("");
+    setErrorMessage("");
+  };
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
   };
-  const userId = useSelector(state => state);
+  const userId = useSelector((state) => state);
   // Setting data to variables and validations
   const setfirstName = (event) => {
     setFirstName(event);
@@ -76,7 +64,7 @@ const LinkStudent = (props) => {
       return false;
     }
     if (lastName == "") {
-      setChecklastName(true)
+      setChecklastName(true);
       return false;
     }
     if (email == "") {
@@ -91,35 +79,35 @@ const LinkStudent = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + userId[0].access_Token
+        Authorization: "Bearer " + userId[0].access_Token,
       },
       body: JSON.stringify({
         Email: email,
         FirstName: firstName,
         LastName: lastName,
       }),
-     })
-    .then((response) => response.json())
-    .then((response) => {
-      if (response["odata.error"]) {
-        console.log(response["odata.error"].message.value);
-        setErrorMessage(response["odata.error"].message.value);
-      } else {
-        props.navigation.navigate("Verification", {
-          studentAccountGuid: response["studentAccountGuid"],
-          studentId: response["studentId"],
-          Email: email,
-          FirstName: firstName,
-          LastName: lastName,
-        });
-      }
     })
-    .catch((response) => {
-  //    console.log(response);
-      setErrorMessage("An error has occurred. Please check all the fields");
-    });
+      .then((response) => response.json())
+      .then((response) => {
+        if (response["odata.error"]) {
+          console.log(response["odata.error"].message.value);
+          setErrorMessage(response["odata.error"].message.value);
+        } else {
+          props.navigation.navigate("Verification", {
+            studentAccountGuid: response["studentAccountGuid"],
+            studentId: response["studentId"],
+            Email: email,
+            FirstName: firstName,
+            LastName: lastName,
+          });
+        }
+      })
+      .catch((response) => {
+        //    console.log(response);
+        setErrorMessage("An error has occurred. Please check all the fields");
+      });
 
-     //   .then((response) => {
+    //   .then((response) => {
     //     let jsonData = JSON.stringify(response);
     //     let jsonDataPrase = JSON.parse(jsonData);
     //     console.log(jsonDataPrase)
@@ -148,68 +136,52 @@ const LinkStudent = (props) => {
           <Body style={loginStyle.bodyContainer}>
             <Text style={globalStyle.small}>Fill out the form below </Text>
           </Body>
-          <Form >
-            <View style={checkFirstname
-              ? globalStyle.formFieldError : globalStyle.formField}>
+          <Form>
+            <View style={checkFirstname ? globalStyle.formFieldError : globalStyle.formField}>
               <Text style={globalStyle.formLabel}>First Name</Text>
               <Input
                 value={firstName}
                 onChangeText={(text) => setfirstName(text)}
-                style={
-                  globalStyle.formControls
-                }
+                style={globalStyle.formControls}
                 placeholder="Enter your first name"
               />
             </View>
-            {checkFirstname ? (
-              <Text style={globalStyle.error}>Enter First Name</Text>
-            ) : null}
-            <View style={checklastName
-              ? globalStyle.formFieldError : globalStyle.formField}>
+            {checkFirstname ? <Text style={globalStyle.error}>Enter First Name</Text> : null}
+            <View style={checklastName ? globalStyle.formFieldError : globalStyle.formField}>
               <Text style={globalStyle.formLabel}>Last Name</Text>
               <Input
                 value={lastName}
                 onChangeText={(text) => setlasttName(text)}
-                style={
-                  globalStyle.formControls
-                }
+                style={globalStyle.formControls}
                 placeholder="Enter your last name"
               />
             </View>
-            {checklastName ? (
-              <Text style={globalStyle.error}>Enter Last Name </Text>
-            ) : null}
-            <View style={checkEmail
-              ? globalStyle.formFieldError : globalStyle.formField}>
+            {checklastName ? <Text style={globalStyle.error}>Enter Last Name </Text> : null}
+            <View style={checkEmail ? globalStyle.formFieldError : globalStyle.formField}>
               <Text style={globalStyle.formLabel}>Email</Text>
               <Input
                 value={email}
                 onChangeText={(text) => setemail(text)}
-                autoCapitalize='none'
-                style={
-                  globalStyle.formControls
-                }
+                autoCapitalize="none"
+                style={globalStyle.formControls}
                 placeholder="Enter your email address "
               />
             </View>
-            {checkEmail ? (
-              <Text style={globalStyle.error}>Enter Valid Email</Text>
-            ) : null}
-            {errorMessage != "" ? (
-              <Text style={[globalStyle.errorText, { marginTop: 15 }]}>{errorMessage}</Text>
-            ) : null}
+            {checkEmail ? <Text style={globalStyle.error}>Enter Valid Email</Text> : null}
+            {errorMessage != "" ? <Text style={[globalStyle.errorText, { marginTop: 15 }]}>{errorMessage}</Text> : null}
             <Content style={loginStyle.formContainer}>
-
               <ImageBackground
-                style={[globalStyle.Btn, {
-                  width: '100%'
-                }]}
-                source={require('./../../../assets/Oval.png')}
-                resizeMode={'stretch'}
-
+                style={[
+                  globalStyle.Btn,
+                  {
+                    width: "100%",
+                  },
+                ]}
+                source={require("./../../../assets/Oval.png")}
+                resizeMode={"stretch"}
               >
                 <Button onPress={submitForm} style={loginStyle.buttons} full>
-                  <Text style={loginStyle.buttonText} >Link Student</Text>
+                  <Text style={loginStyle.buttonText}>Link Student</Text>
                 </Button>
               </ImageBackground>
             </Content>

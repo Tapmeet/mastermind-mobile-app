@@ -102,7 +102,6 @@ const PaymentMethodListings = (props) => {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
         { text: "OK", onPress: () => deleteAccount(methodId) }
@@ -125,7 +124,6 @@ const PaymentMethodListings = (props) => {
       .catch((response) => {
         getPaymentMethod(personId)
       });
-
   }
   const { navigation } = props;
   return (
@@ -211,7 +209,7 @@ const PaymentMethodListings = (props) => {
                             <Text style={defaultId == payment.PersonPaymentMethodId ? [loginStyle.buttonText, { textAlign: "center", color: "#fff" }] : [loginStyle.buttonText, { textAlign: "center", color: "#000" }]}>Set Default</Text>
                           </Button>
                           <Button
-                            style={[{ alignSelf: "center", justifyContent: "center", backgroundColor: "#3B9DDC", borderRadius: 6 }]}
+                            style={[{ alignSelf: "center", justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6 }]}
                             onPress={() => 
                               alertDelete(payment.PersonPaymentMethodId)}
                           >
@@ -255,7 +253,7 @@ const PaymentMethodListings = (props) => {
                             <Text style={defaultId == payment.PersonPaymentMethodId ? [loginStyle.buttonText, { textAlign: "center", color: "#fff" }] : [loginStyle.buttonText, { textAlign: "center", color: "#000" }]}>Set Default</Text>
                           </Button>
                           <Button
-                            style={[{ alignSelf: "center", justifyContent: "center", backgroundColor: "#3B9DDC", borderRadius: 6 }]}
+                            style={[{ alignSelf: "center", justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6 }]}
                             onPress={() => 
                               alertDelete(payment.PersonPaymentMethodId)}
                           >

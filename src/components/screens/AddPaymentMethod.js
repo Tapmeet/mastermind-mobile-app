@@ -30,7 +30,6 @@ const AddPaymentMethod = (props) => {
   const [date, setDate] = React.useState("");
   const [year, setYear] = React.useState(" ");
   const [month, setMonth] = React.useState(" ");
-  const [day, setDay] = React.useState(" ");
   const yearList = [
     { label: "2021", value: "2021" },
     { label: "2022", value: "2022" },
@@ -56,41 +55,6 @@ const AddPaymentMethod = (props) => {
     { label: "10", value: "10" },
     { label: "11", value: "11" },
     { label: "12", value: "12" },
-  ];
-  const dayList = [
-    { label: "01", value: "01" },
-    { label: "02", value: "02" },
-    { label: "03", value: "03" },
-    { label: "04", value: "04" },
-    { label: "05", value: "05" },
-    { label: "06", value: "06" },
-    { label: "07", value: "07" },
-    { label: "08", value: "08" },
-    { label: "09", value: "09" },
-    { label: "10", value: "10" },
-
-    { label: "11", value: "11" },
-    { label: "12", value: "12" },
-    { label: "13", value: "13" },
-    { label: "14", value: "14" },
-    { label: "15", value: "15" },
-    { label: "16", value: "16" },
-    { label: "17", value: "17" },
-    { label: "18", value: "18" },
-    { label: "19", value: "19" },
-    { label: "20", value: "20" },
-
-    { label: "21", value: "21" },
-    { label: "22", value: "22" },
-    { label: "23", value: "23" },
-    { label: "24", value: "24" },
-    { label: "25", value: "25" },
-    { label: "26", value: "26" },
-    { label: "27", value: "27" },
-    { label: "28", value: "28" },
-    { label: "29", value: "29" },
-    { label: "30", value: "30" },
-    { label: "31", value: "31" },
   ];
   React.useEffect(() => {
     navigation.addListener("focus", () => {
@@ -144,10 +108,11 @@ const AddPaymentMethod = (props) => {
       setCheckCardCode(true);
       return false;
     }
-    if (day == "" || year == "" || month == "") {
+    if (year == "" || month == "") {
       setCheckCardExpiration(true);
       return false;
     }
+    let day = 30;
     let cardexpiration = year + "-" + month + "-" + day;
     setCardExpiration(year + "-" + month + "-" + day);
     console.log(CardExpiration);
@@ -160,7 +125,7 @@ const AddPaymentMethod = (props) => {
       return false;
     } else {
       setCheckCardExpirationDate(false);
-    }
+    } 
     setLoaderMessage(true);
     console.log(CardCode);
     console.log(cardexpiration);
@@ -205,17 +170,6 @@ const AddPaymentMethod = (props) => {
           setErrorMessage("");
         }, 3000);
       });
-    // .then(response => response.json())
-    // .then(response => {
-    //   console.log(response);
-    //   setLoaderMessage(false)
-    //   if (response["odata.error"]) {
-    //     console.log(response["odata.error"].message.value);
-    //     setErrorMessage(response["odata.error"].message.value);
-    //   } else {
-    //     setSuccessMessage('Card Added Successfully');
-    //   }
-    // });
   };
   const placeholder = {
     label: "YYYY",
@@ -223,13 +177,10 @@ const AddPaymentMethod = (props) => {
   const placeholderMonth = {
     label: "MM",
   };
-  const placeholderDay = {
-    label: "DD",
-  };
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={" Add Payment Method "} navigation={props.navigation} />
+      <SideBarMenu title={"Add Credit Card"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           {loader ? (
@@ -289,38 +240,6 @@ const AddPaymentMethod = (props) => {
                       items={monthList}
                       placeholder={placeholderMonth}
                       onValueChange={(value) => setMonth(value)}
-                      style={{
-                        ...pickerSelectStyles,
-                        iconContainer: {
-                          top: Platform.OS === "android" ? 20 : 30,
-                          right: 10,
-                        },
-                        placeholder: {
-                          color: "#8a898e",
-                          fontSize: 16,
-                          fontWeight: "bold",
-                        },
-                      }}
-                      Icon={() => {
-                        return (
-                          <Image
-                            style={{
-                              width: 12,
-                              position: "absolute",
-                              top: -15,
-                              right: 0,
-                            }}
-                            source={require("../../../assets/arrow-down.png")}
-                            resizeMode={"contain"}
-                          />
-                        );
-                      }}
-                    />
-                    <RNPickerSelect
-                      value={day}
-                      items={dayList}
-                      placeholder={placeholderDay}
-                      onValueChange={(value) => setDay(value)}
                       style={{
                         ...pickerSelectStyles,
                         iconContainer: {

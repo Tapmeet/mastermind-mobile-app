@@ -74,10 +74,6 @@ const AddAccountMethod = (props) => {
       setCheckRouting(true);
       return false;
     }
-    // if (CardExpiration == "") {
-    //   setCheckCardExpiration(true);
-    //   return false;
-    // }
     setLoaderMessage(true);
     fetch(`${apiUrl}/odata/PaymentMethod`, {
       method: "post",
@@ -91,28 +87,39 @@ const AddAccountMethod = (props) => {
         Nickname: Nickname,
         Account: AccountNumber,
         Routing: Routing,
-        CardNumber: "4000101511112227",
-        CardCode: "999",
-        CardExpiration: "2020-03-05",
         PaymentType: "2",
       }),
     })
-      .then((response) => response.json())
       .then((response) => {
-        console.log(response);
+        let jsonData = JSON.stringify(response);
+        let jsonDataPrase = JSON.parse(jsonData);
         setLoaderMessage(false);
-        if (response["odata.error"]) {
-          console.log(response["odata.error"].message.value);
-          setErrorMessage(response["odata.error"].message.value);
+        if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
+          setSuccessMessage("Account Added Successfully");
+          setTimeout(function () {
+            props.navigation.navigate("Payment Methods");
+            setSuccessMessage("");
+          }, 3000);
         } else {
-          setSuccessMessage("Card Added Successfully");
+          setErrorMessage("Invalid Details");
+          setTimeout(function () {
+            setErrorMessage("");
+          }, 3000);
         }
+      })
+      .catch((response) => {
+        console.log(response)
+        setErrorMessage("An error has occurred.");
+        setTimeout(function () {
+          setErrorMessage("");
+        }, 3000);
+        setLoaderMessage(false);
       });
   };
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={" Add Account  "} navigation={props.navigation} />
+      <SideBarMenu title={"Add Bank Account"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           {loader ? (
@@ -161,36 +168,6 @@ const AddAccountMethod = (props) => {
                 </View>
                 {checkAccountNumber ? <Text style={globalStyle.error}>Enter Account Number </Text> : null}
               </View>
-
-              {/* <View style={checkCardExpiration
-                ? globalStyle.formFieldError : globalStyle.formField}>
-                <Text style={globalStyle.formLabel}>Card Expiration </Text>
-                <View style={[globalStyle.formControls, { marginBottom: 15 }]}>
-                  <DatePicker
-                    showIcon={false}
-                    androidMode="spinner"
-                    date={CardExpiration}
-                    mode="date"
-                    placeholder="YYYY-MM-DD"
-                    format="YYYY-MM-DD"
-                    //maxDate={moment().format('YYYY-MM-DD')}
-                    confirmBtnText="Chọn"
-                    cancelBtnText="Hủy"
-                    style={{ fontSize: 20 }}
-                    customStyles={{
-                      dateInput: {
-                        backgroundColor: '#F7F8F9',
-                        borderWidth: 0,
-                        borderColor: 'black',
-                        width: "100%",
-                        padding: 0,
-                        fontSize: 20
-                      },
-                    }}
-                    onDateChange={(date) => { setCardExpiration(date) }}
-                  />
-                </View>
-              </View> */}
               {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
               {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
               {loaderMessage ? (
