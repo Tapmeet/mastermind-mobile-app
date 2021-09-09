@@ -47,7 +47,7 @@ const EventOrdersListing = (props) => {
     });
   });
   const placeholderFiler = {
-    label: "Filter",
+    label: "Filter By",
   };
   const storeData = async (value) => {
     console.log(value);
