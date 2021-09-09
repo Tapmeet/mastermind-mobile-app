@@ -50,7 +50,7 @@ const EventListing = (props) => {
   const storeData = async (value) => {
     console.log(value);
     let eventId = JSON.stringify(value);
-    console.log(eventId);
+   // console.log(eventId);
     try {
       await AsyncStorage.setItem("eventId", eventId);
       props.navigation.navigate("Event Detail");

@@ -16,7 +16,8 @@ import {
   AddAccountMethodScreen,
   EventListing,
   EventDetails,
-  PurchaseEvent
+  PurchaseEvent,
+  EventOrdersListing
 } from "../screens";
 import { SideBar } from ".";
 import { FlatList } from "react-native";
@@ -43,6 +44,7 @@ const Drawer = (props) => {
       <HomeDrawer.Screen name="Events" component={EventListing} />
       <HomeDrawer.Screen name="Event Detail" component={EventDetails} />
       <HomeDrawer.Screen name="Purchase Event" component={PurchaseEvent} />
+      <HomeDrawer.Screen name="Events Order" component={EventOrdersListing} />
     </HomeDrawer.Navigator>
   );
 };

@@ -37,6 +37,7 @@ const apiUrl = API_URL.trim();
 const PurchaseEvent = (props) => {
   const isCarousel = React.useRef(null);
   const [loader, setloader] = React.useState(true);
+  const [processing, setProcessing] = React.useState(false);
   const [eventid, setEventid] = React.useState('');
   const userId = useSelector((state) => state);
   const [studentIds, setStudentIds] = React.useState([]);
@@ -50,7 +51,7 @@ const PurchaseEvent = (props) => {
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
-       clearData();
+      clearData();
     });
 
   });
@@ -161,13 +162,20 @@ const PurchaseEvent = (props) => {
       (studentIds) => studentIds.isChecked
     );
     let selectedStudentArray = selectedstudent.map((a) => a.id);
-    // console.log(selectedStudentArray);
+    function unique(array) {
+      return array.filter(function (el, index, arr) {
+        return index == arr.indexOf(el);
+      });
+    }
+    console.log(selectedStudentArray);
     // console.log(defaultId);
     // console.log(eventid)
     if (selectedStudentArray.length <= 0) {
       setErrorMessage("Please Select Student");
       return false
     }
+    setProcessing(true)
+    let uniqueArray = unique(selectedStudentArray);
     fetch(`${apiUrl}/odata/PurchaseOfSale`, {
       method: "post",
       headers: {
@@ -177,13 +185,14 @@ const PurchaseEvent = (props) => {
       },
       body: JSON.stringify({
         PosItemId: eventid,
-        LinkedStudentIds: selectedStudentArray,
+        LinkedStudentIds: uniqueArray,
         PersonPaymentMethodId: defaultId,
       }),
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
+        setProcessing(false)
+       // console.log(response);
         // setLoaderMessage(false);
         if (response["order"]) {
           setSuccessMessage("Event Purchased  Successfully");
@@ -192,7 +201,8 @@ const PurchaseEvent = (props) => {
             setSuccessMessage("");
           }, 3000);
         } else {
-          setErrorMessage("An error has occurred.");
+          setErrorMessage(response["odata.error"].message.value);
+          //  setErrorMessage("An error has occurred.");
           setTimeout(function () {
             //props.navigation.navigate("Payment Methods");
             setErrorMessage("");
@@ -200,6 +210,7 @@ const PurchaseEvent = (props) => {
         }
       })
       .catch(function (data) {
+        setProcessing(false)
         console.log("Error", data);
       });
     // .then((response) => {
@@ -445,6 +456,11 @@ const PurchaseEvent = (props) => {
                       <Text style={loginStyle.buttonText}>Proceed</Text>
                     </Button>
                   </ImageBackground>
+                  {processing ? (
+                    <View style={[styles.container, styles.horizontal]}>
+                      <ActivityIndicator size="large" color="#29ABE2" />
+                    </View>
+                  ) : null}
                 </Content>
               </View>
             )
