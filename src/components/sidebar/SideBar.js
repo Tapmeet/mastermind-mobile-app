@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import LOGGED_OUT_USER from "./../../redux/User";
 import { EventDetails } from "../screens";
 
-const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Payment Methods", "Events", "Events Order"];
+const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Payment Methods", "Events", "Purchase History"];
 
 const SideBar = (props) => {
   const dispatch = useDispatch();

@@ -24,4 +24,4 @@ export { default as EventListing } from './Events/EventListing';
 export { default as EventDetails } from './Events/EventDetails';
 
 export { default as PurchaseEvent } from './Events/PurchaseEvent';
-export { default as EventOrdersListing } from './Events/EventOrdersListing';
+export { default as PurchaseHistory } from './Events/PurchaseHistory'

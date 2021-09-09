@@ -50,7 +50,7 @@ const EventListing = (props) => {
   const storeData = async (value) => {
     console.log(value);
     let eventId = JSON.stringify(value);
-   // console.log(eventId);
+    // console.log(eventId);
     try {
       await AsyncStorage.setItem("eventId", eventId);
       props.navigation.navigate("Event Detail");
@@ -66,23 +66,26 @@ const EventListing = (props) => {
       }}
     >
       <SideBarMenu title={"Events"} navigation={props.navigation} />
-      <View style={globalStyle.flexStandard}>
+      <View style={[globalStyle.flexStandard, {
+        paddingTop: 15,
+        paddingBottom: 15,
+      }]}>
         <Text
           style={{
             fontWeight: "bold",
             fontSize: 24,
             paddingLeft: 15,
-            paddingTop: 15,
+
             backgroundColor: "white",
             flex: 1,
           }}
         >
           {eventListing.length} Events
         </Text>
-        <View>
+        <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
           <RNPickerSelect
-            value={filterList}
-            items={filter}
+            value={filter}
+            items={filterList}
             placeholder={placeholderFiler}
             onValueChange={(value) => setFilter(value)}
             style={{
@@ -93,7 +96,7 @@ const EventListing = (props) => {
               },
               placeholder: {
                 color: "#8a898e",
-                fontSize: 16,
+                fontSize: 12,
                 fontWeight: "bold",
               },
             }}
@@ -104,7 +107,7 @@ const EventListing = (props) => {
                     width: 12,
                     position: "absolute",
                     top: -15,
-                    right: 15,
+                    right: 5,
                   }}
                   source={require("../../../../assets/arrow-down.png")}
                   resizeMode={"contain"}
@@ -189,7 +192,7 @@ export default EventListing;
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 18,
-    minWidth: 105,
+    minWidth: 122,
     paddingVertical: 20,
     paddingHorizontal: 10,
     borderWidth: 0,
@@ -200,7 +203,7 @@ const pickerSelectStyles = StyleSheet.create({
   },
   inputAndroid: {
     fontSize: 18,
-    minWidth: 105,
+    minWidth: 122,
     paddingHorizontal: 10,
     paddingVertical: 20,
     borderWidth: 0,

@@ -17,7 +17,7 @@ const EventDetails = (props) => {
   const [eventid, setEventid] = React.useState('');
   const userId = useSelector((state) => state);
   const [loader, setloader] = React.useState(true);
-  
+
   const [eventListing, setEventListing] = React.useState([]);
   const [collapsed, setCollapsed] = React.useState(false);
   const [collapsed2, setCollapsed2] = React.useState(true);
@@ -53,7 +53,7 @@ const EventDetails = (props) => {
           try {
             const value = await AsyncStorage.getItem("eventId");
             setEventid(value)
-          //  console.log(value)
+            //  console.log(value)
           } catch (e) { }
         }
         getData();
@@ -68,7 +68,7 @@ const EventDetails = (props) => {
         })
           .then((response) => response.json())
           .then((data) => {
-          //  console.log(data.events)
+            //  console.log(data.events)
             if (data.events) {
               //console.log(data.events)
               setEventListing(data.events)
@@ -77,16 +77,18 @@ const EventDetails = (props) => {
               setloader(false);
             }
           });
-        
+
       }
     });
   }, [eventListing]);
-  const storeData = async (value) => {
-  //  console.log(value)
+  const storeData = async (value, price) => {
+    //  console.log(value)
     let eventId = JSON.stringify(value);
+    let eventPrice= JSON.stringify(price);
     //console.log(eventId)
     try {
       await AsyncStorage.setItem("eventId", eventId);
+      await AsyncStorage.setItem("eventPrice", eventPrice);
       props.navigation.navigate("Purchase Event");
     } catch (e) {
       // saving error
@@ -279,19 +281,22 @@ const EventDetails = (props) => {
                         <Text style={globalStyle.p}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</Text>
                       </View>
                     </Collapsible>
-                    <View style={{
-                      display: "flex",
-                      alignItems: "center",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      paddingTop: 20,
-                      paddingBottom: 20
-                    }}>
-                      <Text style={{ color: "#1873e8", fontSize: 24, fontWeight: "bold" }}>${event.Price}</Text>
-                      <TouchableOpacity style={globalStyle.purchaseBtn} onPress={() => storeData(event.PosItemId)} >
-                        <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, paddingBottom: 15, paddingLeft: 30, paddingRight: 30, paddingTop: 15, fontSize: 22, fontWeight: "bold", borderRadius: 15 }}>Purchase</Text>
-                      </TouchableOpacity>
-                    </View>
+                    {event.HasPaymentOption ?
+                      <View style={{
+                        display: "flex",
+                        alignItems: "center",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        paddingTop: 20,
+                        paddingBottom: 20
+                      }}>
+                        <Text style={{ color: "#1873e8", fontSize: 24, fontWeight: "bold" }}>${event.Price}</Text>
+                        <TouchableOpacity style={globalStyle.purchaseBtn} onPress={() => storeData(event.PosItemId, event.Price)} >
+                          <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, paddingBottom: 15, paddingLeft: 30, paddingRight: 30, paddingTop: 15, fontSize: 22, fontWeight: "bold", borderRadius: 15 }}>Purchase</Text>
+                        </TouchableOpacity>
+                      </View>
+                      : null
+                    }
                   </View>
                 </Content>
                 : null

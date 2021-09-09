@@ -34,11 +34,14 @@ import { API_URL } from "./../../Utility/AppConst";
 import moment from 'moment';
 var checkStudentIds = [];
 const apiUrl = API_URL.trim();
+
 const PurchaseEvent = (props) => {
   const isCarousel = React.useRef(null);
   const [loader, setloader] = React.useState(true);
   const [processing, setProcessing] = React.useState(false);
   const [eventid, setEventid] = React.useState('');
+  const [eventPrice, setEventPrice] = React.useState('');
+  const [eventDefaultPrice, setEventDefaultPrice] = React.useState('');
   const userId = useSelector((state) => state);
   const [studentIds, setStudentIds] = React.useState([]);
   const [totalStudent, setTotalStudent] = React.useState([]);
@@ -67,6 +70,22 @@ const PurchaseEvent = (props) => {
       }
       return studentIds;
     });
+    let selectedstudent = temp.filter(
+      (studentIds) => studentIds.isChecked
+    );
+    let selectedStudentArray = selectedstudent.map((a) => a.id);
+    let price = 0;
+    let uniqueArray = unique(selectedStudentArray);
+    console.log(uniqueArray)
+    if (uniqueArray.length > 0) {
+      price = parseFloat(eventDefaultPrice) * parseFloat(uniqueArray.length);
+     // console.log(price)
+      setEventPrice(price);
+    }
+    else {
+      setEventPrice(eventDefaultPrice);
+    }
+
     setStudentIds(temp);
   };
 
@@ -82,7 +101,10 @@ const PurchaseEvent = (props) => {
         async function getData() {
           try {
             const value = await AsyncStorage.getItem("eventId");
+            const eventPrice = await AsyncStorage.getItem("eventPrice");
             setEventid(value)
+            setEventDefaultPrice(eventPrice);
+            setEventPrice(eventPrice)
           } catch (e) { }
         }
         getData();
@@ -155,6 +177,11 @@ const PurchaseEvent = (props) => {
         }
       });
   }
+  function unique(array) {
+    return array.filter(function (el, index, arr) {
+      return index == arr.indexOf(el);
+    });
+  }
   const submitForm = () => {
     setErrorMessage("");
     setSuccessMessage("");
@@ -162,11 +189,7 @@ const PurchaseEvent = (props) => {
       (studentIds) => studentIds.isChecked
     );
     let selectedStudentArray = selectedstudent.map((a) => a.id);
-    function unique(array) {
-      return array.filter(function (el, index, arr) {
-        return index == arr.indexOf(el);
-      });
-    }
+
     console.log(selectedStudentArray);
     // console.log(defaultId);
     // console.log(eventid)
@@ -192,7 +215,7 @@ const PurchaseEvent = (props) => {
       .then((response) => response.json())
       .then((response) => {
         setProcessing(false)
-       // console.log(response);
+        // console.log(response);
         // setLoaderMessage(false);
         if (response["order"]) {
           setSuccessMessage("Event Purchased  Successfully");
@@ -329,16 +352,28 @@ const PurchaseEvent = (props) => {
               }}
             >
               <View>
-                <Text
-                  style={{
-                    color: "#000",
-                    fontSize: 26,
-                    fontWeight: "bold",
-                    marginBottom: 2,
-                  }}
-                >
-                  Purchase
-                </Text>
+                <View style={{ display: "flex", position: "relative", alignItems: "flex-end", justifyContent: "space-between", flexDirection: "row", width: "84%", borderBottomColor: "#f4f4f4", paddingBottom: 10, marginBottom: 20, borderBottomWidth: 2 }}>
+                  <Text
+                    style={{
+                      color: "#000",
+                      fontSize: 26,
+                      fontWeight: "bold",
+                      marginBottom: 2,
+                    }}
+                  >
+                    Purchase
+                  </Text>
+                  <Text
+                    style={{
+                      color: "#000",
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      marginBottom: 2,
+                    }}
+                  >
+                    ${eventPrice}
+                  </Text>
+                </View>
                 <Text
                   style={{
                     color: "#555",

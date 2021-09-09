@@ -11,17 +11,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 import { API_URL } from "../../Utility/AppConst";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
-import { flex } from "styled-system";
+import { flex, marginBottom } from "styled-system";
 const apiUrl = API_URL.trim();
 const EventOrdersListing = (props) => {
   const [loader, setloader] = React.useState(true);
   const userId = useSelector((state) => state);
   const [eventListing, setEventListing] = React.useState([]);
-  const [filter, setFilter] = React.useState([]);
+  const [filter, setFilter] = React.useState();
   const filterList = [
-    { label: "Popular", value: "Popular" },
-    { label: "By Price", value: "By Price" },
-    { label: "Latest", value: "Latest" },
+    { label: "Last Week", value: "Last Week" },
+    { label: "Last Month", value: "Last Month" },
+    { label: "Last 6 Months", value: "Last 6 Months" },
   ];
   React.useEffect(() => {
     navigation.addListener("focus", () => {
@@ -36,7 +36,7 @@ const EventOrdersListing = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-        //  console.log(data)
+          console.log(data)
           if (data.orders) {
             setEventListing(data.orders);
             setloader(false);
@@ -67,8 +67,8 @@ const EventOrdersListing = (props) => {
         backgroundColor: "#f1f1f1",
       }}
     >
-      <SideBarMenu title={"Orders"} navigation={props.navigation} />
-      <View style={globalStyle.flexStandard}>
+      <SideBarMenu title={" Purchase History"} navigation={props.navigation} />
+      <View style={[globalStyle.flexStandard, { display: "flex", alignItems: "center" }]}>
         <Text
           style={{
             fontWeight: "bold",
@@ -80,8 +80,42 @@ const EventOrdersListing = (props) => {
             paddingBottom: 15
           }}
         >
-          {eventListing.length} Orders
+          Purchase History
         </Text>
+        <View style={{borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5}}>
+          <RNPickerSelect
+            value={filter}
+            items={filterList}
+            placeholder={placeholderFiler}
+            onValueChange={(value) => setFilter(value)}
+            style={{
+              ...pickerSelectStyles,
+              iconContainer: {
+                top: Platform.OS === "android" ? 20 : 30,
+                right: 10,
+              },
+              placeholder: {
+                color: "#8a898e",
+                fontSize: 12,
+                fontWeight: "bold",
+              },
+            }}
+            Icon={() => {
+              return (
+                <Image
+                  style={{
+                    width: 12,
+                    position: "absolute",
+                    top: -20,
+                    right: 5,
+                  }}
+                  source={require("../../../../assets/arrow-down.png")}
+                  resizeMode={"contain"}
+                />
+              );
+            }}
+          />
+        </View>
       </View>
       <Content padder style={{ marginTop: 10 }}>
         {loader ? (
@@ -90,32 +124,39 @@ const EventOrdersListing = (props) => {
           </View>
         ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
           eventListing.map(function (event, index) {
-            let startDate = moment(event.DateCreated).format("MMMM Do, YYYY");
+            let startDate = moment(event.DateCreated).format("MMM Do, YYYY");
             let starttime = moment(event.DateCreated).format("hh:mm a ");
             return (
               <View style={{ marginBottom: 10 }} key={index}>
                 <View style={globalStyle.eventsListingWrapper}>
                   <View style={globalStyle.eventsListingTopWrapper}>
-                    <View style={{ paddingLeft: 15, paddingRight: 10 }}>
+                    <View style={{ paddingLeft: 15, paddingRight: 15 }}>
+                      <View style={{ display: "flex", position: "relative", alignItems: "flex-end", justifyContent: "space-between", flexDirection: "row", width: "84%", borderBottomColor: "#f4f4f4", paddingBottom: 10, marginBottom: 20, borderBottomWidth: 2 }}>
+                        <Text style={{ fontSize: 22, fontWeight: "bold", color: "#000", }}>
+                          ${event.TotalPrice}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", }}>
+                          {startDate} </Text>
+                      </View>
                       <Text
                         style={{
-                          fontSize: 22,
-                          fontWeight: "bold",
-                          color: "#16161D",
+                          fontSize: 20,
+                          fontWeight: "600",
+                          color: "#898989",
                           paddingBottom: 10,
                         }}
                       >
                         {event.purchaseTitle}
                       </Text>
-                      <Text style={{ fontSize: 16, color: "#555", marginBottom: 5 }}><Text style={{ fontSize: 16, color: "#000", fontWeight: "bold" }}>Order Id:  </Text>{event.PosOrderId} </Text>
-                      <Text style={{ fontSize: 16, color: "#555", marginBottom: 5 }}><Text style={{ fontSize: 16, color: "#000", fontWeight: "bold" }}>Order Date:  </Text>{startDate} </Text>
-                      <Text style={{ fontSize: 16, color: "#555", marginBottom: 5 }}><Text style={{ fontSize: 16, color: "#000", fontWeight: "bold" }}>BuyerName:  </Text>{event.BuyerName} </Text>
-                      <Text style={{ fontSize: 16, color: "#555", marginBottom: 5 }}><Text style={{ fontSize: 16, color: "#000", fontWeight: "bold" }}>{event.PaymentTypeId != 2 ? 'Card Number: ' : "Account: "}</Text> XXXX-XXXX-XXXX- {event.Last4Digits} </Text>
-
+                      <Text style={{
+                        fontSize: 20,
+                        fontWeight: "600",
+                        color: "#898989", marginBottom: 5
+                      }}><Text style={{
+                        fontSize: 20,
+                        fontWeight: "600",
+                        color: "#898989",
+                      }}>Order Id: </Text>{event.PosOrderId} </Text>
                     </View>
-                  </View>
-                  <View style={globalStyle.eventsListingBottomWrapper}>
-                    <Text style={{ fontSize: 16, paddingLeft: 15, color: "#46454B", justifyContent: "flex-end" }}><Text style={{ fontSize: 18, color: "#000", fontWeight: "bold" }}>Total Price :  </Text> ${event.TotalPrice}</Text>
                   </View>
                 </View>
               </View>
@@ -123,7 +164,7 @@ const EventOrdersListing = (props) => {
           })
         ) : (
           <View style={globalStyle.tableList}>
-            <Text>No Events Available </Text>
+            <Text>No Purchase History  </Text>
           </View>
         )}
       </Content>
@@ -135,25 +176,25 @@ export default EventOrdersListing;
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 18,
-    minWidth: 105,
-    paddingVertical: 20,
+    minWidth: 135,
+    paddingVertical: 15,
     paddingHorizontal: 10,
     borderWidth: 0,
     borderColor: "#fff",
     borderRadius: 0,
     color: "#8a898e",
-    paddingRight: 30, // to ensure the text is never behind the icon
+    paddingRight: 10, // to ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: 18,
-    minWidth: 105,
+    minWidth: 135,
     paddingHorizontal: 10,
-    paddingVertical: 20,
+    paddingVertical: 15,
     borderWidth: 0,
     borderColor: "#fff",
     borderRadius: 0,
     color: "#8a898e",
-    paddingRight: 30, // to ensure the text is never behind the icon
+    paddingRight: 10, // to ensure the text is never behind the icon
   },
 });
 const styles = StyleSheet.create({

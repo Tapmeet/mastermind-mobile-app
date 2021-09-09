@@ -17,7 +17,7 @@ import {
   EventListing,
   EventDetails,
   PurchaseEvent,
-  EventOrdersListing
+  PurchaseHistory
 } from "../screens";
 import { SideBar } from ".";
 import { FlatList } from "react-native";
@@ -44,7 +44,7 @@ const Drawer = (props) => {
       <HomeDrawer.Screen name="Events" component={EventListing} />
       <HomeDrawer.Screen name="Event Detail" component={EventDetails} />
       <HomeDrawer.Screen name="Purchase Event" component={PurchaseEvent} />
-      <HomeDrawer.Screen name="Events Order" component={EventOrdersListing} />
+      <HomeDrawer.Screen name="Purchase History" component={PurchaseHistory} />
     </HomeDrawer.Navigator>
   );
 };
