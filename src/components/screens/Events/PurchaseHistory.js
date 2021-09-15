@@ -139,7 +139,7 @@ const EventOrdersListing = (props) => {
                       </View>
                       <Text
                         style={{
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: "600",
                           color: "#898989",
                           paddingBottom: 10,
@@ -148,11 +148,11 @@ const EventOrdersListing = (props) => {
                         {event.purchaseTitle}
                       </Text>
                       <Text style={{
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: "600",
                         color: "#898989", marginBottom: 5
                       }}><Text style={{
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: "600",
                         color: "#898989",
                       }}>Order Id: </Text>{event.PosOrderId} </Text>
