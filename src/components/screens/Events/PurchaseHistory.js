@@ -106,7 +106,7 @@ const EventOrdersListing = (props) => {
                   style={{
                     width: 12,
                     position: "absolute",
-                    top: -20,
+                    top: -28,
                     right: 5,
                   }}
                   source={require("../../../../assets/arrow-down.png")}
@@ -177,7 +177,7 @@ const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 18,
     minWidth: 135,
-    paddingVertical: 15,
+    paddingVertical: 10,
     paddingHorizontal: 10,
     borderWidth: 0,
     borderColor: "#fff",
