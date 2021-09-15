@@ -66,16 +66,20 @@ const EventListing = (props) => {
       }}
     >
       <SideBarMenu title={"Events"} navigation={props.navigation} />
-      <View style={[globalStyle.flexStandard, {
-        paddingTop: 15,
-        paddingBottom: 15,
-      }]}>
+      <View
+        style={[
+          globalStyle.flexStandard,
+          {
+            paddingTop: 15,
+            paddingBottom: 15,
+          },
+        ]}
+      >
         <Text
           style={{
             fontWeight: "bold",
             fontSize: 24,
             paddingLeft: 15,
-
             backgroundColor: "white",
             flex: 1,
           }}
@@ -106,7 +110,7 @@ const EventListing = (props) => {
                   style={{
                     width: 12,
                     position: "absolute",
-                    top: -15,
+                    top: -28,
                     right: 5,
                   }}
                   source={require("../../../../assets/arrow-down.png")}
@@ -193,7 +197,7 @@ const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 18,
     minWidth: 122,
-    paddingVertical: 20,
+    paddingVertical: 10,
     paddingHorizontal: 10,
     borderWidth: 0,
     borderColor: "#fff",
