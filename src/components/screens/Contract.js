@@ -234,7 +234,7 @@ const Contract = (props) => {
   };
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"Contract "} navigation={props.navigation} />
+      <SideBarMenu title={"Contract"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           <View style={globalStyle.dflex}>
@@ -346,15 +346,6 @@ const Contract = (props) => {
                       }}>
                       <Text style={{ paddingRight: 15, fontWeight: "bold", fontSize: 18 }}>Clear</Text>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity
-                      style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
-                      onPress={() => {
-                        signatureRef.current.saveSignature();
-                        setShowSignature(false)
-                        setCheckNSignature(false)
-                      }}>
-                      <Text>Save</Text>
-                    </TouchableOpacity> */}
                   </View>
                   <View style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                     <ImageBackground

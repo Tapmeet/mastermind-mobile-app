@@ -93,7 +93,7 @@ const ResetPassword = (props) => {
       <ImageBackground
           style={{
             width: "100%",
-            height: 290,
+            height: 200,
           }}
           source={require('./../../../assets/bg.png')}
           resizeMode={'stretch'}
@@ -111,7 +111,7 @@ const ResetPassword = (props) => {
         </View>
         <View style={{
             alignSelf: "center",
-            paddingTop: 100
+            paddingTop: 60
           }}>
             <Image
               style={loginStyle.logo}

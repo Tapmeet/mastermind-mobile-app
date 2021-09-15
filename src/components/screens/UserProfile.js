@@ -874,7 +874,7 @@ const UserProfile = (props) => {
               </View>
             )
           ) : (
-            <Text style={globalStyle.emptylist}> No student available </Text>
+            <Text style={globalStyle.emptylist}> No linked student available</Text>
           )
         ) : (
           <View style={[styles.container, styles.horizontal]}>
