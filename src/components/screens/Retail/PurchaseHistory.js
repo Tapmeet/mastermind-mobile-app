@@ -5,27 +5,28 @@ import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
 import globalStyle from "../../../style/globalStyle";
 import Carousel from "react-native-snap-carousel";
-import Dropdown from "./../../../common-functions/checkbox";
+import Dropdown from "../../../common-functions/checkbox";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
-import { API_URL } from "./../../Utility/AppConst";
+import { API_URL } from "../../Utility/AppConst";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
-import { flex } from "styled-system";
+import { flex, marginBottom } from "styled-system";
 const apiUrl = API_URL.trim();
-const EventListing = (props) => {
+const EventOrdersListing = (props) => {
   const [loader, setloader] = React.useState(true);
   const userId = useSelector((state) => state);
   const [eventListing, setEventListing] = React.useState([]);
-  const [filter, setFilter] = React.useState([]);
+  const [filter, setFilter] = React.useState();
   const filterList = [
-    { label: "Popular", value: "Popular" },
-    { label: "By Price", value: "By Price" },
-    { label: "Latest", value: "Latest" },
+    { label: "Last Week", value: "Last Week" },
+    { label: "Last Month", value: "Last Month" },
+    { label: "Last 6 Months", value: "Last 6 Months" },
   ];
   React.useEffect(() => {
     navigation.addListener("focus", () => {
-      fetch(`${apiUrl}/odata/OrganizationEvent`, {
+      setloader(true)
+      fetch(`${apiUrl}/odata/PurchaseOfSale`, {
         method: "get",
         headers: {
           Accept: "*/*",
@@ -35,8 +36,9 @@ const EventListing = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          if (data.events) {
-            setEventListing(data.events);
+          console.log(data)
+          if (data.orders) {
+            setEventListing(data.orders);
             setloader(false);
           } else {
             setloader(false);
@@ -45,12 +47,12 @@ const EventListing = (props) => {
     });
   });
   const placeholderFiler = {
-    label: "Filter",
+    label: "Filter By",
   };
   const storeData = async (value) => {
     console.log(value);
     let eventId = JSON.stringify(value);
-    // console.log(eventId);
+    console.log(eventId);
     try {
       await AsyncStorage.setItem("eventId", eventId);
       props.navigation.navigate("Event Detail");
@@ -65,28 +67,22 @@ const EventListing = (props) => {
         backgroundColor: "#f1f1f1",
       }}
     >
-      <SideBarMenu title={"Events"} navigation={props.navigation} />
-      <View
-        style={[
-          globalStyle.flexStandard,
-          {
-            paddingTop: 15,
-            paddingBottom: 15,
-          },
-        ]}
-      >
+      <SideBarMenu title={" Purchase History"} navigation={props.navigation} />
+      <View style={[globalStyle.flexStandard, { display: "flex", alignItems: "center" }]}>
         <Text
           style={{
             fontWeight: "bold",
             fontSize: 24,
             paddingLeft: 15,
+            paddingTop: 15,
             backgroundColor: "white",
             flex: 1,
+            paddingBottom: 15
           }}
         >
-          {eventListing.length} Events
+          Purchase History
         </Text>
-        <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
+        <View style={{borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5}}>
           <RNPickerSelect
             value={filter}
             items={filterList}
@@ -110,7 +106,7 @@ const EventListing = (props) => {
                   style={{
                     width: 12,
                     position: "absolute",
-                    top: Platform.OS === "android" ? -15 : -28,
+                    top: -28,
                     right: 5,
                   }}
                   source={require("../../../../assets/arrow-down.png")}
@@ -121,70 +117,54 @@ const EventListing = (props) => {
           />
         </View>
       </View>
-      <Content padder>
+      <Content padder style={{ marginTop: 10 }}>
         {loader ? (
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
         ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
           eventListing.map(function (event, index) {
-            let startDate = moment(event.StartDateTime).format("MMMM Do, YYYY");
-            let starttime = moment(event.StartDateTime).format("hh:mm a ");
-            let endtime = moment(event.EndDateTime).format("hh:mm a ");
+            let startDate = moment(event.DateCreated).format("MMM Do, YYYY");
+            let starttime = moment(event.DateCreated).format("hh:mm a ");
             return (
               <View style={{ marginBottom: 10 }} key={index}>
-                <TouchableOpacity onPress={() => storeData(event.PosItemId)}>
-                  <View style={globalStyle.eventsListingWrapper}>
-                    <View style={globalStyle.eventsListingTopWrapper}>
-                      <View style={{ borderRadius: 25, overflow: "hidden" }}>
-                        <Image source={require("./../../../../assets/img1.png")} style={{ height: 110, width: 130 }} />
+                <View style={globalStyle.eventsListingWrapper}>
+                  <View style={globalStyle.eventsListingTopWrapper}>
+                    <View style={{ paddingLeft: 15, paddingRight: 15 }}>
+                      <View style={{ display: "flex", position: "relative", alignItems: "flex-end", justifyContent: "space-between", flexDirection: "row", width: "84%", borderBottomColor: "#f4f4f4", paddingBottom: 10, marginBottom: 20, borderBottomWidth: 2 }}>
+                        <Text style={{ fontSize: 22, fontWeight: "bold", color: "#000", }}>
+                          ${event.TotalPrice}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", }}>
+                          {startDate} </Text>
                       </View>
-                      <View style={{ paddingLeft: 15, paddingRight: 10 }}>
-                        <Text
-                          style={{
-                            fontSize: 18,
-                            fontWeight: "bold",
-                            color: "#16161D",
-                            paddingBottom: 10,
-                          }}
-                        >
-                          {event.Title}
-                        </Text>
-
-                        <Text style={{ fontSize: 16, color: "#555" }}>{startDate} </Text>
-                        <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>
-                          {starttime} -{endtime}
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 15,
-                            color: "#44454A",
-                            marginTop: 8,
-                            paddingTop: 2,
-                            paddingLeft: 8,
-                            paddingRight: 8,
-                            paddingBottom: 2,
-                            backgroundColor: "#E9ECF1",
-                            alignSelf: "flex-start",
-                            borderRadius: 15,
-                          }}
-                        >
-                          Online
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={globalStyle.eventsListingBottomWrapper}>
-                      <Text style={{ fontSize: 12, color: "#46454B", flex: 1 }}>61 People Purchased</Text>
-                      <Text style={{ fontSize: 12, color: "#46454B", justifyContent: "flex-end" }}> ${event.Price}</Text>
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          fontWeight: "600",
+                          color: "#898989",
+                          paddingBottom: 10,
+                        }}
+                      >
+                        {event.purchaseTitle}
+                      </Text>
+                      <Text style={{
+                        fontSize: 16,
+                        fontWeight: "600",
+                        color: "#898989", marginBottom: 5
+                      }}><Text style={{
+                        fontSize: 16,
+                        fontWeight: "600",
+                        color: "#898989",
+                      }}>Order Id: </Text>{event.PosOrderId} </Text>
                     </View>
                   </View>
-                </TouchableOpacity>
+                </View>
               </View>
             );
           })
         ) : (
           <View style={globalStyle.tableList}>
-            <Text>No Events Available </Text>
+            <Text>No Purchase History  </Text>
           </View>
         )}
       </Content>
@@ -192,29 +172,29 @@ const EventListing = (props) => {
     </Container>
   );
 };
-export default EventListing;
+export default EventOrdersListing;
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 18,
-    minWidth: 122,
+    minWidth: 135,
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderWidth: 0,
     borderColor: "#fff",
     borderRadius: 0,
     color: "#8a898e",
-    paddingRight: 30, // to ensure the text is never behind the icon
+    paddingRight: 10, // to ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: 18,
-    minWidth: 122,
+    minWidth: 135,
     paddingHorizontal: 10,
-    paddingVertical: 20,
+    paddingVertical: 15,
     borderWidth: 0,
     borderColor: "#fff",
     borderRadius: 0,
     color: "#8a898e",
-    paddingRight: 30, // to ensure the text is never behind the icon
+    paddingRight: 10, // to ensure the text is never behind the icon
   },
 });
 const styles = StyleSheet.create({

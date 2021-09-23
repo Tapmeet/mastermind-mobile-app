@@ -22,6 +22,9 @@ export { default as VerificationLinkStudentSignupScreen } from './VerificationLi
 export { default as AddAccountMethodScreen } from './AddAccountMethod';
 export { default as EventListing } from './Events/EventListing';
 export { default as EventDetails } from './Events/EventDetails';
-
 export { default as PurchaseEvent } from './Events/PurchaseEvent';
 export { default as PurchaseHistory } from './Events/PurchaseHistory'
+
+export { default as ProductListing } from './Retail/ProductListing'
+export { default as ProductDetails } from './Retail/ProductDetails';
+export { default as PurchaseProduct } from './Retail/PurchaseProduct';

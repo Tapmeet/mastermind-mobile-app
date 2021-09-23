@@ -5,15 +5,15 @@ import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
 import globalStyle from "../../../style/globalStyle";
 import Carousel from "react-native-snap-carousel";
-import Dropdown from "./../../../common-functions/checkbox";
+import Dropdown from "../../../common-functions/checkbox";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
-import { API_URL } from "./../../Utility/AppConst";
+import { API_URL } from "../../Utility/AppConst";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import { flex } from "styled-system";
 const apiUrl = API_URL.trim();
-const EventListing = (props) => {
+const ProductListing = (props) => {
   const [loader, setloader] = React.useState(true);
   const userId = useSelector((state) => state);
   const [eventListing, setEventListing] = React.useState([]);
@@ -25,7 +25,7 @@ const EventListing = (props) => {
   ];
   React.useEffect(() => {
     navigation.addListener("focus", () => {
-      fetch(`${apiUrl}/odata/OrganizationEvent`, {
+      fetch(`${apiUrl}/odata/OrganizationRetail`, {
         method: "get",
         headers: {
           Accept: "*/*",
@@ -35,8 +35,9 @@ const EventListing = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          if (data.events) {
-            setEventListing(data.events);
+          console.log(data)
+          if (data.retails) {
+            setEventListing(data.retails);
             setloader(false);
           } else {
             setloader(false);
@@ -53,7 +54,7 @@ const EventListing = (props) => {
     // console.log(eventId);
     try {
       await AsyncStorage.setItem("eventId", eventId);
-      props.navigation.navigate("Event Detail");
+      props.navigation.navigate("Product Details");
     } catch (e) {
       // saving error
     }
@@ -65,7 +66,7 @@ const EventListing = (props) => {
         backgroundColor: "#f1f1f1",
       }}
     >
-      <SideBarMenu title={"Events"} navigation={props.navigation} />
+      <SideBarMenu title={"Retail"} navigation={props.navigation} />
       <View
         style={[
           globalStyle.flexStandard,
@@ -84,7 +85,7 @@ const EventListing = (props) => {
             flex: 1,
           }}
         >
-          {eventListing.length} Events
+          {eventListing.length} Products
         </Text>
         <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
           <RNPickerSelect
@@ -128,16 +129,13 @@ const EventListing = (props) => {
           </View>
         ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
           eventListing.map(function (event, index) {
-            let startDate = moment(event.StartDateTime).format("MMMM Do, YYYY");
-            let starttime = moment(event.StartDateTime).format("hh:mm a ");
-            let endtime = moment(event.EndDateTime).format("hh:mm a ");
             return (
               <View style={{ marginBottom: 10 }} key={index}>
                 <TouchableOpacity onPress={() => storeData(event.PosItemId)}>
                   <View style={globalStyle.eventsListingWrapper}>
                     <View style={globalStyle.eventsListingTopWrapper}>
                       <View style={{ borderRadius: 25, overflow: "hidden" }}>
-                        <Image source={require("./../../../../assets/img1.png")} style={{ height: 110, width: 130 }} />
+                        <Image source={require("./../../../../assets/retails.jpg")} style={{ height: 110, width: 130 }} />
                       </View>
                       <View style={{ paddingLeft: 15, paddingRight: 10 }}>
                         <Text
@@ -151,9 +149,27 @@ const EventListing = (props) => {
                           {event.Title}
                         </Text>
 
-                        <Text style={{ fontSize: 16, color: "#555" }}>{startDate} </Text>
-                        <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>
-                          {starttime} -{endtime}
+                        <Text style={{ fontSize: 16, color: "#555", fontWeight: "bold" }}>Sizes:
+
+                          {event.Sizes.map(function (size, index) {
+                            return (
+                              <Text style={{ fontSize: 16, color: "#555", fontWeight: "normal" }}> {size}
+                                {index < event.Sizes.length - 1 ? ',' : null
+                                } </Text>
+                            )
+                          })}
+
+                        </Text>
+                        <Text style={{ fontSize: 16, color: "#555", fontWeight: "bold" }}>Colors:
+
+                          {event.Colors.map(function (colors, index) {
+                            return (
+                              <Text style={{ fontSize: 16, color: "#555", fontWeight: "normal" }}> {colors}
+                                {index < event.Colors.length - 1 ? ',' : null
+                                } </Text>
+                            )
+                          })}
+
                         </Text>
                         <Text
                           style={{
@@ -169,13 +185,13 @@ const EventListing = (props) => {
                             borderRadius: 15,
                           }}
                         >
-                          Online
+                          {event.IsAvailable ?
+                            'Available' : " Out of stock"}
                         </Text>
                       </View>
                     </View>
-                    <View style={globalStyle.eventsListingBottomWrapper}>
-                      <Text style={{ fontSize: 12, color: "#46454B", flex: 1 }}>61 People Purchased</Text>
-                      <Text style={{ fontSize: 12, color: "#46454B", justifyContent: "flex-end" }}> ${event.Price}</Text>
+                    <View style={[globalStyle.eventsListingBottomWrapper, { "flexDirection": "row", justifyContent: "flex-end" }]}>
+                      <Text style={{ fontSize: 12, color: "#46454B", alignSelf:"flex-end", justifyContent: "flex-end" }}> ${event.Price}</Text>
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -192,7 +208,7 @@ const EventListing = (props) => {
     </Container>
   );
 };
-export default EventListing;
+export default ProductListing;
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 18,
