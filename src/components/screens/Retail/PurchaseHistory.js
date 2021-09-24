@@ -106,7 +106,7 @@ const EventOrdersListing = (props) => {
                   style={{
                     width: 12,
                     position: "absolute",
-                    top: -28,
+                    top: Platform.OS === "android" ? -20 : -28,
                     right: 5,
                   }}
                   source={require("../../../../assets/arrow-down.png")}

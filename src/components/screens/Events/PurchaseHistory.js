@@ -13,16 +13,285 @@ import { API_URL } from "../../Utility/AppConst";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import { flex, marginBottom } from "styled-system";
 const apiUrl = API_URL.trim();
+var eventsList = [];
 const EventOrdersListing = (props) => {
   const [loader, setloader] = React.useState(true);
   const userId = useSelector((state) => state);
   const [eventListing, setEventListing] = React.useState([]);
+  const [eventsList, setEventList] = React.useState([]);
   const [filter, setFilter] = React.useState();
   const filterList = [
-    { label: "Last Week", value: "Last Week" },
-    { label: "Last Month", value: "Last Month" },
-    { label: "Last 6 Months", value: "Last 6 Months" },
+    { label: "Last Week", value: "week" },
+    { label: "Last Month", value: "month" },
+    { label: "Last 6 Months", value: "6" },
   ];
+  const evenlistlistings = [{
+    "AmountTendered": 400,
+    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
+    "BuyerName": "Tapmeet Singh",
+    "ChangeDue": 0,
+    "CheckNumber": null,
+    "CheckTotal": 0,
+    "Comments": null,
+    "ConfirmationNumber": null,
+    "ContractId": null,
+    "DateCreated": "2021-08-02T19:26:51.217",
+    "Expiration": "2022-03-05T00:00:00",
+    "Last4Digits": "2223",
+    "LinkedStudentIds": [
+      1,
+      207,
+    ],
+    "OrganizationId": 1,
+    "PaymentTypeId": 3,
+    "PersonPaymentMethodId": 0,
+    "PosItemId": 0,
+    "PosOrderId": 16312,
+    "PurchaseType": "Event",
+    "SchoolId": 1,
+    "TotalPrice": 400,
+    "purchaseTitle": "This is First event",
+  }, 
+  {
+    "AmountTendered": 200,
+    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
+    "BuyerName": "Tapmeet Singh",
+    "ChangeDue": 0,
+    "CheckNumber": null,
+    "CheckTotal": 0,
+    "Comments": null,
+    "ConfirmationNumber": null,
+    "ContractId": null,
+    "DateCreated": "2021-09-02T19:15:36.477",
+    "Expiration": "2021-09-01T00:00:00",
+    "Last4Digits": "2220",
+    "LinkedStudentIds": [
+      207,
+    ],
+    "OrganizationId": 1,
+    "PaymentTypeId": 3,
+    "PersonPaymentMethodId": 0,
+    "PosItemId": 0,
+    "PosOrderId": 16311,
+    "PurchaseType": "Event",
+    "SchoolId": 1,
+    "TotalPrice": 200,
+    "purchaseTitle": "This is an event",
+  },
+  {
+    "AmountTendered": 400,
+    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
+    "BuyerName": "Tapmeet Singh",
+    "ChangeDue": 0,
+    "CheckNumber": null,
+    "CheckTotal": 0,
+    "Comments": null,
+    "ConfirmationNumber": null,
+    "ContractId": null,
+    "DateCreated": "2021-09-02T17:45:08.167",
+    "Expiration": "2021-09-01T00:00:00",
+    "Last4Digits": "2220",
+    "LinkedStudentIds": [
+      1,
+      207,
+    ],
+    "OrganizationId": 1,
+    "PaymentTypeId": 3,
+    "PersonPaymentMethodId": 0,
+    "PosItemId": 0,
+    "PosOrderId": 16310,
+    "PurchaseType": "Event",
+    "SchoolId": 1,
+    "TotalPrice": 400,
+    "purchaseTitle": "This is an event",
+  },
+  {
+    "AmountTendered": 200,
+    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
+    "BuyerName": "Tapmeet Singh",
+    "ChangeDue": 0,
+    "CheckNumber": null,
+    "CheckTotal": 0,
+    "Comments": null,
+    "ConfirmationNumber": null,
+    "ContractId": null,
+    "DateCreated": "2021-09-02T17:18:14.793",
+    "Expiration": "2022-03-05T00:00:00",
+    "Last4Digits": "2223",
+    "LinkedStudentIds": [
+      1,
+    ],
+    "OrganizationId": 1,
+    "PaymentTypeId": 3,
+    "PersonPaymentMethodId": 0,
+    "PosItemId": 0,
+    "PosOrderId": 16309,
+    "PurchaseType": "Event",
+    "SchoolId": 1,
+    "TotalPrice": 200,
+    "purchaseTitle": "This is an event",
+  },
+  {
+    "AmountTendered": 200,
+    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
+    "BuyerName": "Tapmeet Singh",
+    "ChangeDue": 0,
+    "CheckNumber": null,
+    "CheckTotal": 0,
+    "Comments": null,
+    "ConfirmationNumber": null,
+    "ContractId": null,
+    "DateCreated": "2021-09-02T17:16:24.223",
+    "Expiration": "2022-03-05T00:00:00",
+    "Last4Digits": "2223",
+    "LinkedStudentIds": [
+      1,
+    ],
+    "OrganizationId": 1,
+    "PaymentTypeId": 3,
+    "PersonPaymentMethodId": 0,
+    "PosItemId": 0,
+    "PosOrderId": 16308,
+    "PurchaseType": "Event",
+    "SchoolId": 1,
+    "TotalPrice": 200,
+    "purchaseTitle": "This is an event",
+  },
+  {
+    "AmountTendered": 200,
+    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
+    "BuyerName": "Tapmeet Singh",
+    "ChangeDue": 0,
+    "CheckNumber": null,
+    "CheckTotal": 0,
+    "Comments": null,
+    "ConfirmationNumber": null,
+    "ContractId": null,
+    "DateCreated": "2021-09-02T17:14:24.457",
+    "Expiration": "2022-03-05T00:00:00",
+    "Last4Digits": "2223",
+    "LinkedStudentIds": [
+      1,
+    ],
+    "OrganizationId": 1,
+    "PaymentTypeId": 3,
+    "PersonPaymentMethodId": 0,
+    "PosItemId": 0,
+    "PosOrderId": 16307,
+    "PurchaseType": "Event",
+    "SchoolId": 1,
+    "TotalPrice": 200,
+    "purchaseTitle": "This is an event",
+  },
+  {
+    "AmountTendered": 400,
+    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
+    "BuyerName": "Tapmeet Singh",
+    "ChangeDue": 0,
+    "CheckNumber": null,
+    "CheckTotal": 0,
+    "Comments": null,
+    "ConfirmationNumber": null,
+    "ContractId": null,
+    "DateCreated": "2021-09-02T17:13:41.43",
+    "Expiration": "2022-03-05T00:00:00",
+    "Last4Digits": "2223",
+    "LinkedStudentIds": [
+      1,
+      207,
+    ],
+    "OrganizationId": 1,
+    "PaymentTypeId": 3,
+    "PersonPaymentMethodId": 0,
+    "PosItemId": 0,
+    "PosOrderId": 16306,
+    "PurchaseType": "Event",
+    "SchoolId": 1,
+    "TotalPrice": 400,
+    "purchaseTitle": "This is an event",
+  },
+  {
+    "AmountTendered": 400,
+    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
+    "BuyerName": "Tapmeet Singh",
+    "ChangeDue": 0,
+    "CheckNumber": null,
+    "CheckTotal": 0,
+    "Comments": null,
+    "ConfirmationNumber": null,
+    "ContractId": null,
+    "DateCreated": "2021-08-02T17:13:22.937",
+    "Expiration": "2022-03-05T00:00:00",
+    "Last4Digits": "2223",
+    "LinkedStudentIds": [
+      1,
+      207,
+    ],
+    "OrganizationId": 1,
+    "PaymentTypeId": 3,
+    "PersonPaymentMethodId": 0,
+    "PosItemId": 0,
+    "PosOrderId": 16305,
+    "PurchaseType": "Event",
+    "SchoolId": 1,
+    "TotalPrice": 400,
+    "purchaseTitle": "This is an event",
+  },
+  {
+    "AmountTendered": 400,
+    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
+    "BuyerName": "Tapmeet Singh",
+    "ChangeDue": 0,
+    "CheckNumber": null,
+    "CheckTotal": 0,
+    "Comments": null,
+    "ConfirmationNumber": null,
+    "ContractId": null,
+    "DateCreated": "2021-05-02T17:13:09.227",
+    "Expiration": "2022-03-05T00:00:00",
+    "Last4Digits": "2223",
+    "LinkedStudentIds": [
+      1,
+      207,
+    ],
+    "OrganizationId": 1,
+    "PaymentTypeId": 3,
+    "PersonPaymentMethodId": 0,
+    "PosItemId": 0,
+    "PosOrderId": 16304,
+    "PurchaseType": "Event",
+    "SchoolId": 1,
+    "TotalPrice": 400,
+    "purchaseTitle": "This is an event",
+  },
+  {
+    "AmountTendered": 400,
+    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
+    "BuyerName": "Tapmeet Singh",
+    "ChangeDue": 0,
+    "CheckNumber": null,
+    "CheckTotal": 0,
+    "Comments": null,
+    "ConfirmationNumber": null,
+    "ContractId": null,
+    "DateCreated": "2021-05-06T17:12:53.737",
+    "Expiration": "2022-03-05T00:00:00",
+    "Last4Digits": "2223",
+    "LinkedStudentIds": [
+      1,
+      207,
+    ],
+    "OrganizationId": 1,
+    "PaymentTypeId": 3,
+    "PersonPaymentMethodId": 0,
+    "PosItemId": 0,
+    "PosOrderId": 16303,
+    "PurchaseType": "Event",
+    "SchoolId": 1,
+    "TotalPrice": 400,
+    "purchaseTitle": "This is an event",
+  },
+  ]
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       setloader(true)
@@ -36,10 +305,13 @@ const EventOrdersListing = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data)
+         // console.log(data)
           if (data.orders) {
-            setEventListing(data.orders);
-            setloader(false);
+            setEventListing(evenlistlistings);
+            //setEventList(data.orders);
+            setEventList(evenlistlistings);
+            // console.log(eventsList)
+            setloader(false); 
           } else {
             setloader(false);
           }
@@ -60,6 +332,60 @@ const EventOrdersListing = (props) => {
       // saving error
     }
   };
+  const setfilter = (value) => {
+    setFilter(value);
+    if (value == 'week') {
+      var d = new Date();
+      var fromDate = d.setTime(d.getTime() - (d.getDay() ? d.getDay() : 7) * 24 * 60 * 60 * 1000);
+      var toDate = d.setTime(d.getTime() - 6 * 24 * 60 * 60 * 1000);
+      console.log(toDate);
+      console.log(fromDate);
+      const eventlisting = eventsList.filter((item) => {
+        return new Date(item.DateCreated).getTime() >= fromDate &&
+          new Date(item.DateCreated).getTime() <= toDate;
+      });
+      console.log(eventlisting)
+      setEventListing(eventlisting);
+    }
+    else if (value == 'month') {
+      var date = new Date();
+      var fromDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+      var toDate = new Date(date.getFullYear(), date.getMonth(), 0);
+      const eventlisting = eventsList.filter((item) => {
+         console.log(new Date(item.DateCreated).getTime())
+         console.log('from')
+         console.log(fromDate.getTime())
+         console.log('to')
+         console.log(toDate.getTime())
+       // console.log(item)
+        if (new Date(item.DateCreated).getTime() >= fromDate.getTime() &&
+          new Date(item.DateCreated).getTime() <= toDate.getTime()) {
+            console.log('herer')
+            console.log(item)
+          return item
+        }
+      });
+      console.log(eventlisting)
+      setEventListing(eventlisting);
+    }
+    else if (value == '6') {
+      var date = new Date();
+      var fromDate = new Date(date.getFullYear(), date.getMonth() - 6, 1);
+      var toDate = new Date(date.getFullYear(), date.getMonth(), 0);
+      console.log(toDate);
+      console.log(fromDate);
+      const eventlisting = eventsList.filter((item) => {
+        return new Date(item.DateCreated).getTime() >= fromDate &&
+          new Date(item.DateCreated).getTime() <= toDate;
+      });
+      setEventListing(eventlisting);
+      console.log(eventlisting)
+    }
+    else {
+      console.log(eventsList)
+      setEventListing(eventsList);
+    }
+  }
   const { navigation } = props;
   return (
     <Container
@@ -82,12 +408,12 @@ const EventOrdersListing = (props) => {
         >
           Purchase History
         </Text>
-        <View style={{borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5}}>
+        <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
           <RNPickerSelect
             value={filter}
             items={filterList}
             placeholder={placeholderFiler}
-            onValueChange={(value) => setFilter(value)}
+            onValueChange={(value) => setfilter(value)}
             style={{
               ...pickerSelectStyles,
               iconContainer: {
@@ -106,7 +432,7 @@ const EventOrdersListing = (props) => {
                   style={{
                     width: 12,
                     position: "absolute",
-                    top: -28,
+                    top: Platform.OS === "android" ? -20 : -28,
                     right: 5,
                   }}
                   source={require("../../../../assets/arrow-down.png")}

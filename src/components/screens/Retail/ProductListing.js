@@ -19,10 +19,12 @@ const ProductListing = (props) => {
   const [eventListing, setEventListing] = React.useState([]);
   const [filter, setFilter] = React.useState([]);
   const filterList = [
-    { label: "Popular", value: "Popular" },
-    { label: "By Price", value: "By Price" },
-    { label: "Latest", value: "Latest" },
+    { label: "Recently Added", value: "recently" },
+    { label: "Price High - Low", value: "high" },
+    { label: "Price Low - High", value: "low" },
   ];
+
+
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       fetch(`${apiUrl}/odata/OrganizationRetail`, {
@@ -59,6 +61,18 @@ const ProductListing = (props) => {
       // saving error
     }
   };
+  const setfilter = (value) => {
+    setFilter(value);
+    if (value == 'low') {
+      eventListing.sort((a, b) => parseFloat(a.Price) - parseFloat(b.Price));
+    }
+    else if (value == 'high') {
+      eventListing.sort((a, b) => parseFloat(b.Price) - parseFloat(a.Price));
+    }
+    else if (value == 'recently') {
+      eventListing.sort((a, b) => parseFloat(b.OrganizationRetailId) - parseFloat(a.OrganizationRetailId));
+    }
+  }
   const { navigation } = props;
   return (
     <Container
@@ -92,7 +106,7 @@ const ProductListing = (props) => {
             value={filter}
             items={filterList}
             placeholder={placeholderFiler}
-            onValueChange={(value) => setFilter(value)}
+            onValueChange={(value) => setfilter(value)}
             style={{
               ...pickerSelectStyles,
               iconContainer: {
@@ -153,7 +167,7 @@ const ProductListing = (props) => {
 
                           {event.Sizes.map(function (size, index) {
                             return (
-                              <Text style={{ fontSize: 16, color: "#555", fontWeight: "normal" }}> {size}
+                              <Text key={index} style={{ fontSize: 16, color: "#555", fontWeight: "normal" }}> {size}
                                 {index < event.Sizes.length - 1 ? ',' : null
                                 } </Text>
                             )
@@ -164,7 +178,7 @@ const ProductListing = (props) => {
 
                           {event.Colors.map(function (colors, index) {
                             return (
-                              <Text style={{ fontSize: 16, color: "#555", fontWeight: "normal" }}> {colors}
+                              <Text  key={index} style={{ fontSize: 16, color: "#555", fontWeight: "normal" }}> {colors}
                                 {index < event.Colors.length - 1 ? ',' : null
                                 } </Text>
                             )
@@ -191,7 +205,7 @@ const ProductListing = (props) => {
                       </View>
                     </View>
                     <View style={[globalStyle.eventsListingBottomWrapper, { "flexDirection": "row", justifyContent: "flex-end" }]}>
-                      <Text style={{ fontSize: 12, color: "#46454B", alignSelf:"flex-end", justifyContent: "flex-end" }}> ${event.Price}</Text>
+                      <Text style={{ fontSize: 12, color: "#46454B", alignSelf: "flex-end", justifyContent: "flex-end" }}> ${event.Price}</Text>
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -212,7 +226,7 @@ export default ProductListing;
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 18,
-    minWidth: 122,
+    minWidth: 130,
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderWidth: 0,
@@ -223,7 +237,7 @@ const pickerSelectStyles = StyleSheet.create({
   },
   inputAndroid: {
     fontSize: 18,
-    minWidth: 122,
+    minWidth: 130,
     paddingHorizontal: 10,
     paddingVertical: 20,
     borderWidth: 0,

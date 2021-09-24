@@ -58,6 +58,18 @@ const EventListing = (props) => {
       // saving error
     }
   };
+  const setfilter = (value) => {
+    setFilter(value);
+    if (value == 'low') {
+      eventListing.sort((a, b) => parseFloat(a.Price) - parseFloat(b.Price));
+    }
+    else if (value == 'high') {
+      eventListing.sort((a, b) => parseFloat(b.Price) - parseFloat(a.Price));
+    }
+    else if (value == 'recently') {
+      eventListing.sort((a, b) => parseFloat(b.OrganizationRetailId) - parseFloat(a.OrganizationRetailId));
+    }
+  }
   const { navigation } = props;
   return (
     <Container
@@ -91,7 +103,7 @@ const EventListing = (props) => {
             value={filter}
             items={filterList}
             placeholder={placeholderFiler}
-            onValueChange={(value) => setFilter(value)}
+            onValueChange={(value) => setfilter(value)}
             style={{
               ...pickerSelectStyles,
               iconContainer: {
