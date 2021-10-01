@@ -23,7 +23,7 @@ const EventListing = (props) => {
     { label: "Recently Added", value: "recently" },
     { label: "Price High - Low", value: "high" },
     { label: "Price Low - High", value: "low" },
-    //{ label: "Next Month", value: "month" },
+    { label: "This Month", value: "month" },
   ];
   React.useEffect(() => {
     navigation.addListener("focus", () => {
@@ -63,36 +63,39 @@ const EventListing = (props) => {
   };
   const setfilter = (value) => {
     setFilter(value);
+    setEventListing(eventsList);
     if (value == 'low') {
+
       eventListing.sort((a, b) => parseFloat(a.Price) - parseFloat(b.Price));
     }
     else if (value == 'high') {
+
       eventListing.sort((a, b) => parseFloat(b.Price) - parseFloat(a.Price));
     }
     else if (value == 'recently') {
       eventListing.sort((a, b) => parseFloat(b.PosItemId) - parseFloat(a.PosItemId));
     }
-    // else if (value == 'month') {
-    //   var date = new Date();
-    //   var fromDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
-    //   var toDate = new Date(date.getFullYear(), date.getMonth(), 0);
-    //   const eventlisting = eventsList.filter((item) => {
-    //      console.log(new Date(item.EventStartDateTime).getTime())
-    //      console.log('from')
-    //      console.log(fromDate.getTime())
-    //      console.log('to')
-    //      console.log(toDate.getTime())
-    //    // console.log(item)
-    //     if (new Date(item.EventStartDateTime).getTime() >= fromDate.getTime() &&
-    //       new Date(item.EventStartDateTime).getTime() <= toDate.getTime()) {
-    //         console.log('herer')
-    //         console.log(item)
-    //       return item
-    //     }
-    //   });
-    //   console.log(eventlisting)
-    //   setEventListing(eventlisting);
-    // }
+    else if (value == 'month') {
+      var date = new Date();
+      var fromDate = new Date(date.getFullYear(), date.getMonth(), 0);
+      var toDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+      const eventlisting = eventsList.filter((item) => {
+        console.log(new Date(item.EventStartDateTime).getTime())
+        console.log('from')
+        console.log(fromDate.getTime())
+        console.log('to')
+        console.log(toDate.getTime())
+        // console.log(item)
+        if (new Date(item.EventStartDateTime).getTime() >= fromDate.getTime() &&
+          new Date(item.EventStartDateTime).getTime() <= toDate.getTime()) {
+          console.log('herer')
+          console.log(item)
+          return item
+        }
+      });
+      console.log(eventlisting)
+      setEventListing(eventlisting);
+    }
   }
   const { navigation } = props;
   return (
@@ -164,9 +167,9 @@ const EventListing = (props) => {
           </View>
         ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
           eventListing.map(function (event, index) {
-            let startDate = moment(event.StartDateTime).format("MMMM Do, YYYY");
-            let starttime = moment(event.StartDateTime).format("hh:mm a ");
-            let endtime = moment(event.EndDateTime).format("hh:mm a ");
+            let startDate = moment(event.EventStartDateTime).format("MMMM Do, YYYY");
+            let starttime = moment(event.EventStartDateTime).format("hh:mm a ");
+            let endtime = moment(event.EventEndDateTime).format("hh:mm a ");
             return (
               <View style={{ marginBottom: 10 }} key={index}>
                 <TouchableOpacity onPress={() => storeData(event.PosItemId)}>
