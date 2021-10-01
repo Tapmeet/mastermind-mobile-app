@@ -18,10 +18,12 @@ const EventListing = (props) => {
   const userId = useSelector((state) => state);
   const [eventListing, setEventListing] = React.useState([]);
   const [filter, setFilter] = React.useState([]);
+  const [eventsList, setEventList] = React.useState([]);
   const filterList = [
-    { label: "Popular", value: "Popular" },
-    { label: "By Price", value: "By Price" },
-    { label: "Latest", value: "Latest" },
+    { label: "Recently Added", value: "recently" },
+    { label: "Price High - Low", value: "high" },
+    { label: "Price Low - High", value: "low" },
+    //{ label: "Next Month", value: "month" },
   ];
   React.useEffect(() => {
     navigation.addListener("focus", () => {
@@ -37,6 +39,7 @@ const EventListing = (props) => {
         .then((data) => {
           if (data.events) {
             setEventListing(data.events);
+            setEventList(data.events)
             setloader(false);
           } else {
             setloader(false);
@@ -67,8 +70,29 @@ const EventListing = (props) => {
       eventListing.sort((a, b) => parseFloat(b.Price) - parseFloat(a.Price));
     }
     else if (value == 'recently') {
-      eventListing.sort((a, b) => parseFloat(b.OrganizationRetailId) - parseFloat(a.OrganizationRetailId));
+      eventListing.sort((a, b) => parseFloat(b.PosItemId) - parseFloat(a.PosItemId));
     }
+    // else if (value == 'month') {
+    //   var date = new Date();
+    //   var fromDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+    //   var toDate = new Date(date.getFullYear(), date.getMonth(), 0);
+    //   const eventlisting = eventsList.filter((item) => {
+    //      console.log(new Date(item.EventStartDateTime).getTime())
+    //      console.log('from')
+    //      console.log(fromDate.getTime())
+    //      console.log('to')
+    //      console.log(toDate.getTime())
+    //    // console.log(item)
+    //     if (new Date(item.EventStartDateTime).getTime() >= fromDate.getTime() &&
+    //       new Date(item.EventStartDateTime).getTime() <= toDate.getTime()) {
+    //         console.log('herer')
+    //         console.log(item)
+    //       return item
+    //     }
+    //   });
+    //   console.log(eventlisting)
+    //   setEventListing(eventlisting);
+    // }
   }
   const { navigation } = props;
   return (
