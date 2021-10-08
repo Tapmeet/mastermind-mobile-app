@@ -210,6 +210,7 @@ const PurchaseEvent = (props) => {
         PosItemId: eventid,
         LinkedStudentIds: uniqueArray,
         PersonPaymentMethodId: defaultId,
+        PurchaseType: "1"
       }),
     })
       .then((response) => response.json())
