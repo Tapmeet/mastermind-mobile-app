@@ -403,7 +403,7 @@ const PurchaseEvent = (props) => {
                     marginTop: 20,
                   }}
                 >
-                  Select Child interested in:
+                  Select student:
                 </Text>
                 <View>
                   {studentIds.map(function (student, index) {
