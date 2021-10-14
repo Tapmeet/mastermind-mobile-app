@@ -19,12 +19,19 @@ const EventListing = (props) => {
   const [eventListing, setEventListing] = React.useState([]);
   const [filter, setFilter] = React.useState([]);
   const [eventsList, setEventList] = React.useState([]);
+  const [categoryList, setCategoryList] = React.useState([]);
+  const [selectedCategory, setSelectedCategory] = React.useState([]);
   const filterList = [
     { label: "Recently Added", value: "recently" },
     { label: "Price High - Low", value: "high" },
     { label: "Price Low - High", value: "low" },
     { label: "This Month", value: "month" },
   ];
+  function unique(array) {
+    return array.filter(function (el, index, arr) {
+      return index == arr.indexOf(el);
+    });
+  }
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       fetch(`${apiUrl}/odata/OrganizationEvent`, {
@@ -40,16 +47,28 @@ const EventListing = (props) => {
           if (data.events) {
             setEventListing(data.events);
             setEventList(data.events)
+            var category = [];
+            data.events.map(function (event, index) {
+              category.push(event.Category)
+            })
+            const uniqueArray = unique(category);
+
+            console.log("here")
+            console.log(uniqueArray)
+            var categorylist = [];
+            uniqueArray.map(function (event, index) {
+              categorylist.push({ label: event, value: event },)
+            })
+            setCategoryList(categorylist);
             setloader(false);
+
           } else {
             setloader(false);
           }
         });
     });
   });
-  const placeholderFiler = {
-    label: "Filter",
-  };
+
   const storeData = async (value) => {
     console.log(value);
     let eventId = JSON.stringify(value);
@@ -61,19 +80,54 @@ const EventListing = (props) => {
       // saving error
     }
   };
+  const setcategory = (value) => {
+    console.log(value)
+  
+    if (value != '' && value != undefined) {
+      setSelectedCategory(value)
+      var newArray = eventsList.filter(function (el) {
+        return el.Category == value;
+      });
+      console.log('here')
+      console.log(newArray)
+      if(newArray.length > 0){
+        setEventListing(newArray);
+      }
+   
+    }
+  }
   const setfilter = (value) => {
+    console.log('herer')
     setFilter(value);
     setEventListing(eventsList);
     if (value == 'low') {
-
       eventListing.sort((a, b) => parseFloat(a.Price) - parseFloat(b.Price));
+      if (selectedCategory != '') {
+        var newArray = eventListing.filter(function (el) {
+          return el.Category == selectedCategory;
+        });
+        setEventListing(newArray);
+      }
     }
     else if (value == 'high') {
 
       eventListing.sort((a, b) => parseFloat(b.Price) - parseFloat(a.Price));
+      if (selectedCategory != '') {
+        var newArray = eventListing.filter(function (el) {
+          return el.Category == selectedCategory;
+        });
+        setEventListing(newArray);
+      }
     }
     else if (value == 'recently') {
       eventListing.sort((a, b) => parseFloat(b.PosItemId) - parseFloat(a.PosItemId));
+      console.log(selectedCategory);
+      if (selectedCategory != '') {
+        var newArray = eventListing.filter(function (el) {
+          return el.Category == selectedCategory;
+        });
+        setEventListing(newArray);
+      }
     }
     else if (value == 'month') {
       var date = new Date();
@@ -93,10 +147,24 @@ const EventListing = (props) => {
           return item
         }
       });
-      console.log(eventlisting)
-      setEventListing(eventlisting);
+      //  console.log(eventlisting)
+      if (selectedCategory != '') {
+        var newArray = eventlisting.filter(function (el) {
+          return el.Category == selectedCategory;
+        });
+        setEventListing(newArray);
+      } else {
+        setEventListing(eventlisting);
+      }
+
     }
   }
+  const placeholderFiler = {
+    label: "Filter",
+  };
+  const placeholderCategory = {
+    label: "Category",
+  };
   const { navigation } = props;
   return (
     <Container
@@ -125,39 +193,76 @@ const EventListing = (props) => {
         >
           {eventListing.length} Events
         </Text>
-        <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-          <RNPickerSelect
-            value={filter}
-            items={filterList}
-            placeholder={placeholderFiler}
-            onValueChange={(value) => setfilter(value)}
-            style={{
-              ...pickerSelectStyles,
-              iconContainer: {
-                top: Platform.OS === "android" ? 20 : 30,
-                right: 10,
-              },
-              placeholder: {
-                color: "#8a898e",
-                fontSize: 12,
-                fontWeight: "bold",
-              },
-            }}
-            Icon={() => {
-              return (
-                <Image
-                  style={{
-                    width: 12,
-                    position: "absolute",
-                    top: Platform.OS === "android" ? -15 : -28,
-                    right: 5,
-                  }}
-                  source={require("../../../../assets/arrow-down.png")}
-                  resizeMode={"contain"}
-                />
-              );
-            }}
-          />
+        <View style={{ display: "flex", justifyContent: "space-between", flexDirection: "row" }}>
+          <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
+            <RNPickerSelect
+              value={selectedCategory}
+              items={categoryList}
+              placeholder={placeholderCategory}
+              onValueChange={(value) => setcategory(value)}
+              style={{
+                ...pickerSelectStyles,
+
+                iconContainer: {
+                  top: Platform.OS === "android" ? 20 : 30,
+                  right: 10,
+                },
+                placeholder: {
+                  color: "#8a898e",
+                  fontSize: 12,
+                  fontWeight: "bold",
+                },
+              }}
+              Icon={() => {
+                return (
+                  <Image
+                    style={{
+                      width: 12,
+                      position: "absolute",
+                      top: Platform.OS === "android" ? -15 : -28,
+                      right: 5,
+                    }}
+                    source={require("../../../../assets/arrow-down.png")}
+                    resizeMode={"contain"}
+                  />
+                );
+              }}
+            />
+          </View>
+          <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5, }}>
+            <RNPickerSelect
+              value={filter}
+              items={filterList}
+              placeholder={placeholderFiler}
+              onValueChange={(value) => setfilter(value)}
+              style={{
+                ...pickerSelectStyles,
+                iconContainer: {
+                  top: Platform.OS === "android" ? 20 : 30,
+                  right: 10,
+                },
+                placeholder: {
+                  color: "#8a898e",
+                  fontSize: 12,
+                  fontWeight: "bold",
+                },
+              }}
+              Icon={() => {
+                return (
+                  <Image
+                    style={{
+                      width: 12,
+                      position: "absolute",
+                      top: Platform.OS === "android" ? -15 : -28,
+                      right: 5,
+                    }}
+                    source={require("../../../../assets/arrow-down.png")}
+                    resizeMode={"contain"}
+                  />
+                );
+              }}
+            />
+          </View>
         </View>
       </View>
       <Content padder>
@@ -235,7 +340,7 @@ export default EventListing;
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 18,
-    minWidth: 122,
+    minWidth: 115,
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderWidth: 0,
@@ -246,13 +351,14 @@ const pickerSelectStyles = StyleSheet.create({
   },
   inputAndroid: {
     fontSize: 18,
-    minWidth: 122,
+    minWidth: 100,
     paddingHorizontal: 10,
     paddingVertical: 20,
     borderWidth: 0,
     borderColor: "#fff",
     borderRadius: 0,
     color: "#8a898e",
+    marginRight: 15,
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
