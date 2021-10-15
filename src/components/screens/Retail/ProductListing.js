@@ -37,7 +37,7 @@ const ProductListing = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data)
+         // console.log(data)
           if (data.retails) {
             setEventListing(data.retails);
             setloader(false);

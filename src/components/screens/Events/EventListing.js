@@ -52,9 +52,6 @@ const EventListing = (props) => {
               category.push(event.Category)
             })
             const uniqueArray = unique(category);
-
-            console.log("here")
-            console.log(uniqueArray)
             var categorylist = [];
             uniqueArray.map(function (event, index) {
               categorylist.push({ label: event, value: event },)
@@ -81,83 +78,78 @@ const EventListing = (props) => {
     }
   };
   const setcategory = (value) => {
-    console.log(value)
-  
+    console.log('heress')
     if (value != '' && value != undefined) {
       setSelectedCategory(value)
       var newArray = eventsList.filter(function (el) {
         return el.Category == value;
       });
-      console.log('here')
-      console.log(newArray)
-      if(newArray.length > 0){
+
+      if (newArray.length > 0) {
         setEventListing(newArray);
       }
-   
+    } else {
+      setEventListing(eventListing);
     }
   }
   const setfilter = (value) => {
-    console.log('herer')
-    setFilter(value);
-    setEventListing(eventsList);
-    if (value == 'low') {
-      eventListing.sort((a, b) => parseFloat(a.Price) - parseFloat(b.Price));
-      if (selectedCategory != '') {
-        var newArray = eventListing.filter(function (el) {
-          return el.Category == selectedCategory;
-        });
-        setEventListing(newArray);
-      }
-    }
-    else if (value == 'high') {
-
-      eventListing.sort((a, b) => parseFloat(b.Price) - parseFloat(a.Price));
-      if (selectedCategory != '') {
-        var newArray = eventListing.filter(function (el) {
-          return el.Category == selectedCategory;
-        });
-        setEventListing(newArray);
-      }
-    }
-    else if (value == 'recently') {
-      eventListing.sort((a, b) => parseFloat(b.PosItemId) - parseFloat(a.PosItemId));
-      console.log(selectedCategory);
-      if (selectedCategory != '') {
-        var newArray = eventListing.filter(function (el) {
-          return el.Category == selectedCategory;
-        });
-        setEventListing(newArray);
-      }
-    }
-    else if (value == 'month') {
-      var date = new Date();
-      var fromDate = new Date(date.getFullYear(), date.getMonth(), 0);
-      var toDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
-      const eventlisting = eventsList.filter((item) => {
-        console.log(new Date(item.EventStartDateTime).getTime())
-        console.log('from')
-        console.log(fromDate.getTime())
-        console.log('to')
-        console.log(toDate.getTime())
-        // console.log(item)
-        if (new Date(item.EventStartDateTime).getTime() >= fromDate.getTime() &&
-          new Date(item.EventStartDateTime).getTime() <= toDate.getTime()) {
-          console.log('herer')
-          console.log(item)
-          return item
+      setFilter(value);
+      setEventListing(eventsList);
+      if (value == 'low') {
+        eventListing.sort((a, b) => parseFloat(a.Price) - parseFloat(b.Price));
+        if (selectedCategory != '') {
+          var newArray = eventListing.filter(function (el) {
+            return el.Category == selectedCategory;
+          });
+          setEventListing(newArray);
         }
-      });
-      //  console.log(eventlisting)
-      if (selectedCategory != '') {
-        var newArray = eventlisting.filter(function (el) {
-          return el.Category == selectedCategory;
-        });
-        setEventListing(newArray);
-      } else {
-        setEventListing(eventlisting);
       }
+      else if (value == 'high') {
 
-    }
+        eventListing.sort((a, b) => parseFloat(b.Price) - parseFloat(a.Price));
+        if (selectedCategory != '') {
+          var newArray = eventListing.filter(function (el) {
+            return el.Category == selectedCategory;
+          });
+          setEventListing(newArray);
+        }
+      }
+      else if (value == 'recently') {
+        eventListing.sort((a, b) => parseFloat(b.PosItemId) - parseFloat(a.PosItemId));
+        console.log(selectedCategory);
+        if (selectedCategory != '') {
+          var newArray = eventListing.filter(function (el) {
+            return el.Category == selectedCategory;
+          });
+          setEventListing(newArray);
+        }
+      }
+      else if (value == 'month') {
+        var date = new Date();
+        var fromDate = new Date(date.getFullYear(), date.getMonth(), 0);
+        var toDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+        const eventlisting = eventsList.filter((item) => {
+          // console.log(new Date(item.EventStartDateTime).getTime())
+          // console.log('from')
+          // console.log(fromDate.getTime())
+          // console.log('to')
+          // console.log(toDate.getTime())
+          // console.log(item)
+          if (new Date(item.EventStartDateTime).getTime() >= fromDate.getTime() &&
+            new Date(item.EventStartDateTime).getTime() <= toDate.getTime()) {
+            return item
+          }
+        });
+        //  console.log(eventlisting)
+        if (selectedCategory != '') {
+          var newArray = eventlisting.filter(function (el) {
+            return el.Category == selectedCategory;
+          });
+          setEventListing(newArray);
+        } else {
+          setEventListing(eventlisting);
+        }
+      }
   }
   const placeholderFiler = {
     label: "Filter",
