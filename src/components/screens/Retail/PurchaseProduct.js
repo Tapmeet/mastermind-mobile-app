@@ -41,6 +41,10 @@ const PurchaseProduct = (props) => {
   const [processing, setProcessing] = React.useState(false);
   const [eventid, setEventid] = React.useState('');
   const [eventPrice, setEventPrice] = React.useState('');
+  const [size, setSize] = React.useState('');
+  const [colors, setColors] = React.useState('');
+  const [quantity, setQuantity] = React.useState('');
+  const [productTitle, setProductTitle] = React.useState('');
   const [eventDefaultPrice, setEventDefaultPrice] = React.useState('');
   const userId = useSelector((state) => state);
   const [studentIds, setStudentIds] = React.useState([]);
@@ -79,7 +83,7 @@ const PurchaseProduct = (props) => {
     console.log(uniqueArray)
     if (uniqueArray.length > 0) {
       price = parseFloat(eventDefaultPrice) * parseFloat(uniqueArray.length);
-     // console.log(price)
+      // console.log(price)
       setEventPrice(price);
     }
     else {
@@ -102,9 +106,17 @@ const PurchaseProduct = (props) => {
           try {
             const value = await AsyncStorage.getItem("eventId");
             const eventPrice = await AsyncStorage.getItem("eventPrice");
+            const Size = await AsyncStorage.getItem("size");
+            const Color = await AsyncStorage.getItem("colors");
+            const Quantity = await AsyncStorage.getItem("quantity");
+            const producttitle = await AsyncStorage.getItem("productTitle");
+            setProductTitle(producttitle);
             setEventid(value)
             setEventDefaultPrice(eventPrice);
             setEventPrice(eventPrice)
+            setSize(Size)
+            setColors(Color)
+            setQuantity(Quantity)
           } catch (e) { }
         }
         getData();
@@ -210,18 +222,21 @@ const PurchaseProduct = (props) => {
         PosItemId: eventid,
         LinkedStudentIds: uniqueArray,
         PersonPaymentMethodId: defaultId,
-        PurchaseType: "2"
+        PurchaseType: "2",
+        Quantity: quantity,
+        Color: colors,
+        Size: size
       }),
     })
       .then((response) => response.json())
       .then((response) => {
         setProcessing(false)
-        // console.log(response);
+        console.log(response);
         // setLoaderMessage(false);
         if (response["order"]) {
-          setSuccessMessage("Event Purchased  Successfully");
+          setSuccessMessage("Product Purchased  Successfully");
           setTimeout(function () {
-            props.navigation.navigate("Events");
+            props.navigation.navigate("Retail");
             setSuccessMessage("");
           }, 3000);
         } else {
@@ -372,7 +387,15 @@ const PurchaseProduct = (props) => {
                       marginBottom: 2,
                     }}
                   >
-                    ${eventPrice}
+                    ${eventPrice * quantity} <Text
+                      style={{
+                        color: "#000",
+                        fontSize: 14,
+                        fontWeight: "500",
+                        marginBottom: 2,
+                      }}
+                    >({eventPrice} x {quantity})
+                    </Text>
                   </Text>
                 </View>
                 <Text
@@ -393,48 +416,63 @@ const PurchaseProduct = (props) => {
               </View>
             ) : (
               <View>
-                <Text
-                  style={{
-                    color: "#000",
-                    fontSize: 18,
-                    fontWeight: "bold",
-                    lineHeight: 26,
-                    marginBottom: 10,
-                    marginTop: 20,
-                  }}
-                >
-                  Select Child interested in:
-                </Text>
-                <View>
-                  {studentIds.map(function (student, index) {
-                    return (
-                      index < totalStudent ?
-                        <TouchableOpacity
-                          key={index}
-                          style={
-                            student.isChecked
-                              ? [
-                                globalStyle.inquiryBox,
-                                { backgroundColor: "#4895FF" },
-                              ]
-                              : globalStyle.inquiryBox
-                          }
-                          onPress={() => selectStudent(student.id)}
-                        >
-                          <Text
-                            style={
-                              student.isChecked
-                                ? { color: "#fff", fontSize: 20, marginBottom: 0 }
-                                : { color: "#000", fontSize: 20, marginBottom: 0 }
-                            }
-                          >
-                            {student.name}
-                          </Text>
-                        </TouchableOpacity>
-                        : null
-                    )
-                  })
-                  }
+                <View style={[globalStyle.tableBoxshadowContract, {
+                  marginLeft: 0,
+                  marginRight: 0,
+                }]}>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignSelf: "stretch",
+                      flexDirection: "row",
+                      padding: 15,
+                      backgroundColor: "#4895FF",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      borderTopLeftRadius: 5,
+                      borderTopRightRadius: 5,
+
+                    }}
+                  >
+                    <View style={{ width: 110 }}>
+                      <Text style={{ color: "#fff", fontSize: 17 }}>
+                        Item </Text>
+                    </View>
+                    <View style={{ minWidth: 80 }}>
+                      <Text style={{ color: "#fff", fontSize: 17 }}>Size </Text>
+                    </View>
+                    <View style={{ minWidth: 80 }}>
+                      <Text style={{ color: "#fff", fontSize: 17 }}>Color </Text>
+                    </View>
+                    <View style={{ minWidth: 80 }}>
+                      <Text style={{ color: "#fff", fontSize: 17 }}>Quantity </Text>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignSelf: "stretch",
+                      flexDirection: "row",
+                      padding: 15,
+                      alignItems: "center",
+                      justifyContent: "space-between",
+
+                    }}
+                  >
+                    <View style={{ width: 110 }}>
+                      <Text style={{ color: "#333", fontSize: 17 }}>{productTitle} </Text>
+                    </View>
+                    <View style={{ minWidth: 80 }}>
+                      <Text style={{ color: "#333", fontSize: 17 }}>{size} </Text>
+                    </View>
+                    <View style={{ minWidth: 80 }}>
+                      <Text style={{ color: "#333", fontSize: 17 }}>{colors} </Text>
+                    </View>
+                    <View style={{ minWidth: 90 }}>
+                      <Text style={{ color: "#333", fontSize: 17 }}>{quantity} </Text>
+                    </View>
+
+                  </View>
                 </View>
                 <View>
                   <Text
@@ -444,60 +482,105 @@ const PurchaseProduct = (props) => {
                       fontWeight: "bold",
                       lineHeight: 26,
                       marginBottom: 10,
-                      marginTop: 20,
+                      marginTop: 30,
                     }}
                   >
-                    Select Payment Method:
+                    Select Child interested in:
                   </Text>
-                </View>
-                <View
-                  style={{
-                    marginLeft: -70,
-                    marginTop: 20,
-                    marginBottom: 20,
-                  }}
-                >
-                  {loader == false ?
-                    <Carousel
-                      ref={isCarousel}
-                      data={paymentMethod}
-                      renderItem={CarouselCardItem}
-                      sliderWidth={SLIDER_WIDTH}
-                      itemWidth={ITEM_WIDTH}
-                      useScrollView={false}
-                      currentIndex={activeindex}
-                    />
-                    : null}
-                </View>
-                {errorMessage != "" ? (
-                  <Text style={globalStyle.errorText}>{errorMessage}</Text>
-                ) : null}
-                {SuccessMessage != "" ? (
-                  <Text style={globalStyle.sucessText}>
-                    {SuccessMessage}
-                  </Text>
-                ) : null}
-                <Content style={loginStyle.formContainer}>
-                  <ImageBackground
-                    style={[
-                      globalStyle.Btn,
-                      {
-                        width: "100%",
-                      },
-                    ]}
-                    source={require("./../../../../assets/Oval.png")}
-                    resizeMode={"stretch"}
+                  <View>
+                    {studentIds.map(function (student, index) {
+                      return (
+                        index < totalStudent ?
+                          <TouchableOpacity
+                            key={index}
+                            style={
+                              student.isChecked
+                                ? [
+                                  globalStyle.inquiryBox,
+                                  { backgroundColor: "#4895FF" },
+                                ]
+                                : globalStyle.inquiryBox
+                            }
+                            onPress={() => selectStudent(student.id)}
+                          >
+                            <Text
+                              style={
+                                student.isChecked
+                                  ? { color: "#fff", fontSize: 20, marginBottom: 0 }
+                                  : { color: "#000", fontSize: 20, marginBottom: 0 }
+                              }
+                            >
+                              {student.name}
+                            </Text>
+                          </TouchableOpacity>
+                          : null
+                      )
+                    })
+                    }
+                  </View>
+                  <View>
+                    <Text
+                      style={{
+                        color: "#000",
+                        fontSize: 18,
+                        fontWeight: "bold",
+                        lineHeight: 26,
+                        marginBottom: 10,
+                        marginTop: 20,
+                      }}
+                    >
+                      Select Payment Method:
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      marginLeft: -70,
+                      marginTop: 20,
+                      marginBottom: 20,
+                    }}
                   >
-                    <Button onPress={submitForm} style={loginStyle.buttons} full>
-                      <Text style={loginStyle.buttonText}>Proceed</Text>
-                    </Button>
-                  </ImageBackground>
-                  {processing ? (
-                    <View style={[styles.container, styles.horizontal]}>
-                      <ActivityIndicator size="large" color="#29ABE2" />
-                    </View>
+                    {loader == false ?
+                      <Carousel
+                        ref={isCarousel}
+                        data={paymentMethod}
+                        renderItem={CarouselCardItem}
+                        sliderWidth={SLIDER_WIDTH}
+                        itemWidth={ITEM_WIDTH}
+                        useScrollView={false}
+                        currentIndex={activeindex}
+                      />
+                      : null}
+                  </View>
+                  {errorMessage != "" ? (
+                    <Text style={globalStyle.errorText}>{errorMessage}</Text>
                   ) : null}
-                </Content>
+                  {SuccessMessage != "" ? (
+                    <Text style={globalStyle.sucessText}>
+                      {SuccessMessage}
+                    </Text>
+                  ) : null}
+                  <Content style={loginStyle.formContainer}>
+                    <ImageBackground
+                      style={[
+                        globalStyle.Btn,
+                        {
+                          width: "100%",
+                        },
+                      ]}
+                      source={require("./../../../../assets/Oval.png")}
+                      resizeMode={"stretch"}
+                    >
+                      <Button onPress={submitForm} style={loginStyle.buttons} full>
+                        <Text style={loginStyle.buttonText}>Proceed</Text>
+                      </Button>
+                    </ImageBackground>
+                    {processing ? (
+                      <View style={[styles.container, styles.horizontal]}>
+                        <ActivityIndicator size="large" color="#29ABE2" />
+                      </View>
+                    ) : null}
+                  </Content>
+                </View>
               </View>
             )
             }

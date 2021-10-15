@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Accordion } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -17,6 +17,7 @@ import { color } from "react-native-reanimated";
 const apiUrl = API_URL.trim();
 const ProductDetails = (props) => {
   const [eventid, setEventid] = React.useState('');
+  const [productTitle, setProductTitle] = React.useState('');
   const userId = useSelector((state) => state);
   const [loader, setloader] = React.useState(true);
 
@@ -27,7 +28,7 @@ const ProductDetails = (props) => {
   const [collapsed4, setCollapsed4] = React.useState(true);
   const [size, setSize] = React.useState('');
   const [colors, setColors] = React.useState('');
-
+  const [quantity, setQuantity] = React.useState('');
   const toggleExpanded = () => {
     setCollapsed(!collapsed);
     setCollapsed2(true);
@@ -49,7 +50,18 @@ const ProductDetails = (props) => {
     setCollapsed3(true);
     setCollapsed4(!collapsed4);
   };
-
+  const quanity = [
+    { label: "1", value: "1" },
+    { label: "2", value: "2" },
+    { label: "3", value: "3" },
+    { label: "4", value: "4" },
+    { label: "5", value: "5" },
+    { label: "6", value: "6" },
+    { label: "7", value: "7" },
+    { label: "8", value: "8" },
+    { label: "9", value: "9" },
+    { label: "10", value: "10" },
+  ];
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
@@ -88,18 +100,56 @@ const ProductDetails = (props) => {
   }, [eventListing]);
   const storeData = async (value, price) => {
     //  console.log(value)
+    if (size == '') {
+      Alert.alert(" Alert",
+        "Please select Size",
+        [{
+          text: 'Ok',
+          //onPress: () => //console.log('Cancel Pressed'),
+          style: 'cancel',
+        },]);
+      return false
+    }
+
+    if (colors == '') {
+      Alert.alert(" Alert",
+        "Please select color",
+        [{
+          text: 'Ok',
+          //onPress: () => //console.log('Cancel Pressed'),
+          style: 'cancel',
+        },]);
+      return false
+    }
+    if (quantity == '') {
+      Alert.alert(" Alert",
+        "Please select quantity",
+        [{
+          text: 'Ok',
+          //onPress: () => //console.log('Cancel Pressed'),
+          style: 'cancel',
+        },]);
+      return false
+    }
     let eventId = JSON.stringify(value);
     let eventPrice = JSON.stringify(price);
     //console.log(eventId)
     try {
       await AsyncStorage.setItem("eventId", eventId);
       await AsyncStorage.setItem("eventPrice", eventPrice);
+      await AsyncStorage.setItem("productTitle", productTitle);
+      await AsyncStorage.setItem("size", size);
+      await AsyncStorage.setItem("colors", colors);
+      await AsyncStorage.setItem("quantity", quantity);
       props.navigation.navigate("Purchase Product");
     } catch (e) {
       // saving error
     }
   };
   const { navigation } = props;
+  const placeholderQuantity = {
+    label: "Select Quantity",
+  };
   return (
     <Container
       style={{
@@ -118,6 +168,7 @@ const ProductDetails = (props) => {
           eventListing.length > 0 ? (
           eventListing.map(function (event, index) {
             if (event.PosItemId == eventid) {
+
               var sizeList = [];
               var colorList = [];
               event.Sizes.map(function (size, index) {
@@ -135,6 +186,10 @@ const ProductDetails = (props) => {
             const placeholderSize = {
               label: "Select Size",
             };
+            if ((event.PosItemId == eventid) && productTitle == '') {
+
+              setProductTitle(event.Title)
+            }
             return (
               event.PosItemId == eventid ?
 
@@ -174,7 +229,7 @@ const ProductDetails = (props) => {
                         <Text style={globalStyle.p}>{event.Description}</Text>
                       </View>
                     </Collapsible>
-                    <Text style={{fontWeight:"bold", marginBottom: 10}}>Select Size</Text>
+                    <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Size</Text>
                     <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
                       <RNPickerSelect
                         value={size}
@@ -209,7 +264,7 @@ const ProductDetails = (props) => {
                         }}
                       />
                     </View>
-                    <Text style={{fontWeight:"bold", marginBottom: 10, marginTop: 20}}>Select Colors</Text>
+                    <Text style={{ fontWeight: "bold", marginBottom: 10, marginTop: 20 }}>Select Colors</Text>
                     <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
                       <RNPickerSelect
                         value={colors}
@@ -243,6 +298,43 @@ const ProductDetails = (props) => {
                           );
                         }}
                       />
+
+                    </View>
+                    <Text style={{ fontWeight: "bold", marginBottom: 10, marginTop: 20 }}>Select Quantity</Text>
+                    <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
+                      <RNPickerSelect
+                        value={quantity}
+                        items={quanity}
+                        placeholder={placeholderQuantity}
+                        onValueChange={(value) => setQuantity(value)}
+                        style={{
+                          ...pickerSelectStyles,
+                          iconContainer: {
+                            top: Platform.OS === "android" ? 20 : 30,
+                            right: 10,
+                          },
+                          placeholder: {
+                            color: "#8a898e",
+                            fontSize: 12,
+                            fontWeight: "bold",
+                          },
+                        }}
+                        Icon={() => {
+                          return (
+                            <Image
+                              style={{
+                                width: 12,
+                                position: "absolute",
+                                top: Platform.OS === "android" ? -15 : -28,
+                                right: 5,
+                              }}
+                              source={require("../../../../assets/arrow-down.png")}
+                              resizeMode={"contain"}
+                            />
+                          );
+                        }}
+                      />
+
                     </View>
                     {event.IsAvailable ?
                       <View style={{
