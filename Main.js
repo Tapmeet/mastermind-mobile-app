@@ -28,10 +28,11 @@ if ( __DEV__ ) {
 LogBox.ignoreAllLogs();
 const Main = (props) => {
   const userId = useSelector(state => state);
+  // console.log(userId)
   const AuthStack = createStackNavigator();
   return (  
     <NavigationContainer>
-      {typeof userId !== 'undefined' && userId.length > 0 ? (
+      {typeof userId !== 'undefined' && userId.userDataReducer.length > 0 ? (
         <Drawer /> 
       ) : (   
         <AuthStack.Navigator

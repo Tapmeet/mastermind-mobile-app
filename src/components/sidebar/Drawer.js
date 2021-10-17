@@ -20,7 +20,8 @@ import {
   PurchaseHistory,
   ProductListing,
   ProductDetails,
-  PurchaseProduct
+  PurchaseProduct,
+  Cart
 } from "../screens";
 import { SideBar } from ".";
 import { FlatList } from "react-native";
@@ -51,7 +52,7 @@ const Drawer = (props) => {
       <HomeDrawer.Screen name="Retail" component={ProductListing} />
       <HomeDrawer.Screen name="Product Details" component={ProductDetails} />
       <HomeDrawer.Screen name="Purchase Product" component={PurchaseProduct} />
-      
+      <HomeDrawer.Screen name="Cart" component={Cart} />
     </HomeDrawer.Navigator>
   );
 };

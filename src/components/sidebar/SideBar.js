@@ -7,6 +7,7 @@ import sideBar from "../../style/home/sidebarStyle";
 import { color } from "react-native-reanimated";
 import { useSelector, useDispatch } from "react-redux";
 import LOGGED_OUT_USER from "./../../redux/User";
+import  EMPTY_CART from "./../../redux/Retail";
 import { EventDetails } from "../screens";
 
 const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Payment Methods", "Events", "Retail", "Purchase History"];
@@ -14,6 +15,8 @@ const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Pa
 const SideBar = (props) => {
   const dispatch = useDispatch();
   const userData = (userInfo) => dispatch({ type: "LOGGED_OUT_USER", payload: userInfo });
+  const updateRetail = (updateRetail) =>
+  dispatch({ type: "EMPTY_CART", payload: updateRetail });
   const userId = useSelector((state) => state);
   const [data, setData] = React.useState("");
   const [firstName, setFirstName] = React.useState("");
@@ -24,7 +27,8 @@ const SideBar = (props) => {
   const win = Dimensions.get("window");
 
   const logout = () => {
-    userData(userId[0].id);
+    updateRetail([]);
+    userData(userId.userDataReducer[0].id);
   };
   React.useEffect(() => {
     const apiUrl = API_URL.trim();
@@ -34,7 +38,7 @@ const SideBar = (props) => {
         headers: {
           Accept: "*/*",
           "Content-Type": "application/json",
-          Authorization: "Bearer " + userId[0].access_Token,
+          Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
         },
       })
         .then((response) => response.json())

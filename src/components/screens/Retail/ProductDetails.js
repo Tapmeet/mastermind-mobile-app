@@ -2,25 +2,35 @@ import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, 
 import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
+import CartWidget from "../../cart/Cartwidget"
 import { SideBarMenu } from "../../sidebar";
 import globalStyle from "../../../style/globalStyle";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import Collapsible from "react-native-collapsible";
 import loginStyle from "../../../style/login/loginStyle";
 import { fontSize } from "styled-system";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../../Utility/AppConst";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import moment from 'moment';
 import { color } from "react-native-reanimated";
+import { ADD_TO_CART, UPDATE_CART } from "./../../../redux/Retail";
+
 const apiUrl = API_URL.trim();
+var sizeList = [];
+var colorList = [];
 const ProductDetails = (props) => {
   const [eventid, setEventid] = React.useState('');
   const [productTitle, setProductTitle] = React.useState('');
   const userId = useSelector((state) => state);
+  const retail = useSelector((state) => state);
+  const [studentIds, setStudentIds] = React.useState([]);
+  const [selectedStudent, setSelectedStudent] = React.useState([]);
+  const [totalStudent, setTotalStudent] = React.useState([]);
+  const [retailProducts, setRetailProducts] = React.useState([]);
+  const [personId, setPersonId] = React.useState('');
   const [loader, setloader] = React.useState(true);
-
   const [eventListing, setEventListing] = React.useState([]);
   const [collapsed, setCollapsed] = React.useState(false);
   const [collapsed2, setCollapsed2] = React.useState(true);
@@ -29,6 +39,11 @@ const ProductDetails = (props) => {
   const [size, setSize] = React.useState('');
   const [colors, setColors] = React.useState('');
   const [quantity, setQuantity] = React.useState('');
+  const dispatch = useDispatch();
+  const userRetail = (userRetail) =>
+    dispatch({ type: "ADD_TO_CART", payload: userRetail });
+  const updateRetail = (updateRetail) =>
+    dispatch({ type: "UPDATE_CART", payload: updateRetail });
   const toggleExpanded = () => {
     setCollapsed(!collapsed);
     setCollapsed2(true);
@@ -65,6 +80,15 @@ const ProductDetails = (props) => {
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
+      if (retail.cartItemsReducer.length > 0) {
+        console.log('retail.cartItemsReducer')
+        console.log(retail.cartItemsReducer)
+        console.log('retail.cartItemsReducer end here')
+        setRetailProducts(retail.cartItemsReducer);
+        
+      }
+
+      console.log(retail)
       if (eventListing == "") {
         async function getData() {
           try {
@@ -74,13 +98,13 @@ const ProductDetails = (props) => {
           } catch (e) { }
         }
         getData();
-
+        getStudents()
         fetch(`${apiUrl}/odata/OrganizationRetail`, {
           method: "get",
           headers: {
             Accept: "*/*",
             "Content-Type": "application/json",
-            Authorization: "Bearer " + userId[0].access_Token,
+            Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
           },
         })
           .then((response) => response.json())
@@ -98,11 +122,48 @@ const ProductDetails = (props) => {
       }
     });
   }, [eventListing]);
+  function getStudents() {
+    fetch(`${apiUrl}/odata/StudentAccount`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setPersonId(data.PersonId)
+        setStudentIds([]);
+        if (data.StudentIds.length > 0) {
+          var students = data.StudentIds.length;
+          setTotalStudent(data.StudentIds.length)
+          setStudentIds([]);
+          data.StudentIds.map((id, index) => {
+            fetch(`${apiUrl}/odata/StudentData(${id})`, {
+              method: "get",
+              headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (studentIds.length <= students) {
+                  let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
+                  setStudentIds((prevState) => [...prevState, dataArray]);
+                  setloader(false)
+                }
+              });
+          });
+        }
+      });
+  }
   const storeData = async (value, price) => {
-    //  console.log(value)
-    if (size == '') {
+    if (selectedStudent == undefined) {
       Alert.alert(" Alert",
-        "Please select Size",
+        "Please select student",
         [{
           text: 'Ok',
           //onPress: () => //console.log('Cancel Pressed'),
@@ -110,16 +171,30 @@ const ProductDetails = (props) => {
         },]);
       return false
     }
+    if (sizeList.length > 0) {
 
-    if (colors == '') {
-      Alert.alert(" Alert",
-        "Please select color",
-        [{
-          text: 'Ok',
-          //onPress: () => //console.log('Cancel Pressed'),
-          style: 'cancel',
-        },]);
-      return false
+      if (size == '' || size == undefined) {
+        Alert.alert(" Alert",
+          "Please select Size",
+          [{
+            text: 'Ok',
+            //onPress: () => //console.log('Cancel Pressed'),
+            style: 'cancel',
+          },]);
+        return false
+      }
+    }
+    if (colorList.length > 0) {
+      if (colors == '' || colors == undefined) {
+        Alert.alert(" Alert",
+          "Please select color",
+          [{
+            text: 'Ok',
+            //onPress: () => //console.log('Cancel Pressed'),
+            style: 'cancel',
+          },]);
+        return false
+      }
     }
     if (quantity == '') {
       Alert.alert(" Alert",
@@ -133,22 +208,95 @@ const ProductDetails = (props) => {
     }
     let eventId = JSON.stringify(value);
     let eventPrice = JSON.stringify(price);
-    //console.log(eventId)
-    try {
-      await AsyncStorage.setItem("eventId", eventId);
-      await AsyncStorage.setItem("eventPrice", eventPrice);
-      await AsyncStorage.setItem("productTitle", productTitle);
-      await AsyncStorage.setItem("size", size);
-      await AsyncStorage.setItem("colors", colors);
-      await AsyncStorage.setItem("quantity", quantity);
-      props.navigation.navigate("Purchase Product");
-    } catch (e) {
-      // saving error
+
+    console.log(retailProducts)
+    if (retailProducts.length > 0) {
+      var productindex = '';
+      retailProducts.map(function (product, index) {
+        if (product.id == eventId && product.studentIds[0] == selectedStudent) {
+          productindex = index;
+        }
+      })
+      console.log(productindex)
+      if (productindex === '') {
+        console.log("theres")
+        let dataArray = {
+          id: eventId,
+          studentIds: [selectedStudent],
+          eventPrice: eventPrice,
+          productTitle: productTitle,
+          size: size,
+          colors: colors,
+          quantity: quantity,
+        };
+        setRetailProducts((prevState) => [...prevState, dataArray]);
+        userRetail({
+          id: eventId,
+          studentIds: [selectedStudent],
+          eventPrice: eventPrice,
+          productTitle: productTitle,
+          size: size,
+          colors: colors,
+          quantity: quantity,
+        });
+      } else {
+        console.log("here1")
+        let newArr = [...retailProducts]; // copying the old datas array
+        newArr[productindex] = {
+          id: eventId,
+          studentIds: [selectedStudent],
+          eventPrice: eventPrice,
+          productTitle: productTitle,
+          size: size,
+          colors: colors,
+          quantity: quantity,
+        };
+        updateRetail(newArr);
+        setRetailProducts(newArr);
+      }
+
+    } else {
+      console.log("addNew")
+      setRetailProducts([{
+        id: eventId,
+        studentIds: [selectedStudent],
+        eventPrice: eventPrice,
+        productTitle: productTitle,
+        size: size,
+        colors: colors,
+        quantity: quantity,
+      }])
+      userRetail({
+        id: eventId,
+        studentIds: [selectedStudent],
+        eventPrice: eventPrice,
+        productTitle: productTitle,
+        size: size,
+        colors: colors,
+        quantity: quantity,
+      });
     }
+
+
+    //console.log(eventId)
+    // try {
+    //   await AsyncStorage.setItem("eventId", eventId);
+    //   await AsyncStorage.setItem("eventPrice", eventPrice);
+    //   await AsyncStorage.setItem("productTitle", productTitle);
+    //   await AsyncStorage.setItem("size", size);
+    //   await AsyncStorage.setItem("colors", colors);
+    //   await AsyncStorage.setItem("quantity", quantity);
+    //   props.navigation.navigate("Purchase Product");
+    // } catch (e) {
+    //   // saving error
+    // }
   };
   const { navigation } = props;
   const placeholderQuantity = {
     label: "Select Quantity",
+  };
+  const placeholderStudent = {
+    label: "Select Student",
   };
   return (
     <Container
@@ -168,17 +316,18 @@ const ProductDetails = (props) => {
           eventListing.length > 0 ? (
           eventListing.map(function (event, index) {
             if (event.PosItemId == eventid) {
-
-              var sizeList = [];
-              var colorList = [];
-              event.Sizes.map(function (size, index) {
-                let data = { label: size, value: size }
-                sizeList.push(data)
-              })
-              event.Colors.map(function (colors, index) {
-                let data = { label: colors, value: colors }
-                colorList.push(data)
-              })
+              if (sizeList.length <= 0) {
+                event.Sizes.map(function (size, index) {
+                  let data = { label: size, value: size }
+                  sizeList.push(data)
+                })
+              }
+              if (colorList.length <= 0) {
+                event.Colors.map(function (colors, index) {
+                  let data = { label: colors, value: colors }
+                  colorList.push(data)
+                })
+              }
             }
             const placeholderColor = {
               label: "Select Colors",
@@ -229,13 +378,13 @@ const ProductDetails = (props) => {
                         <Text style={globalStyle.p}>{event.Description}</Text>
                       </View>
                     </Collapsible>
-                    <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Size</Text>
+                    <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Student</Text>
                     <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
                       <RNPickerSelect
-                        value={size}
-                        items={sizeList}
-                        placeholder={placeholderSize}
-                        onValueChange={(value) => setSize(value)}
+                        value={selectedStudent}
+                        items={studentIds}
+                        placeholder={placeholderStudent}
+                        onValueChange={(value) => setSelectedStudent(value)}
                         style={{
                           ...pickerSelectStyles,
                           iconContainer: {
@@ -264,42 +413,85 @@ const ProductDetails = (props) => {
                         }}
                       />
                     </View>
-                    <Text style={{ fontWeight: "bold", marginBottom: 10, marginTop: 20 }}>Select Colors</Text>
-                    <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-                      <RNPickerSelect
-                        value={colors}
-                        items={colorList}
-                        placeholder={placeholderColor}
-                        onValueChange={(value) => setColors(value)}
-                        style={{
-                          ...pickerSelectStyles,
-                          iconContainer: {
-                            top: Platform.OS === "android" ? 20 : 30,
-                            right: 10,
-                          },
-                          placeholder: {
-                            color: "#8a898e",
-                            fontSize: 12,
-                            fontWeight: "bold",
-                          },
-                        }}
-                        Icon={() => {
-                          return (
-                            <Image
-                              style={{
-                                width: 12,
-                                position: "absolute",
-                                top: Platform.OS === "android" ? -15 : -28,
-                                right: 5,
-                              }}
-                              source={require("../../../../assets/arrow-down.png")}
-                              resizeMode={"contain"}
-                            />
-                          );
-                        }}
-                      />
+                    {sizeList.length > 0 ?
+                      <View>
+                        <Text style={{ fontWeight: "bold", marginBottom: 10, marginTop: 20 }}>Select Size</Text>
+                        <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
+                          <RNPickerSelect
+                            value={size}
+                            items={sizeList}
+                            placeholder={placeholderSize}
+                            onValueChange={(value) => setSize(value)}
+                            style={{
+                              ...pickerSelectStyles,
+                              iconContainer: {
+                                top: Platform.OS === "android" ? 20 : 30,
+                                right: 10,
+                              },
+                              placeholder: {
+                                color: "#8a898e",
+                                fontSize: 12,
+                                fontWeight: "bold",
+                              },
+                            }}
+                            Icon={() => {
+                              return (
+                                <Image
+                                  style={{
+                                    width: 12,
+                                    position: "absolute",
+                                    top: Platform.OS === "android" ? -15 : -28,
+                                    right: 5,
+                                  }}
+                                  source={require("../../../../assets/arrow-down.png")}
+                                  resizeMode={"contain"}
+                                />
+                              );
+                            }}
+                          />
+                        </View>
+                      </View>
+                      : null}
+                    {colorList.length > 0 ?
+                      <View>
+                        <Text style={{ fontWeight: "bold", marginBottom: 10, marginTop: 20 }}>Select Colors</Text>
+                        <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
+                          <RNPickerSelect
+                            value={colors}
+                            items={colorList}
+                            placeholder={placeholderColor}
+                            onValueChange={(value) => setColors(value)}
+                            style={{
+                              ...pickerSelectStyles,
+                              iconContainer: {
+                                top: Platform.OS === "android" ? 20 : 30,
+                                right: 10,
+                              },
+                              placeholder: {
+                                color: "#8a898e",
+                                fontSize: 12,
+                                fontWeight: "bold",
+                              },
+                            }}
+                            Icon={() => {
+                              return (
+                                <Image
+                                  style={{
+                                    width: 12,
+                                    position: "absolute",
+                                    top: Platform.OS === "android" ? -15 : -28,
+                                    right: 5,
+                                  }}
+                                  source={require("../../../../assets/arrow-down.png")}
+                                  resizeMode={"contain"}
+                                />
+                              );
+                            }}
+                          />
 
-                    </View>
+                        </View>
+                      </View>
+                      : null}
                     <Text style={{ fontWeight: "bold", marginBottom: 10, marginTop: 20 }}>Select Quantity</Text>
                     <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
                       <RNPickerSelect
@@ -345,9 +537,9 @@ const ProductDetails = (props) => {
                         paddingTop: 40,
                         paddingBottom: 20
                       }}>
-                        <Text style={{ color: "#1873e8", fontSize: 24, fontWeight: "bold" }}>${event.Price}</Text>
+                        <Text style={{ color: "#1873e8", fontSize: 24, fontWeight: "bold" }}>${event.Price}  </Text>
                         <TouchableOpacity style={globalStyle.purchaseBtn} onPress={() => storeData(event.PosItemId, event.Price)} >
-                          <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, paddingBottom: 15, paddingLeft: 30, paddingRight: 30, paddingTop: 15, fontSize: 22, fontWeight: "bold", borderRadius: 15 }}>Purchase</Text>
+                          <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, paddingBottom: 15, paddingLeft: 30, paddingRight: 30, paddingTop: 15, fontSize: 22, fontWeight: "bold", borderRadius: 15 }}>Add to cart</Text>
                         </TouchableOpacity>
                       </View>
                       : null
@@ -359,7 +551,7 @@ const ProductDetails = (props) => {
           })
         ) : null
       )}
-      <FooterTabs />
+      <CartWidget navigation={props.navigation} />
     </Container>
   );
 };

@@ -245,7 +245,7 @@ const UserProfile = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + userId[0].access_Token,
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
       },
       body: JSON.stringify({
         FirstName: firstName,
@@ -304,7 +304,7 @@ const UserProfile = (props) => {
           headers: {
             Accept: "*/*",
             "Content-Type": "application/json",
-            Authorization: "Bearer " + userId[0].access_Token,
+            Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
           },
         })
           .then((response) => response.json())
@@ -318,7 +318,7 @@ const UserProfile = (props) => {
                   headers: {
                     Accept: "*/*",
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + userId[0].access_Token,
+                    Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
                   },
                 })
                   .then((response) => response.json())
@@ -339,7 +339,7 @@ const UserProfile = (props) => {
             headers: {
               Accept: "*/*",
               "Content-Type": "application/json",
-              Authorization: "Bearer " + userId[0].access_Token,
+              Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
             },
           })
             .then((response) => response.json())
@@ -374,7 +374,7 @@ const UserProfile = (props) => {
           headers: {
             Accept: "*/*",
             "Content-Type": "application/json",
-            Authorization: "Bearer " + userId[0].access_Token,
+            Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
           },
         })
           .then((response) => response.json())
@@ -395,7 +395,7 @@ const UserProfile = (props) => {
           headers: {
             Accept: "*/*",
             "Content-Type": "application/json",
-            Authorization: "Bearer " + userId[0].access_Token,
+            Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
           },
         })
           .then((response) => response.json())
