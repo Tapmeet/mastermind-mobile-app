@@ -65,35 +65,24 @@ const ProductDetails = (props) => {
     setCollapsed3(true);
     setCollapsed4(!collapsed4);
   };
-  const quanity = [
-    { label: "1", value: "1" },
-    { label: "2", value: "2" },
-    { label: "3", value: "3" },
-    { label: "4", value: "4" },
-    { label: "5", value: "5" },
-    { label: "6", value: "6" },
-    { label: "7", value: "7" },
-    { label: "8", value: "8" },
-    { label: "9", value: "9" },
-    { label: "10", value: "10" },
-  ];
+  var quanity = [];
+  for (var i = 1; i <= 100; i++) {
+    quanity.push({ label: "" + i + "", value: i })
+  }
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
+      setProductTitle('');
       if (retail.cartItemsReducer.length > 0) {
-        console.log('retail.cartItemsReducer')
-        console.log(retail.cartItemsReducer)
-        console.log('retail.cartItemsReducer end here')
         setRetailProducts(retail.cartItemsReducer);
-        
       }
-
-      console.log(retail)
       if (eventListing == "") {
         async function getData() {
           try {
             const value = await AsyncStorage.getItem("eventId");
+            const title = await AsyncStorage.getItem("eventTitle");
             setEventid(value)
+            setProductTitle(title)
             //  console.log(value)
           } catch (e) { }
         }
@@ -209,12 +198,15 @@ const ProductDetails = (props) => {
     let eventId = JSON.stringify(value);
     let eventPrice = JSON.stringify(price);
 
-    console.log(retailProducts)
-    if (retailProducts.length > 0) {
+    console.log(productTitle)
+    let retails = retail.cartItemsReducer;
+    if (retails.length > 0) {
       var productindex = '';
-      retailProducts.map(function (product, index) {
-        if (product.id == eventId && product.studentIds[0] == selectedStudent) {
+      var productquantity = '';
+      retails.map(function (product, index) {
+        if (product.id == eventId && product.studentIds[0] == selectedStudent && product.size == size && product.colors == colors) {
           productindex = index;
+          productquantity = product.quantity;
         }
       })
       console.log(productindex)
@@ -241,7 +233,7 @@ const ProductDetails = (props) => {
         });
       } else {
         console.log("here1")
-        let newArr = [...retailProducts]; // copying the old datas array
+        let newArr = [...retails]; // copying the old datas array
         newArr[productindex] = {
           id: eventId,
           studentIds: [selectedStudent],
@@ -249,7 +241,7 @@ const ProductDetails = (props) => {
           productTitle: productTitle,
           size: size,
           colors: colors,
-          quantity: quantity,
+          quantity: parseInt(quantity) + parseInt(productquantity),
         };
         updateRetail(newArr);
         setRetailProducts(newArr);
@@ -335,13 +327,8 @@ const ProductDetails = (props) => {
             const placeholderSize = {
               label: "Select Size",
             };
-            if ((event.PosItemId == eventid) && productTitle == '') {
-
-              setProductTitle(event.Title)
-            }
             return (
               event.PosItemId == eventid ?
-
                 <Content key={index}>
                   <Image source={require("./../../../../assets/retails.jpg")} style={{ width: "100%", height: 220 }} />
                   <View style={{ margin: 15, marginTop: 25 }}>

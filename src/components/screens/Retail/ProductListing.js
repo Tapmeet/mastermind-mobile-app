@@ -50,12 +50,13 @@ const ProductListing = (props) => {
   const placeholderFiler = {
     label: "Filter",
   };
-  const storeData = async (value) => {
+  const storeData = async (value, title) => {
     console.log(value);
     let eventId = JSON.stringify(value);
     // console.log(eventId);
     try {
       await AsyncStorage.setItem("eventId", eventId);
+      await AsyncStorage.setItem("eventTitle", title);
       props.navigation.navigate("Product Details");
     } catch (e) {
       // saving error
@@ -145,7 +146,7 @@ const ProductListing = (props) => {
           eventListing.map(function (event, index) {
             return (
               <View style={{ marginBottom: 10 }} key={index}>
-                <TouchableOpacity onPress={() => storeData(event.PosItemId)}>
+                <TouchableOpacity onPress={() => storeData(event.PosItemId, event.Title)}>
                   <View style={globalStyle.eventsListingWrapper}>
                     <View style={globalStyle.eventsListingTopWrapper}>
                       <View style={{ borderRadius: 25, overflow: "hidden" }}>
