@@ -4,12 +4,17 @@ import { ImageBackground, Image, TouchableOpacity, ActivityIndicator, StyleSheet
 import globalStyle from "../../style/globalStyle";
 import { SideBarMenu } from "./../sidebar";
 import { useSelector, useDispatch } from "react-redux";
+import { API_URL } from "../Utility/AppConst";
 import loginStyle from "../../style/login/loginStyle"
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 var total = 0;
+const apiUrl = API_URL.trim();
 const Cart = (props) => {
     const retail = useSelector((state) => state);
-    console.log(retail)
+    const userId = useSelector((state) => state);
+    const [personId, setPersonId] = React.useState('');
+    const [studentIds, setStudentIds] = React.useState([]);
+    const [totalStudent, setTotalStudent] = React.useState([]);
     const [loader, setloader] = React.useState(true);
     const [retailProducts, setRetailProducts] = React.useState([]);
     const dispatch = useDispatch();
@@ -23,16 +28,57 @@ const Cart = (props) => {
             if (retail.cartItemsReducer.length > 0) {
                 setRetailProducts(retail.cartItemsReducer);
             }
-            setloader(false)
+            if (loader == true) {
+                getStudents()
+            }
+           
+
         });
         total = 0;
-        console.log('retail here')
-        console.log(retail)
         if (retail.cartItemsReducer.length > 0) {
             setRetailProducts(retail.cartItemsReducer);
         }
-        setloader(false)
+     
     }, []);
+    function getStudents() {
+        fetch(`${apiUrl}/odata/StudentAccount`, {
+            method: "get",
+            headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setPersonId(data.PersonId)
+                setStudentIds([]);
+                if (data.StudentIds.length > 0) {
+                    var students = data.StudentIds.length;
+                    setTotalStudent(data.StudentIds.length)
+                    setStudentIds([]);
+                    data.StudentIds.map((id, index) => {
+                        fetch(`${apiUrl}/odata/StudentData(${id})`, {
+                            method: "get",
+                            headers: {
+                                Accept: "*/*",
+                                "Content-Type": "application/json",
+                                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+                            },
+                        })
+                            .then((response) => response.json())
+                            .then((data) => {
+                                if (studentIds.length <= students) {
+                                    let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
+                                    setStudentIds((prevState) => [...prevState, dataArray]);
+                                    setloader(false)
+                                }
+                            });
+                    });
+                    
+                }
+            });
+    }
     var quanity = [];
     for (var i = 1; i <= 100; i++) {
         quanity.push({ label: "" + i + "", value: i })
@@ -58,7 +104,6 @@ const Cart = (props) => {
         }
     }
     const deleteProduct = (productindex) => {
-        console.log(productindex)
         if (productindex != '' || productindex != undefined) {
             let retails = retail.cartItemsReducer;
             console.log(retails[productindex].id)
@@ -75,6 +120,7 @@ const Cart = (props) => {
     const placeholderQuantities = {
         label: "Quantity",
     };
+    total = 0
     retail.cartItemsReducer.length > 0 ?
         retail.cartItemsReducer.map(function (product, index) {
             total = total + product.eventPrice * product.quantity
@@ -138,6 +184,17 @@ const Cart = (props) => {
                                                         resizeMode={"contain"}
                                                     />
                                                 </TouchableOpacity>
+                                            </View>
+                                            <View>
+                                                {
+                                                    studentIds.map(function (student, index) {
+                                                        return (
+                                                            student.value == product.studentIds[0] ?
+                                                                (<Text key={index}>{student.label}</Text>)
+                                                                : null
+                                                        )
+                                                    })
+                                                }
                                             </View>
                                             <View
                                                 style={[
@@ -262,24 +319,26 @@ const Cart = (props) => {
                             </View>
                         }
                         <View style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 0, paddingLeft: 40, paddingRight: 40, marginTop: 0 }}>
-                            <ImageBackground
-                                style={[globalStyle.BtnHalf, { width: "100%" }]
-                                }
-                                source={require('../../../assets/Oval.png')}
-                                resizeMode={'stretch'}
-                            >
-                                <Button
-                                    style={[loginStyle.buttonSave, { alignSelf: "center" }]}
-
-                                    full
-                                    onPress={() =>  props.navigation.navigate("Purchase Product")}
+                            {retail.cartItemsReducer.length > 0 ?
+                                <ImageBackground
+                                    style={[globalStyle.BtnHalf, { width: "100%" }]
+                                    }
+                                    source={require('../../../assets/Oval.png')}
+                                    resizeMode={'stretch'}
                                 >
-                                    <Text style={loginStyle.buttonText}>Proceed to Payments</Text>
-                                </Button>
-                            </ImageBackground>
+                                    <Button
+                                        style={[loginStyle.buttonSave, { alignSelf: "center" }]}
+
+                                        full
+                                        onPress={() => props.navigation.navigate("Purchase Product")}
+                                    >
+                                        <Text style={loginStyle.buttonText}>Proceed to Payments</Text>
+                                    </Button>
+                                </ImageBackground>
+                                : null}
                             <Button
                                 style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
-                                onPress={() =>  props.navigation.navigate("Retail")}
+                                onPress={() => props.navigation.navigate("Retail")}
                             >
                                 <Text style={[loginStyle.buttonText, { color: "#333" }]}>Continue shopping</Text>
                             </Button>

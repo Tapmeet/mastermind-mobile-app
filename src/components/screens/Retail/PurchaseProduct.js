@@ -27,15 +27,18 @@ import {
 } from "native-base";
 import loginStyle from "../../../style/login/loginStyle";
 import globalStyle from "../../../style/globalStyle";
-import { useSelector } from "react-redux";
 import { SideBarMenu } from "../../sidebar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../../Utility/AppConst";
 import moment from 'moment';
+import { useSelector, useDispatch } from "react-redux";
+import { ADD_TO_CART, UPDATE_CART } from "./../../../redux/Retail";
+var total = 0;
 var checkStudentIds = [];
 const apiUrl = API_URL.trim();
 
 const PurchaseProduct = (props) => {
+  const retail = useSelector((state) => state);
   const isCarousel = React.useRef(null);
   const [loader, setloader] = React.useState(true);
   const [processing, setProcessing] = React.useState(false);
@@ -55,7 +58,9 @@ const PurchaseProduct = (props) => {
   const [activeindex, setActiveIndex] = React.useState('0');
   const [SuccessMessage, setSuccessMessage] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
-
+  const dispatch = useDispatch();
+  const updateRetail = (updateRetail) =>
+  dispatch({ type: "UPDATE_CART", payload: updateRetail });
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       clearData();
@@ -102,24 +107,6 @@ const PurchaseProduct = (props) => {
       setStudentIds([]);
       setPersonId('')
       if (personId == '') {
-        async function getData() {
-          try {
-            const value = await AsyncStorage.getItem("eventId");
-            const eventPrice = await AsyncStorage.getItem("eventPrice");
-            const Size = await AsyncStorage.getItem("size");
-            const Color = await AsyncStorage.getItem("colors");
-            const Quantity = await AsyncStorage.getItem("quantity");
-            const producttitle = await AsyncStorage.getItem("productTitle");
-            setProductTitle(producttitle);
-            setEventid(value)
-            setEventDefaultPrice(eventPrice);
-            setEventPrice(eventPrice)
-            setSize(Size)
-            setColors(Color)
-            setQuantity(Quantity)
-          } catch (e) { }
-        }
-        getData();
         fetch(`${apiUrl}/odata/StudentAccount`, {
           method: "get",
           headers: {
@@ -197,61 +184,76 @@ const PurchaseProduct = (props) => {
   const submitForm = () => {
     setErrorMessage("");
     setSuccessMessage("");
-    let selectedstudent = studentIds.filter(
-      (studentIds) => studentIds.isChecked
-    );
-    let selectedStudentArray = selectedstudent.map((a) => a.id);
+    // let selectedstudent = studentIds.filter(
+    //   (studentIds) => studentIds.isChecked
+    // );
+    // let selectedStudentArray = selectedstudent.map((a) => a.id);
 
-    console.log(selectedStudentArray);
-    // console.log(defaultId);
-    // console.log(eventid)
-    if (selectedStudentArray.length <= 0) {
-      setErrorMessage("Please Select Student");
-      return false
-    }
+    // console.log(selectedStudentArray);
+    // // console.log(defaultId);
+    // // console.log(eventid)
+    // if (selectedStudentArray.length <= 0) {
+    //   setErrorMessage("Please Select Student");
+    //   return false
+    // }
     setProcessing(true)
-    let uniqueArray = unique(selectedStudentArray);
-    fetch(`${apiUrl}/odata/PurchaseOfSale`, {
-      method: "post",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-      },
-      body: JSON.stringify({
-        PosItemId: eventid,
-        LinkedStudentIds: uniqueArray,
-        PersonPaymentMethodId: defaultId,
-        PurchaseType: "2",
-        Quantity: quantity,
-        Color: colors,
-        Size: size
-      }),
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        setProcessing(false)
-        console.log(response);
-        // setLoaderMessage(false);
-        if (response["order"]) {
-          setSuccessMessage("Product Purchased  Successfully");
-          setTimeout(function () {
-            props.navigation.navigate("Retail");
-            setSuccessMessage("");
-          }, 3000);
-        } else {
-          setErrorMessage(response["odata.error"].message.value);
-          //  setErrorMessage("An error has occurred.");
-          setTimeout(function () {
-            //props.navigation.navigate("Payment Methods");
-            setErrorMessage("");
-          }, 3000);
-        }
+   // let uniqueArray = unique(selectedStudentArray);
+    retail.cartItemsReducer.length > 0 ?
+      retail.cartItemsReducer.map(function (product, index) {
+        console.log('productproductproductproductproductproduct')
+        console.log(product)
+        fetch(`${apiUrl}/odata/PurchaseOfSale`, {
+          method: "post",
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+          },
+          body: JSON.stringify({
+            PosItemId: product.id,
+            LinkedStudentIds: product.studentIds,
+            PersonPaymentMethodId: defaultId,
+            PurchaseType: "2",
+            Quantity: product.quantity,
+            Color: product.colors,
+            Size: product.size
+          }),
+        })
+          .then((response) => response.json())
+          .then((response) => {
+            setProcessing(false)
+            // console.log('response');
+            // console.log(response);
+            // setLoaderMessage(false);
+            if (response["order"]) {
+              setSuccessMessage("Product Purchased  Successfully");
+              // let retails = retail.cartItemsReducer;
+              // console.log(index)
+              // let newRetails = retails.filter(function (products, productindex) {
+              //     return productindex != index
+              // });
+              // total = 0;
+              // updateRetail(newRetails);
+              // setTimeout(function () {
+              //   props.navigation.navigate("Retail");
+              //   setSuccessMessage("");
+              // }, 3000);
+            } else {
+              setErrorMessage(response["odata.error"].message.value);
+              //  setErrorMessage("An error has occurred.");
+              setTimeout(function () {
+                //props.navigation.navigate("Payment Methods");
+                setErrorMessage("");
+              }, 3000);
+            }
+          })
+          .catch(function (data) {
+            setProcessing(false)
+            console.log("Error", data);
+          });
       })
-      .catch(function (data) {
-        setProcessing(false)
-        console.log("Error", data);
-      });
+      : null
+      updateRetail([]);
     // .then((response) => {
     //   console.log(response);
     //   setLoaderMessage(false);
@@ -283,6 +285,12 @@ const PurchaseProduct = (props) => {
   const { navigation } = props;
   const SLIDER_WIDTH = Dimensions.get("window").width + 60;
   const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
+  total = 0
+  retail.cartItemsReducer.length > 0 ?
+    retail.cartItemsReducer.map(function (product, index) {
+      total = total + product.eventPrice * product.quantity
+    })
+    : null
   const CarouselCardItem = ({ item, index }) => {
     return (
       <TouchableOpacity onPress={() => selectAccount(item.PersonPaymentMethodId)}>
@@ -387,15 +395,7 @@ const PurchaseProduct = (props) => {
                       marginBottom: 2,
                     }}
                   >
-                    ${eventPrice * quantity} <Text
-                      style={{
-                        color: "#000",
-                        fontSize: 14,
-                        fontWeight: "500",
-                        marginBottom: 2,
-                      }}
-                    >({eventPrice} x {quantity})
-                    </Text>
+                    ${total}
                   </Text>
                 </View>
                 <Text
@@ -416,108 +416,7 @@ const PurchaseProduct = (props) => {
               </View>
             ) : (
               <View>
-                <View style={[globalStyle.tableBoxshadowContract, {
-                  marginLeft: 0,
-                  marginRight: 0,
-                }]}>
-                  <View
-                    style={{
-                      flex: 1,
-                      alignSelf: "stretch",
-                      flexDirection: "row",
-                      padding: 15,
-                      backgroundColor: "#4895FF",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      borderTopLeftRadius: 5,
-                      borderTopRightRadius: 5,
-
-                    }}
-                  >
-                    <View style={{ width: 110 }}>
-                      <Text style={{ color: "#fff", fontSize: 17 }}>
-                        Item </Text>
-                    </View>
-                    <View style={{ minWidth: 80 }}>
-                      <Text style={{ color: "#fff", fontSize: 17 }}>Size </Text>
-                    </View>
-                    <View style={{ minWidth: 80 }}>
-                      <Text style={{ color: "#fff", fontSize: 17 }}>Color </Text>
-                    </View>
-                    <View style={{ minWidth: 80 }}>
-                      <Text style={{ color: "#fff", fontSize: 17 }}>Quantity </Text>
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      flex: 1,
-                      alignSelf: "stretch",
-                      flexDirection: "row",
-                      padding: 15,
-                      alignItems: "center",
-                      justifyContent: "space-between",
-
-                    }}
-                  >
-                    <View style={{ width: 110 }}>
-                      <Text style={{ color: "#333", fontSize: 17 }}>{productTitle} </Text>
-                    </View>
-                    <View style={{ minWidth: 80 }}>
-                      <Text style={{ color: "#333", fontSize: 17 }}>{size} </Text>
-                    </View>
-                    <View style={{ minWidth: 80 }}>
-                      <Text style={{ color: "#333", fontSize: 17 }}>{colors} </Text>
-                    </View>
-                    <View style={{ minWidth: 90 }}>
-                      <Text style={{ color: "#333", fontSize: 17 }}>{quantity} </Text>
-                    </View>
-
-                  </View>
-                </View>
                 <View>
-                  <Text
-                    style={{
-                      color: "#000",
-                      fontSize: 18,
-                      fontWeight: "bold",
-                      lineHeight: 26,
-                      marginBottom: 10,
-                      marginTop: 30,
-                    }}
-                  >
-                    Select Child interested in:
-                  </Text>
-                  <View>
-                    {studentIds.map(function (student, index) {
-                      return (
-                        index < totalStudent ?
-                          <TouchableOpacity
-                            key={index}
-                            style={
-                              student.isChecked
-                                ? [
-                                  globalStyle.inquiryBox,
-                                  { backgroundColor: "#4895FF" },
-                                ]
-                                : globalStyle.inquiryBox
-                            }
-                            onPress={() => selectStudent(student.id)}
-                          >
-                            <Text
-                              style={
-                                student.isChecked
-                                  ? { color: "#fff", fontSize: 20, marginBottom: 0 }
-                                  : { color: "#000", fontSize: 20, marginBottom: 0 }
-                              }
-                            >
-                              {student.name}
-                            </Text>
-                          </TouchableOpacity>
-                          : null
-                      )
-                    })
-                    }
-                  </View>
                   <View>
                     <Text
                       style={{

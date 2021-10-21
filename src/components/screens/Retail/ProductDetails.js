@@ -73,6 +73,9 @@ const ProductDetails = (props) => {
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       setProductTitle('');
+      setSize('');
+      setColors('');
+      setQuantity('')
       if (retail.cartItemsReducer.length > 0) {
         setRetailProducts(retail.cartItemsReducer);
       }
@@ -195,8 +198,8 @@ const ProductDetails = (props) => {
         },]);
       return false
     }
-    let eventId = JSON.stringify(value);
-    let eventPrice = JSON.stringify(price);
+    // let eventId = JSON.stringify(value);
+     let eventPrice = JSON.stringify(price);
 
     console.log(productTitle)
     let retails = retail.cartItemsReducer;
@@ -204,7 +207,7 @@ const ProductDetails = (props) => {
       var productindex = '';
       var productquantity = '';
       retails.map(function (product, index) {
-        if (product.id == eventId && product.studentIds[0] == selectedStudent && product.size == size && product.colors == colors) {
+        if (product.id == eventid && product.studentIds[0] == selectedStudent && product.size == size && product.colors == colors) {
           productindex = index;
           productquantity = product.quantity;
         }
@@ -213,7 +216,7 @@ const ProductDetails = (props) => {
       if (productindex === '') {
         console.log("theres")
         let dataArray = {
-          id: eventId,
+          id: eventid,
           studentIds: [selectedStudent],
           eventPrice: eventPrice,
           productTitle: productTitle,
@@ -223,7 +226,7 @@ const ProductDetails = (props) => {
         };
         setRetailProducts((prevState) => [...prevState, dataArray]);
         userRetail({
-          id: eventId,
+          id: eventid,
           studentIds: [selectedStudent],
           eventPrice: eventPrice,
           productTitle: productTitle,
@@ -235,7 +238,7 @@ const ProductDetails = (props) => {
         console.log("here1")
         let newArr = [...retails]; // copying the old datas array
         newArr[productindex] = {
-          id: eventId,
+          id: eventid,
           studentIds: [selectedStudent],
           eventPrice: eventPrice,
           productTitle: productTitle,
@@ -250,7 +253,7 @@ const ProductDetails = (props) => {
     } else {
       console.log("addNew")
       setRetailProducts([{
-        id: eventId,
+        id: eventid,
         studentIds: [selectedStudent],
         eventPrice: eventPrice,
         productTitle: productTitle,
@@ -259,7 +262,7 @@ const ProductDetails = (props) => {
         quantity: quantity,
       }])
       userRetail({
-        id: eventId,
+        id: eventid,
         studentIds: [selectedStudent],
         eventPrice: eventPrice,
         productTitle: productTitle,

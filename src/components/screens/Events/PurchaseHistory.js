@@ -17,6 +17,9 @@ var eventsList = [];
 const EventOrdersListing = (props) => {
   const [loader, setloader] = React.useState(true);
   const userId = useSelector((state) => state);
+  const [personId, setPersonId] = React.useState('');
+  const [studentIds, setStudentIds] = React.useState([]);
+  const [totalStudent, setTotalStudent] = React.useState([]);
   const [eventListing, setEventListing] = React.useState([]);
   const [eventsList, setEventList] = React.useState([]);
   const [filter, setFilter] = React.useState();
@@ -24,277 +27,54 @@ const EventOrdersListing = (props) => {
     { label: "Last Week", value: "week" },
     { label: "Last Month", value: "month" },
     { label: "Last 6 Months", value: "6" },
+    { label: "Purchase Type - Event", value: "Event" },
+    { label: "Purchase Type - Retail", value: "Retail" },
   ];
-  const evenlistlistings = [{
-    "AmountTendered": 400,
-    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
-    "BuyerName": "Tapmeet Singh",
-    "ChangeDue": 0,
-    "CheckNumber": null,
-    "CheckTotal": 0,
-    "Comments": null,
-    "ConfirmationNumber": null,
-    "ContractId": null,
-    "DateCreated": "2021-08-02T19:26:51.217",
-    "Expiration": "2022-03-05T00:00:00",
-    "Last4Digits": "2223",
-    "LinkedStudentIds": [
-      1,
-      207,
-    ],
-    "OrganizationId": 1,
-    "PaymentTypeId": 3,
-    "PersonPaymentMethodId": 0,
-    "PosItemId": 0,
-    "PosOrderId": 16312,
-    "PurchaseType": "Event",
-    "SchoolId": 1,
-    "TotalPrice": 400,
-    "purchaseTitle": "This is First event",
-  }, 
-  {
-    "AmountTendered": 200,
-    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
-    "BuyerName": "Tapmeet Singh",
-    "ChangeDue": 0,
-    "CheckNumber": null,
-    "CheckTotal": 0,
-    "Comments": null,
-    "ConfirmationNumber": null,
-    "ContractId": null,
-    "DateCreated": "2021-09-02T19:15:36.477",
-    "Expiration": "2021-09-01T00:00:00",
-    "Last4Digits": "2220",
-    "LinkedStudentIds": [
-      207,
-    ],
-    "OrganizationId": 1,
-    "PaymentTypeId": 3,
-    "PersonPaymentMethodId": 0,
-    "PosItemId": 0,
-    "PosOrderId": 16311,
-    "PurchaseType": "Event",
-    "SchoolId": 1,
-    "TotalPrice": 200,
-    "purchaseTitle": "This is an event",
-  },
-  {
-    "AmountTendered": 400,
-    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
-    "BuyerName": "Tapmeet Singh",
-    "ChangeDue": 0,
-    "CheckNumber": null,
-    "CheckTotal": 0,
-    "Comments": null,
-    "ConfirmationNumber": null,
-    "ContractId": null,
-    "DateCreated": "2021-09-02T17:45:08.167",
-    "Expiration": "2021-09-01T00:00:00",
-    "Last4Digits": "2220",
-    "LinkedStudentIds": [
-      1,
-      207,
-    ],
-    "OrganizationId": 1,
-    "PaymentTypeId": 3,
-    "PersonPaymentMethodId": 0,
-    "PosItemId": 0,
-    "PosOrderId": 16310,
-    "PurchaseType": "Event",
-    "SchoolId": 1,
-    "TotalPrice": 400,
-    "purchaseTitle": "This is an event",
-  },
-  {
-    "AmountTendered": 200,
-    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
-    "BuyerName": "Tapmeet Singh",
-    "ChangeDue": 0,
-    "CheckNumber": null,
-    "CheckTotal": 0,
-    "Comments": null,
-    "ConfirmationNumber": null,
-    "ContractId": null,
-    "DateCreated": "2021-09-02T17:18:14.793",
-    "Expiration": "2022-03-05T00:00:00",
-    "Last4Digits": "2223",
-    "LinkedStudentIds": [
-      1,
-    ],
-    "OrganizationId": 1,
-    "PaymentTypeId": 3,
-    "PersonPaymentMethodId": 0,
-    "PosItemId": 0,
-    "PosOrderId": 16309,
-    "PurchaseType": "Event",
-    "SchoolId": 1,
-    "TotalPrice": 200,
-    "purchaseTitle": "This is an event",
-  },
-  {
-    "AmountTendered": 200,
-    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
-    "BuyerName": "Tapmeet Singh",
-    "ChangeDue": 0,
-    "CheckNumber": null,
-    "CheckTotal": 0,
-    "Comments": null,
-    "ConfirmationNumber": null,
-    "ContractId": null,
-    "DateCreated": "2021-09-02T17:16:24.223",
-    "Expiration": "2022-03-05T00:00:00",
-    "Last4Digits": "2223",
-    "LinkedStudentIds": [
-      1,
-    ],
-    "OrganizationId": 1,
-    "PaymentTypeId": 3,
-    "PersonPaymentMethodId": 0,
-    "PosItemId": 0,
-    "PosOrderId": 16308,
-    "PurchaseType": "Event",
-    "SchoolId": 1,
-    "TotalPrice": 200,
-    "purchaseTitle": "This is an event",
-  },
-  {
-    "AmountTendered": 200,
-    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
-    "BuyerName": "Tapmeet Singh",
-    "ChangeDue": 0,
-    "CheckNumber": null,
-    "CheckTotal": 0,
-    "Comments": null,
-    "ConfirmationNumber": null,
-    "ContractId": null,
-    "DateCreated": "2021-09-02T17:14:24.457",
-    "Expiration": "2022-03-05T00:00:00",
-    "Last4Digits": "2223",
-    "LinkedStudentIds": [
-      1,
-    ],
-    "OrganizationId": 1,
-    "PaymentTypeId": 3,
-    "PersonPaymentMethodId": 0,
-    "PosItemId": 0,
-    "PosOrderId": 16307,
-    "PurchaseType": "Event",
-    "SchoolId": 1,
-    "TotalPrice": 200,
-    "purchaseTitle": "This is an event",
-  },
-  {
-    "AmountTendered": 400,
-    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
-    "BuyerName": "Tapmeet Singh",
-    "ChangeDue": 0,
-    "CheckNumber": null,
-    "CheckTotal": 0,
-    "Comments": null,
-    "ConfirmationNumber": null,
-    "ContractId": null,
-    "DateCreated": "2021-09-02T17:13:41.43",
-    "Expiration": "2022-03-05T00:00:00",
-    "Last4Digits": "2223",
-    "LinkedStudentIds": [
-      1,
-      207,
-    ],
-    "OrganizationId": 1,
-    "PaymentTypeId": 3,
-    "PersonPaymentMethodId": 0,
-    "PosItemId": 0,
-    "PosOrderId": 16306,
-    "PurchaseType": "Event",
-    "SchoolId": 1,
-    "TotalPrice": 400,
-    "purchaseTitle": "This is an event",
-  },
-  {
-    "AmountTendered": 400,
-    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
-    "BuyerName": "Tapmeet Singh",
-    "ChangeDue": 0,
-    "CheckNumber": null,
-    "CheckTotal": 0,
-    "Comments": null,
-    "ConfirmationNumber": null,
-    "ContractId": null,
-    "DateCreated": "2021-08-02T17:13:22.937",
-    "Expiration": "2022-03-05T00:00:00",
-    "Last4Digits": "2223",
-    "LinkedStudentIds": [
-      1,
-      207,
-    ],
-    "OrganizationId": 1,
-    "PaymentTypeId": 3,
-    "PersonPaymentMethodId": 0,
-    "PosItemId": 0,
-    "PosOrderId": 16305,
-    "PurchaseType": "Event",
-    "SchoolId": 1,
-    "TotalPrice": 400,
-    "purchaseTitle": "This is an event",
-  },
-  {
-    "AmountTendered": 400,
-    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
-    "BuyerName": "Tapmeet Singh",
-    "ChangeDue": 0,
-    "CheckNumber": null,
-    "CheckTotal": 0,
-    "Comments": null,
-    "ConfirmationNumber": null,
-    "ContractId": null,
-    "DateCreated": "2021-05-02T17:13:09.227",
-    "Expiration": "2022-03-05T00:00:00",
-    "Last4Digits": "2223",
-    "LinkedStudentIds": [
-      1,
-      207,
-    ],
-    "OrganizationId": 1,
-    "PaymentTypeId": 3,
-    "PersonPaymentMethodId": 0,
-    "PosItemId": 0,
-    "PosOrderId": 16304,
-    "PurchaseType": "Event",
-    "SchoolId": 1,
-    "TotalPrice": 400,
-    "purchaseTitle": "This is an event",
-  },
-  {
-    "AmountTendered": 400,
-    "BuyerId": "d5381478-741b-47da-ae17-b0dc69ba3285",
-    "BuyerName": "Tapmeet Singh",
-    "ChangeDue": 0,
-    "CheckNumber": null,
-    "CheckTotal": 0,
-    "Comments": null,
-    "ConfirmationNumber": null,
-    "ContractId": null,
-    "DateCreated": "2021-05-06T17:12:53.737",
-    "Expiration": "2022-03-05T00:00:00",
-    "Last4Digits": "2223",
-    "LinkedStudentIds": [
-      1,
-      207,
-    ],
-    "OrganizationId": 1,
-    "PaymentTypeId": 3,
-    "PersonPaymentMethodId": 0,
-    "PosItemId": 0,
-    "PosOrderId": 16303,
-    "PurchaseType": "Event",
-    "SchoolId": 1,
-    "TotalPrice": 400,
-    "purchaseTitle": "This is an event",
-  },
-  ]
+  function getStudents() {
+    fetch(`${apiUrl}/odata/StudentAccount`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setPersonId(data.PersonId)
+        setStudentIds([]);
+        if (data.StudentIds.length > 0) {
+          var students = data.StudentIds.length;
+          setTotalStudent(data.StudentIds.length)
+          setStudentIds([]);
+          data.StudentIds.map((id, index) => {
+            fetch(`${apiUrl}/odata/StudentData(${id})`, {
+              method: "get",
+              headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (studentIds.length <= students) {
+                  let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
+                  setStudentIds((prevState) => [...prevState, dataArray]);
+                  setloader(false)
+                }
+              });
+          });
+
+        }
+      });
+  }
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       setloader(true)
+      if (loader == true) {
+        getStudents()
+      }
       fetch(`${apiUrl}/odata/PurchaseOfSale`, {
         method: "get",
         headers: {
@@ -305,13 +85,13 @@ const EventOrdersListing = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-         // console.log(data)
+          console.log('data')
+          console.log(data)
+          console.log('data end')
           if (data.orders) {
-            setEventListing(evenlistlistings);
-            //setEventList(data.orders);
-            setEventList(evenlistlistings);
-            // console.log(eventsList)
-            setloader(false); 
+            setEventListing(data.orders);
+            setEventList(data.orders);
+            setloader(false);
           } else {
             setloader(false);
           }
@@ -321,25 +101,23 @@ const EventOrdersListing = (props) => {
   const placeholderFiler = {
     label: "Filter By",
   };
-  const storeData = async (value) => {
-    console.log(value);
-    let eventId = JSON.stringify(value);
-    console.log(eventId);
-    try {
-      await AsyncStorage.setItem("eventId", eventId);
-      props.navigation.navigate("Event Detail");
-    } catch (e) {
-      // saving error
-    }
-  };
+  // const storeData = async (value) => {
+  //   console.log(value);
+  //   let eventId = JSON.stringify(value);
+  //   console.log(eventId);
+  //   try {
+  //     await AsyncStorage.setItem("eventId", eventId);
+  //     props.navigation.navigate("Event Detail");
+  //   } catch (e) {
+  //     // saving error
+  //   }
+  // };
   const setfilter = (value) => {
     setFilter(value);
     if (value == 'week') {
       var d = new Date();
       var fromDate = d.setTime(d.getTime() - (d.getDay() ? d.getDay() : 7) * 24 * 60 * 60 * 1000);
       var toDate = d.setTime(d.getTime() - 6 * 24 * 60 * 60 * 1000);
-      console.log(toDate);
-      console.log(fromDate);
       const eventlisting = eventsList.filter((item) => {
         return new Date(item.DateCreated).getTime() >= fromDate &&
           new Date(item.DateCreated).getTime() <= toDate;
@@ -352,16 +130,8 @@ const EventOrdersListing = (props) => {
       var fromDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
       var toDate = new Date(date.getFullYear(), date.getMonth(), 0);
       const eventlisting = eventsList.filter((item) => {
-         console.log(new Date(item.DateCreated).getTime())
-         console.log('from')
-         console.log(fromDate.getTime())
-         console.log('to')
-         console.log(toDate.getTime())
-       // console.log(item)
         if (new Date(item.DateCreated).getTime() >= fromDate.getTime() &&
           new Date(item.DateCreated).getTime() <= toDate.getTime()) {
-            console.log('herer')
-            console.log(item)
           return item
         }
       });
@@ -372,17 +142,25 @@ const EventOrdersListing = (props) => {
       var date = new Date();
       var fromDate = new Date(date.getFullYear(), date.getMonth() - 6, 1);
       var toDate = new Date(date.getFullYear(), date.getMonth(), 0);
-      console.log(toDate);
-      console.log(fromDate);
       const eventlisting = eventsList.filter((item) => {
         return new Date(item.DateCreated).getTime() >= fromDate &&
           new Date(item.DateCreated).getTime() <= toDate;
       });
       setEventListing(eventlisting);
-      console.log(eventlisting)
+    }
+    else if(value == 'Event'){
+      const eventlisting = eventsList.filter((item) => {
+        return item.PurchaseType == 'Event'
+      });
+      setEventListing(eventlisting);
+    }
+    else if(value == 'Retail'){
+      const eventlisting = eventsList.filter((item) => {
+        return item.PurchaseType == 'Retail'
+      });
+      setEventListing(eventlisting);
     }
     else {
-      console.log(eventsList)
       setEventListing(eventsList);
     }
   }
@@ -452,6 +230,7 @@ const EventOrdersListing = (props) => {
           eventListing.map(function (event, index) {
             let startDate = moment(event.DateCreated).format("MMM Do, YYYY");
             let starttime = moment(event.DateCreated).format("hh:mm a ");
+            //console.log(event.Quantity)
             return (
               <View style={{ marginBottom: 10 }} key={index}>
                 <View style={globalStyle.eventsListingWrapper}>
@@ -461,7 +240,8 @@ const EventOrdersListing = (props) => {
                         <Text style={{ fontSize: 22, fontWeight: "bold", color: "#000", }}>
                           ${event.TotalPrice}</Text>
                         <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", }}>
-                          {startDate} </Text>
+                          {startDate}
+                        </Text>
                       </View>
                       <Text
                         style={{
@@ -473,6 +253,25 @@ const EventOrdersListing = (props) => {
                       >
                         {event.purchaseTitle}
                       </Text>
+                      <View>
+                        {
+                          studentIds.map(function (student, index) {
+                            return (
+                              student.value == event.LinkedStudentIds[0] ?
+                                (<Text  key={index} style={{
+                                  fontSize: 16,
+                                  fontWeight: "600",
+                                  color: "#898989", marginBottom: 5
+                                }}><Text style={{
+                                  fontSize: 16,
+                                  fontWeight: "600",
+                                  color: "#333",
+                                }}>Student: </Text>{student.label} </Text>)
+                                : null
+                            )
+                          })
+                        }
+                      </View>
                       <Text style={{
                         fontSize: 16,
                         fontWeight: "600",
@@ -480,8 +279,68 @@ const EventOrdersListing = (props) => {
                       }}><Text style={{
                         fontSize: 16,
                         fontWeight: "600",
-                        color: "#898989",
+                        color: "#333",
                       }}>Order Id: </Text>{event.PosOrderId} </Text>
+                      <Text style={{
+                        fontSize: 16,
+                        fontWeight: "600",
+                        color: "#898989", marginBottom: 5
+                      }}><Text style={{
+                        fontSize: 16,
+                        fontWeight: "600",
+                        color: "#333",
+                      }}>Purchase Type: </Text>{event.PurchaseType} </Text>
+                      {event.Quantity != '0' ?
+                        <Text style={{
+                          fontSize: 16,
+                          fontWeight: "600",
+                          color: "#898989", marginBottom: 5
+                        }}><Text style={{
+                          fontSize: 16,
+                          fontWeight: "600",
+                          color: "#333",
+                        }}>Quantity: </Text>{event.Quantity} </Text>
+                        : null}
+                      <View
+                        style={[
+                          globalStyle.flexStandard,
+                          {
+                            flexDirection: "row",
+                            paddingTop: 15,
+                            paddingBottom: 5,
+                            justifyContent: "space-between",
+                            width: '100%'
+                          },
+                        ]}
+                      >
+                        {event.Size ?
+                          <Text
+                            style={{
+                              fontSize: 18,
+                              fontWeight: "600",
+                              color: "#898989",
+                              paddingBottom: 5,
+                              width: "50%"
+                            }}
+                          >
+                            Size:  {event.Size}
+                          </Text>
+                          : null}
+                        {event.Colors ?
+                          <Text
+                            style={{
+                              fontSize: 18,
+                              fontWeight: "600",
+                              color: "#898989",
+                              paddingBottom: 5,
+                              width: "50%",
+                              textAlign: "right"
+                            }}
+                          >
+                            Color: {event.Colors}
+                          </Text>
+                          : null}
+                      </View>
                     </View>
                   </View>
                 </View>

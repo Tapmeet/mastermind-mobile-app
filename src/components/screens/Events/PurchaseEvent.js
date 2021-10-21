@@ -34,7 +34,7 @@ import { API_URL } from "./../../Utility/AppConst";
 import moment from 'moment';
 var checkStudentIds = [];
 const apiUrl = API_URL.trim();
-
+var selected = [];
 const PurchaseEvent = (props) => {
   const isCarousel = React.useRef(null);
   const [loader, setloader] = React.useState(true);
@@ -51,7 +51,7 @@ const PurchaseEvent = (props) => {
   const [activeindex, setActiveIndex] = React.useState('0');
   const [SuccessMessage, setSuccessMessage] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
-
+  const [selectedStudents, setSelectedStudents] = React.useState([]);
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       clearData();
@@ -76,10 +76,10 @@ const PurchaseEvent = (props) => {
     let selectedStudentArray = selectedstudent.map((a) => a.id);
     let price = 0;
     let uniqueArray = unique(selectedStudentArray);
-    console.log(uniqueArray)
+    // console.log(uniqueArray)
     if (uniqueArray.length > 0) {
       price = parseFloat(eventDefaultPrice) * parseFloat(uniqueArray.length);
-     // console.log(price)
+      // console.log(price)
       setEventPrice(price);
     }
     else {
@@ -93,63 +93,100 @@ const PurchaseEvent = (props) => {
   const selectAccount = (id) => {
     setDefaultId(id)
   };
+  async function getData() {
+    try {
+      const value = await AsyncStorage.getItem("eventId");
+      const eventPrice = await AsyncStorage.getItem("eventPrice");
+      const selectedstudents = await AsyncStorage.getItem("studentIds");
+      selected = JSON.parse(selectedstudents);
+
+      if (selectedstudents.length > 0) {
+        console.log(selectedstudents)
+        console.log(JSON.parse(selectedstudents))
+        console.log('jsonObject(selectedstudents)')
+        setSelectedStudents(JSON.parse(selected))
+        setEventid(value)
+        setEventDefaultPrice(eventPrice);
+        setEventPrice(eventPrice)
+        getStudent()
+      }
+
+    } catch (e) { }
+  }
+
   React.useEffect(() => {
-    navigation.addListener("focus", () => {
+    navigation.addListener("focus", async () => {
       setStudentIds([]);
       setPersonId('')
-      if (personId == '') {
-        async function getData() {
-          try {
-            const value = await AsyncStorage.getItem("eventId");
-            const eventPrice = await AsyncStorage.getItem("eventPrice");
-            setEventid(value)
-            setEventDefaultPrice(eventPrice);
-            setEventPrice(eventPrice)
-          } catch (e) { }
-        }
-        getData();
-        fetch(`${apiUrl}/odata/StudentAccount`, {
-          method: "get",
-          headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            setPersonId(data.PersonId)
-            getPaymentMethod(data.PersonId)
-            setStudentIds([]);
-            if (data.StudentIds.length > 0) {
-              var students = data.StudentIds.length;
-              setTotalStudent(data.StudentIds.length)
-              setStudentIds([]);
-              data.StudentIds.map((id, index) => {
-                fetch(`${apiUrl}/odata/StudentData(${id})`, {
-                  method: "get",
-                  headers: {
-                    Accept: "*/*",
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-                  },
-                })
-                  .then((response) => response.json())
-                  .then((data) => {
-                    if (studentIds.length <= students) {
-                      let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: false }
-                      setStudentIds((prevState) => [...prevState, dataArray]);
-                      setloader(false)
-                    }
-                  });
-              });
-            } else {
-              setloader(false);
-            }
-          });
+      setloader(true)
+      if (personId == '' && loader == true) {
+        await getData();
+        //  console.log(selectedStudents)
+        // if (selectedStudents.length > 0 ) {
+
+        // }
       }
     });
   }, [personId]);
+  function getStudent() {
+    fetch(`${apiUrl}/odata/StudentAccount`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setPersonId(data.PersonId)
+        getPaymentMethod(data.PersonId)
+        setStudentIds([]);
+        if (data.StudentIds.length > 0) {
+          var students = data.StudentIds.length;
+          setTotalStudent(data.StudentIds.length)
+          setStudentIds([]);
+          data.StudentIds.map((id, index) => {
+            fetch(`${apiUrl}/odata/StudentData(${id})`, {
+              method: "get",
+              headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (studentIds.length <= students) {
+                  if (selected.length > 0)
+                    selected.map(function (student, index) {
+                      if (student == data.StudentId) {
+                        //console.log('hrerer')
+                        let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: true }
+                        setStudentIds((prevState) => [...prevState, dataArray]);
+                        setloader(false)
+                      }
+                      else {
+                        //console.log('threrer')
+                        let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: false }
+                        setStudentIds((prevState) => [...prevState, dataArray]);
+                        setloader(false)
+                      }
+
+                    })
+                  else {
+                    let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: false }
+                    setStudentIds((prevState) => [...prevState, dataArray]);
+                    setloader(false)
+                  }
+                }
+              });
+          });
+        } else {
+          setloader(false);
+        }
+      });
+  }
   function getPaymentMethod(personIds) {
     fetch(`${apiUrl}/odata/People(${personIds})/PersonPaymentMethods`, {
       method: "get",
@@ -164,7 +201,7 @@ const PurchaseEvent = (props) => {
         if (data.value) {
           // setloader(false)
           setPaymentMethod(data.value)
-          console.log(data.value)
+          // console.log(data.value)
           data.value.length > 0 ?
             data.value.map(function (payment, index) {
               setActiveIndex(index)
@@ -190,7 +227,7 @@ const PurchaseEvent = (props) => {
     );
     let selectedStudentArray = selectedstudent.map((a) => a.id);
 
-    console.log(selectedStudentArray);
+    //console.log(selectedStudentArray);
     // console.log(defaultId);
     // console.log(eventid)
     if (selectedStudentArray.length <= 0) {
@@ -214,12 +251,13 @@ const PurchaseEvent = (props) => {
       }),
     })
       .then((response) => response.json())
-      .then((response) => {
+      .then(async (response) => {
         setProcessing(false)
         // console.log(response);
         // setLoaderMessage(false);
         if (response["order"]) {
           setSuccessMessage("Event Purchased  Successfully");
+          await AsyncStorage.removeItem('studentIds')
           setTimeout(function () {
             props.navigation.navigate("Events");
             setSuccessMessage("");
@@ -383,7 +421,7 @@ const PurchaseEvent = (props) => {
                     marginBottom: 20,
                   }}
                 >
-                  Please provide the details below
+                  Please check the details below
                 </Text>
               </View>
             </View>
@@ -403,7 +441,7 @@ const PurchaseEvent = (props) => {
                     marginTop: 20,
                   }}
                 >
-                  Select student:
+                  Selected students:
                 </Text>
                 <View>
                   {studentIds.map(function (student, index) {

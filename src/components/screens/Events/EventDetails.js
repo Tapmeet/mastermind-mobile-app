@@ -11,18 +11,28 @@ import { fontSize } from "styled-system";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "./../../Utility/AppConst";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import moment from 'moment';
+import { set } from "react-native-reanimated";
 const apiUrl = API_URL.trim();
 const EventDetails = (props) => {
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
   const [eventid, setEventid] = React.useState('');
   const userId = useSelector((state) => state);
+  const [personId, setPersonId] = React.useState('');
+  const [studentIds, setStudentIds] = React.useState([]);
+  const [totalStudent, setTotalStudent] = React.useState([]);
+  const [selectedStudent, setSelectedStudent] = React.useState([]);
+  const [student, setStudent] = React.useState();
   const [loader, setloader] = React.useState(true);
-
   const [eventListing, setEventListing] = React.useState([]);
   const [collapsed, setCollapsed] = React.useState(false);
   const [collapsed2, setCollapsed2] = React.useState(true);
   const [collapsed3, setCollapsed3] = React.useState(true);
   const [collapsed4, setCollapsed4] = React.useState(true);
+  const [showModal, setShowModal] = React.useState(false);
+  const [step1, setStep1] = React.useState(false);
   const toggleExpanded = () => {
     setCollapsed(!collapsed);
     setCollapsed2(true);
@@ -48,16 +58,22 @@ const EventDetails = (props) => {
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
+      setSelectedStudent([])
+      setStep1(false)
+      setShowModal(false)
       if (eventListing == "") {
         async function getData() {
           try {
+            await AsyncStorage.removeItem('studentIds')
             const value = await AsyncStorage.getItem("eventId");
             setEventid(value)
             //  console.log(value)
           } catch (e) { }
         }
         getData();
-
+        if (loader == true) {
+          getStudents()
+        }
         fetch(`${apiUrl}/odata/OrganizationEvent`, {
           method: "get",
           headers: {
@@ -81,20 +97,94 @@ const EventDetails = (props) => {
       }
     });
   }, [eventListing]);
-  const storeData = async (value, price) => {
-    //  console.log(value)
-    let eventId = JSON.stringify(value);
-    let eventPrice= JSON.stringify(price);
-    //console.log(eventId)
+  function getStudents() {
+    fetch(`${apiUrl}/odata/StudentAccount`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setPersonId(data.PersonId)
+        setStudentIds([]);
+        if (data.StudentIds.length > 0) {
+          var students = data.StudentIds.length;
+          setTotalStudent(data.StudentIds.length)
+          setStudentIds([]);
+          data.StudentIds.map((id, index) => {
+            fetch(`${apiUrl}/odata/StudentData(${id})`, {
+              method: "get",
+              headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (studentIds.length <= students) {
+                  let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
+                  setStudentIds((prevState) => [...prevState, dataArray]);
+                  setloader(false)
+                }
+              });
+          });
+
+        }
+      });
+  }
+  const toggle = async (value, price) => {
+    console.log('here')
+    if (value != undefined) {
+      setShowModal(!showModal)
+      let eventId = JSON.stringify(value);
+      let eventPrice = JSON.stringify(price);
+
+      //console.log(eventId)
+      try {
+        await AsyncStorage.setItem("eventId", eventId);
+        await AsyncStorage.setItem("eventPrice", eventPrice);
+
+      } catch (e) {
+        // saving error
+      }
+    }
+
+  }
+  function unique(array) {
+    return array.filter(function (el, index, arr) {
+      return index == arr.indexOf(el);
+    });
+  }
+  const purchase = async () => {
     try {
-      await AsyncStorage.setItem("eventId", eventId);
-      await AsyncStorage.setItem("eventPrice", eventPrice);
+      const studentarray = unique(selectedStudent)
+      let stringyfy = JSON.stringify(studentarray)
       props.navigation.navigate("Purchase Event");
     } catch (e) {
       // saving error
     }
+
   };
+  const setselectedStudent = (value) => {
+    if (value != '') {
+      setStudent(value);
+    }
+  };
+  const addStudent = () => {
+    setSelectedStudent((prevState) => [...prevState, student]);
+    setStep1(true)
+  };
+
   const { navigation } = props;
+  const placeholderStudent = {
+    label: "Select Student",
+  };
+
+
   return (
     <Container
       style={{
@@ -115,7 +205,7 @@ const EventDetails = (props) => {
             let startDate = moment(event.StartDateTime).format("MMMM Do, YYYY");
             let starttime = moment(event.StartDateTime).format("hh:mm a ");
             let endtime = moment(event.EndDateTime).format("hh:mm a ");
-            console.log(event)
+            //console.log(event)
             return (
               event.PosItemId == eventid ?
                 <Content key={index}>
@@ -291,7 +381,7 @@ const EventDetails = (props) => {
                         paddingBottom: 20
                       }}>
                         <Text style={{ color: "#1873e8", fontSize: 24, fontWeight: "bold" }}>${event.Price}</Text>
-                        <TouchableOpacity style={globalStyle.purchaseBtn} onPress={() => storeData(event.PosItemId, event.Price)} >
+                        <TouchableOpacity style={globalStyle.purchaseBtn} onPress={() => toggle(event.PosItemId, event.Price)} >
                           <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, paddingBottom: 15, paddingLeft: 30, paddingRight: 30, paddingTop: 15, fontSize: 22, fontWeight: "bold", borderRadius: 15 }}>Purchase</Text>
                         </TouchableOpacity>
                       </View>
@@ -304,12 +394,105 @@ const EventDetails = (props) => {
           })
         ) : null
       )}
+
       <FooterTabs />
+      {showModal ?
+        <View style={{ position: "absolute", backgroundColor: "rgba(0,0,0,0.5)", height: windowHeight, width: windowWidth, top: 0, bottom: 0, left: 0, right: 0, display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "center" }}>
+          <View style={{ width: "90%", height: 250, backgroundColor: "#fff", padding: 15 }}>
+            {selectedStudent != undefined && selectedStudent.length > 0 ?
+              <Text style={globalStyle.p}>Would you like to register another student for this event?</Text>
+              : <Text style={globalStyle.p}>Which student would you like to register?</Text>
+            }
+            {step1 ?
+              <View style={{ display: "flex", textAlign: "center", alignItems: "center", justifyContent: "space-between", marginTop: 20, flexDirection: "row", width: "100%" }}>
+                <TouchableOpacity style={{ width: "45%" }}
+                  onPress={() => { setStep1(false); setStudent('') }}
+                >
+                  <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, textAlign: "center", marginTop: 15, paddingBottom: 15, paddingLeft: 15, paddingRight: 15, paddingTop: 15, fontSize: 18, fontWeight: "bold", borderRadius: 15 }}>Yes</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{ width: "45%" }}
+                  onPress={() => purchase()}
+                >
+                  <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, textAlign: "center", marginTop: 15, paddingBottom: 15, paddingLeft: 15, paddingRight: 15, paddingTop: 15, fontSize: 18, fontWeight: "bold", borderRadius: 15 }}>No</Text>
+                </TouchableOpacity>
+              </View> :
+              <View style={{ borderColor: "#ccc", borderWidth: 1, marginTop: 20, borderRadius: 5 }}>
+                <RNPickerSelect
+                  value={student}
+                  items={studentIds}
+                  placeholder={placeholderStudent}
+                  onValueChange={(value) => setselectedStudent(value)}
+                  style={{
+                    ...pickerSelectStyles,
+                    iconContainer: {
+                      top: Platform.OS === "android" ? 20 : 30,
+                      right: 10,
+                    },
+                    placeholder: {
+                      color: "#8a898e",
+                      fontSize: 12,
+                      fontWeight: "bold",
+                    },
+                  }}
+                  Icon={() => {
+                    return (
+                      <Image
+                        style={{
+                          width: 12,
+                          position: "absolute",
+                          top: Platform.OS === "android" ? -15 : -28,
+                          right: 5,
+                        }}
+                        source={require("../../../../assets/arrow-down.png")}
+                        resizeMode={"contain"}
+                      />
+                    );
+                  }}
+                />
+              </View>
+            }
+            {!step1 ?
+              <View style={{ display: "flex", textAlign: "center", alignItems: "center", justifyContent: "center", flexDirection: "row", width: "100%" }}>
+                <TouchableOpacity style={{ width: "50%" }}
+                  onPress={() => addStudent()}
+                >
+                  <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, textAlign: "center", marginTop: 15, paddingBottom: 15, paddingLeft: 15, paddingRight: 15, paddingTop: 15, fontSize: 18, fontWeight: "bold", borderRadius: 15 }}>Register</Text>
+                </TouchableOpacity>
+              </View>
+              : null}
+          </View>
+
+        </View>
+        : null}
     </Container>
   );
 };
 
 export default EventDetails;
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 18,
+    minWidth: 122,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderWidth: 0,
+    borderColor: "#fff",
+    borderRadius: 0,
+    color: "#8a898e",
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 18,
+    minWidth: 122,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    borderWidth: 0,
+    borderColor: "#fff",
+    borderRadius: 0,
+    color: "#8a898e",
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});
 const styles = StyleSheet.create({
   container: {
     flex: 1,
