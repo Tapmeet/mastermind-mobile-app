@@ -99,7 +99,9 @@ const PurchaseEvent = (props) => {
       const eventPrice = await AsyncStorage.getItem("eventPrice");
       const selectedstudents = await AsyncStorage.getItem("studentIds");
       selected = JSON.parse(selectedstudents);
-
+      console.log(JSON.parse(selectedstudents))
+      console.log('jsonObject(selectedstudents)')
+      
       if (selectedstudents.length > 0) {
         console.log(selectedstudents)
         console.log(JSON.parse(selectedstudents))

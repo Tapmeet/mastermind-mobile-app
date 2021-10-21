@@ -162,7 +162,8 @@ const EventDetails = (props) => {
   const purchase = async () => {
     try {
       const studentarray = unique(selectedStudent)
-      let stringyfy = JSON.stringify(studentarray)
+      let stringyfy = JSON.stringify(studentarray);
+      await AsyncStorage.setItem("studentIds", stringyfy);
       props.navigation.navigate("Purchase Event");
     } catch (e) {
       // saving error
