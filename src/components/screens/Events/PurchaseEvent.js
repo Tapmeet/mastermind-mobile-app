@@ -99,17 +99,13 @@ const PurchaseEvent = (props) => {
       const eventPrice = await AsyncStorage.getItem("eventPrice");
       const selectedstudents = await AsyncStorage.getItem("studentIds");
       selected = JSON.parse(selectedstudents);
-      console.log(JSON.parse(selectedstudents))
-      console.log('jsonObject(selectedstudents)')
-      
-      if (selectedstudents.length > 0) {
-        console.log(selectedstudents)
-        console.log(JSON.parse(selectedstudents))
-        console.log('jsonObject(selectedstudents)')
-        setSelectedStudents(JSON.parse(selected))
+      if (selected.length > 0) {
+        let price = parseFloat(eventPrice) * parseFloat(selected.length);
+        console.log(price)
+        setSelectedStudents(selected)
         setEventid(value)
         setEventDefaultPrice(eventPrice);
-        setEventPrice(eventPrice)
+        setEventPrice(price)
         getStudent()
       }
 
@@ -123,10 +119,6 @@ const PurchaseEvent = (props) => {
       setloader(true)
       if (personId == '' && loader == true) {
         await getData();
-        //  console.log(selectedStudents)
-        // if (selectedStudents.length > 0 ) {
-
-        // }
       }
     });
   }, [personId]);
@@ -160,22 +152,26 @@ const PurchaseEvent = (props) => {
               .then((response) => response.json())
               .then((data) => {
                 if (studentIds.length <= students) {
-                  if (selected.length > 0)
+                  if (selected.length > 0) {
+                    var checkSelectedid = false;
                     selected.map(function (student, index) {
                       if (student == data.StudentId) {
-                        //console.log('hrerer')
-                        let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: true }
-                        setStudentIds((prevState) => [...prevState, dataArray]);
-                        setloader(false)
+                        checkSelectedid = true;
                       }
-                      else {
-                        //console.log('threrer')
-                        let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: false }
-                        setStudentIds((prevState) => [...prevState, dataArray]);
-                        setloader(false)
-                      }
-
                     })
+                    if (checkSelectedid) {
+                      console.log('hrerer')
+                      let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: true }
+                      setStudentIds((prevState) => [...prevState, dataArray]);
+                      setloader(false)
+                    }
+                    else {
+                      console.log('threrer')
+                      let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: false }
+                      setStudentIds((prevState) => [...prevState, dataArray]);
+                      setloader(false)
+                    }
+                  }
                   else {
                     let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: false }
                     setStudentIds((prevState) => [...prevState, dataArray]);

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   ImageBackground,
+  ActivityIndicator
 } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import PhoneInput from "react-phone-number-input/react-native-input";
@@ -29,8 +30,10 @@ import globalStyle from "../../style/globalStyle";
 import { useSelector } from "react-redux";
 import { SideBarMenu } from "../sidebar";
 import { SignatureView } from "react-native-signature-capture-view";
+import { marginTop } from "styled-system";
 const Inquiry = (props) => {
   const signatureRef = React.useRef(null);
+  const [loaderMessage, setLoaderMessage] = React.useState(false);
   const [counter, setCounter] = React.useState(0);
   const [signature, setSignature] = React.useState("");
   const [firstName, setFirstName] = React.useState("");
@@ -109,6 +112,8 @@ const Inquiry = (props) => {
     setInquiryFor("");
     setAdultBenefits(adultBenefitsList);
     setAdultBenefits(childrenBenefitsList);
+    setSuccessMessage('')
+    setErrorMessage('')
   };
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
@@ -571,7 +576,7 @@ const Inquiry = (props) => {
       setCheckPhone1(true);
       return false;
     }
-
+    setLoaderMessage(true)
     let selected = adultBenefits.filter(
       (adultBenefits) => adultBenefits.isChecked
     );
@@ -635,15 +640,19 @@ const Inquiry = (props) => {
         SignatureUri: signature,
       }),
     }).then((response) => {
-      // console.log("hererssssssssss")
+      console.log("response")
+
       let jsonData = JSON.stringify(response);
-      // console.log(jsonData)
+      console.log(jsonData)
       let jsonDataPrase = JSON.parse(jsonData);
       // console.log(jsonDataPrase.status)
       if (jsonDataPrase.status != 200) {
+        setLoaderMessage(false)
         setErrorMessage("An error has occurred.");
       } else {
+        setLoaderMessage(false)
         setSuccessMessage("Successfully Submitted.");
+        setTimeout(function () { clearData() }, 3000);
       }
     });
   };
@@ -757,9 +766,9 @@ const Inquiry = (props) => {
                     style={
                       inquiryFor == "child"
                         ? [
-                            globalStyle.inquiryBox,
-                            { backgroundColor: "#4895FF" },
-                          ]
+                          globalStyle.inquiryBox,
+                          { backgroundColor: "#4895FF" },
+                        ]
                         : globalStyle.inquiryBox
                     }
                     onPress={() => setinquiryFor("child")}
@@ -779,9 +788,9 @@ const Inquiry = (props) => {
                     style={
                       inquiryFor == "family"
                         ? [
-                            globalStyle.inquiryBox,
-                            { backgroundColor: "#4895FF" },
-                          ]
+                          globalStyle.inquiryBox,
+                          { backgroundColor: "#4895FF" },
+                        ]
                         : globalStyle.inquiryBox
                     }
                     onPress={() => setinquiryFor("family")}
@@ -801,9 +810,9 @@ const Inquiry = (props) => {
                     style={
                       inquiryFor == "myself"
                         ? [
-                            globalStyle.inquiryBox,
-                            { backgroundColor: "#4895FF" },
-                          ]
+                          globalStyle.inquiryBox,
+                          { backgroundColor: "#4895FF" },
+                        ]
                         : globalStyle.inquiryBox
                     }
                     onPress={() => setinquiryFor("myself")}
@@ -1140,62 +1149,62 @@ const Inquiry = (props) => {
                 </Text>
                 {typeof childrenList != undefined && childrenList.length
                   ? childrenList.map((data, index) => {
-                      return (
-                        <View key={index}>
-                          <Text
-                            style={{
-                              color: "#000",
-                              fontSize: 20,
-                              fontWeight: "bold",
-                              marginBottom: 0,
-                              marginTop: 20,
-                            }}
-                          >
-                            Enter Details Below
+                    return (
+                      <View key={index}>
+                        <Text
+                          style={{
+                            color: "#000",
+                            fontSize: 20,
+                            fontWeight: "bold",
+                            marginBottom: 0,
+                            marginTop: 20,
+                          }}
+                        >
+                          Enter Details Below
+                        </Text>
+                        <View style={globalStyle.formField}>
+                          <Text style={globalStyle.formLabel}>
+                            First Name
                           </Text>
-                          <View style={globalStyle.formField}>
-                            <Text style={globalStyle.formLabel}>
-                              First Name
-                            </Text>
-                            <Input
-                              value={data.FirstName}
-                              onChangeText={(text) =>
-                                updateFirstNameField(text, index)
-                              }
-                              style={globalStyle.formControls}
-                              placeholder="First Name"
-                            />
-                          </View>
-                          <View style={globalStyle.formField}>
-                            <Text style={globalStyle.formLabel}>Last Name</Text>
-                            <Input
-                              value={data.LastName}
-                              onChangeText={(text) =>
-                                updatelastNameField(text, index)
-                              }
-                              style={globalStyle.formControls}
-                              placeholder="Last Name"
-                            />
-                          </View>
-                          <View style={globalStyle.formField}>
-                            <Text style={globalStyle.formLabel}>DOB</Text>
-                            <TextInput
-                              keyboardType="number-pad"
-                              style={[
-                                globalStyle.formControls,
-                                { marginTop: 10 },
-                              ]}
-                              maxLength={10}
-                              placeholder="DD/MM/YYYY"
-                              onChangeText={(e) =>
-                                dateTimeInputChangeHandler(e, index)
-                              }
-                              value={data.DOB}
-                            />
-                          </View>
+                          <Input
+                            value={data.FirstName}
+                            onChangeText={(text) =>
+                              updateFirstNameField(text, index)
+                            }
+                            style={globalStyle.formControls}
+                            placeholder="First Name"
+                          />
                         </View>
-                      );
-                    })
+                        <View style={globalStyle.formField}>
+                          <Text style={globalStyle.formLabel}>Last Name</Text>
+                          <Input
+                            value={data.LastName}
+                            onChangeText={(text) =>
+                              updatelastNameField(text, index)
+                            }
+                            style={globalStyle.formControls}
+                            placeholder="Last Name"
+                          />
+                        </View>
+                        <View style={globalStyle.formField}>
+                          <Text style={globalStyle.formLabel}>DOB</Text>
+                          <TextInput
+                            keyboardType="number-pad"
+                            style={[
+                              globalStyle.formControls,
+                              { marginTop: 10 },
+                            ]}
+                            maxLength={10}
+                            placeholder="DD/MM/YYYY"
+                            onChangeText={(e) =>
+                              dateTimeInputChangeHandler(e, index)
+                            }
+                            value={data.DOB}
+                          />
+                        </View>
+                      </View>
+                    );
+                  })
                   : null}
 
                 <View style={{ paddingTop: 20, paddingBottom: 20 }}>
@@ -1499,8 +1508,14 @@ const Inquiry = (props) => {
                         {SuccessMessage}
                       </Text>
                     ) : null}
+                    {loaderMessage ?
+                      <View style={[styles.container, styles.horizontal, { marginTop: 10, marginBottom: 10, zIndex: 9999 }]}>
+                        <ActivityIndicator size="large" color="#29ABE2" />
+                      </View>
+                      : null}
                     {signature != "" ? (
                       <Content style={loginStyle.formContainer}>
+
                         <ImageBackground
                           style={[
                             globalStyle.Btn,
@@ -1658,13 +1673,13 @@ const Inquiry = (props) => {
                     style={
                       counter == 4
                         ? [
-                            loginStyle.buttonSecondarys,
-                            { marginTop: 0, width: "100%" },
-                          ]
+                          loginStyle.buttonSecondarys,
+                          { marginTop: 0, width: "100%" },
+                        ]
                         : [
-                            loginStyle.buttonSecondarys,
-                            { marginTop: 20, width: "100%" },
-                          ]
+                          loginStyle.buttonSecondarys,
+                          { marginTop: 20, width: "100%" },
+                        ]
                     }
                     onPress={decrement}
                   >
@@ -1702,5 +1717,17 @@ const pickerSelectStyles = StyleSheet.create({
     borderRadius: 0,
     color: "#8a898e",
     paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  horizontal: {
+    position: 'absolute',
+    width: '100%',
+    left: 0,
+    top: -18
   },
 });

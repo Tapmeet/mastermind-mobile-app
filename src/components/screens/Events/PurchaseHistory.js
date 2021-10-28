@@ -85,9 +85,9 @@ const EventOrdersListing = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log('data')
-          console.log(data)
-          console.log('data end')
+          // console.log('data')
+          // console.log(data)
+          // console.log('data end')
           if (data.orders) {
             setEventListing(data.orders);
             setEventList(data.orders);
@@ -148,13 +148,13 @@ const EventOrdersListing = (props) => {
       });
       setEventListing(eventlisting);
     }
-    else if(value == 'Event'){
+    else if (value == 'Event') {
       const eventlisting = eventsList.filter((item) => {
         return item.PurchaseType == 'Event'
       });
       setEventListing(eventlisting);
     }
-    else if(value == 'Retail'){
+    else if (value == 'Retail') {
       const eventlisting = eventsList.filter((item) => {
         return item.PurchaseType == 'Retail'
       });
@@ -254,22 +254,27 @@ const EventOrdersListing = (props) => {
                         {event.purchaseTitle}
                       </Text>
                       <View>
-                        {
-                          studentIds.map(function (student, index) {
-                            return (
-                              student.value == event.LinkedStudentIds[0] ?
-                                (<Text  key={index} style={{
-                                  fontSize: 16,
-                                  fontWeight: "600",
-                                  color: "#898989", marginBottom: 5
-                                }}><Text style={{
-                                  fontSize: 16,
-                                  fontWeight: "600",
-                                  color: "#333",
-                                }}>Student: </Text>{student.label} </Text>)
-                                : null
-                            )
-                          })
+                        {studentIds.map(function (student, index) {
+                          return (<View key={index}>
+                            {event.LinkedStudentIds.map(function (studentid, indexs) {
+                              return (
+                                student.value == studentid ?
+                                  <Text key={indexs} style={{
+                                    fontSize: 16,
+                                    fontWeight: "600",
+                                    color: "#898989", marginBottom: 5
+                                  }}><Text style={{
+                                    fontSize: 16,
+                                    fontWeight: "600",
+                                    color: "#333",
+                                  }}>Student: </Text>{student.label} </Text>
+                                  : null
+                              )
+                            })
+                            }
+                          </View>)
+
+                        })
                         }
                       </View>
                       <Text style={{
@@ -299,48 +304,28 @@ const EventOrdersListing = (props) => {
                           fontSize: 16,
                           fontWeight: "600",
                           color: "#333",
-                        }}>Quantity: </Text>{event.Quantity} </Text>
+                        }}>{event.PurchaseType == 'Event' ? 'Booking:' : 'Quantity:'} </Text>{event.Quantity} </Text>
                         : null}
-                      <View
-                        style={[
-                          globalStyle.flexStandard,
-                          {
-                            flexDirection: "row",
-                            paddingTop: 15,
-                            paddingBottom: 5,
-                            justifyContent: "space-between",
-                            width: '100%'
-                          },
-                        ]}
-                      >
-                        {event.Size ?
-                          <Text
-                            style={{
-                              fontSize: 18,
-                              fontWeight: "600",
-                              color: "#898989",
-                              paddingBottom: 5,
-                              width: "50%"
-                            }}
-                          >
-                            Size:  {event.Size}
-                          </Text>
-                          : null}
-                        {event.Colors ?
-                          <Text
-                            style={{
-                              fontSize: 18,
-                              fontWeight: "600",
-                              color: "#898989",
-                              paddingBottom: 5,
-                              width: "50%",
-                              textAlign: "right"
-                            }}
-                          >
-                            Color: {event.Colors}
-                          </Text>
-                          : null}
-                      </View>
+
+                      {event.Size ?
+                        <Text style={{
+                          fontSize: 16,
+                          fontWeight: "600",
+                          color: "#333",
+                        }}>
+                          Size:  {event.Size}
+                        </Text>
+                        : null}
+                      {event.Colors ?
+                        <Text style={{
+                          fontSize: 16,
+                          fontWeight: "600",
+                          color: "#333",
+                        }}>
+                          Color: {event.Colors}
+                        </Text>
+                        : null}
+
                     </View>
                   </View>
                 </View>
