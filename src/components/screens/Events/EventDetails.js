@@ -399,7 +399,7 @@ const EventDetails = (props) => {
       <FooterTabs />
       {showModal ?
         <View style={{ position: "absolute", backgroundColor: "rgba(0,0,0,0.5)", height: windowHeight, width: windowWidth, top: 0, bottom: 0, left: 0, right: 0, display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "center" }}>
-          <View style={{ width: "90%", height: 250, backgroundColor: "#fff", padding: 15 }}>
+          <View style={{ width: "90%", minHeight: 300, backgroundColor: "#fff", padding: 15 }}>
             {selectedStudent != undefined && selectedStudent.length > 0 ?
               <Text style={globalStyle.p}>Would you like to register another student for this event?</Text>
               : <Text style={globalStyle.p}>Which student would you like to register?</Text>

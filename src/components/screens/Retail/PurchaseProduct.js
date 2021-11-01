@@ -40,6 +40,7 @@ const apiUrl = API_URL.trim();
 const PurchaseProduct = (props) => {
   const retail = useSelector((state) => state);
   const isCarousel = React.useRef(null);
+  const [purchaseStatus, setPurchaseStatus] = React.useState(false);
   const [loader, setloader] = React.useState(true);
   const [processing, setProcessing] = React.useState(false);
   const [eventid, setEventid] = React.useState('');
@@ -60,7 +61,7 @@ const PurchaseProduct = (props) => {
   const [errorMessage, setErrorMessage] = React.useState("");
   const dispatch = useDispatch();
   const updateRetail = (updateRetail) =>
-  dispatch({ type: "UPDATE_CART", payload: updateRetail });
+    dispatch({ type: "UPDATE_CART", payload: updateRetail });
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       clearData();
@@ -71,6 +72,7 @@ const PurchaseProduct = (props) => {
     setPaymentMethod([])
     setSuccessMessage("")
     setErrorMessage("")
+    setPurchaseStatus(false)
   }
   const selectStudent = (id) => {
     let temp = studentIds.map((studentIds) => {
@@ -197,7 +199,7 @@ const PurchaseProduct = (props) => {
     //   return false
     // }
     setProcessing(true)
-   // let uniqueArray = unique(selectedStudentArray);
+    // let uniqueArray = unique(selectedStudentArray);
     retail.cartItemsReducer.length > 0 ?
       retail.cartItemsReducer.map(function (product, index) {
         console.log('productproductproductproductproductproduct')
@@ -227,6 +229,10 @@ const PurchaseProduct = (props) => {
             // setLoaderMessage(false);
             if (response["order"]) {
               setSuccessMessage("Product Purchased  Successfully");
+              setPurchaseStatus(true)
+              // setTimeout(function () {
+              //   props.navigation.navigate("Purchase History");
+              // }, 3000);
               // let retails = retail.cartItemsReducer;
               // console.log(index)
               // let newRetails = retails.filter(function (products, productindex) {
@@ -253,7 +259,7 @@ const PurchaseProduct = (props) => {
           });
       })
       : null
-      updateRetail([]);
+    updateRetail([]);
     // .then((response) => {
     //   console.log(response);
     //   setLoaderMessage(false);
@@ -459,20 +465,35 @@ const PurchaseProduct = (props) => {
                     </Text>
                   ) : null}
                   <Content style={loginStyle.formContainer}>
-                    <ImageBackground
-                      style={[
-                        globalStyle.Btn,
-                        {
-                          width: "100%",
-                        },
-                      ]}
-                      source={require("./../../../../assets/Oval.png")}
-                      resizeMode={"stretch"}
-                    >
-                      <Button onPress={submitForm} style={loginStyle.buttons} full>
-                        <Text style={loginStyle.buttonText}>Proceed</Text>
-                      </Button>
-                    </ImageBackground>
+                    {!purchaseStatus ?
+                      <ImageBackground
+                        style={[
+                          globalStyle.Btn,
+                          {
+                            width: "100%",
+                          },
+                        ]}
+                        source={require("./../../../../assets/Oval.png")}
+                        resizeMode={"stretch"}
+                      >
+                        <Button onPress={submitForm} style={loginStyle.buttons} full>
+                          <Text style={loginStyle.buttonText}>Proceed</Text>
+                        </Button>
+                      </ImageBackground>
+                      : <ImageBackground
+                        style={[
+                          globalStyle.Btn,
+                          {
+                            width: "100%",
+                          },
+                        ]}
+                        source={require("./../../../../assets/Oval.png")}
+                        resizeMode={"stretch"}
+                      >
+                        <Button onPress={() => props.navigation.navigate("Purchase History")} style={loginStyle.buttons} full>
+                          <Text style={loginStyle.buttonText}>View Order</Text>
+                        </Button>
+                      </ImageBackground>}
                     {processing ? (
                       <View style={[styles.container, styles.horizontal]}>
                         <ActivityIndicator size="large" color="#29ABE2" />

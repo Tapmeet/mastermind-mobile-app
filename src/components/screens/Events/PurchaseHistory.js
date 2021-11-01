@@ -14,8 +14,17 @@ import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import { flex, marginBottom } from "styled-system";
 const apiUrl = API_URL.trim();
 var eventsList = [];
+var filterList = [
+  { label: "Last Month", value: "month" },
+  { label: "Last 6 Months", value: "6" },
+  { label: "Purchase Type - Event", value: "Event" },
+  { label: "Purchase Type - Retail", value: "Retail" },
+];
+var uniqueStudent = [];
+const key = 'value';
 const EventOrdersListing = (props) => {
   const [loader, setloader] = React.useState(true);
+  const [filterLoader, setfilterLoader] = React.useState(false);
   const userId = useSelector((state) => state);
   const [personId, setPersonId] = React.useState('');
   const [studentIds, setStudentIds] = React.useState([]);
@@ -23,59 +32,10 @@ const EventOrdersListing = (props) => {
   const [eventListing, setEventListing] = React.useState([]);
   const [eventsList, setEventList] = React.useState([]);
   const [filter, setFilter] = React.useState();
-  const filterList = [
-    { label: "Last Week", value: "week" },
-    { label: "Last Month", value: "month" },
-    { label: "Last 6 Months", value: "6" },
-    { label: "Purchase Type - Event", value: "Event" },
-    { label: "Purchase Type - Retail", value: "Retail" },
-  ];
+  const [selectedStudent, setSelectedStudent] = React.useState();
   function getStudents() {
-    fetch(`${apiUrl}/odata/StudentAccount`, {
-      method: "get",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setPersonId(data.PersonId)
-        setStudentIds([]);
-        if (data.StudentIds.length > 0) {
-          var students = data.StudentIds.length;
-          setTotalStudent(data.StudentIds.length)
-          setStudentIds([]);
-          data.StudentIds.map((id, index) => {
-            fetch(`${apiUrl}/odata/StudentData(${id})`, {
-              method: "get",
-              headers: {
-                Accept: "*/*",
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-              },
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                if (studentIds.length <= students) {
-                  let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
-                  setStudentIds((prevState) => [...prevState, dataArray]);
-                  setloader(false)
-                }
-              });
-          });
-
-        }
-      });
-  }
-  React.useEffect(() => {
-    navigation.addListener("focus", () => {
-      setloader(true)
-      if (loader == true) {
-        getStudents()
-      }
-      fetch(`${apiUrl}/odata/PurchaseOfSale`, {
+    if (studentIds.length <= 0) {
+      fetch(`${apiUrl}/odata/StudentAccount`, {
         method: "get",
         headers: {
           Accept: "*/*",
@@ -85,21 +45,82 @@ const EventOrdersListing = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // console.log('data')
-          // console.log(data)
-          // console.log('data end')
-          if (data.orders) {
-            setEventListing(data.orders);
-            setEventList(data.orders);
-            setloader(false);
-          } else {
-            setloader(false);
+          setPersonId(data.PersonId)
+          setStudentIds([]);
+          if (data.StudentIds.length > 0) {
+            var students = data.StudentIds.length;
+            setTotalStudent(data.StudentIds.length)
+            setStudentIds([]);
+            data.StudentIds.map((id, index) => {
+              fetch(`${apiUrl}/odata/StudentData(${id})`, {
+                method: "get",
+                headers: {
+                  Accept: "*/*",
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+                },
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  if (studentIds.length <= students) {
+                    let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
+                    //setStudentIds((prevState) => [...prevState, dataArray]);
+                    uniqueStudent.push(dataArray)
+
+                    let uniquestudentList = [...new Map(uniqueStudent.map(item =>
+                      [item[key], item])).values()];
+                    setStudentIds(uniquestudentList);
+                    setloader(false)
+                  }
+                });
+            });
+
+
           }
         });
+    }
+  }
+  React.useEffect(() => {
+    navigation.addListener("focus", () => {
+      setloader(true)
+      setStudentIds([]);
+      setEventListing([])
+      setEventList([])
+      setSelectedStudent('')
+      //console.log(eventListing.length)
+      if (eventListing.length <= 0) {
+        ///console.log("in")
+        getEvents()
+      }
     });
   });
+  function getEvents() {
+    fetch(`${apiUrl}/odata/PurchaseOfSale`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.orders) {
+          setEventListing(data.orders);
+          setEventList(data.orders);
+          if (loader == true) {
+            getStudents()
+          }
+        } else {
+          setloader(false);
+        }
+      });
+  }
   const placeholderFiler = {
     label: "Filter By",
+  };
+  const placeholderStudent = {
+    label: "History By Student",
   };
   // const storeData = async (value) => {
   //   console.log(value);
@@ -113,57 +134,146 @@ const EventOrdersListing = (props) => {
   //   }
   // };
   const setfilter = (value) => {
-    setFilter(value);
-    if (value == 'week') {
-      var d = new Date();
-      var fromDate = d.setTime(d.getTime() - (d.getDay() ? d.getDay() : 7) * 24 * 60 * 60 * 1000);
-      var toDate = d.setTime(d.getTime() - 6 * 24 * 60 * 60 * 1000);
-      const eventlisting = eventsList.filter((item) => {
-        return new Date(item.DateCreated).getTime() >= fromDate &&
-          new Date(item.DateCreated).getTime() <= toDate;
-      });
-      console.log(eventlisting)
-      setEventListing(eventlisting);
-    }
-    else if (value == 'month') {
-      var date = new Date();
-      var fromDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
-      var toDate = new Date(date.getFullYear(), date.getMonth(), 0);
-      const eventlisting = eventsList.filter((item) => {
-        if (new Date(item.DateCreated).getTime() >= fromDate.getTime() &&
-          new Date(item.DateCreated).getTime() <= toDate.getTime()) {
-          return item
+   // console.log(value)
+    setfilterLoader(true)
+
+    if (value != undefined) {
+      setfilterLoader(true)
+      setFilter(value);
+      // if (value == 'week') {
+      //   var d = new Date();
+      //   var fromDate = d.setTime(d.getTime() - (d.getDay() ? d.getDay() : 7) * 24 * 60 * 60 * 300);
+      //   var toDate = d.setTime(d.getTime() - 6 * 24 * 60 * 60 * 300);
+
+      //   console.log('fromDate')
+      //   console.log(fromDate)
+      //   console.log(toDate)
+      //   console.log('frotoDatemDate')
+
+      //   const eventlisting = eventsList.filter((item) => {
+      //     return new Date(item.DateCreated).getTime() >= fromDate &&
+      //       new Date(item.DateCreated).getTime() <= toDate;
+      //   });
+      //   console.log(eventlisting)
+      //   setEventListing(eventlisting);
+      // }
+      if (value == 'month') {
+        var date = new Date();
+        var fromDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+        var toDate = new Date(date.getFullYear(), date.getMonth(), 0);
+        const eventlisting = eventsList.filter((item) => {
+          if (new Date(item.DateCreated).getTime() >= fromDate.getTime() &&
+            new Date(item.DateCreated).getTime() <= toDate.getTime()) {
+            return item
+          }
+        });
+        if (selectedStudent != '') {
+          const newArray = eventlisting.filter((item) => {
+            return (item.LinkedStudentIds.indexOf(selectedStudent) >= 0);
+          });
+          setEventListing(newArray);
         }
-      });
-      console.log(eventlisting)
-      setEventListing(eventlisting);
-    }
-    else if (value == '6') {
-      var date = new Date();
-      var fromDate = new Date(date.getFullYear(), date.getMonth() - 6, 1);
-      var toDate = new Date(date.getFullYear(), date.getMonth(), 0);
-      const eventlisting = eventsList.filter((item) => {
-        return new Date(item.DateCreated).getTime() >= fromDate &&
-          new Date(item.DateCreated).getTime() <= toDate;
-      });
-      setEventListing(eventlisting);
-    }
-    else if (value == 'Event') {
-      const eventlisting = eventsList.filter((item) => {
-        return item.PurchaseType == 'Event'
-      });
-      setEventListing(eventlisting);
-    }
-    else if (value == 'Retail') {
-      const eventlisting = eventsList.filter((item) => {
-        return item.PurchaseType == 'Retail'
-      });
-      setEventListing(eventlisting);
+        else {
+          setEventListing(eventlisting);
+        }
+        setTimeout(function () {
+          setfilterLoader(false)
+        }, 300);
+
+      }
+      else if (value == '6') {
+        var date = new Date();
+        var fromDate = new Date(date.getFullYear(), date.getMonth() - 6, 1);
+        var toDate = new Date(date.getFullYear(), date.getMonth(), 0);
+        const eventlisting = eventsList.filter((item) => {
+          return new Date(item.DateCreated).getTime() >= fromDate &&
+            new Date(item.DateCreated).getTime() <= toDate;
+        });
+        if (selectedStudent != '') {
+          const newArray = eventlisting.filter((item) => {
+            return (item.LinkedStudentIds.indexOf(selectedStudent) >= 0);
+          });
+          setEventListing(newArray);
+        }
+        else {
+          setEventListing(eventlisting);
+        }
+        setTimeout(function () {
+          setfilterLoader(false)
+        }, 300);
+      }
+      else if (value == 'Event') {
+        const eventlisting = eventsList.filter((item) => {
+          return item.PurchaseType == 'Event'
+        });
+        if (selectedStudent != '') {
+          const newArray = eventlisting.filter((item) => {
+            return (item.LinkedStudentIds.indexOf(selectedStudent) >= 0);
+          });
+          setEventListing(newArray);
+        }
+        else {
+          setEventListing(eventlisting);
+        }
+        setTimeout(function () {
+          setfilterLoader(false)
+        }, 300);
+      }
+      else if (value == 'Retail') {
+        const eventlisting = eventsList.filter((item) => {
+          return item.PurchaseType == 'Retail'
+        });
+        if (selectedStudent != '') {
+          const newArray = eventlisting.filter((item) => {
+            return (item.LinkedStudentIds.indexOf(selectedStudent) >= 0);
+          });
+          setEventListing(newArray);
+        }
+        else {
+          setEventListing(eventlisting);
+        }
+        setTimeout(function () {
+          setfilterLoader(false)
+        }, 300);
+      }
+      else {
+        setTimeout(function () {
+          setfilterLoader(false)
+        }, 300);
+        setEventListing(eventsList);
+      }
     }
     else {
+      setFilter('');
+      setTimeout(function () {
+        setfilterLoader(false)
+      }, 100);
       setEventListing(eventsList);
     }
   }
+  const setselectedStudent = (value) => {
+
+    if (value != '' && value != undefined) {
+      setfilterLoader(true)
+      setSelectedStudent(value)
+      const newArray = eventsList.filter((item) => {
+        return (item.LinkedStudentIds.indexOf(value) >= 0);
+      });
+      if (newArray.length > 0) {
+        setEventListing(newArray);
+        setTimeout(function () {
+          setfilterLoader(false)
+        }, 300);
+      }
+    } else {
+      setSelectedStudent('')
+      setTimeout(function () {
+        setfilterLoader(false)
+      }, 300);
+      setEventListing(eventListing);
+    }
+  }
+
   const { navigation } = props;
   return (
     <Container
@@ -172,8 +282,8 @@ const EventOrdersListing = (props) => {
       }}
     >
       <SideBarMenu title={" Purchase History"} navigation={props.navigation} />
-      <View style={[globalStyle.flexStandard, { display: "flex", alignItems: "center" }]}>
-        <Text
+      <View style={[globalStyle.flexStandard, { padding: 10, display: "flex", alignItems: "center", justifyContent: "center" }]}>
+        {/* <Text
           style={{
             fontWeight: "bold",
             fontSize: 24,
@@ -185,7 +295,43 @@ const EventOrdersListing = (props) => {
           }}
         >
           Purchase History
-        </Text>
+        </Text> */}
+
+        <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
+          <RNPickerSelect
+            value={selectedStudent}
+            items={studentIds}
+            placeholder={placeholderStudent}
+            onValueChange={(value) => setselectedStudent(value)}
+            style={{
+              ...pickerSelectStyles,
+
+              iconContainer: {
+                top: Platform.OS === "android" ? 20 : 30,
+                right: 10,
+              },
+              placeholder: {
+                color: "#8a898e",
+                fontSize: 12,
+                fontWeight: "bold",
+              },
+            }}
+            Icon={() => {
+              return (
+                <Image
+                  style={{
+                    width: 12,
+                    position: "absolute",
+                    top: Platform.OS === "android" ? -20 : -33,
+                    right: 5,
+                  }}
+                  source={require("../../../../assets/arrow-down.png")}
+                  resizeMode={"contain"}
+                />
+              );
+            }}
+          />
+        </View>
         <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
           <RNPickerSelect
             value={filter}
@@ -221,122 +367,137 @@ const EventOrdersListing = (props) => {
           />
         </View>
       </View>
+
       <Content padder style={{ marginTop: 10 }}>
-        {loader ? (
-          <View style={[styles.container, styles.horizontal]}>
-            <ActivityIndicator size="large" color="#29ABE2" />
-          </View>
-        ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
-          eventListing.map(function (event, index) {
-            let startDate = moment(event.DateCreated).format("MMM Do, YYYY");
-            let starttime = moment(event.DateCreated).format("hh:mm a ");
-            //console.log(event.Quantity)
-            return (
-              <View style={{ marginBottom: 10 }} key={index}>
-                <View style={globalStyle.eventsListingWrapper}>
-                  <View style={globalStyle.eventsListingTopWrapper}>
-                    <View style={{ paddingLeft: 15, paddingRight: 15 }}>
-                      <View style={{ display: "flex", position: "relative", alignItems: "flex-end", justifyContent: "space-between", flexDirection: "row", width: "84%", borderBottomColor: "#f4f4f4", paddingBottom: 10, marginBottom: 20, borderBottomWidth: 2 }}>
-                        <Text style={{ fontSize: 22, fontWeight: "bold", color: "#000", }}>
-                          ${event.TotalPrice}</Text>
-                        <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", }}>
-                          {startDate}
-                        </Text>
-                      </View>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontWeight: "600",
-                          color: "#898989",
-                          paddingBottom: 10,
-                        }}
-                      >
-                        {event.purchaseTitle}
-                      </Text>
-                      <View>
-                        {studentIds.map(function (student, index) {
-                          return (<View key={index}>
-                            {event.LinkedStudentIds.map(function (studentid, indexs) {
+        {
+          filterLoader ? (
+            <View style={[styles.container, styles.horizontal]}>
+              <ActivityIndicator size="large" color="#29ABE2" />
+            </View>
+          ) :
+            loader ? (
+              <View style={[styles.container, styles.horizontal]}>
+                <ActivityIndicator size="large" color="#29ABE2" />
+              </View>
+            ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
+              eventListing.map(function (event, index) {
+                let startDate = moment(event.DateCreated).format("MMM Do, YYYY");
+                let starttime = moment(event.DateCreated).format("hh:mm a ");
+                var studentDetail = [];
+                var unique = [];
+                var uniqueStudents = [];
+                const key = 'value';
+                uniqueStudents = [...new Map(studentIds.map(item =>
+                  [item[key], item])).values()];
+                event.LinkedStudentIds.map(function (studentid, index) {
+                  uniqueStudents.map(function (student, indexs) {
+                    if (student.value == studentid) {
+                      studentDetail.push(student)
+                    }
+                  })
+                  unique = [...new Map(studentDetail.map(item =>
+                    [item[key], item])).values()];
+                })
+                //console.log(studentDetail)
+                // console.log(index)
+                return (
+                  <View style={{ marginBottom: 10 }} key={index}>
+                    <View style={globalStyle.eventsListingWrapper}>
+                      <View style={globalStyle.eventsListingTopWrapper}>
+                        <View style={{ paddingLeft: 15, paddingRight: 15 }}>
+                          <View style={{ display: "flex", position: "relative", alignItems: "flex-end", justifyContent: "space-between", flexDirection: "row", width: "84%", borderBottomColor: "#f4f4f4", paddingBottom: 10, marginBottom: 20, borderBottomWidth: 2 }}>
+                            <Text style={{ fontSize: 22, fontWeight: "bold", color: "#000", }}>
+                              ${event.TotalPrice}</Text>
+                            <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", }}>
+                              {startDate}
+                            </Text>
+                          </View>
+                          <Text
+                            style={{
+                              fontSize: 18,
+                              fontWeight: "600",
+                              color: "#898989",
+                              paddingBottom: 10,
+                            }}
+                          >
+                            {event.purchaseTitle}
+                          </Text>
+                          <View>
+                            {unique.map(function (student, indexs) {
                               return (
-                                student.value == studentid ?
-                                  <Text key={indexs} style={{
-                                    fontSize: 16,
-                                    fontWeight: "600",
-                                    color: "#898989", marginBottom: 5
-                                  }}><Text style={{
-                                    fontSize: 16,
-                                    fontWeight: "600",
-                                    color: "#333",
-                                  }}>Student: </Text>{student.label} </Text>
-                                  : null
+                                <Text key={indexs} style={{
+                                  fontSize: 16,
+                                  fontWeight: "600",
+                                  color: "#898989", marginBottom: 5
+                                }}><Text style={{
+                                  fontSize: 16,
+                                  fontWeight: "600",
+                                  color: "#333",
+                                }}>Student: </Text>{student.label} </Text>
                               )
                             })
                             }
-                          </View>)
+                          </View>
+                          <Text style={{
+                            fontSize: 16,
+                            fontWeight: "600",
+                            color: "#898989", marginBottom: 5
+                          }}><Text style={{
+                            fontSize: 16,
+                            fontWeight: "600",
+                            color: "#333",
+                          }}>Order Id: </Text>{event.PosOrderId} </Text>
+                          <Text style={{
+                            fontSize: 16,
+                            fontWeight: "600",
+                            color: "#898989", marginBottom: 5
+                          }}><Text style={{
+                            fontSize: 16,
+                            fontWeight: "600",
+                            color: "#333",
+                          }}>Purchase Type: </Text>{event.PurchaseType} </Text>
+                          {event.Quantity != '0' ?
+                            <Text style={{
+                              fontSize: 16,
+                              fontWeight: "600",
+                              color: "#898989", marginBottom: 5
+                            }}><Text style={{
+                              fontSize: 16,
+                              fontWeight: "600",
+                              color: "#333",
+                            }}>{event.PurchaseType == 'Event' ? event.Quantity > 1 ? 'Bookings:' : "Booking" : 'Quantity:'} </Text>{event.Quantity} </Text>
+                            : null}
 
-                        })
-                        }
+                          {event.Size ?
+                            <Text style={{
+                              fontSize: 16,
+                              fontWeight: "600",
+                              color: "#333",
+                            }}>
+                              Size:  {event.Size}
+                            </Text>
+                            : null}
+                          {event.Colors ?
+                            <Text style={{
+                              fontSize: 16,
+                              fontWeight: "600",
+                              color: "#333",
+                            }}>
+                              Color: {event.Colors}
+                            </Text>
+                            : null}
+
+                        </View>
                       </View>
-                      <Text style={{
-                        fontSize: 16,
-                        fontWeight: "600",
-                        color: "#898989", marginBottom: 5
-                      }}><Text style={{
-                        fontSize: 16,
-                        fontWeight: "600",
-                        color: "#333",
-                      }}>Order Id: </Text>{event.PosOrderId} </Text>
-                      <Text style={{
-                        fontSize: 16,
-                        fontWeight: "600",
-                        color: "#898989", marginBottom: 5
-                      }}><Text style={{
-                        fontSize: 16,
-                        fontWeight: "600",
-                        color: "#333",
-                      }}>Purchase Type: </Text>{event.PurchaseType} </Text>
-                      {event.Quantity != '0' ?
-                        <Text style={{
-                          fontSize: 16,
-                          fontWeight: "600",
-                          color: "#898989", marginBottom: 5
-                        }}><Text style={{
-                          fontSize: 16,
-                          fontWeight: "600",
-                          color: "#333",
-                        }}>{event.PurchaseType == 'Event' ? 'Booking:' : 'Quantity:'} </Text>{event.Quantity} </Text>
-                        : null}
-
-                      {event.Size ?
-                        <Text style={{
-                          fontSize: 16,
-                          fontWeight: "600",
-                          color: "#333",
-                        }}>
-                          Size:  {event.Size}
-                        </Text>
-                        : null}
-                      {event.Colors ?
-                        <Text style={{
-                          fontSize: 16,
-                          fontWeight: "600",
-                          color: "#333",
-                        }}>
-                          Color: {event.Colors}
-                        </Text>
-                        : null}
-
                     </View>
                   </View>
-                </View>
+                );
+              })
+            ) : (
+              <View style={globalStyle.tableList}>
+                <Text>No Purchase History  </Text>
               </View>
-            );
-          })
-        ) : (
-          <View style={globalStyle.tableList}>
-            <Text>No Purchase History  </Text>
-          </View>
-        )}
+            )}
       </Content>
       <FooterTabs />
     </Container>

@@ -325,7 +325,7 @@ const ProductDetails = (props) => {
               }
             }
             const placeholderColor = {
-              label: "Select Colors",
+              label: "Select Color",
             };
             const placeholderSize = {
               label: "Select Size",
@@ -444,7 +444,7 @@ const ProductDetails = (props) => {
                       : null}
                     {colorList.length > 0 ?
                       <View>
-                        <Text style={{ fontWeight: "bold", marginBottom: 10, marginTop: 20 }}>Select Colors</Text>
+                        <Text style={{ fontWeight: "bold", marginBottom: 10, marginTop: 20 }}>Select Color</Text>
                         <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
                           <RNPickerSelect
                             value={colors}

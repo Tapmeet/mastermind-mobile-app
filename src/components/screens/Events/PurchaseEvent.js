@@ -39,6 +39,7 @@ const PurchaseEvent = (props) => {
   const isCarousel = React.useRef(null);
   const [loader, setloader] = React.useState(true);
   const [processing, setProcessing] = React.useState(false);
+  const [purchaseStatus, setPurchaseStatus] = React.useState(false);
   const [eventid, setEventid] = React.useState('');
   const [eventPrice, setEventPrice] = React.useState('');
   const [eventDefaultPrice, setEventDefaultPrice] = React.useState('');
@@ -62,6 +63,7 @@ const PurchaseEvent = (props) => {
     setPaymentMethod([])
     setSuccessMessage("")
     setErrorMessage("")
+    setPurchaseStatus(false)
   }
   const selectStudent = (id) => {
     let temp = studentIds.map((studentIds) => {
@@ -256,10 +258,11 @@ const PurchaseEvent = (props) => {
         if (response["order"]) {
           setSuccessMessage("Event Purchased  Successfully");
           await AsyncStorage.removeItem('studentIds')
-          setTimeout(function () {
-            props.navigation.navigate("Events");
-            setSuccessMessage("");
-          }, 3000);
+          // setTimeout(function () {
+          //   props.navigation.navigate("Events");
+          //   setSuccessMessage("");
+          // }, 3000);
+          setPurchaseStatus(true)
         } else {
           setErrorMessage(response["odata.error"].message.value);
           //  setErrorMessage("An error has occurred.");
@@ -514,20 +517,35 @@ const PurchaseEvent = (props) => {
                   </Text>
                 ) : null}
                 <Content style={loginStyle.formContainer}>
-                  <ImageBackground
-                    style={[
-                      globalStyle.Btn,
-                      {
-                        width: "100%",
-                      },
-                    ]}
-                    source={require("./../../../../assets/Oval.png")}
-                    resizeMode={"stretch"}
-                  >
-                    <Button onPress={submitForm} style={loginStyle.buttons} full>
-                      <Text style={loginStyle.buttonText}>Proceed</Text>
-                    </Button>
-                  </ImageBackground>
+                  {!purchaseStatus ?
+                    <ImageBackground
+                      style={[
+                        globalStyle.Btn,
+                        {
+                          width: "100%",
+                        },
+                      ]}
+                      source={require("./../../../../assets/Oval.png")}
+                      resizeMode={"stretch"}
+                    >
+                      <Button onPress={submitForm} style={loginStyle.buttons} full>
+                        <Text style={loginStyle.buttonText}>Proceed</Text>
+                      </Button>
+                    </ImageBackground>
+                    : <ImageBackground
+                      style={[
+                        globalStyle.Btn,
+                        {
+                          width: "100%",
+                        },
+                      ]}
+                      source={require("./../../../../assets/Oval.png")}
+                      resizeMode={"stretch"}
+                    >
+                      <Button onPress={() => props.navigation.navigate("Purchase History")} style={loginStyle.buttons} full>
+                        <Text style={loginStyle.buttonText}>View Order</Text>
+                      </Button>
+                    </ImageBackground>}
                   {processing ? (
                     <View style={[styles.container, styles.horizontal]}>
                       <ActivityIndicator size="large" color="#29ABE2" />

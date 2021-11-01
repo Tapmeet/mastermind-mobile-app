@@ -9,6 +9,7 @@ import Dropdown from "../../../common-functions/checkbox";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
+import CartWidget from "../../cart/Cartwidget"
 import { API_URL } from "../../Utility/AppConst";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import { flex } from "styled-system";
@@ -219,7 +220,7 @@ const ProductListing = (props) => {
           </View>
         )}
       </Content>
-      <FooterTabs />
+      <CartWidget navigation={props.navigation} />
     </Container>
   );
 };
