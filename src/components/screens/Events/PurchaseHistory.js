@@ -15,8 +15,10 @@ import { flex, marginBottom } from "styled-system";
 const apiUrl = API_URL.trim();
 var eventsList = [];
 var filterList = [
-  { label: "Last Month", value: "month" },
-  { label: "Last 6 Months", value: "6" },
+  { label: "Last 30 days", value: "30" },
+  { label: "Last 60 days", value: "60" },
+  { label: "Last 90 days", value: "90" },
+  { label: "Last 180 days", value: "180" },
   { label: "Purchase Type - Event", value: "Event" },
   { label: "Purchase Type - Retail", value: "Retail" },
 ];
@@ -63,11 +65,14 @@ const EventOrdersListing = (props) => {
                 .then((response) => response.json())
                 .then((data) => {
                   if (studentIds.length <= students) {
-                    let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
+                    let dataArray = { label: "History by student - " + data.FirstName + " " + data.LastName, value: data.StudentId }
+                    let dataArray2 = { label:  data.FirstName + " " + data.LastName, value: data.StudentId }
                     //setStudentIds((prevState) => [...prevState, dataArray]);
-                    uniqueStudent.push(dataArray)
-
+                    uniqueStudent.push(dataArray2)
+                    filterList.push(dataArray)
                     let uniquestudentList = [...new Map(uniqueStudent.map(item =>
+                      [item[key], item])).values()];
+                    filterList = [...new Map(filterList.map(item =>
                       [item[key], item])).values()];
                     setStudentIds(uniquestudentList);
                     setloader(false)
@@ -134,7 +139,7 @@ const EventOrdersListing = (props) => {
   //   }
   // };
   const setfilter = (value) => {
-   // console.log(value)
+    // console.log(value)
     setfilterLoader(true)
 
     if (value != undefined) {
@@ -157,15 +162,17 @@ const EventOrdersListing = (props) => {
       //   console.log(eventlisting)
       //   setEventListing(eventlisting);
       // }
-      if (value == 'month') {
+      if (value == '30') {
         var date = new Date();
-        var fromDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
-        var toDate = new Date(date.getFullYear(), date.getMonth(), 0);
+        var fromDate = new Date();
+        fromDate.setDate(fromDate.getDate() - 30);
+        console.log(fromDate)
+        // var fromDate = new Date(date.getFullYear(), date.getMonth() - 20, 1);
+        var toDate = new Date(date.getFullYear(), date.getMonth(), date.getDay() + 1);
+        console.log(toDate)
         const eventlisting = eventsList.filter((item) => {
-          if (new Date(item.DateCreated).getTime() >= fromDate.getTime() &&
-            new Date(item.DateCreated).getTime() <= toDate.getTime()) {
-            return item
-          }
+          return new Date(item.DateCreated).getTime() >= fromDate.getTime() &&
+            new Date(item.DateCreated).getTime() <= toDate.getTime();
         });
         if (selectedStudent != '') {
           const newArray = eventlisting.filter((item) => {
@@ -179,15 +186,64 @@ const EventOrdersListing = (props) => {
         setTimeout(function () {
           setfilterLoader(false)
         }, 300);
-
       }
-      else if (value == '6') {
+      else if (value == '60') {
         var date = new Date();
-        var fromDate = new Date(date.getFullYear(), date.getMonth() - 6, 1);
-        var toDate = new Date(date.getFullYear(), date.getMonth(), 0);
+        var fromDate = new Date();
+        fromDate.setDate(fromDate.getDate() - 60);
+        console.log(fromDate)
+        // var fromDate = new Date(date.getFullYear(), date.getMonth() - 20, 1);
+        var toDate = new Date(date.getFullYear(), date.getMonth(), date.getDay() + 1);
+        console.log(toDate)
         const eventlisting = eventsList.filter((item) => {
-          return new Date(item.DateCreated).getTime() >= fromDate &&
-            new Date(item.DateCreated).getTime() <= toDate;
+          return new Date(item.DateCreated).getTime() >= fromDate.getTime() &&
+            new Date(item.DateCreated).getTime() <= toDate.getTime();
+        });
+        if (selectedStudent != '') {
+          const newArray = eventlisting.filter((item) => {
+            return (item.LinkedStudentIds.indexOf(selectedStudent) >= 0);
+          });
+          setEventListing(newArray);
+        }
+        else {
+          setEventListing(eventlisting);
+        }
+        setTimeout(function () {
+          setfilterLoader(false)
+        }, 300);
+      }
+      else if (value == '90') {
+        var date = new Date();
+        var fromDate = new Date();
+        fromDate.setDate(fromDate.getDate() - 90);
+        // var fromDate = new Date(date.getFullYear(), date.getMonth() - 20, 1);
+        var toDate = new Date(date.getFullYear(), date.getMonth(), date.getDay() + 1);
+        const eventlisting = eventsList.filter((item) => {
+          return new Date(item.DateCreated).getTime() >= fromDate.getTime() &&
+            new Date(item.DateCreated).getTime() <= toDate.getTime();
+        });
+        if (selectedStudent != '') {
+          const newArray = eventlisting.filter((item) => {
+            return (item.LinkedStudentIds.indexOf(selectedStudent) >= 0);
+          });
+          setEventListing(newArray);
+        }
+        else {
+          setEventListing(eventlisting);
+        }
+        setTimeout(function () {
+          setfilterLoader(false)
+        }, 300);
+      }
+      else if (value == '180') {
+        var date = new Date();
+        var fromDate = new Date();
+        fromDate.setDate(fromDate.getDate() - 180);
+        // var fromDate = new Date(date.getFullYear(), date.getMonth() - 20, 1);
+        var toDate = new Date(date.getFullYear(), date.getMonth(), date.getDay() + 1);
+        const eventlisting = eventsList.filter((item) => {
+          return new Date(item.DateCreated).getTime() >= fromDate.getTime() &&
+            new Date(item.DateCreated).getTime() <= toDate.getTime();
         });
         if (selectedStudent != '') {
           const newArray = eventlisting.filter((item) => {
@@ -237,10 +293,19 @@ const EventOrdersListing = (props) => {
         }, 300);
       }
       else {
-        setTimeout(function () {
-          setfilterLoader(false)
-        }, 300);
-        setEventListing(eventsList);
+        const newArray = eventsList.filter((item) => {
+          return (item.LinkedStudentIds.indexOf(value) >= 0);
+        });
+        if (newArray.length > 0) {
+          setEventListing(newArray);
+          setTimeout(function () {
+            setfilterLoader(false)
+          }, 300);
+        }
+        // setTimeout(function () {
+        //   setfilterLoader(false)
+        // }, 300);
+        // setEventListing(eventsList);
       }
     }
     else {
@@ -251,28 +316,28 @@ const EventOrdersListing = (props) => {
       setEventListing(eventsList);
     }
   }
-  const setselectedStudent = (value) => {
+  // const setselectedStudent = (value) => {
 
-    if (value != '' && value != undefined) {
-      setfilterLoader(true)
-      setSelectedStudent(value)
-      const newArray = eventsList.filter((item) => {
-        return (item.LinkedStudentIds.indexOf(value) >= 0);
-      });
-      if (newArray.length > 0) {
-        setEventListing(newArray);
-        setTimeout(function () {
-          setfilterLoader(false)
-        }, 300);
-      }
-    } else {
-      setSelectedStudent('')
-      setTimeout(function () {
-        setfilterLoader(false)
-      }, 300);
-      setEventListing(eventListing);
-    }
-  }
+  //   if (value != '' && value != undefined) {
+  //     setfilterLoader(true)
+  //     setSelectedStudent(value)
+  //     const newArray = eventsList.filter((item) => {
+  //       return (item.LinkedStudentIds.indexOf(value) >= 0);
+  //     });
+  //     if (newArray.length > 0) {
+  //       setEventListing(newArray);
+  //       setTimeout(function () {
+  //         setfilterLoader(false)
+  //       }, 300);
+  //     }
+  //   } else {
+  //     setSelectedStudent('')
+  //     setTimeout(function () {
+  //       setfilterLoader(false)
+  //     }, 300);
+  //     setEventListing(eventListing);
+  //   }
+  // }
 
   const { navigation } = props;
   return (
@@ -283,7 +348,7 @@ const EventOrdersListing = (props) => {
     >
       <SideBarMenu title={" Purchase History"} navigation={props.navigation} />
       <View style={[globalStyle.flexStandard, { padding: 10, display: "flex", alignItems: "center", justifyContent: "center" }]}>
-        {/* <Text
+        <Text
           style={{
             fontWeight: "bold",
             fontSize: 24,
@@ -295,9 +360,9 @@ const EventOrdersListing = (props) => {
           }}
         >
           Purchase History
-        </Text> */}
+        </Text>
 
-        <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
+        {/* <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
           <RNPickerSelect
             value={selectedStudent}
             items={studentIds}
@@ -331,40 +396,42 @@ const EventOrdersListing = (props) => {
               );
             }}
           />
-        </View>
+        </View> */}
         <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-          <RNPickerSelect
-            value={filter}
-            items={filterList}
-            placeholder={placeholderFiler}
-            onValueChange={(value) => setfilter(value)}
-            style={{
-              ...pickerSelectStyles,
-              iconContainer: {
-                top: Platform.OS === "android" ? 20 : 30,
-                right: 10,
-              },
-              placeholder: {
-                color: "#8a898e",
-                fontSize: 12,
-                fontWeight: "bold",
-              },
-            }}
-            Icon={() => {
-              return (
-                <Image
-                  style={{
-                    width: 12,
-                    position: "absolute",
-                    top: Platform.OS === "android" ? -20 : -28,
-                    right: 5,
-                  }}
-                  source={require("../../../../assets/arrow-down.png")}
-                  resizeMode={"contain"}
-                />
-              );
-            }}
-          />
+          {studentIds.length > 0 ?
+            <RNPickerSelect
+              value={filter}
+              items={filterList}
+              placeholder={placeholderFiler}
+              onValueChange={(value) => setfilter(value)}
+              style={{
+                ...pickerSelectStyles,
+                iconContainer: {
+                  top: Platform.OS === "android" ? 20 : 30,
+                  right: 10,
+                },
+                placeholder: {
+                  color: "#8a898e",
+                  fontSize: 12,
+                  fontWeight: "bold",
+                },
+              }}
+              Icon={() => {
+                return (
+                  <Image
+                    style={{
+                      width: 12,
+                      position: "absolute",
+                      top: Platform.OS === "android" ? -20 : -28,
+                      right: 5,
+                    }}
+                    source={require("../../../../assets/arrow-down.png")}
+                    resizeMode={"contain"}
+                  />
+                );
+              }}
+            />
+            : null}
         </View>
       </View>
 

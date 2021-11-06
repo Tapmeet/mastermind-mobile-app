@@ -8,6 +8,7 @@ import { color } from "react-native-reanimated";
 import { useSelector, useDispatch } from "react-redux";
 import LOGGED_OUT_USER from "./../../redux/User";
 import  EMPTY_CART from "./../../redux/Retail";
+import  EMPTY_EVENT from "./../../redux/Event";
 import { EventDetails } from "../screens";
 
 const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Payment Methods", "Events", "Retail", "Purchase History"];
@@ -17,6 +18,8 @@ const SideBar = (props) => {
   const userData = (userInfo) => dispatch({ type: "LOGGED_OUT_USER", payload: userInfo });
   const updateRetail = (updateRetail) =>
   dispatch({ type: "EMPTY_CART", payload: updateRetail });
+  const updateEvent= (updateEvent) =>
+  dispatch({ type: "EMPTY_EVENT", payload: updateEvent });
   const userId = useSelector((state) => state);
   const [data, setData] = React.useState("");
   const [firstName, setFirstName] = React.useState("");
@@ -28,6 +31,7 @@ const SideBar = (props) => {
 
   const logout = () => {
     updateRetail([]);
+    updateEvent([])
     userData(userId.userDataReducer[0].id);
   };
   React.useEffect(() => {

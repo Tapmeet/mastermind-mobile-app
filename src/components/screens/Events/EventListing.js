@@ -157,6 +157,7 @@ const EventListing = (props) => {
   const placeholderCategory = {
     label: "Category",
   };
+  
   const { navigation } = props;
   return (
     <Container
@@ -310,7 +311,7 @@ const EventListing = (props) => {
                       </View>
                     </View>
                     <View style={globalStyle.eventsListingBottomWrapper}>
-                      <Text style={{ fontSize: 12, color: "#46454B", flex: 1 }}>61 People Purchased</Text>
+                      {/* <Text style={{ fontSize: 12, color: "#46454B", flex: 1 }}>61 People Purchased</Text> */}
                       <Text style={{ fontSize: 12, color: "#46454B", justifyContent: "flex-end" }}> ${event.Price}</Text>
                     </View>
                   </View>

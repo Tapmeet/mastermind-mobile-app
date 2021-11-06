@@ -1,46 +1,38 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Accordion } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
+import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
-import CartWidget from "../../cart/Cartwidget"
 import { SideBarMenu } from "../../sidebar";
 import globalStyle from "../../../style/globalStyle";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import Collapsible from "react-native-collapsible";
 import loginStyle from "../../../style/login/loginStyle";
 import { fontSize } from "styled-system";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../../Utility/AppConst";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import moment from 'moment';
-import { color } from "react-native-reanimated";
-import { ADD_TO_EVENT, UPDATE_EVENT } from "./../../../redux/Event";
-
+import { set } from "react-native-reanimated";
 const apiUrl = API_URL.trim();
-var sizeList = [];
-var colorList = [];
 const EventDetails = (props) => {
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
   const [eventid, setEventid] = React.useState('');
-  const [productTitle, setProductTitle] = React.useState('');
   const userId = useSelector((state) => state);
-  const retail = useSelector((state) => state);
-  const [studentIds, setStudentIds] = React.useState([]);
-  const [selectedStudent, setSelectedStudent] = React.useState([]);
-  const [totalStudent, setTotalStudent] = React.useState([]);
-  const [retailProducts, setRetailProducts] = React.useState([]);
   const [personId, setPersonId] = React.useState('');
+  const [studentIds, setStudentIds] = React.useState([]);
+  const [totalStudent, setTotalStudent] = React.useState([]);
+  const [selectedStudent, setSelectedStudent] = React.useState([]);
+  const [student, setStudent] = React.useState();
   const [loader, setloader] = React.useState(true);
   const [eventListing, setEventListing] = React.useState([]);
   const [collapsed, setCollapsed] = React.useState(false);
   const [collapsed2, setCollapsed2] = React.useState(true);
   const [collapsed3, setCollapsed3] = React.useState(true);
   const [collapsed4, setCollapsed4] = React.useState(true);
-  const dispatch = useDispatch();
-  const userRetail = (userEvent) =>
-    dispatch({ type: "ADD_TO_EVENT", payload: userEvent });
-  const updateRetail = (updateEvent) =>
-    dispatch({ type: "UPDATE_EVENT", payload: updateEvent });
+  const [showModal, setShowModal] = React.useState(false);
+  const [step1, setStep1] = React.useState(false);
   const toggleExpanded = () => {
     setCollapsed(!collapsed);
     setCollapsed2(true);
@@ -62,25 +54,26 @@ const EventDetails = (props) => {
     setCollapsed3(true);
     setCollapsed4(!collapsed4);
   };
- 
+
+
   React.useEffect(() => {
     navigation.addListener("focus", () => {
-      setProductTitle('');
-      if (retail.eventReducer.length > 0) {
-        setRetailProducts(retail.eventReducer);
-      }
+      setSelectedStudent([])
+      setStep1(false)
+      setShowModal(false)
       if (eventListing == "") {
         async function getData() {
           try {
+            await AsyncStorage.removeItem('studentIds')
             const value = await AsyncStorage.getItem("eventId");
-            const title = await AsyncStorage.getItem("eventTitle");
             setEventid(value)
-            setProductTitle(title)
             //  console.log(value)
           } catch (e) { }
         }
         getData();
-        getStudents()
+        if (loader == true) {
+          getStudents()
+        }
         fetch(`${apiUrl}/odata/OrganizationEvent`, {
           method: "get",
           headers: {
@@ -139,96 +132,60 @@ const EventDetails = (props) => {
                 }
               });
           });
+
         }
       });
   }
-  const storeData = async (value, price) => {
-    if (selectedStudent == undefined) {
-      Alert.alert(" Alert",
-        "Please select student",
-        [{
-          text: 'Ok',
-          //onPress: () => //console.log('Cancel Pressed'),
-          style: 'cancel',
-        },]);
-      return false
-    }
-    // let eventId = JSON.stringify(value);
-    let eventPrice = JSON.stringify(price);
+  const toggle = async (value, price) => {
+    console.log('here')
+    if (value != undefined) {
+      setShowModal(!showModal)
+      let eventId = JSON.stringify(value);
+      let eventPrice = JSON.stringify(price);
 
-    console.log(productTitle)
-    let retails = retail.eventReducer;
-    if (retails.length > 0) {
-      var productindex = '';
-      var productquantity = '';
-      retails.map(function (product, index) {
-        if (product.id == eventid && product.studentIds[0] == selectedStudent) {
-          productindex = index;
-        }
-      })
-      if (productindex === '') {
-        console.log("theres")
-        let dataArray = {
-          id: eventid,
-          studentIds: [selectedStudent],
-          eventPrice: eventPrice,
-          productTitle: productTitle,
-        };
-        setRetailProducts((prevState) => [...prevState, dataArray]);
-        userRetail({
-          id: eventid,
-          studentIds: [selectedStudent],
-          eventPrice: eventPrice,
-          productTitle: productTitle,
-        });
-      } 
-      // else {
-      //   console.log("here1")
-      //   let newArr = [...retails]; // copying the old datas array
-      //   newArr[productindex] = {
-      //     id: eventid,
-      //     studentIds: [selectedStudent],
-      //     eventPrice: eventPrice,
-      //     productTitle: productTitle,
-      //   };
-      //   updateRetail(newArr);
-      //   setRetailProducts(newArr);
-      // }
+      //console.log(eventId)
+      try {
+        await AsyncStorage.setItem("eventId", eventId);
+        await AsyncStorage.setItem("eventPrice", eventPrice);
 
-    } else {
-      console.log("addNew")
-      setRetailProducts([{
-        id: eventid,
-        studentIds: [selectedStudent],
-        eventPrice: eventPrice,
-        productTitle: productTitle,
-      }])
-      userRetail({
-        id: eventid,
-        studentIds: [selectedStudent],
-        eventPrice: eventPrice,
-        productTitle: productTitle,
-      });
+      } catch (e) {
+        // saving error
+      }
     }
 
+  }
+  function unique(array) {
+    return array.filter(function (el, index, arr) {
+      return index == arr.indexOf(el);
+    });
+  }
+  const purchase = async () => {
+    try {
+      const studentarray = unique(selectedStudent)
+      let stringyfy = JSON.stringify(studentarray);
+      await AsyncStorage.setItem("studentIds", stringyfy);
+      props.navigation.navigate("Purchase Event");
+    } catch (e) {
+      // saving error
+    }
 
-    //console.log(eventId)
-    // try {
-    //   await AsyncStorage.setItem("eventId", eventId);
-    //   await AsyncStorage.setItem("eventPrice", eventPrice);
-    //   await AsyncStorage.setItem("productTitle", productTitle);
-    //   await AsyncStorage.setItem("size", size);
-    //   await AsyncStorage.setItem("colors", colors);
-    //   await AsyncStorage.setItem("quantity", quantity);
-    //   props.navigation.navigate("Purchase Product");
-    // } catch (e) {
-    //   // saving error
-    // }
   };
+  const setselectedStudent = (value) => {
+    if (value != '') {
+      setStudent(value);
+    }
+  };
+  const addStudent = () => {
+    setSelectedStudent((prevState) => [...prevState, student]);
+    setStep1(true)
+  };
+
+  const { navigation } = props;
   const placeholderStudent = {
     label: "Select Student",
   };
-  const { navigation } = props;
+
+
   return (
     <Container
       style={{
@@ -246,12 +203,26 @@ const EventDetails = (props) => {
         typeof eventListing !== "undefined" &&
           eventListing.length > 0 ? (
           eventListing.map(function (event, index) {
+            let startDate = moment(event.StartDateTime).format("MMMM Do, YYYY");
+            let starttime = moment(event.StartDateTime).format("hh:mm a ");
+            let endtime = moment(event.EndDateTime).format("hh:mm a ");
+            //console.log(event)
             return (
               event.PosItemId == eventid ?
                 <Content key={index}>
-                  <Image source={require("./../../../../assets/retails.jpg")} style={{ width: "100%", height: 220 }} />
+                  <Image source={require("./../../../../assets/eventImage.png")} style={{ width: "100%", height: 220 }} />
                   <View style={{ margin: 15, marginTop: 25 }}>
                     <Title style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {event.Title}</Title>
+                    <View style={{ paddingLeft: 5, marginTop: 10, paddingBottom: 10, marginBottom: 25, borderBottomColor: "#ccc", borderBottomWidth: 1 }}>
+                      <View style={globalStyle.eventDetailLocations}>
+                        <AntDesign name="calendar" size={18} color="black" style={{ marginRight: 10 }} />
+                        <Text>{startDate} | {starttime} -{endtime}</Text>
+                      </View>
+                      <View style={globalStyle.eventDetailLocations}>
+                        <Entypo name="location-pin" size={25} color="black" style={{ marginRight: 5, marginLeft: -2, marginTop: -3 }} />
+                        <Text>{event.Location}</Text>
+                      </View>
+                    </View>
                     <TouchableOpacity onPress={() => { toggleExpanded() }}>
                       <View style={globalStyle.accordianStyle}>
                         <Text
@@ -401,53 +372,18 @@ const EventDetails = (props) => {
                         <Text style={globalStyle.p}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</Text>
                       </View>
                     </Collapsible>
-                    <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Student</Text>
-                    <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-                      <RNPickerSelect
-                        value={selectedStudent}
-                        items={studentIds}
-                        placeholder={placeholderStudent}
-                        onValueChange={(value) => setSelectedStudent(value)}
-                        style={{
-                          ...pickerSelectStyles,
-                          iconContainer: {
-                            top: Platform.OS === "android" ? 20 : 30,
-                            right: 10,
-                          },
-                          placeholder: {
-                            color: "#8a898e",
-                            fontSize: 12,
-                            fontWeight: "bold",
-                          },
-                        }}
-                        Icon={() => {
-                          return (
-                            <Image
-                              style={{
-                                width: 12,
-                                position: "absolute",
-                                top: Platform.OS === "android" ? -15 : -28,
-                                right: 5,
-                              }}
-                              source={require("../../../../assets/arrow-down.png")}
-                              resizeMode={"contain"}
-                            />
-                          );
-                        }}
-                      />
-                    </View>
                     {event.HasPaymentOption ?
                       <View style={{
                         display: "flex",
                         alignItems: "center",
                         flexDirection: "row",
                         justifyContent: "space-between",
-                        paddingTop: 40,
+                        paddingTop: 20,
                         paddingBottom: 20
                       }}>
-                        <Text style={{ color: "#1873e8", fontSize: 24, fontWeight: "bold" }}>${event.Price}  </Text>
-                        <TouchableOpacity style={globalStyle.purchaseBtn} onPress={() => storeData(event.PosItemId, event.Price)} >
-                          <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, paddingBottom: 15, paddingLeft: 30, paddingRight: 30, paddingTop: 15, fontSize: 22, fontWeight: "bold", borderRadius: 15 }}>Add to cart</Text>
+                        <Text style={{ color: "#1873e8", fontSize: 24, fontWeight: "bold" }}>${event.Price}</Text>
+                        <TouchableOpacity style={globalStyle.purchaseBtn} onPress={() => toggle(event.PosItemId, event.Price)} >
+                          <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, paddingBottom: 15, paddingLeft: 30, paddingRight: 30, paddingTop: 15, fontSize: 22, fontWeight: "bold", borderRadius: 15 }}>Purchase</Text>
                         </TouchableOpacity>
                       </View>
                       : null
@@ -459,7 +395,76 @@ const EventDetails = (props) => {
           })
         ) : null
       )}
-      <CartWidget navigation={props.navigation} />
+
+      <FooterTabs />
+      {showModal ?
+        <View style={{ position: "absolute", backgroundColor: "rgba(0,0,0,0.5)", height: windowHeight, width: windowWidth, top: 0, bottom: 0, left: 0, right: 0, display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "center" }}>
+          <View style={{ width: "90%", minHeight: 300, backgroundColor: "#fff", padding: 15 }}>
+            {selectedStudent != undefined && selectedStudent.length > 0 ?
+              <Text style={globalStyle.p}>Would you like to register another student for this event?</Text>
+              : <Text style={globalStyle.p}>Which student would you like to register?</Text>
+            }
+            {step1 ?
+              <View style={{ display: "flex", textAlign: "center", alignItems: "center", justifyContent: "space-between", marginTop: 20, flexDirection: "row", width: "100%" }}>
+                <TouchableOpacity style={{ width: "45%" }}
+                  onPress={() => { setStep1(false); setStudent('') }}
+                >
+                  <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, textAlign: "center", marginTop: 15, paddingBottom: 15, paddingLeft: 15, paddingRight: 15, paddingTop: 15, fontSize: 18, fontWeight: "bold", borderRadius: 15 }}>Yes</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{ width: "45%" }}
+                  onPress={() => purchase()}
+                >
+                  <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, textAlign: "center", marginTop: 15, paddingBottom: 15, paddingLeft: 15, paddingRight: 15, paddingTop: 15, fontSize: 18, fontWeight: "bold", borderRadius: 15 }}>No</Text>
+                </TouchableOpacity>
+              </View> :
+              <View style={{ borderColor: "#ccc", borderWidth: 1, marginTop: 20, borderRadius: 5 }}>
+                <RNPickerSelect
+                  value={student}
+                  items={studentIds}
+                  placeholder={placeholderStudent}
+                  onValueChange={(value) => setselectedStudent(value)}
+                  style={{
+                    ...pickerSelectStyles,
+                    iconContainer: {
+                      top: Platform.OS === "android" ? 20 : 30,
+                      right: 10,
+                    },
+                    placeholder: {
+                      color: "#8a898e",
+                      fontSize: 12,
+                      fontWeight: "bold",
+                    },
+                  }}
+                  Icon={() => {
+                    return (
+                      <Image
+                        style={{
+                          width: 12,
+                          position: "absolute",
+                          top: Platform.OS === "android" ? -15 : -28,
+                          right: 5,
+                        }}
+                        source={require("../../../../assets/arrow-down.png")}
+                        resizeMode={"contain"}
+                      />
+                    );
+                  }}
+                />
+              </View>
+            }
+            {!step1 ?
+              <View style={{ display: "flex", textAlign: "center", alignItems: "center", justifyContent: "center", flexDirection: "row", width: "100%" }}>
+                <TouchableOpacity style={{ width: "50%" }}
+                  onPress={() => addStudent()}
+                >
+                  <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, textAlign: "center", marginTop: 15, paddingBottom: 15, paddingLeft: 15, paddingRight: 15, paddingTop: 15, fontSize: 18, fontWeight: "bold", borderRadius: 15 }}>Register</Text>
+                </TouchableOpacity>
+              </View>
+              : null}
+          </View>
+
+        </View>
+        : null}
     </Container>
   );
 };

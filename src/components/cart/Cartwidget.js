@@ -5,6 +5,7 @@ import globalStyle from "../../style/globalStyle";
 import { useSelector, useDispatch } from "react-redux";
 const CartWidget = (props) => {
     const retail = useSelector((state) => state);
+    console.log(retail)
     return (
         <ImageBackground
             style={{
