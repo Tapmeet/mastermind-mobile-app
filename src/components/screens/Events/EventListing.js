@@ -1,6 +1,7 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
 import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import React from "react";
+import CartWidget from "./Cartwidget"
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
 import globalStyle from "../../../style/globalStyle";
@@ -325,7 +326,8 @@ const EventListing = (props) => {
           </View>
         )}
       </Content>
-      <FooterTabs />
+      {/* <FooterTabs /> */}
+      <CartWidget navigation={props.navigation} />
     </Container>
   );
 };

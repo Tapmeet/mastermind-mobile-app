@@ -29,3 +29,4 @@ export { default as ProductListing } from './Retail/ProductListing'
 export { default as ProductDetails } from './Retail/ProductDetails';
 export { default as PurchaseProduct } from './Retail/PurchaseProduct';
 export { default as Cart } from './../cart/Cart'
+export { default as CartEvents } from './Events/Cart'

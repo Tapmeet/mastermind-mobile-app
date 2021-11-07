@@ -27,28 +27,21 @@ import {
 } from "native-base";
 import loginStyle from "../../../style/login/loginStyle";
 import globalStyle from "../../../style/globalStyle";
+import { useSelector } from "react-redux";
 import { SideBarMenu } from "../../sidebar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { API_URL } from "../../Utility/AppConst";
+import { API_URL } from "./../../Utility/AppConst";
 import moment from 'moment';
-import { useSelector, useDispatch } from "react-redux";
-import { ADD_TO_EVENT, UPDATE_EVENT } from "./../../../redux/Event";
-var total = 0;
 var checkStudentIds = [];
 const apiUrl = API_URL.trim();
-
+var selected = [];
 const PurchaseEvent = (props) => {
-  const retail = useSelector((state) => state);
   const isCarousel = React.useRef(null);
-  const [purchaseStatus, setPurchaseStatus] = React.useState(false);
   const [loader, setloader] = React.useState(true);
   const [processing, setProcessing] = React.useState(false);
+  const [purchaseStatus, setPurchaseStatus] = React.useState(false);
   const [eventid, setEventid] = React.useState('');
   const [eventPrice, setEventPrice] = React.useState('');
-  const [size, setSize] = React.useState('');
-  const [colors, setColors] = React.useState('');
-  const [quantity, setQuantity] = React.useState('');
-  const [productTitle, setProductTitle] = React.useState('');
   const [eventDefaultPrice, setEventDefaultPrice] = React.useState('');
   const userId = useSelector((state) => state);
   const [studentIds, setStudentIds] = React.useState([]);
@@ -59,9 +52,7 @@ const PurchaseEvent = (props) => {
   const [activeindex, setActiveIndex] = React.useState('0');
   const [SuccessMessage, setSuccessMessage] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
-  const dispatch = useDispatch();
-  const updateRetail = (updateRetail) =>
-    dispatch({ type: "UPDATE_EVENT", payload: updateRetail });
+  const [selectedStudents, setSelectedStudents] = React.useState([]);
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       clearData();
@@ -87,7 +78,7 @@ const PurchaseEvent = (props) => {
     let selectedStudentArray = selectedstudent.map((a) => a.id);
     let price = 0;
     let uniqueArray = unique(selectedStudentArray);
-    console.log(uniqueArray)
+    // console.log(uniqueArray)
     if (uniqueArray.length > 0) {
       price = parseFloat(eventDefaultPrice) * parseFloat(uniqueArray.length);
       // console.log(price)
@@ -104,53 +95,98 @@ const PurchaseEvent = (props) => {
   const selectAccount = (id) => {
     setDefaultId(id)
   };
+  async function getData() {
+    try {
+      const value = await AsyncStorage.getItem("eventId");
+      const eventPrice = await AsyncStorage.getItem("eventPrice");
+      const selectedstudents = await AsyncStorage.getItem("studentIds");
+      selected = JSON.parse(selectedstudents);
+      if (selected.length > 0) {
+        let price = parseFloat(eventPrice) * parseFloat(selected.length);
+        console.log(price)
+        setSelectedStudents(selected)
+        setEventid(value)
+        setEventDefaultPrice(eventPrice);
+        setEventPrice(price)
+        getStudent()
+      }
+
+    } catch (e) { }
+  }
+
   React.useEffect(() => {
-    navigation.addListener("focus", () => {
+    navigation.addListener("focus", async () => {
       setStudentIds([]);
       setPersonId('')
-      if (personId == '') {
-        fetch(`${apiUrl}/odata/StudentAccount`, {
-          method: "get",
-          headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            setPersonId(data.PersonId)
-            getPaymentMethod(data.PersonId)
-            setStudentIds([]);
-            if (data.StudentIds.length > 0) {
-              var students = data.StudentIds.length;
-              setTotalStudent(data.StudentIds.length)
-              setStudentIds([]);
-              data.StudentIds.map((id, index) => {
-                fetch(`${apiUrl}/odata/StudentData(${id})`, {
-                  method: "get",
-                  headers: {
-                    Accept: "*/*",
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-                  },
-                })
-                  .then((response) => response.json())
-                  .then((data) => {
-                    if (studentIds.length <= students) {
+      setloader(true)
+      if (personId == '' && loader == true) {
+        await getData();
+      }
+    });
+  }, [personId]);
+  function getStudent() {
+    fetch(`${apiUrl}/odata/StudentAccount`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setPersonId(data.PersonId)
+        getPaymentMethod(data.PersonId)
+        setStudentIds([]);
+        if (data.StudentIds.length > 0) {
+          var students = data.StudentIds.length;
+          setTotalStudent(data.StudentIds.length)
+          setStudentIds([]);
+          data.StudentIds.map((id, index) => {
+            fetch(`${apiUrl}/odata/StudentData(${id})`, {
+              method: "get",
+              headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (studentIds.length <= students) {
+                  if (selected.length > 0) {
+                    var checkSelectedid = false;
+                    selected.map(function (student, index) {
+                      if (student == data.StudentId) {
+                        checkSelectedid = true;
+                      }
+                    })
+                    if (checkSelectedid) {
+                      console.log('hrerer')
+                      let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: true }
+                      setStudentIds((prevState) => [...prevState, dataArray]);
+                      setloader(false)
+                    }
+                    else {
+                      console.log('threrer')
                       let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: false }
                       setStudentIds((prevState) => [...prevState, dataArray]);
                       setloader(false)
                     }
-                  });
+                  }
+                  else {
+                    let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: false }
+                    setStudentIds((prevState) => [...prevState, dataArray]);
+                    setloader(false)
+                  }
+                }
               });
-            } else {
-              setloader(false);
-            }
           });
-      }
-    });
-  }, [personId]);
+        } else {
+          setloader(false);
+        }
+      });
+  }
   function getPaymentMethod(personIds) {
     fetch(`${apiUrl}/odata/People(${personIds})/PersonPaymentMethods`, {
       method: "get",
@@ -165,7 +201,7 @@ const PurchaseEvent = (props) => {
         if (data.value) {
           // setloader(false)
           setPaymentMethod(data.value)
-          console.log(data.value)
+          // console.log(data.value)
           data.value.length > 0 ?
             data.value.map(function (payment, index) {
               setActiveIndex(index)
@@ -186,77 +222,60 @@ const PurchaseEvent = (props) => {
   const submitForm = () => {
     setErrorMessage("");
     setSuccessMessage("");
-    // let selectedstudent = studentIds.filter(
-    //   (studentIds) => studentIds.isChecked
-    // );
-    // let selectedStudentArray = selectedstudent.map((a) => a.id);
+    let selectedstudent = studentIds.filter(
+      (studentIds) => studentIds.isChecked
+    );
+    let selectedStudentArray = selectedstudent.map((a) => a.id);
 
-    // console.log(selectedStudentArray);
-    // // console.log(defaultId);
-    // // console.log(eventid)
-    // if (selectedStudentArray.length <= 0) {
-    //   setErrorMessage("Please Select Student");
-    //   return false
-    // }
+    //console.log(selectedStudentArray);
+    // console.log(defaultId);
+    // console.log(eventid)
+    if (selectedStudentArray.length <= 0) {
+      setErrorMessage("Please Select Student");
+      return false
+    }
     setProcessing(true)
-    // let uniqueArray = unique(selectedStudentArray);
-    retail.eventReducer.length > 0 ?
-      retail.eventReducer.map(function (product, index) {
-        // console.log('productproductproductproductproductproduct')
-        // console.log(product)
-        fetch(`${apiUrl}/odata/PurchaseOfSale`, {
-          method: "post",
-          headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-          },
-          body: JSON.stringify({
-            PosItemId: product.id,
-            LinkedStudentIds: product.studentIds,
-            PersonPaymentMethodId: defaultId,
-            PurchaseType: "1",
-          }),
-        })
-          .then((response) => response.json())
-          .then((response) => {
-            setProcessing(false)
-            // console.log('response');
-            // console.log(response);
-            // setLoaderMessage(false);
-            if (response["order"]) {
-              setSuccessMessage("Event Purchased  Successfully");
-              setPurchaseStatus(true)
-              // setTimeout(function () {
-              //   props.navigation.navigate("Purchase History");
-              // }, 3000);
-              // let retails = retail.eventReducer;
-              // console.log(index)
-              // let newRetails = retails.filter(function (products, productindex) {
-              //     return productindex != index
-              // });
-              // total = 0;
-              // updateRetail(newRetails);
-              // setTimeout(function () {
-              //   props.navigation.navigate("Retail");
-              //   setSuccessMessage("");
-              // }, 3000);
-            } else {
-              setErrorMessage(response["odata.error"].message.value);
-              //  setErrorMessage("An error has occurred.");
-              setTimeout(function () {
-                //props.navigation.navigate("Payment Methods");
-                setErrorMessage("");
-              }, 3000);
-            }
-          })
-          .catch(function (data) {
-            setProcessing(false)
-            console.log("Error", data);
-          });
+    let uniqueArray = unique(selectedStudentArray);
+    fetch(`${apiUrl}/odata/PurchaseOfSale`, {
+      method: "post",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+      body: JSON.stringify({
+        PosItemId: eventid,
+        LinkedStudentIds: uniqueArray,
+        PersonPaymentMethodId: defaultId,
+        PurchaseType: "1"
+      }),
+    })
+      .then((response) => response.json())
+      .then(async (response) => {
+        setProcessing(false)
+        // console.log(response);
+        // setLoaderMessage(false);
+        if (response["order"]) {
+          setSuccessMessage("Event Purchased  Successfully");
+          await AsyncStorage.removeItem('studentIds')
+          // setTimeout(function () {
+          //   props.navigation.navigate("Events");
+          //   setSuccessMessage("");
+          // }, 3000);
+          setPurchaseStatus(true)
+        } else {
+          setErrorMessage(response["odata.error"].message.value);
+          //  setErrorMessage("An error has occurred.");
+          setTimeout(function () {
+            //props.navigation.navigate("Payment Methods");
+            setErrorMessage("");
+          }, 3000);
+        }
       })
-      : null
-    updateRetail([]);
+      .catch(function (data) {
+        setProcessing(false)
+        console.log("Error", data);
+      });
     // .then((response) => {
     //   console.log(response);
     //   setLoaderMessage(false);
@@ -288,12 +307,6 @@ const PurchaseEvent = (props) => {
   const { navigation } = props;
   const SLIDER_WIDTH = Dimensions.get("window").width + 60;
   const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
-  total = 0
-  retail.eventReducer.length > 0 ?
-    retail.eventReducer.map(function (product, index) {
-      total = parseInt(total) + parseInt(product.eventPrice)
-    })
-    : null
   const CarouselCardItem = ({ item, index }) => {
     return (
       <TouchableOpacity onPress={() => selectAccount(item.PersonPaymentMethodId)}>
@@ -367,7 +380,7 @@ const PurchaseEvent = (props) => {
   };
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"PURCHASE Product"} navigation={props.navigation} />
+      <SideBarMenu title={"PURCHASE EVENT"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           <Form style={{ marginBottom: 20 }}>
@@ -398,7 +411,7 @@ const PurchaseEvent = (props) => {
                       marginBottom: 2,
                     }}
                   >
-                    ${total}
+                    ${eventPrice}
                   </Text>
                 </View>
                 <Text
@@ -409,7 +422,7 @@ const PurchaseEvent = (props) => {
                     marginBottom: 20,
                   }}
                 >
-                  Please provide the details below
+                  Please check the details below
                 </Text>
               </View>
             </View>
@@ -419,85 +432,126 @@ const PurchaseEvent = (props) => {
               </View>
             ) : (
               <View>
+                <Text
+                  style={{
+                    color: "#000",
+                    fontSize: 18,
+                    fontWeight: "bold",
+                    lineHeight: 26,
+                    marginBottom: 10,
+                    marginTop: 20,
+                  }}
+                >
+                  Selected students:
+                </Text>
                 <View>
-                  <View>
-                    <Text
-                      style={{
-                        color: "#000",
-                        fontSize: 18,
-                        fontWeight: "bold",
-                        lineHeight: 26,
-                        marginBottom: 10,
-                        marginTop: 20,
-                      }}
-                    >
-                      Select Payment Method:
-                    </Text>
-                  </View>
-                  <View
+                  {studentIds.map(function (student, index) {
+                    return (
+                      index < totalStudent ?
+                        <TouchableOpacity
+                          key={index}
+                          style={
+                            student.isChecked
+                              ? [
+                                globalStyle.inquiryBox,
+                                { backgroundColor: "#4895FF" },
+                              ]
+                              : globalStyle.inquiryBox
+                          }
+                          onPress={() => selectStudent(student.id)}
+                        >
+                          <Text
+                            style={
+                              student.isChecked
+                                ? { color: "#fff", fontSize: 20, marginBottom: 0 }
+                                : { color: "#000", fontSize: 20, marginBottom: 0 }
+                            }
+                          >
+                            {student.name}
+                          </Text>
+                        </TouchableOpacity>
+                        : null
+                    )
+                  })
+                  }
+                </View>
+                <View>
+                  <Text
                     style={{
-                      marginLeft: -70,
+                      color: "#000",
+                      fontSize: 18,
+                      fontWeight: "bold",
+                      lineHeight: 26,
+                      marginBottom: 10,
                       marginTop: 20,
-                      marginBottom: 20,
                     }}
                   >
-                    {loader == false ?
-                      <Carousel
-                        ref={isCarousel}
-                        data={paymentMethod}
-                        renderItem={CarouselCardItem}
-                        sliderWidth={SLIDER_WIDTH}
-                        itemWidth={ITEM_WIDTH}
-                        useScrollView={false}
-                        currentIndex={activeindex}
-                      />
-                      : null}
-                  </View>
-                  {errorMessage != "" ? (
-                    <Text style={globalStyle.errorText}>{errorMessage}</Text>
-                  ) : null}
-                  {SuccessMessage != "" ? (
-                    <Text style={globalStyle.sucessText}>
-                      {SuccessMessage}
-                    </Text>
-                  ) : null}
-                  <Content style={loginStyle.formContainer}>
-                    {!purchaseStatus ?
-                      <ImageBackground
-                        style={[
-                          globalStyle.Btn,
-                          {
-                            width: "100%",
-                          },
-                        ]}
-                        source={require("./../../../../assets/Oval.png")}
-                        resizeMode={"stretch"}
-                      >
-                        <Button onPress={submitForm} style={loginStyle.buttons} full>
-                          <Text style={loginStyle.buttonText}>Proceed</Text>
-                        </Button>
-                      </ImageBackground>
-                      : <ImageBackground
-                        style={[
-                          globalStyle.Btn,
-                          {
-                            width: "100%",
-                          },
-                        ]}
-                        source={require("./../../../../assets/Oval.png")}
-                        resizeMode={"stretch"}
-                      >
-                        <Button onPress={() => props.navigation.navigate("Purchase History")} style={loginStyle.buttons} full>
-                          <Text style={loginStyle.buttonText}>View Order</Text>
-                        </Button>
-                      </ImageBackground>}
-                    {processing ? (
-                      <View style={[styles.container, styles.horizontal]}>
-                        <ActivityIndicator size="large" color="#29ABE2" />
-                      </View>
-                    ) : null}
-                  </Content>
+                    Select Payment Method:
+                  </Text>
                 </View>
+                <View
+                  style={{
+                    marginLeft: -70,
+                    marginTop: 20,
+                    marginBottom: 20,
+                  }}
+                >
+                  {loader == false ?
+                    <Carousel
+                      ref={isCarousel}
+                      data={paymentMethod}
+                      renderItem={CarouselCardItem}
+                      sliderWidth={SLIDER_WIDTH}
+                      itemWidth={ITEM_WIDTH}
+                      useScrollView={false}
+                      currentIndex={activeindex}
+                    />
+                    : null}
+                </View>
+                {errorMessage != "" ? (
+                  <Text style={globalStyle.errorText}>{errorMessage}</Text>
+                ) : null}
+                {SuccessMessage != "" ? (
+                  <Text style={globalStyle.sucessText}>
+                    {SuccessMessage}
+                  </Text>
+                ) : null}
+                <Content style={loginStyle.formContainer}>
+                  {!purchaseStatus ?
+                    <ImageBackground
+                      style={[
+                        globalStyle.Btn,
+                        {
+                          width: "100%",
+                        },
+                      ]}
+                      source={require("./../../../../assets/Oval.png")}
+                      resizeMode={"stretch"}
+                    >
+                      <Button onPress={submitForm} style={loginStyle.buttons} full>
+                        <Text style={loginStyle.buttonText}>Proceed</Text>
+                      </Button>
+                    </ImageBackground>
+                    : <ImageBackground
+                      style={[
+                        globalStyle.Btn,
+                        {
+                          width: "100%",
+                        },
+                      ]}
+                      source={require("./../../../../assets/Oval.png")}
+                      resizeMode={"stretch"}
+                    >
+                      <Button onPress={() => props.navigation.navigate("Purchase History")} style={loginStyle.buttons} full>
+                        <Text style={loginStyle.buttonText}>View Order</Text>
+                      </Button>
+                    </ImageBackground>}
+                  {processing ? (
+                    <View style={[styles.container, styles.horizontal]}>
+                      <ActivityIndicator size="large" color="#29ABE2" />
+                    </View>
+                  ) : null}
+                </Content>
               </View>
             )
             }

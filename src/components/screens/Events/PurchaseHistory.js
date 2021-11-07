@@ -66,7 +66,7 @@ const EventOrdersListing = (props) => {
                 .then((data) => {
                   if (studentIds.length <= students) {
                     let dataArray = { label: "History by student - " + data.FirstName + " " + data.LastName, value: data.StudentId }
-                    let dataArray2 = { label:  data.FirstName + " " + data.LastName, value: data.StudentId }
+                    let dataArray2 = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
                     //setStudentIds((prevState) => [...prevState, dataArray]);
                     uniqueStudent.push(dataArray2)
                     filterList.push(dataArray)
@@ -163,13 +163,13 @@ const EventOrdersListing = (props) => {
       //   setEventListing(eventlisting);
       // }
       if (value == '30') {
-        var date = new Date();
+        var toDate = new Date();
         var fromDate = new Date();
         fromDate.setDate(fromDate.getDate() - 30);
-        console.log(fromDate)
+       // console.log(fromDate)
         // var fromDate = new Date(date.getFullYear(), date.getMonth() - 20, 1);
-        var toDate = new Date(date.getFullYear(), date.getMonth(), date.getDay() + 1);
-        console.log(toDate)
+        toDate.setDate(fromDate.getDate());
+        //console.log(toDate)
         const eventlisting = eventsList.filter((item) => {
           return new Date(item.DateCreated).getTime() >= fromDate.getTime() &&
             new Date(item.DateCreated).getTime() <= toDate.getTime();
@@ -188,12 +188,12 @@ const EventOrdersListing = (props) => {
         }, 300);
       }
       else if (value == '60') {
-        var date = new Date();
+        var toDate = new Date();
         var fromDate = new Date();
         fromDate.setDate(fromDate.getDate() - 60);
         console.log(fromDate)
         // var fromDate = new Date(date.getFullYear(), date.getMonth() - 20, 1);
-        var toDate = new Date(date.getFullYear(), date.getMonth(), date.getDay() + 1);
+        toDate.setDate(fromDate.getDate());
         console.log(toDate)
         const eventlisting = eventsList.filter((item) => {
           return new Date(item.DateCreated).getTime() >= fromDate.getTime() &&
@@ -213,11 +213,13 @@ const EventOrdersListing = (props) => {
         }, 300);
       }
       else if (value == '90') {
-        var date = new Date();
+        var toDate = new Date();
         var fromDate = new Date();
         fromDate.setDate(fromDate.getDate() - 90);
+        console.log(fromDate)
         // var fromDate = new Date(date.getFullYear(), date.getMonth() - 20, 1);
-        var toDate = new Date(date.getFullYear(), date.getMonth(), date.getDay() + 1);
+        toDate.setDate(fromDate.getDate());
+        console.log(toDate)
         const eventlisting = eventsList.filter((item) => {
           return new Date(item.DateCreated).getTime() >= fromDate.getTime() &&
             new Date(item.DateCreated).getTime() <= toDate.getTime();
@@ -236,11 +238,13 @@ const EventOrdersListing = (props) => {
         }, 300);
       }
       else if (value == '180') {
-        var date = new Date();
+        var toDate = new Date();
         var fromDate = new Date();
         fromDate.setDate(fromDate.getDate() - 180);
+        console.log(fromDate)
         // var fromDate = new Date(date.getFullYear(), date.getMonth() - 20, 1);
-        var toDate = new Date(date.getFullYear(), date.getMonth(), date.getDay() + 1);
+        toDate.setDate(fromDate.getDate());
+        console.log(toDate)
         const eventlisting = eventsList.filter((item) => {
           return new Date(item.DateCreated).getTime() >= fromDate.getTime() &&
             new Date(item.DateCreated).getTime() <= toDate.getTime();

@@ -2,7 +2,7 @@ import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, 
 import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
-import CartWidget from "../../cart/Cartwidget"
+import CartWidget from "./Cartwidget"
 import { SideBarMenu } from "../../sidebar";
 import globalStyle from "../../../style/globalStyle";
 import { AntDesign, Entypo } from "@expo/vector-icons";
