@@ -67,12 +67,13 @@ const EventListing = (props) => {
     });
   });
 
-  const storeData = async (value) => {
+  const storeData = async (value, title) => {
     console.log(value);
     let eventId = JSON.stringify(value);
     // console.log(eventId);
     try {
       await AsyncStorage.setItem("eventId", eventId);
+      await AsyncStorage.setItem("eventTitle", title);
       props.navigation.navigate("Event Detail");
     } catch (e) {
       // saving error
@@ -271,7 +272,7 @@ const EventListing = (props) => {
             let endtime = moment(event.EventEndDateTime).format("hh:mm a ");
             return (
               <View style={{ marginBottom: 10 }} key={index}>
-                <TouchableOpacity onPress={() => storeData(event.PosItemId)}>
+              <TouchableOpacity onPress={() => storeData(event.PosItemId, event.Title)}>
                   <View style={globalStyle.eventsListingWrapper}>
                     <View style={globalStyle.eventsListingTopWrapper}>
                       <View style={{ borderRadius: 25, overflow: "hidden" }}>

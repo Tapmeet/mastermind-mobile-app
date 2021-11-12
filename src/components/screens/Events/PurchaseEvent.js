@@ -73,6 +73,7 @@ const PurchaseEvent = (props) => {
     setSuccessMessage("")
     setErrorMessage("")
     setPurchaseStatus(false)
+    setStudentIds([])
   }
   const selectStudent = (id) => {
     let temp = studentIds.map((studentIds) => {

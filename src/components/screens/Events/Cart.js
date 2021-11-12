@@ -32,14 +32,14 @@ const CartEvents = (props) => {
             if (loader == true) {
                 getStudents()
             }
-           
+
 
         });
         total = 0;
         if (retail.eventReducer.length > 0) {
             setRetailProducts(retail.eventReducer);
         }
-     
+
     }, []);
     function getStudents() {
         fetch(`${apiUrl}/odata/StudentAccount`, {
@@ -76,7 +76,7 @@ const CartEvents = (props) => {
                                 }
                             });
                     });
-                    
+
                 }
             });
     }
@@ -111,11 +111,11 @@ const CartEvents = (props) => {
             setRetailProducts(newRetails);
         }
     }
-;
+        ;
     total = 0
     retail.eventReducer.length > 0 ?
         retail.eventReducer.map(function (product, index) {
-            total = parseInt(total) + parseInt(product.eventPrice) 
+            total = parseInt(total) + parseInt(product.eventPrice)
         })
         : null
     return (
@@ -133,113 +133,115 @@ const CartEvents = (props) => {
                 </Content>
             ) : (
                 <Content padder style={{ marginTop: 10 }}>
-                    <View style={{ marginBottom: 10 }} >
-                        {retail.eventReducer.length > 0 ?
-                            retail.eventReducer.map(function (product, index) {
-                                return <View style={globalStyle.eventsListingWrapper} key={index}>
-                                    <View style={globalStyle.eventsListingTopWrapper}>
-                                        <View style={{ paddingLeft: 15, paddingRight: 15 }}>
-                                            <View style={{ display: "flex", position: "relative", alignItems: "flex-end", justifyContent: "space-between", flexDirection: "row", width: "100%", borderBottomColor: "#f4f4f4", paddingBottom: 5, marginBottom: 20, borderBottomWidth: 2 }}>
-                                                <Text style={{ fontSize: 22, fontWeight: "bold", color: "#000", width: "100%" }}>
-                                                    {product.productTitle}
-                                                </Text>
-                                                <TouchableOpacity
-                                                    style={{
-                                                        width: 18,
-                                                        position: "absolute",
-                                                        top: Platform.OS === "android" ? -15 : -28,
-                                                        right: 0,
-                                                        opacity: 0.8,
-                                                        zIndex: 99,
-
-                                                    }}
-                                                    onPress={() => {
-                                                        Alert.alert(" Alert",
-                                                            "Are you sure you want to remove this event ?",
-                                                            [{
-                                                                text: 'OK',
-                                                                onPress: () => deleteProduct(index)
-                                                            }, {
-                                                                text: 'Cancel',
-                                                                //onPress: () => //console.log('Cancel Pressed'),
-                                                                style: 'cancel',
-                                                            },]);
-                                                    }}
-                                                //onPress={() => deleteProduct(index)}
-                                                >
-                                                    <Image
-
+                    {studentIds.length > 0 ?
+                        <View style={{ marginBottom: 10 }} >
+                            {retail.eventReducer.length > 0 ?
+                                retail.eventReducer.map(function (product, index) {
+                                    return <View style={globalStyle.eventsListingWrapper} key={index}>
+                                        <View style={globalStyle.eventsListingTopWrapper}>
+                                            <View style={{ paddingLeft: 15, paddingRight: 15 }}>
+                                                <View style={{ display: "flex", position: "relative", alignItems: "flex-end", justifyContent: "space-between", flexDirection: "row", width: "100%", borderBottomColor: "#f4f4f4", paddingBottom: 5, marginBottom: 20, borderBottomWidth: 2 }}>
+                                                    <Text style={{ fontSize: 22, fontWeight: "bold", color: "#000", width: "100%" }}>
+                                                        {product.productTitle}
+                                                    </Text>
+                                                    <TouchableOpacity
                                                         style={{
                                                             width: 18,
-                                                        }}
-                                                        source={require("../../../../assets/garbage.png")}
-                                                        resizeMode={"contain"}
-                                                    />
-                                                </TouchableOpacity>
-                                            </View>
-                                            <View>
-                                                {
-                                                    studentIds.map(function (student, index) {
-                                                        return (
-                                                            student.value == product.studentIds[0] ?
-                                                                (<Text key={index}>{student.label}</Text>)
-                                                                : null
-                                                        )
-                                                    })
-                                                }
-                                            </View>
-                                            <View style={{ borderTopColor: "#f4f4f4", paddingTop: 5, marginTop: 20, borderTopWidth: 2 }}>
-                                                <Text
-                                                    style={{
-                                                        fontSize: 18,
-                                                        fontWeight: "bold",
-                                                        color: "#898989",
-                                                        paddingBottom: 5,
-                                                        justifyContent: "flex-end",
-                                                        alignItems: "flex-end",
-                                                        display: "flex",
-                                                        width: "100%",
-                                                        textAlign: "right"
-                                                    }}
-                                                >
-                                                    Price: ${product.eventPrice }
-                                                </Text>
+                                                            position: "absolute",
+                                                            top: Platform.OS === "android" ? -15 : -28,
+                                                            right: 0,
+                                                            opacity: 0.8,
+                                                            zIndex: 99,
 
+                                                        }}
+                                                        onPress={() => {
+                                                            Alert.alert(" Alert",
+                                                                "Are you sure you want to remove this event ?",
+                                                                [{
+                                                                    text: 'OK',
+                                                                    onPress: () => deleteProduct(index)
+                                                                }, {
+                                                                    text: 'Cancel',
+                                                                    //onPress: () => //console.log('Cancel Pressed'),
+                                                                    style: 'cancel',
+                                                                },]);
+                                                        }}
+                                                    //onPress={() => deleteProduct(index)}
+                                                    >
+                                                        <Image
+
+                                                            style={{
+                                                                width: 18,
+                                                            }}
+                                                            source={require("../../../../assets/garbage.png")}
+                                                            resizeMode={"contain"}
+                                                        />
+                                                    </TouchableOpacity>
+                                                </View>
+                                                <View>
+                                                    {
+                                                        studentIds.map(function (student, index) {
+                                                            return (
+                                                                student.value == product.studentIds[0] ?
+                                                                    (<Text key={index}>{student.label}</Text>)
+                                                                    : null
+                                                            )
+                                                        })
+                                                    }
+                                                </View>
+                                                <View style={{ borderTopColor: "#f4f4f4", paddingTop: 5, marginTop: 20, borderTopWidth: 2 }}>
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 18,
+                                                            fontWeight: "bold",
+                                                            color: "#898989",
+                                                            paddingBottom: 5,
+                                                            justifyContent: "flex-end",
+                                                            alignItems: "flex-end",
+                                                            display: "flex",
+                                                            width: "100%",
+                                                            textAlign: "right"
+                                                        }}
+                                                    >
+                                                        Price: ${product.eventPrice}
+                                                    </Text>
+
+                                                </View>
                                             </View>
                                         </View>
                                     </View>
+                                })
+                                : <View style={[globalStyle.tableList, { width: "100%", justifyContent: "center" }]}>
+                                    <Text style={{ textAlign: "center", fontSize: 20 }}>No Items in the Bag </Text>
                                 </View>
-                            })
-                            : <View style={[globalStyle.tableList, { width: "100%", justifyContent: "center" }]}>
-                                <Text style={{ textAlign: "center", fontSize: 20 }}>No Items in the Bag </Text>
-                            </View>
-                        }
-                        <View style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 0, paddingLeft: 40, paddingRight: 40, marginTop: 0 }}>
-                            {retail.eventReducer.length > 0 ?
-                                <ImageBackground
-                                    style={[globalStyle.BtnHalf, { width: "100%" }]
-                                    }
-                                    source={require('../../../../assets/Oval.png')}
-                                    resizeMode={'stretch'}
-                                >
-                                    <Button
-                                        style={[loginStyle.buttonSave, { alignSelf: "center" }]}
-
-                                        full
-                                        onPress={() => props.navigation.navigate("Purchase Event")}
+                            }
+                            <View style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 0, paddingLeft: 40, paddingRight: 40, marginTop: 0 }}>
+                                {retail.eventReducer.length > 0 ?
+                                    <ImageBackground
+                                        style={[globalStyle.BtnHalf, { width: "100%" }]
+                                        }
+                                        source={require('../../../../assets/Oval.png')}
+                                        resizeMode={'stretch'}
                                     >
-                                        <Text style={loginStyle.buttonText}>Proceed to Payments</Text>
-                                    </Button>
-                                </ImageBackground>
-                                : null}
-                            <Button
-                                style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
-                                onPress={() => props.navigation.navigate("Events")}
-                            >
-                                <Text style={[loginStyle.buttonText, { color: "#333" }]}>Continue shopping</Text>
-                            </Button>
+                                        <Button
+                                            style={[loginStyle.buttonSave, { alignSelf: "center" }]}
+
+                                            full
+                                            onPress={() => props.navigation.navigate("Purchase Event")}
+                                        >
+                                            <Text style={loginStyle.buttonText}>Proceed to Payments</Text>
+                                        </Button>
+                                    </ImageBackground>
+                                    : null}
+                                <Button
+                                    style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
+                                    onPress={() => props.navigation.navigate("Events")}
+                                >
+                                    <Text style={[loginStyle.buttonText, { color: "#333" }]}>Additional  Registration</Text>
+                                </Button>
+                            </View>
                         </View>
-                    </View>
+                        : null}
                 </Content>
 
             )}
