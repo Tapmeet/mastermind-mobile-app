@@ -24,7 +24,7 @@ const CartWidget = (props) => {
                         : null}
                     {retail.eventReducer.length > 0 ?
                         <TouchableOpacity onPress={() => props.navigation.navigate("Events")} >
-                            <Text style={{ borderColor: "#fff", color: "#fff", textTransform: "uppercase", borderWidth: 1, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, paddingTop: 10, fontSize: 15, fontWeight: "bold", marginRight: 10, borderRadius: 10 }}>Add more</Text>
+                            <Text style={{ borderColor: "#fff", color: "#fff", textTransform: "uppercase", borderWidth: 1, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, paddingTop: 10, fontSize: 15, fontWeight: "bold", marginRight: 10, borderRadius: 10 }}>Events</Text>
                         </TouchableOpacity>
                         : null}
                 </FooterTab>

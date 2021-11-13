@@ -47,6 +47,7 @@ const EventListing = (props) => {
         .then((data) => {
           if (data.events) {
             setEventListing(data.events);
+            console.log(data.events)
             setEventList(data.events)
             var category = [];
             data.events.map(function (event, index) {
