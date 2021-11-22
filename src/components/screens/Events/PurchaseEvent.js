@@ -40,6 +40,7 @@ const apiUrl = API_URL.trim();
 const PurchaseEvent = (props) => {
   const retail = useSelector((state) => state);
   const isCarousel = React.useRef(null);
+ 
   const [purchaseStatus, setPurchaseStatus] = React.useState(false);
   const [loader, setloader] = React.useState(true);
   const [processing, setProcessing] = React.useState(false);
@@ -402,7 +403,7 @@ const PurchaseEvent = (props) => {
                     ${total}
                   </Text>
                 </View>
-                <Text
+                {/* <Text
                   style={{
                     color: "#555",
                     fontSize: 20,
@@ -410,8 +411,8 @@ const PurchaseEvent = (props) => {
                     marginBottom: 20,
                   }}
                 >
-                  Please provide the details below
-                </Text>
+                  Please click below to select payment method
+                </Text> */}
               </View>
             </View>
             {loader ? (

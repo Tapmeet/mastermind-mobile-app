@@ -7,8 +7,8 @@ import sideBar from "../../style/home/sidebarStyle";
 import { color } from "react-native-reanimated";
 import { useSelector, useDispatch } from "react-redux";
 import LOGGED_OUT_USER from "./../../redux/User";
-import  EMPTY_CART from "./../../redux/Retail";
-import  EMPTY_EVENT from "./../../redux/Event";
+import EMPTY_CART from "./../../redux/Retail";
+import EMPTY_EVENT from "./../../redux/Event";
 import { EventDetails } from "../screens";
 
 const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Payment Methods", "Events", "Retail", "Purchase History"];
@@ -17,25 +17,44 @@ const SideBar = (props) => {
   const dispatch = useDispatch();
   const userData = (userInfo) => dispatch({ type: "LOGGED_OUT_USER", payload: userInfo });
   const updateRetail = (updateRetail) =>
-  dispatch({ type: "EMPTY_CART", payload: updateRetail });
-  const updateEvent= (updateEvent) =>
-  dispatch({ type: "EMPTY_EVENT", payload: updateEvent });
+    dispatch({ type: "EMPTY_CART", payload: updateRetail });
+  const updateEvent = (updateEvent) =>
+    dispatch({ type: "EMPTY_EVENT", payload: updateEvent });
   const userId = useSelector((state) => state);
   const [data, setData] = React.useState("");
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [loader, setloader] = React.useState(true);
+  const [guid, setGuid] = React.useState("");
   const [studentIds, setStudentIds] = React.useState([]);
   const [PhotoPath, setPhotoPath] = React.useState("");
   const win = Dimensions.get("window");
-
+  const apiUrl = API_URL.trim();
   const logout = () => {
     updateRetail([]);
     updateEvent([])
     userData(userId.userDataReducer[0].id);
   };
+  const getprofilePic = (guids) => {
+    fetch(`${apiUrl}/Public/GetProfilePicture?guid=${guids}`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // if (data.StudentIds.length > 0) {
+        //   setPhotoPath(data.PhotoPath);
+        // } else {
+        // }
+      });
+  }
   React.useEffect(() => {
-    const apiUrl = API_URL.trim();
+    
     if (typeof data !== "undefined" && data == "") {
       fetch(`${apiUrl}/odata/StudentAccount`, {
         method: "get",
@@ -47,13 +66,14 @@ const SideBar = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // console.log(data);
+          console.log(data);
           if (data.StudentIds.length > 0) {
             setStudentIds(data.StudentIds);
             setFirstName(data.FirstName);
             setLastName(data.LastName);
-            setPhotoPath(data.PhotoPath);
+            setGuid(data.StudentAccountGuid);
             setloader(false);
+            getprofilePic(data.StudentAccountGuid)
           } else {
             setloader(false);
           }

@@ -795,7 +795,7 @@ const Contract = (props) => {
         </View>
         {step3 == true ?
           showSignature2 == false ?
-            <View style={{ display: "flex", flexDirection: "columns", alignItems: "center", marginBottom: 0, paddingLeft: 40, paddingRight: 40, marginTop: 0 }}>
+            <View style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 0, paddingLeft: 40, paddingRight: 40, marginTop: 0 }}>
               {counter < 4 ?
                 <ImageBackground
                   style={counter == 1 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '100%' }]
@@ -814,7 +814,7 @@ const Contract = (props) => {
                 : null}
               {counter > 1 ?
                 <Button
-                  style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 0, borderRadius: 20, alignSelf: "middle", width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
+                  style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 0, borderRadius: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
                   onPress={decrement} >
                   <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
                 </Button>

@@ -352,7 +352,7 @@ const EventOrdersListing = (props) => {
     >
       <SideBarMenu title={" Purchase History"} navigation={props.navigation} />
       <View style={[globalStyle.flexStandard, { padding: 10, display: "flex", alignItems: "center", justifyContent: "center" }]}>
-        <Text
+        {/* <Text
           style={{
             fontWeight: "bold",
             fontSize: 24,
@@ -363,8 +363,8 @@ const EventOrdersListing = (props) => {
             paddingBottom: 15
           }}
         >
-          Purchase History
-        </Text>
+          Filter
+        </Text> */}
 
         {/* <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
           <RNPickerSelect
@@ -585,6 +585,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: "#fff",
     borderRadius: 0,
     color: "#8a898e",
+    width: '100%',
     paddingRight: 10, // to ensure the text is never behind the icon
   },
   inputAndroid: {
@@ -596,6 +597,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: "#fff",
     borderRadius: 0,
     color: "#8a898e",
+    width: '100%',
     paddingRight: 10, // to ensure the text is never behind the icon
   },
 });

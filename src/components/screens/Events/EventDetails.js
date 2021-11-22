@@ -21,6 +21,7 @@ const apiUrl = API_URL.trim();
 var sizeList = [];
 var colorList = [];
 const EventDetails = (props) => {
+  const [selectedMessage, setSelectedMessage] = React.useState(false);
   const [eventid, setEventid] = React.useState('');
   const [productTitle, setProductTitle] = React.useState('');
   const userId = useSelector((state) => state);
@@ -62,7 +63,7 @@ const EventDetails = (props) => {
     setCollapsed3(true);
     setCollapsed4(!collapsed4);
   };
- 
+
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       setProductTitle('');
@@ -143,6 +144,7 @@ const EventDetails = (props) => {
       });
   }
   const storeData = async (value, price) => {
+    setSelectedMessage(false);
     if (selectedStudent == undefined) {
       Alert.alert(" Alert",
         "Please select student",
@@ -167,6 +169,7 @@ const EventDetails = (props) => {
         }
       })
       if (productindex === '') {
+        setSelectedMessage(false);
         console.log("theres")
         let dataArray = {
           id: eventid,
@@ -181,19 +184,20 @@ const EventDetails = (props) => {
           eventPrice: eventPrice,
           productTitle: productTitle,
         });
-      } 
-      // else {
-      //   console.log("here1")
-      //   let newArr = [...retails]; // copying the old datas array
-      //   newArr[productindex] = {
-      //     id: eventid,
-      //     studentIds: [selectedStudent],
-      //     eventPrice: eventPrice,
-      //     productTitle: productTitle,
-      //   };
-      //   updateRetail(newArr);
-      //   setRetailProducts(newArr);
-      // }
+      }
+      else {
+        setSelectedMessage(true);
+        // console.log("here1")
+        // let newArr = [...retails]; // copying the old datas array
+        // newArr[productindex] = {
+        //   id: eventid,
+        //   studentIds: [selectedStudent],
+        //   eventPrice: eventPrice,
+        //   productTitle: productTitle,
+        // };
+        // updateRetail(newArr);
+        // setRetailProducts(newArr);
+      }
 
     } else {
       console.log("addNew")
@@ -407,7 +411,7 @@ const EventDetails = (props) => {
                         value={selectedStudent}
                         items={studentIds}
                         placeholder={placeholderStudent}
-                        onValueChange={(value) => setSelectedStudent(value)}
+                        onValueChange={(value) => {setSelectedStudent(value), setSelectedMessage(false)}}
                         style={{
                           ...pickerSelectStyles,
                           iconContainer: {
@@ -436,6 +440,7 @@ const EventDetails = (props) => {
                         }}
                       />
                     </View>
+
                     {event.HasPaymentOption ?
                       <View style={{
                         display: "flex",
@@ -452,6 +457,13 @@ const EventDetails = (props) => {
                       </View>
                       : null
                     }
+                    <View>
+                      {selectedMessage != "" ? (
+                        <Text style={[globalStyle.sucessText,{ color: "#ff0000", lineHeight: 25}]}>
+                          You've have already registered insert student name.  Please select a different student or view cart to complete purchase.
+                        </Text>
+                      ) : null}
+                    </View>
                   </View>
                 </Content>
                 : null
