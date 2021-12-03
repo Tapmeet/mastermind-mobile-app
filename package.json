@@ -16,6 +16,7 @@
     "expo": "^42.0.0",
     "expo-asset": "^8.3.2",
     "expo-font": "^9.2.1",
+    "expo-image-picker": "~10.2.2",
     "expo-linear-gradient": "~9.2.0",
     "moment": "^2.29.1",
     "native-base": "^2.15.2",

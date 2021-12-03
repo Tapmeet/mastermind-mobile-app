@@ -10,7 +10,7 @@ import LOGGED_OUT_USER from "./../../redux/User";
 import EMPTY_CART from "./../../redux/Retail";
 import EMPTY_EVENT from "./../../redux/Event";
 import { EventDetails } from "../screens";
-
+import * as ImagePicker from 'expo-image-picker';
 const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Payment Methods", "Events", "Retail", "Purchase History"];
 
 const SideBar = (props) => {
@@ -24,11 +24,13 @@ const SideBar = (props) => {
   const [data, setData] = React.useState("");
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
+  const [img, setImg] = React.useState("");
   const [loader, setloader] = React.useState(true);
   const [guid, setGuid] = React.useState("");
   const [studentIds, setStudentIds] = React.useState([]);
   const [PhotoPath, setPhotoPath] = React.useState("");
   const win = Dimensions.get("window");
+  const [image, setImage] = React.useState(null);
   const apiUrl = API_URL.trim();
   const logout = () => {
     updateRetail([]);
@@ -44,17 +46,69 @@ const SideBar = (props) => {
         Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
       },
     })
-      .then((response) => response.json())
+      .then((response) => response.text())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
+        setImg(data)
         // if (data.StudentIds.length > 0) {
         //   setPhotoPath(data.PhotoPath);
         // } else {
         // }
       });
   }
-  React.useEffect(() => {
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      let localUri = result.uri;
+      let filename = localUri.split('/').pop();
     
+      // Infer the type of the image
+      let match = /\.(\w+)$/.exec(filename);
+      let type = match ? `image/${match[1]}` : `image`;
+    
+      // Upload the image using the fetch and FormData APIs
+      let formData = new FormData();
+      // Assume "photo" is the name of the form field the server expects
+      formData.append('', { uri: localUri, name: filename, type });
+
+      fetch(`${API_URL}/odata/StudentAccount`, {
+        method: "post",
+        headers: {
+          Accept: "*/*",
+          'Content-Type': 'multipart/form-data', 
+          'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
+        },
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          console.log('response');
+          console.log(response);
+          getprofilePic(guid)
+        })
+        .catch((response) => {
+          console.log('error');
+          console.log(response);
+          //  setErrorMessage("An error has occurred. Please check all the fields");
+        });
+      setImage(result.uri);
+    }
+  };
+  React.useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
     if (typeof data !== "undefined" && data == "") {
       fetch(`${apiUrl}/odata/StudentAccount`, {
         method: "get",
@@ -66,7 +120,7 @@ const SideBar = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          //  console.log(data);
           if (data.StudentIds.length > 0) {
             setStudentIds(data.StudentIds);
             setFirstName(data.FirstName);
@@ -95,19 +149,21 @@ const SideBar = (props) => {
             alignItems: "center",
           }}
         >
-          {PhotoPath ? (
-            <Thumbnail
-              source={{
-                uri: "data:image/png;base64," + PhotoPath,
-              }}
-            />
-          ) : (
-            <Thumbnail
-              source={{
-                uri: "https://pickaface.net/gallery/avatar/20121015_175346_216_karatekid.png",
-              }}
-            />
-          )}
+          <TouchableOpacity title="" onPress={pickImage} >
+            {img ? (
+              <Thumbnail
+                source={{
+                  uri: "data:image/png;base64," + img,
+                }}
+              />
+            ) : (
+              <Thumbnail
+                source={{
+                  uri: "https://pickaface.net/gallery/avatar/20121015_175346_216_karatekid.png",
+                }}
+              />
+            )}
+          </TouchableOpacity>
           <Text style={[sideBar.name, { color: "#333", marginLeft: 15, fontWeight: "bold" }]}>
             {firstName ? firstName + " " + lastName : "Michael Jordan"}
           </Text>
