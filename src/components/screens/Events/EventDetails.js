@@ -351,7 +351,7 @@ const EventDetails = (props) => {
                             fontWeight: "bold",
                           }}
                         >
-                          Event Itinerary
+                          Schedule
                         </Text>
                         {collapsed2 ? (
                           <Image

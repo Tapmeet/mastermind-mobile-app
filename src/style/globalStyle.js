@@ -11,7 +11,7 @@ export default StyleSheet.create({
     lineHeight: 48,
     fontFamily: "HKGrotesk-Regular",
   },
-  p :{
+  p: {
     fontSize: 19,
     lineHeight: 32,
     fontFamily: "HKGrotesk-Regular",
@@ -413,7 +413,7 @@ export default StyleSheet.create({
     backgroundColor: "#fff",
     marginBottom: 10,
   },
-  accordianStyle : {
+  accordianStyle: {
     borderRadius: 10,
     backgroundColor: "#fff",
     paddingBottom: 25,
@@ -436,7 +436,31 @@ export default StyleSheet.create({
     top: 10,
   },
   trainersimg: {
-    height : 120,
+    height: 120,
     width: 120
+  },
+  online: {
+    fontSize: 15,
+    color: "white",
+    marginTop: 8,
+    paddingTop: 2,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingBottom: 2,
+    backgroundColor: "green",
+    alignSelf: "flex-start",
+    borderRadius: 15,
+  },
+  offline: {
+    fontSize: 15,
+    color: "white",
+    marginTop: 8,
+    paddingTop: 2,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingBottom: 2,
+    backgroundColor: "red",
+    alignSelf: "flex-start",
+    borderRadius: 15,
   }
 });

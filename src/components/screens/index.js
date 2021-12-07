@@ -30,3 +30,5 @@ export { default as ProductDetails } from './Retail/ProductDetails';
 export { default as PurchaseProduct } from './Retail/PurchaseProduct';
 export { default as Cart } from './../cart/Cart'
 export { default as CartEvents } from './Events/Cart'
+export { default as ClassList } from './Classes/ClassList';
+export { default as TaskClass } from './Classes/TaskClass';

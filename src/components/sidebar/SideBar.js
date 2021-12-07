@@ -11,7 +11,7 @@ import EMPTY_CART from "./../../redux/Retail";
 import EMPTY_EVENT from "./../../redux/Event";
 import { EventDetails } from "../screens";
 import * as ImagePicker from 'expo-image-picker';
-const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Payment Methods", "Events", "Retail", "Purchase History"];
+const routes = ["Home", "Link Student", "Profile", "Inquiry", "Classes", "Memberships", "Payment Methods", "Events", "Retail", "Purchase History"];
 
 const SideBar = (props) => {
   const dispatch = useDispatch();
@@ -67,11 +67,11 @@ const SideBar = (props) => {
     if (!result.cancelled) {
       let localUri = result.uri;
       let filename = localUri.split('/').pop();
-    
+
       // Infer the type of the image
       let match = /\.(\w+)$/.exec(filename);
       let type = match ? `image/${match[1]}` : `image`;
-    
+
       // Upload the image using the fetch and FormData APIs
       let formData = new FormData();
       // Assume "photo" is the name of the form field the server expects
@@ -81,7 +81,7 @@ const SideBar = (props) => {
         method: "post",
         headers: {
           Accept: "*/*",
-          'Content-Type': 'multipart/form-data', 
+          'Content-Type': 'multipart/form-data',
           'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
         },
         body: formData,
@@ -183,9 +183,9 @@ const SideBar = (props) => {
           style={{
             backgroundColor: "transparent",
             paddingLeft: 15,
-            position: "relative",
-            marginBottom: 20,
-            zIndex: 99,
+            // position: "relative",
+            // marginBottom: 20,
+            // zIndex: 99,
           }}
           button
           onPress={logout}
