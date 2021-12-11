@@ -48,7 +48,7 @@ const SideBar = (props) => {
     })
       .then((response) => response.text())
       .then((data) => {
-        // console.log(data);
+        // console.log(data); 
         setImg(data)
         // if (data.StudentIds.length > 0) {
         //   setPhotoPath(data.PhotoPath);
@@ -76,17 +76,18 @@ const SideBar = (props) => {
       let formData = new FormData();
       // Assume "photo" is the name of the form field the server expects
       formData.append('', { uri: localUri, name: filename, type });
-
+      console.log('formData')
+      console.log(formData)
       fetch(`${API_URL}/odata/StudentAccount`, {
-        method: "post",
+        method: "POST",
         headers: {
-          Accept: "*/*",
+          'Accept': 'application/json',
           'Content-Type': 'multipart/form-data',
           'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
         },
         body: formData,
       })
-        .then((response) => response.json())
+        .then((response) => response.text())
         .then((response) => {
           console.log('response');
           console.log(response);

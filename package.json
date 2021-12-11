@@ -24,6 +24,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-calendars": "^1.1271.0",
     "react-native-collapsible": "^1.6.0",
     "react-native-datepicker": "^1.7.2",
     "react-native-dotenv": "^3.2.0",
@@ -43,6 +44,7 @@
     "react-redux": "^7.2.4",
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0",
+    "rrule": "^2.6.8",
     "styled-components": "^5.3.1",
     "styled-system": "^5.1.5",
     "symbol-observable": "^4.0.0"

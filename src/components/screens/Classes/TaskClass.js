@@ -3,12 +3,14 @@ import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, Activ
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
+import loginStyle from "../../../style/login/loginStyle";
 import globalStyle from "../../../style/globalStyle";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../../Utility/AppConst";
 import Collapsible from "react-native-collapsible";
 import moment from 'moment';
+import { RRule, RRuleSet, rrulestr } from 'rrule'
 const apiUrl = API_URL.trim();
 const TaskClass = (props) => {
     const [loader, setloader] = React.useState(true);
@@ -40,8 +42,8 @@ const TaskClass = (props) => {
                         })
                             .then((response) => response.json())
                             .then((data) => {
-                                console.log(data)
-                                console.log('data')
+                               // console.log(data)
+                               // console.log('data')
                                 setloader(false);
                                 // if (data.value) {
                                 setEventListing(data);
@@ -60,6 +62,18 @@ const TaskClass = (props) => {
     });
 
 
+    const storeData = async (value) => {
+        console.log(value);
+        let eventId = JSON.stringify(value);
+        // console.log(eventId);
+        try {
+            await AsyncStorage.setItem("taskId", eventId);
+            props.navigation.navigate("Class Resevation");
+        } catch (e) {
+            // saving error
+        }
+    };
+
 
     const { navigation } = props;
     return (
@@ -68,67 +82,83 @@ const TaskClass = (props) => {
                 backgroundColor: "#FFFFFF",
             }}
         >
-            <SideBarMenu title={"Class Details"} navigation={props.navigation} />
-            {loader ? (
-                <Content>
-                    <View style={[styles.container, styles.horizontal]}>
-                        <ActivityIndicator size="large" color="#29ABE2" />
-                    </View>
-                </Content>
-            ) : (
-                typeof eventListing !== "undefined" &&
-                    eventListing.length > 0 ? (
-                    eventListing.map(function (event, index) {
-                        let startDate = moment(event.StartDate).format("MMMM Do, YYYY");
-                        let starttime = moment(event.StartDate).format("hh:mm a ");
-                        let endtime = moment(event.EndDate).format("MMMM Do, YYYY");
-                        return (
-                            <Content key={index}>
-                                <Image source={require("./../../../../assets/retails.jpg")} style={{ width: "100%", height: 220 }} />
-                                <View style={{ margin: 15, marginTop: 25 }}>
-                                    <Title style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {event.Title}</Title>
-                                    <TouchableOpacity onPress={() => { toggleExpanded() }}>
-                                        <View style={globalStyle.accordianStyle}>
-                                            <Text
-                                                style={{
-                                                    color: "#000",
-                                                    fontSize: 22,
-                                                    marginBottom: 0,
-                                                    fontWeight: "bold",
-                                                }}
-                                            >
-                                                Description
-                                            </Text>
-                                            {collapsed ? (
-                                                <Image
-                                                    style={globalStyle.arrows}
-                                                    source={require("./../../../../assets/down-arrow.png")}
-                                                    resizeMode={"contain"}
-                                                />
-                                            ) : (
-                                                <Image
-                                                    style={globalStyle.arrows}
-                                                    source={require("./../../../../assets/up-arrow.png")}
-                                                    resizeMode={"contain"}
-                                                />
-                                            )}
+            <SideBarMenu title={"Class Tasks"} navigation={props.navigation} />
+            <Content padder>
+                {loader ? (
+                    <Content>
+                        <View style={[styles.container, styles.horizontal]}>
+                            <ActivityIndicator size="large" color="#29ABE2" />
+                        </View>
+                    </Content>
+                ) : (
+                    typeof eventListing !== "undefined" &&
+                        eventListing.length > 0 ? (
+                        eventListing.map(function (event, index) {
+                            let startDate = moment(event.StartDate).format("MMMM Do, YYYY");
+                            let starttime = moment(event.StartDate).format("hh:mm a ");
+                            let endtime = moment(event.EndDate).format("MMMM Do, YYYY");
+                            // var options = RRule.fromString(event.RecurrenceRule)
+                            // options.toText()
+                            // console.log(options.toText())
+                            // console.log('optionsss')
+                            //  console.log(options.all())
+                            return (
+                                <View style={{ marginBottom: 10, marginTop: 10 }} key={index}>
+                                    <TouchableOpacity
+                                    //  onPress={() => storeData(event.ClassId, event.Name)}
+                                    >
+                                        <View style={globalStyle.eventsListingWrapper}>
+                                            <View style={globalStyle.eventsListingTopWrapper}>
+                                                <View style={{ paddingLeft: 15, paddingRight: 10, width: "100%" }}>
+                                                    <Title style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {event.Title}</Title>
+                                                    <View style={{ borderTopColor: "#ccc", borderTopWidth: 1, paddingTop: 20, marginTop: 20 }}>
+                                                        {event.Description != '' && event.Description != null ?
+                                                            <Text
+                                                                style={{
+                                                                    color: "#000",
+                                                                    fontSize: 22,
+                                                                    marginBottom: 0,
+                                                                    fontWeight: "bold",
+                                                                    width: "100%"
+                                                                }}
+                                                            >
+                                                                Description
+                                                            </Text>
+                                                            : null}
+                                                    </View>
+                                                    {event.Description != '' && event.Description != null ?
+                                                        <View style={{ borderBottomColor: "#ccc", borderBottomWidth: 1, paddingBottom: 20, marginBottom: 20 }}>
+                                                            <Text style={globalStyle.p}>{event.Description}</Text>
+                                                        </View>
+                                                        : null}
+                                                    <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Start Date: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{startDate}</Text></Text>
+                                                    <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Start Time: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{starttime}</Text></Text>
+                                                    <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>End Date: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{endtime}</Text></Text>
+                                                    <ImageBackground
+                                                        style={[
+                                                            globalStyle.Btn,
+                                                            {
+                                                                width: "100%",
+                                                            },
+                                                        ]}
+                                                        source={require("./../../../../assets/Oval.png")}
+                                                        resizeMode={"stretch"}
+                                                    >
+                                                        <Button onPress={() => storeData(event.Id)} style={loginStyle.buttons} full>
+                                                            <Text style={loginStyle.buttonText}>Book Class</Text>
+                                                        </Button>
+                                                    </ImageBackground>
+                                                </View>
+                                            </View>
                                         </View>
                                     </TouchableOpacity>
-                                    <Collapsible collapsed={collapsed} align="center">
-                                        <View style={{ borderBottomColor: "#ccc", borderBottomWidth: 1, paddingBottom: 20, marginBottom: 20 }}>
-                                            <Text style={globalStyle.p}>{event.Description}</Text>
-                                        </View>
-                                    </Collapsible>
-                                    <Text style={{ fontSize: 18, color: "#555", fontWeight:"bold", marginBottom: 10 }}>Start Date: <Text style={{ fontSize: 18, color: "#555", fontWeight:"normal" }}>{startDate}</Text></Text>
-                                    <Text style={{ fontSize: 18, color: "#555", fontWeight:"bold", marginBottom: 10 }}>Start Time: <Text style={{ fontSize: 18, color: "#555", fontWeight:"normal"  }}>{starttime}</Text></Text>
-                                    <Text style={{ fontSize: 18, color: "#555", fontWeight:"bold", marginBottom: 10 }}>End Date: <Text style={{ fontSize: 18, color: "#555" , fontWeight:"normal" }}>{endtime}</Text></Text>
                                 </View>
-                            </Content>
 
-                        );
-                    })
-                ) : null
-            )}
+                            );
+                        })
+                    ) : null
+                )}
+            </Content>
         </Container>
     );
 };

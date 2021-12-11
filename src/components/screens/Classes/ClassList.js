@@ -24,7 +24,7 @@ const ClassList = (props) => {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                   // console.log(data)
+                    // console.log(data)
                     if (data.value) {
                         setEventListing(data.value);
                         setloader(false);
@@ -90,7 +90,7 @@ const ClassList = (props) => {
                                 <TouchableOpacity onPress={() => storeData(event.ClassId, event.Name)}>
                                     <View style={globalStyle.eventsListingWrapper}>
                                         <View style={globalStyle.eventsListingTopWrapper}>
-                                            <View style={{ paddingLeft: 15, paddingRight: 10 }}>
+                                            <View style={{ paddingLeft: 0, paddingRight: 10 }}>
                                                 <Text
                                                     style={{
                                                         fontSize: 18,
@@ -101,10 +101,10 @@ const ClassList = (props) => {
                                                 >
                                                     {event.Name}
                                                 </Text>
-                                                {event.Description != '' && event.Description != null ?
-                                                    <Text style={{ fontSize: 16, color: "#555" }}>Description: {event.Description} </Text>
-                                                    : null}
-
+                                                <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
+                                                    {/* //{event.Description}  */}
+                                                    Learning starts with a calm body, eyes & ears on the instructor and following group directions.
+                                                </Text>
                                             </View>
                                         </View>
                                         <View style={globalStyle.eventsListingBottomWrapper}>
