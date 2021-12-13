@@ -25,7 +25,8 @@ import {
   CartEvents,
   TaskClass,
   ClassList,
-  ClassResevation
+  ClassReservations,
+  StudentClasses
 } from "../screens";
 import { SideBar } from ".";
 import { FlatList } from "react-native";
@@ -58,9 +59,10 @@ const Drawer = (props) => {
       <HomeDrawer.Screen name="Purchase Product" component={PurchaseProduct} />
       <HomeDrawer.Screen name="Cart" component={Cart} />
       <HomeDrawer.Screen name="Events Cart" component={CartEvents} />
-      <HomeDrawer.Screen name="Classes" component={ClassList} /> 
+      <HomeDrawer.Screen name="Class Reservation" component={ClassList} /> 
       <HomeDrawer.Screen name="Class Tasks" component={TaskClass} /> 
-      <HomeDrawer.Screen name="Class Resevation" component={ClassResevation} /> 
+      <HomeDrawer.Screen name="Class Reservations" component={ClassReservations} /> 
+      <HomeDrawer.Screen name="Student Classes" component={StudentClasses} /> 
     </HomeDrawer.Navigator>
   );
 };

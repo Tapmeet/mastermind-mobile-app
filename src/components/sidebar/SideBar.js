@@ -11,7 +11,7 @@ import EMPTY_CART from "./../../redux/Retail";
 import EMPTY_EVENT from "./../../redux/Event";
 import { EventDetails } from "../screens";
 import * as ImagePicker from 'expo-image-picker';
-const routes = ["Home", "Link Student", "Profile", "Inquiry", "Classes", "Memberships", "Payment Methods", "Events", "Retail", "Purchase History"];
+const routes = ["Home", "Link Student", "Profile", "Inquiry", "Class Reservation","Student Classes", "Memberships", "Payment Methods", "Events", "Retail", "Purchase History"];
 
 const SideBar = (props) => {
   const dispatch = useDispatch();

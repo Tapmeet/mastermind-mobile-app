@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -14,11 +14,16 @@ import { RRule, RRuleSet, rrulestr } from 'rrule'
 import { CalendarList, Calendar } from 'react-native-calendars';
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 const apiUrl = API_URL.trim();
-const ClassResevation = (props) => {
+var uniqueStudent = [];
+const key = 'value';
+const ClassReservations = (props) => {
+    var todayDate = new Date();
+    todayDate = moment(todayDate).format('YYYY-MM-DD');
     const [loader, setloader] = React.useState(true);
     const userId = useSelector((state) => state);
     const [studentIds, setStudentIds] = React.useState([]);
     const [selectedStudent, setSelectedStudent] = React.useState([]);
+    const [studentData, setStudentData] = React.useState([]);
     const [totalStudent, setTotalStudent] = React.useState([]);
     const [retailProducts, setRetailProducts] = React.useState([]);
     const [personId, setPersonId] = React.useState('');
@@ -26,9 +31,13 @@ const ClassResevation = (props) => {
     const [taskId, setTaskId] = React.useState('');
     const [taskTitle, setTaskTitle] = React.useState('');
     const [eventListing, setEventListing] = React.useState([]);
-
+    const [loaderMessage, setLoaderMessage] = React.useState(false);
+    const [selectedDate, setSelectedDate] = React.useState('');
+    const [SuccessMessage, setSuccessMessage] = React.useState("");
+    const [errorMessage, setErrorMessage] = React.useState("");
     const [recurrenceText, setRecurrenceText] = React.useState('');
 
+    const [startDateUnformatted, setStartDateUnformatted] = React.useState('');
     const [startDate, setStartDate] = React.useState('');
     const [startTime, setStartTime] = React.useState('');
     const [endDate, setEndDate] = React.useState('');
@@ -67,8 +76,7 @@ const ClassResevation = (props) => {
     });
 
     const fetchdata = (value, taskId) => {
-        setStartDate('')
-        setEndDate('')
+        clearData()
         fetch(`${apiUrl}public/GetClassOccurrences?classId=${value}`, {
             method: "get",
             headers: {
@@ -87,7 +95,7 @@ const ClassResevation = (props) => {
                         let startDate = moment(event.StartDate).format("MMMM Do, YYYY");
                         let starttime = moment(event.StartDate).format("hh:mm a ");
                         let enddate = moment(event.EndDate).format("MMMM Do, YYYY");
-
+                        setStartDateUnformatted(event.StartDate)
                         setStartDate(startDate);
                         setStartTime(starttime);
                         setEndDate(enddate);
@@ -107,7 +115,8 @@ const ClassResevation = (props) => {
                                         selected: true,
                                         selectedColor: '#4895FF',
                                         disabled: false,
-                                        disableTouchEvent: false
+                                        disableTouchEvent: false,
+                                        marked: true
                                     },
                                 })
                             })
@@ -151,16 +160,114 @@ const ClassResevation = (props) => {
                         })
                             .then((response) => response.json())
                             .then((data) => {
+                                //console.log(data)
+                                // setStudentData(data)
                                 if (studentIds.length <= students) {
-                                    console.log('here')
                                     let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
-                                    setStudentIds((prevState) => [...prevState, dataArray]);
+                                    setStudentData((prevState) => [...prevState, data]);
+                                    //setStudentIds((prevState) => [...prevState, dataArray]);
+                                    uniqueStudent.push(dataArray)
+                                    let uniquestudentList = [...new Map(uniqueStudent.map(item =>
+                                        [item[key], item])).values()];
+                                    setStudentIds(uniquestudentList);
                                     setloader(false)
                                 }
                             });
                     });
                 }
             });
+    }
+    const getSelectedDayEvents = date => {
+        console.log(date)
+        //console.log(startDate)
+
+        let starttime = moment(startDateUnformatted).format("HH:mm:ss");
+        let startDate = moment(date).format("DD/MM/YYYY");
+        let datesCheck = new Date(date + ' ' + starttime);
+        console.log(datesCheck)
+        console.log(startDate + ' ' + starttime)
+        setSelectedDate(startDate + ' ' + starttime)
+
+
+    };
+    const reserveClass = () => {
+
+        if (selectedStudent == undefined) {
+            Alert.alert(" Alert",
+                "Please select student",
+                [{
+                    text: 'Ok',
+                    //onPress: () => //console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },]);
+            return false
+        }
+        if (selectedDate == '') {
+            Alert.alert(" Alert",
+                "Please select date",
+                [{
+                    text: 'Ok',
+                    //onPress: () => //console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },]);
+            return false
+        }
+        const apiUrl = API_URL.trim();
+        let studentName = '';
+        let studentEmail = '';
+        studentData.map(function (student, index) {
+            if (selectedStudent == student.StudentId) {
+                studentName = student.FirstName + ' ' + student.LastName
+                studentEmail = student.Email
+            }
+
+        })
+        console.log(studentName)
+        console.log(studentEmail)
+        fetch(`${apiUrl}public/ClassReservation`, {
+            method: "post",
+            headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+            },
+            body: JSON.stringify({
+                taskId: taskId,
+                CheckInTime: selectedDate,
+                StudentId: selectedStudent,
+                StudentName: studentName,
+                StudentEmail: studentEmail,
+            }),
+        })
+            .then((response) => {
+                console.log("response")
+                let jsonData = JSON.stringify(response);
+                console.log(jsonData)
+                let jsonDataPrase = JSON.parse(jsonData);
+                // console.log(jsonDataPrase.status)
+                if (jsonDataPrase.status != 200) {
+                    setLoaderMessage(false)
+                    setErrorMessage("An error has occurred.");
+                } else {
+                    setLoaderMessage(false)
+                    setSuccessMessage("Successfully Submitted.");
+                    setTimeout(function () {
+                        setSelectedDate('')
+                        setSelectedStudent('')
+                        setSuccessMessage('')
+                        setErrorMessage('')
+                    }, 3000);
+                }
+            });
+    }
+    const clearData = () => {
+        setStartDate('')
+        setEndDate('')
+        setSelectedDate('')
+        setSelectedStudent('')
+        setSuccessMessage('')
+        setErrorMessage('')
+        setLoaderMessage(false)
     }
     const placeholderStudent = {
         label: "Select Student",
@@ -225,7 +332,9 @@ const ClassResevation = (props) => {
                                     // markingType={'custom'}
                                     markingType={'multi-dot'}
                                     markedDates={recurrenceRule}
-                                    onDayPress={(day) => { console.log('selected day', day) }}
+                                    onDayPress={day => {
+                                        getSelectedDayEvents(day.dateString);
+                                    }}
                                     disabledByDefault={true}
                                     disableAllTouchEventsForDisabledDays={true}
                                     // minDate={'2021-05-10'} 
@@ -247,7 +356,7 @@ const ClassResevation = (props) => {
                                         showScrollIndicator={true}
                                         horizontal={true}
                                         pagingEnabled={true}
-                                        // current={'2021-05-11'}
+                                        current={todayDate}
                                         // onVisibleMonthsChange={months => this.onMonthChange(months)}
                                         // pagingEnabled
                                         style={{ borderBottomWidth: 1, borderBottomColor: ' black' }}
@@ -291,7 +400,35 @@ const ClassResevation = (props) => {
                                     />
                                 </View>
                             </View>
+                            {selectedDate ?
+                                <View style={globalStyle.eventsListingWrapper}>
+                                    <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Check In</Text>
+                                    <Text style={{ fontWeight: "normal", marginBottom: 10 }}>{selectedDate}</Text>
+                                </View>
+                                : null}
                             {/* </TouchableOpacity> */}
+
+                            <ImageBackground
+                                style={[
+                                    globalStyle.Btn,
+                                    {
+                                        width: "100%",
+                                    },
+                                ]}
+                                source={require("./../../../../assets/Oval.png")}
+                                resizeMode={"stretch"}
+                            >
+                                <Button onPress={() => reserveClass()} style={loginStyle.buttons} full>
+                                    <Text style={loginStyle.buttonText}>Reserve Class</Text>
+                                </Button>
+                            </ImageBackground>
+                            {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
+                            {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
+                            {loaderMessage ? (
+                                <View style={[styles.container, styles.horizontal]}>
+                                    <ActivityIndicator size="large" color="#29ABE2" />
+                                </View>
+                            ) : null}
                         </View>
                     ) : null
                 )}
@@ -299,7 +436,7 @@ const ClassResevation = (props) => {
         </Container>
     );
 };
-export default ClassResevation;
+export default ClassReservations;
 
 const styles = StyleSheet.create({
     container: {

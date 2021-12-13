@@ -68,7 +68,7 @@ const TaskClass = (props) => {
         // console.log(eventId);
         try {
             await AsyncStorage.setItem("taskId", eventId);
-            props.navigation.navigate("Class Resevation");
+            props.navigation.navigate("Class Reservations");
         } catch (e) {
             // saving error
         }
