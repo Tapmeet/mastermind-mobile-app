@@ -137,9 +137,9 @@ const SideBar = (props) => {
   }, [data]);
 
   return (
-    <ScrollView>
+    <ScrollView >
       <ImageBackground
-        style={{ padding: 16, paddingTop: 48, height: win.height }}
+        style={{ padding: 16, paddingTop: 48, height: win.height + 38 }}
         source={require("./../../../assets/menu.png")}
         resizeMode={"stretch"}
       >
@@ -148,6 +148,7 @@ const SideBar = (props) => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+           
           }}
         >
           <TouchableOpacity title="" onPress={pickImage} >
@@ -169,8 +170,8 @@ const SideBar = (props) => {
             {firstName ? firstName + " " + lastName : "Michael Jordan"}
           </Text>
         </View>
-        <Container style={{ backgroundColor: "transparent", marginTop: 60 }}>
-          <List style={{ backgroundColor: "transparent" }}>
+        <Container style={{ backgroundColor: "transparent"}}>
+          <List style={{ backgroundColor: "transparent",  marginBottom:50 }}>
             {routes.map((item, index) => {
               return (
                 <ListItem key={index} button underlayColor="transparent" onPress={() => props.navigation.navigate(item)}>
@@ -184,8 +185,9 @@ const SideBar = (props) => {
           style={{
             backgroundColor: "transparent",
             paddingLeft: 15,
-            // position: "relative",
-            // marginBottom: 20,
+            // marginTop:50,
+            // // position: "relative",
+            //  marginBottom: 20,
             // zIndex: 99,
           }}
           button

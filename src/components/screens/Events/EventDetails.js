@@ -28,6 +28,8 @@ const EventDetails = (props) => {
   const retail = useSelector((state) => state);
   const [studentIds, setStudentIds] = React.useState([]);
   const [selectedStudent, setSelectedStudent] = React.useState([]);
+  
+  const [selectedStudentName, setselectedStudentName] = React.useState('');
   const [totalStudent, setTotalStudent] = React.useState([]);
   const [retailProducts, setRetailProducts] = React.useState([]);
   const [personId, setPersonId] = React.useState('');
@@ -170,7 +172,7 @@ const EventDetails = (props) => {
       })
       if (productindex === '') {
         setSelectedMessage(false);
-        console.log("theres")
+        
         let dataArray = {
           id: eventid,
           studentIds: [selectedStudent],
@@ -184,8 +186,17 @@ const EventDetails = (props) => {
           eventPrice: eventPrice,
           productTitle: productTitle,
         });
+        setSelectedStudent([])
       }
       else {
+        let studentName = '';
+        studentIds.map(function (student, index) {
+            if (selectedStudent == student.value) {
+                studentName = student.label 
+            }
+
+        })
+        setselectedStudentName(studentName)
         setSelectedMessage(true);
         // console.log("here1")
         // let newArr = [...retails]; // copying the old datas array
@@ -460,7 +471,7 @@ const EventDetails = (props) => {
                     <View>
                       {selectedMessage != "" ? (
                         <Text style={[globalStyle.sucessText,{ color: "#ff0000", lineHeight: 25}]}>
-                          You've have already registered insert student name.  Please select a different student or view cart to complete purchase.
+                          You've have already registered {selectedStudentName}.  Please select a different student or view cart to complete purchase.
                         </Text>
                       ) : null}
                     </View>
