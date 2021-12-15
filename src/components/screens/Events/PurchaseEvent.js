@@ -89,7 +89,7 @@ const PurchaseEvent = (props) => {
     let selectedStudentArray = selectedstudent.map((a) => a.id);
     let price = 0;
     let uniqueArray = unique(selectedStudentArray);
-    console.log(uniqueArray)
+    //console.log(uniqueArray)
     if (uniqueArray.length > 0) {
       price = parseFloat(eventDefaultPrice) * parseFloat(uniqueArray.length);
       // console.log(price)
@@ -167,7 +167,7 @@ const PurchaseEvent = (props) => {
         if (data.value) {
           // setloader(false)
           setPaymentMethod(data.value)
-          console.log(data.value)
+        //  console.log(data.value)
           data.value.length > 0 ?
             data.value.map(function (payment, index) {
               setActiveIndex(index)
@@ -204,8 +204,12 @@ const PurchaseEvent = (props) => {
     // let uniqueArray = unique(selectedStudentArray);
     retail.eventReducer.length > 0 ?
       retail.eventReducer.map(function (product, index) {
-        // console.log('productproductproductproductproductproduct')
-        // console.log(product)
+         console.log('productproductproductproductproductproduct')
+         console.log(product.studentIds)
+         console.log('productproductproductproductproductproduct')
+         console.log(defaultId)
+         console.log('productproductproductproductproductproduct')
+         console.log( product.id)
         fetch(`${apiUrl}/odata/PurchaseOfSale`, {
           method: "post",
           headers: {
@@ -223,8 +227,8 @@ const PurchaseEvent = (props) => {
           .then((response) => response.json())
           .then((response) => {
             setProcessing(false)
-            // console.log('response');
-            // console.log(response);
+            console.log('response');
+             console.log(response);
             // setLoaderMessage(false);
             if (response["order"]) {
               setSuccessMessage("Event Purchased  Successfully");
@@ -258,7 +262,10 @@ const PurchaseEvent = (props) => {
           });
       })
       : null
-    updateRetail([]);
+      setTimeout(function () {
+        updateRetail([]);
+      }, 5000);
+   
     // .then((response) => {
     //   console.log(response);
     //   setLoaderMessage(false);

@@ -578,7 +578,7 @@ export default EventOrdersListing;
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 18,
-    minWidth: 135,
+    minWidth: 180,
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderWidth: 0,
@@ -590,7 +590,7 @@ const pickerSelectStyles = StyleSheet.create({
   },
   inputAndroid: {
     fontSize: 18,
-    minWidth: 135,
+    minWidth: 180,
     paddingHorizontal: 10,
     paddingVertical: 15,
     borderWidth: 0,

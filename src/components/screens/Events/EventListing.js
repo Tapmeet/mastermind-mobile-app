@@ -47,7 +47,7 @@ const EventListing = (props) => {
         .then((data) => {
           if (data.events) {
             setEventListing(data.events);
-            console.log(data.events)
+         //   console.log(data.events)
             setEventList(data.events)
             var category = [];
             data.events.map(function (event, index) {
@@ -69,7 +69,7 @@ const EventListing = (props) => {
   });
 
   const storeData = async (value, title) => {
-    console.log(value);
+    //console.log(value);
     let eventId = JSON.stringify(value);
     // console.log(eventId);
     try {
@@ -81,7 +81,7 @@ const EventListing = (props) => {
     }
   };
   const setcategory = (value) => {
-    console.log('heress')
+  //  console.log('heress')
     if (value != '' && value != undefined) {
       setSelectedCategory(value)
       var newArray = eventsList.filter(function (el) {
@@ -119,7 +119,7 @@ const EventListing = (props) => {
       }
       else if (value == 'recently') {
         eventListing.sort((a, b) => parseFloat(b.PosItemId) - parseFloat(a.PosItemId));
-        console.log(selectedCategory);
+       // console.log(selectedCategory);
         if (selectedCategory != '') {
           var newArray = eventListing.filter(function (el) {
             return el.Category == selectedCategory;

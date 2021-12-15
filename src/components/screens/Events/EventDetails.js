@@ -179,7 +179,9 @@ const EventDetails = (props) => {
           eventPrice: eventPrice,
           productTitle: productTitle,
         };
+        
         setRetailProducts((prevState) => [...prevState, dataArray]);
+      
         userRetail({
           id: eventid,
           studentIds: [selectedStudent],
@@ -208,6 +210,7 @@ const EventDetails = (props) => {
         // };
         // updateRetail(newArr);
         // setRetailProducts(newArr);
+
       }
 
     } else {
@@ -224,6 +227,7 @@ const EventDetails = (props) => {
         eventPrice: eventPrice,
         productTitle: productTitle,
       });
+      setSelectedStudent([])
     }
 
 
@@ -451,7 +455,13 @@ const EventDetails = (props) => {
                         }}
                       />
                     </View>
-
+                    <View>
+                      {selectedMessage != "" ? (
+                        <Text style={[globalStyle.sucessText,{ color: "#ff0000", lineHeight: 25}]}>
+                          You've have already registered {selectedStudentName}.  Please select a different student or view cart to complete purchase.
+                        </Text>
+                      ) : null}
+                    </View>
                     {event.HasPaymentOption ?
                       <View style={{
                         display: "flex",
@@ -468,13 +478,7 @@ const EventDetails = (props) => {
                       </View>
                       : null
                     }
-                    <View>
-                      {selectedMessage != "" ? (
-                        <Text style={[globalStyle.sucessText,{ color: "#ff0000", lineHeight: 25}]}>
-                          You've have already registered {selectedStudentName}.  Please select a different student or view cart to complete purchase.
-                        </Text>
-                      ) : null}
-                    </View>
+                    
                   </View>
                 </Content>
                 : null

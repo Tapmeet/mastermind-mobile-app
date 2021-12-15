@@ -104,7 +104,7 @@ const CartEvents = (props) => {
             let newRetails = retails.filter(function (product, index) {
                 return index != productindex
             });
-            console.log(newRetails)
+           // console.log(newRetails)
 
             total = 0;
             updateRetail(newRetails);

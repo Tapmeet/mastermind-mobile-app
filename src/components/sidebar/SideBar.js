@@ -48,7 +48,7 @@ const SideBar = (props) => {
     })
       .then((response) => response.text())
       .then((data) => {
-        // console.log(data); 
+     //    console.log(data); 
         setImg(data)
         // if (data.StudentIds.length > 0) {
         //   setPhotoPath(data.PhotoPath);
@@ -76,8 +76,8 @@ const SideBar = (props) => {
       let formData = new FormData();
       // Assume "photo" is the name of the form field the server expects
       formData.append('', { uri: localUri, name: filename, type });
-      console.log('formData')
-      console.log(formData)
+     // console.log('formData')
+     // console.log(formData)
       fetch(`${API_URL}/odata/StudentAccount`, {
         method: "POST",
         headers: {
@@ -89,12 +89,12 @@ const SideBar = (props) => {
       })
         .then((response) => response.text())
         .then((response) => {
-          console.log('response');
-          console.log(response);
-          getprofilePic(guid)
+          // console.log('response here');
+          // console.log(response);
+          getprofilePic(guid) 
         })
         .catch((response) => {
-          console.log('error');
+          //console.log('error');
           console.log(response);
           //  setErrorMessage("An error has occurred. Please check all the fields");
         });
@@ -121,7 +121,7 @@ const SideBar = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          //  console.log(data);
+           // console.log(data);
           if (data.StudentIds.length > 0) {
             setStudentIds(data.StudentIds);
             setFirstName(data.FirstName);
@@ -171,7 +171,7 @@ const SideBar = (props) => {
           </Text>
         </View>
         <Container style={{ backgroundColor: "transparent"}}>
-          <List style={{ backgroundColor: "transparent",  marginBottom:50 }}>
+          <List style={{ backgroundColor: "transparent"}}>
             {routes.map((item, index) => {
               return (
                 <ListItem key={index} button underlayColor="transparent" onPress={() => props.navigation.navigate(item)}>

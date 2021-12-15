@@ -85,7 +85,7 @@ const Cart = (props) => {
     }
     const setproductsQuantities = (productindex, value) => {
         if (value != '' && value != undefined) {
-            console.log(retailProducts)
+          //  console.log(retailProducts)
             let retails = retail.cartItemsReducer;
             let newArr = [...retails];
 
@@ -106,11 +106,11 @@ const Cart = (props) => {
     const deleteProduct = (productindex) => {
         if (productindex != '' || productindex != undefined) {
             let retails = retail.cartItemsReducer;
-            console.log(retails[productindex].id)
+          //  console.log(retails[productindex].id)
             let newRetails = retails.filter(function (product, index) {
                 return index != productindex
             });
-            console.log(newRetails)
+          //  console.log(newRetails)
 
             total = 0;
             updateRetail(newRetails);
