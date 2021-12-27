@@ -166,7 +166,8 @@ const EventOrdersListing = (props) => {
         var toDate = new Date();
         var fromDate = new Date();
         fromDate.setDate(fromDate.getDate() - 30);
-       // console.log(fromDate)
+        console.log(fromDate)
+        console.log(toDate)
         // var fromDate = new Date(date.getFullYear(), date.getMonth() - 20, 1);
         toDate.setDate(fromDate.getDate());
         //console.log(toDate)

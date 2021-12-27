@@ -204,6 +204,7 @@ const PurchaseProduct = (props) => {
       retail.cartItemsReducer.map(function (product, index) {
         console.log('productproductproductproductproductproduct')
         console.log(product)
+    
         fetch(`${apiUrl}/odata/PurchaseOfSale`, {
           method: "post",
           headers: {
@@ -224,8 +225,8 @@ const PurchaseProduct = (props) => {
           .then((response) => response.json())
           .then((response) => {
             setProcessing(false)
-            // console.log('response');
-            // console.log(response);
+             console.log('response');
+             console.log(response);
             // setLoaderMessage(false);
             if (response["order"]) {
               setSuccessMessage("Product Purchased  Successfully");
@@ -259,7 +260,9 @@ const PurchaseProduct = (props) => {
           });
       })
       : null
-    updateRetail([]);
+      setTimeout(function () {
+        updateRetail([]);
+      }, 5000);
     // .then((response) => {
     //   console.log(response);
     //   setLoaderMessage(false);
