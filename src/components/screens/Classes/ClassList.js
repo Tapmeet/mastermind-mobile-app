@@ -25,8 +25,8 @@ const ClassList = (props) => {
                 .then((response) => response.json())
                 .then((data) => {
                     // console.log(data)
-                    if (data.value) {
-                        setEventListing(data.value);
+                    if (data.classes) {
+                        setEventListing(data.classes);
                         setloader(false);
                     } else {
                         setloader(false);

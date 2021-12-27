@@ -11,6 +11,7 @@ import EMPTY_CART from "./../../redux/Retail";
 import EMPTY_EVENT from "./../../redux/Event";
 import { EventDetails } from "../screens";
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Events", "Retail", "Class Reservation", "Payment Methods", "Purchase History"];
 
 const SideBar = (props) => {
@@ -56,51 +57,56 @@ const SideBar = (props) => {
         // }
       });
   }
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+ 
+const pickImage = async () => {
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 1,
+  });
+  //console.log(result);
+  if (!result.cancelled) {
+    let localUri = result.uri;
+    let filename = localUri.split('/').pop();
+    const base64 = await FileSystem.readAsStringAsync(result.uri, {
+      encoding: 'base64'
     });
-    console.log(result);
-    if (!result.cancelled) {
-      let localUri = result.uri;
-      let filename = localUri.split('/').pop();
+    //console.log(base64);
+    // Infer the type of the image
+    let match = /\.(\w+)$/.exec(filename);
+    let type = match ? `${match[1]}` : `image`;
 
-      // Infer the type of the image
-      let match = /\.(\w+)$/.exec(filename);
-      let type = match ? `image/${match[1]}` : `image`;
-
-      // Upload the image using the fetch and FormData APIs
-      let formData = new FormData();
-      // Assume "photo" is the name of the form field the server expects
-      formData.append('', { uri: localUri, name: filename, type });
-     // console.log('formData')
-     // console.log(formData)
-      fetch(`${API_URL}/odata/StudentAccount`, {
-        method: "POST",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'multipart/form-data',
-          'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
-        },
-        body: formData,
+    // // Upload the image using the fetch and FormData APIs
+    // let formData = new FormData();
+    // // Assume "photo" is the name of the form field the server expects
+    // formData.append('', { uri: localUri, name: filename, type });
+    setImage(base64);
+    console.log(`${API_URL}odata/StudentAccount`);
+    fetch(`${API_URL}odata/StudentAccount`, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
+      },
+      body: JSON.stringify({
+        base64: base64,
+        fileType: type
+      }),
+    })
+      .then((response) => response.text())
+      .then((response) => {
+        console.log('response here');
+        console.log(response);
+        //getprofilePic(guid)
       })
-        .then((response) => response.text())
-        .then((response) => {
-          // console.log('response here');
-          // console.log(response);
-          getprofilePic(guid) 
-        })
-        .catch((response) => {
-          //console.log('error');
-          console.log(response);
-          //  setErrorMessage("An error has occurred. Please check all the fields");
-        });
-      setImage(result.uri);
-    }
-  };
+      .catch((response) => {
+        console.log('error');
+        console.log(response);
+        //  setErrorMessage("An error has occurred. Please check all the fields");
+      });
+  }
+};
   React.useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
