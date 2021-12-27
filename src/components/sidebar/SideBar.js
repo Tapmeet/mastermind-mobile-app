@@ -78,33 +78,31 @@ const pickImage = async () => {
     let type = match ? `${match[1]}` : `image`;
 
     // // Upload the image using the fetch and FormData APIs
-    // let formData = new FormData();
+    let formData = new FormData();
     // // Assume "photo" is the name of the form field the server expects
-    // formData.append('', { uri: localUri, name: filename, type });
-    setImage(base64);
-    console.log(`${API_URL}odata/StudentAccount`);
-    fetch(`${API_URL}odata/StudentAccount`, {
-      method: "POST",
+     formData.append('base64', base64);
+     formData.append('fileType', type);
+    setImg(base64);
+    console.log(base64);
+
+    fetch(`${apiUrl}/odata/StudentAccount`, {
+      method: "post",
       headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
+        Accept: "*/*",
+        'Content-Type': 'multipart/form-data; ',
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
       },
-      body: JSON.stringify({
-        base64: base64,
-        fileType: type
-      }),
+      body: formData
     })
-      .then((response) => response.text())
-      .then((response) => {
-        console.log('response here');
-        console.log(response);
-        //getprofilePic(guid)
-      })
-      .catch((response) => {
-        console.log('error');
-        console.log(response);
-        //  setErrorMessage("An error has occurred. Please check all the fields");
-      });
+    .then((response) => {
+      let jsonData = JSON.stringify(response);
+      let jsonDataPrase = JSON.parse(jsonData);
+      console.log(jsonDataPrase)
+      
+    })
+    .catch((response) => {
+      console.log(response)
+    });
   }
 };
   React.useEffect(() => {
