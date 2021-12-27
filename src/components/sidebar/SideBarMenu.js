@@ -28,7 +28,7 @@ const SideBarMenu = (props) => {
           <Title><Text style={globalStyle.titleStyling}>{props.title}</Text></Title>
         </Body>
         <Right>
-          {navmenuLink != "Home" ?
+          {/* {navmenuLink != "Home" ?
             <View style={{display: "flex", flexDirection: "row", alignItems:"center"}}> 
               <Text
                 style={[globalStyle.titleStyling, { fontSize: 15 }]}
@@ -42,8 +42,7 @@ const SideBarMenu = (props) => {
                 resizeMode={'contain'}
               />
             </View>
-            : null}
-
+            : null} */}
         </Right>
       </Header>
     </ImageBackground>

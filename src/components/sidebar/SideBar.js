@@ -141,7 +141,7 @@ const SideBar = (props) => {
   return (
     <ScrollView >
       <ImageBackground
-        style={{ padding: 16, paddingTop: 48, height: win.height + 38 }}
+        style={{ padding: 15, paddingTop: 50, height: win.height }}
         source={require("./../../../assets/menu.png")}
         resizeMode={"stretch"}
       >
@@ -149,11 +149,10 @@ const SideBar = (props) => {
           style={{
             display: "flex",
             flexDirection: "row",
-            alignItems: "center",
-           
+            alignItems: "center"
           }}
         >
-          <TouchableOpacity title="" onPress={pickImage} >
+          <TouchableOpacity onPress={pickImage} >
             {img ? (
               <Thumbnail
                 source={{
@@ -172,7 +171,7 @@ const SideBar = (props) => {
             {firstName ? firstName + " " + lastName : "Michael Jordan"}
           </Text>
         </View>
-        <Container style={{ backgroundColor: "transparent"}}>
+        <Container style={{ backgroundColor: "transparent", paddingTop: 30}}>
           <List style={{ backgroundColor: "transparent"}}>
             {routes.map((item, index) => {
               return (
@@ -186,11 +185,7 @@ const SideBar = (props) => {
         <TouchableOpacity
           style={{
             backgroundColor: "transparent",
-            paddingLeft: 15,
-            // marginTop:50,
-            // // position: "relative",
-            //  marginBottom: 20,
-            // zIndex: 99,
+            paddingLeft: 15
           }}
           button
           onPress={logout}

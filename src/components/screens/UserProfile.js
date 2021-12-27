@@ -421,7 +421,7 @@ const UserProfile = (props) => {
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={studentIds.length > 1 ? "My Profiles" : studentIds.length != 0 ? "My Profile" : "Loading"} navigation={props.navigation} />
+      <SideBarMenu title={studentIds.length > 1 ? "My Profiles" : studentIds.length != 0 ? "My Profile" : "My Profile"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         {!loader ? (
           typeof studentIds !== "undefined" && studentIds.length > 0 ? (
