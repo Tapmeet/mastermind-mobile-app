@@ -11,7 +11,9 @@ import EMPTY_CART from "./../../redux/Retail";
 import EMPTY_EVENT from "./../../redux/Event";
 import { EventDetails } from "../screens";
 import * as ImagePicker from 'expo-image-picker';
-const routes = ["Home", "Link Student", "Profile", "Inquiry", "Class Reservation","Student Classes", "Memberships", "Payment Methods", "Events", "Retail", "Purchase History"];
+import * as FileSystem from 'expo-file-system';
+
+const routes = ["Home", "Link Student", "Profile", "Inquiry", "Class Reservation", "Student Classes", "Memberships", "Payment Methods", "Events", "Retail", "Purchase History"];
 
 const SideBar = (props) => {
   const dispatch = useDispatch();
@@ -48,7 +50,7 @@ const SideBar = (props) => {
     })
       .then((response) => response.text())
       .then((data) => {
-     //    console.log(data); 
+        //    console.log(data); 
         setImg(data)
         // if (data.StudentIds.length > 0) {
         //   setPhotoPath(data.PhotoPath);
@@ -63,42 +65,46 @@ const SideBar = (props) => {
       aspect: [4, 3],
       quality: 1,
     });
-    console.log(result);
+    //console.log(result);
     if (!result.cancelled) {
       let localUri = result.uri;
       let filename = localUri.split('/').pop();
-
+      const base64 = await FileSystem.readAsStringAsync(result.uri, {
+        encoding: 'base64'
+      });
+      //console.log(base64);
       // Infer the type of the image
       let match = /\.(\w+)$/.exec(filename);
-      let type = match ? `image/${match[1]}` : `image`;
+      let type = match ? `${match[1]}` : `image`;
 
       // Upload the image using the fetch and FormData APIs
       let formData = new FormData();
       // Assume "photo" is the name of the form field the server expects
       formData.append('', { uri: localUri, name: filename, type });
-     // console.log('formData')
-     // console.log(formData)
-      fetch(`${API_URL}/odata/StudentAccount`, {
+      setImage(base64);
+      console.log(`${API_URL}odata/StudentAccount`);
+      fetch(`${API_URL}odata/StudentAccount`, {
         method: "POST",
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'multipart/form-data',
           'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
         },
-        body: formData,
+        body: JSON.stringify({
+          base64: base64,
+          fileType: type
+        }),
       })
         .then((response) => response.text())
         .then((response) => {
-          // console.log('response here');
-          // console.log(response);
-          getprofilePic(guid) 
+          console.log('response here');
+          console.log(response);
+          //getprofilePic(guid)
         })
         .catch((response) => {
-          //console.log('error');
+          console.log('error');
           console.log(response);
           //  setErrorMessage("An error has occurred. Please check all the fields");
         });
-      setImage(result.uri);
     }
   };
   React.useEffect(() => {
@@ -121,7 +127,7 @@ const SideBar = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-           // console.log(data);
+          // console.log(data);
           if (data.StudentIds.length > 0) {
             setStudentIds(data.StudentIds);
             setFirstName(data.FirstName);
@@ -148,7 +154,7 @@ const SideBar = (props) => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-           
+
           }}
         >
           <TouchableOpacity title="" onPress={pickImage} >
@@ -170,8 +176,8 @@ const SideBar = (props) => {
             {firstName ? firstName + " " + lastName : "Michael Jordan"}
           </Text>
         </View>
-        <Container style={{ backgroundColor: "transparent"}}>
-          <List style={{ backgroundColor: "transparent"}}>
+        <Container style={{ backgroundColor: "transparent" }}>
+          <List style={{ backgroundColor: "transparent" }}>
             {routes.map((item, index) => {
               return (
                 <ListItem key={index} button underlayColor="transparent" onPress={() => props.navigation.navigate(item)}>

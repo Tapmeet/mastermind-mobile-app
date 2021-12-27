@@ -183,7 +183,7 @@ const ClassReservations = (props) => {
 
         let starttime = moment(startDateUnformatted).format("HH:mm:ss");
         let startDate = moment(date).format("DD/MM/YYYY");
-        let datesCheck = new Date(date + ' ' + starttime);
+        let datesCheck = new Date(startDate + ' ' + starttime);
         console.log(datesCheck)
         console.log(startDate + ' ' + starttime)
         setSelectedDate(startDate + ' ' + starttime)
