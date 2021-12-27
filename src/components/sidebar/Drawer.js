@@ -26,7 +26,7 @@ import {
   TaskClass,
   ClassList,
   ClassReservations,
-  StudentClasses
+  StudentClasses,
 } from "../screens";
 import { SideBar } from ".";
 import { FlatList } from "react-native";
@@ -35,7 +35,12 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 const HomeDrawer = createDrawerNavigator();
 const Drawer = (props) => {
   return (
-    <HomeDrawer.Navigator drawerContent={(props) => <SideBar {...props} />}>
+    <HomeDrawer.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      drawerContent={(props) => <SideBar {...props} />}
+    >
       <HomeDrawer.Screen name="Home" component={HomeScreen} />
       <HomeDrawer.Screen name="Attendance" component={AttendanceScreen} />
       <HomeDrawer.Screen name="Link Student" component={LinkStudentScreen} />
@@ -59,10 +64,10 @@ const Drawer = (props) => {
       <HomeDrawer.Screen name="Purchase Product" component={PurchaseProduct} />
       <HomeDrawer.Screen name="Cart" component={Cart} />
       <HomeDrawer.Screen name="Events Cart" component={CartEvents} />
-      <HomeDrawer.Screen name="Class Reservation" component={ClassList} /> 
-      <HomeDrawer.Screen name="Class Tasks" component={TaskClass} /> 
-      <HomeDrawer.Screen name="Class Reservations" component={ClassReservations} /> 
-      <HomeDrawer.Screen name="Student Classes" component={StudentClasses} /> 
+      <HomeDrawer.Screen name="Class Reservation" component={ClassList} />
+      <HomeDrawer.Screen name="Class Tasks" component={TaskClass} />
+      <HomeDrawer.Screen name="Class Reservations" component={ClassReservations} />
+      <HomeDrawer.Screen name="Student Classes" component={StudentClasses} />
     </HomeDrawer.Navigator>
   );
 };

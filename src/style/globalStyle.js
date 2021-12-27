@@ -9,12 +9,12 @@ export default StyleSheet.create({
     fontWeight: "bold",
     fontSize: 40,
     lineHeight: 48,
-    fontFamily: "HKGrotesk-Regular",
+    fontFamily: "HKGrotesk",
   },
   p: {
     fontSize: 19,
     lineHeight: 32,
-    fontFamily: "HKGrotesk-Regular",
+    fontFamily: "HKGrotesk",
     fontWeight: "600"
   },
   h3: {
@@ -23,7 +23,7 @@ export default StyleSheet.create({
     fontWeight: "bold",
     fontSize: 29,
     lineHeight: 32,
-    fontFamily: "HKGrotesk-Regular",
+    fontFamily: "HKGrotesk",
   },
   small: {
     fontSize: 26,

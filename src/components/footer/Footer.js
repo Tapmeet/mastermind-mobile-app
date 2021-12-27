@@ -17,14 +17,11 @@ export default class FooterTabs extends Component {
           <FooterTab style={[globalStyle.barStyling, {paddingBottom:10, paddingTop:10}]}>
             <Button >
               <Image style={{ height: 25, width: 25, resizeMode: 'contain', }} source={require('./../../../assets/home.png')} />
-              {/* <Icon name="library" /> */}
             </Button>
             <Button>
-              {/* <Icon name="chatbox" /> */}
               <Image style={{ height: 25, width: 25, resizeMode: 'contain', }} source={require('./../../../assets/chat.png')} />
             </Button>
             <Button>
-              {/* <Icon name="logo-facebook" /> */}
               <Image style={{ height: 20, width: 20, resizeMode: 'contain', }} source={require('./../../../assets/facebook.png')} />
             </Button>
           </FooterTab>
