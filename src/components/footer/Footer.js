@@ -5,7 +5,6 @@ import globalStyle from "../../style/globalStyle";
 import { LinearGradient } from "expo-linear-gradient";
 
 const FooterTabs = (props) => {
-  console.log(props)
   return (
     <ImageBackground
       style={{
