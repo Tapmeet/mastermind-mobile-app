@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator, Alert } from "react-native";
 import { API_URL } from "../Utility/AppConst"
 import {
   Container,
@@ -25,6 +25,8 @@ const apiUrl = API_URL.trim();
 const PaymentMethodListings = (props) => {
   const userId = useSelector(state => state);
   const [loader, setloader] = React.useState(false);
+  const [personId, setPersonId] = React.useState('');
+  const [defaultId, setDefaultId] = React.useState('');
   const [paymentMethod, setPaymentMethod] = React.useState([])
   React.useEffect(() => {
     navigation.addListener('focus', () => {
@@ -40,7 +42,7 @@ const PaymentMethodListings = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + userId[0].access_Token
+        'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
       },
     })
       .then(response => response.json())
@@ -48,6 +50,7 @@ const PaymentMethodListings = (props) => {
         // console.log("here")
         // console.log(data.PersonId)
         getPaymentMethod(data.PersonId)
+        setPersonId(data.PersonId)
       });
   }
   function getPaymentMethod(personIds) {
@@ -56,21 +59,70 @@ const PaymentMethodListings = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + userId[0].access_Token
+        'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
       },
     })
       .then(response => response.json())
       .then(data => {
-        // console.log("heres")
-        // console.log(data.value)
         if (data.value) {
           setloader(false)
           setPaymentMethod(data.value)
+          data.value.length > 0 ?
+            data.value.map(function (payment, index) {
+              payment.IsDefault ? setDefaultId(payment.PersonPaymentMethodId) : null
+            })
+            : null
         }
         else {
           setloader(false)
         }
-
+      });
+  }
+  function setDefault(methodId) {
+    setDefaultId(methodId)
+    fetch(`${apiUrl}/odata/PaymentMethod(${methodId})`, {
+      method: "patch",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => {
+        getPaymentMethod(personId)
+      })
+      .catch((response) => {
+        getPaymentMethod(personId)
+      });
+  }
+  function alertDelete(methodId) {
+    Alert.alert(
+      "Confirm",
+      `Are you sure you want to delete this payment method ?`,  
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => deleteAccount(methodId) }
+      ],
+      { cancelable: false }
+    );
+  }
+  function deleteAccount(methodId) {
+    fetch(`${apiUrl}/odata/PaymentMethod(${methodId})`, {
+      method: "delete",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => {
+        getPaymentMethod(personId)
+      })
+      .catch((response) => {
+        getPaymentMethod(personId)
       });
   }
   const { navigation } = props;
@@ -87,6 +139,7 @@ const PaymentMethodListings = (props) => {
             paymentMethod.length > 0 ?
               paymentMethod.map(function (payment, index) {
                 const Expiry = new Date(payment.Expiration).toISOString().slice(0, 10);
+              //  console.log(payment)
                 return (
                   <View key={index} style={[globalStyle.Boxshadow, { padding: 15 }]}>
                     <Text style={{ textAlign: "center", fontSize: 25, fontWeight: "bold", marginBottom: 10 }}>{payment.PaymentTypeId == 2 ? "Bank Details " : "Credit card "}</Text>
@@ -148,6 +201,21 @@ const PaymentMethodListings = (props) => {
                             />
                           </View>
                         </View>
+                        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                          <Button
+                            style={defaultId == payment.PersonPaymentMethodId ? [{ alignSelf: "center", justifyContent: "center", backgroundColor: "#4585ff", borderRadius: 6 }] : [{ alignSelf: "center", justifyContent: "center", backgroundColor: "#fff", borderRadius: 6 }]}
+                            onPress={() => setDefault(payment.PersonPaymentMethodId)}
+                          >
+                            <Text style={defaultId == payment.PersonPaymentMethodId ? [loginStyle.buttonText, { textAlign: "center", color: "#fff" }] : [loginStyle.buttonText, { textAlign: "center", color: "#000" }]}>Set Default</Text>
+                          </Button>
+                          <Button
+                            style={[{ alignSelf: "center", justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6 }]}
+                            onPress={() => 
+                              alertDelete(payment.PersonPaymentMethodId)}
+                          >
+                            <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Delete Card</Text>
+                          </Button>
+                        </View>
                       </View>
                       : <View>
                         <View style={{ marginBottom: 15 }}>
@@ -177,7 +245,21 @@ const PaymentMethodListings = (props) => {
                             />
                           </View>
                         </View>
-
+                        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                          <Button
+                            style={defaultId == payment.PersonPaymentMethodId ? [{ alignSelf: "center", justifyContent: "center", backgroundColor: "#4585ff", borderRadius: 6 }] : [{ alignSelf: "center", justifyContent: "center", backgroundColor: "#fff", borderRadius: 6 }]}
+                            onPress={() => setDefault(payment.PersonPaymentMethodId)}
+                          >
+                            <Text style={defaultId == payment.PersonPaymentMethodId ? [loginStyle.buttonText, { textAlign: "center", color: "#fff" }] : [loginStyle.buttonText, { textAlign: "center", color: "#000" }]}>Set Default</Text>
+                          </Button>
+                          <Button
+                            style={[{ alignSelf: "center", justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6 }]}
+                            onPress={() => 
+                              alertDelete(payment.PersonPaymentMethodId)}
+                          >
+                            <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Delete Account</Text>
+                          </Button>
+                        </View>
                       </View>
                     }
                   </View>
@@ -186,7 +268,7 @@ const PaymentMethodListings = (props) => {
               : <View style={[globalStyle.tableBoxshadow, {
                 borderTopLeftRadius: 15,
                 borderTopRightRadius: 15,
-                marginBottom:60,
+                marginBottom: 60,
                 marginTop: 60
               }]}>
                 <Text style={{ padding: 15, fontSize: 22, alignSelf: "center" }}>No Payment Method Added</Text>
@@ -194,16 +276,25 @@ const PaymentMethodListings = (props) => {
           }
           {loader == false
             ?
-            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 50 }}>
-              <Button
-                style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "50%" }]}
-                onPress={() => props.navigation.navigate("Payment Method Card")}
-              >
-                <Text style={[loginStyle.buttonText, { color: "#333" }]}>Add Card</Text>
-              </Button>
+            <View style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 50 }}>
               <ImageBackground
                 style={[globalStyle.Btn, {
-                  width: '50%',
+                  width: '100%',
+                  alignItems: "center"
+                }]}
+                source={require('./../../../assets/Oval.png')}
+                resizeMode={'stretch'}
+              >
+                <Button
+                  style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent: "center" }]}
+                  onPress={() => props.navigation.navigate("Payment Method Card")}
+                >
+                  <Text style={[loginStyle.buttonText, { textAlign: "center" }]}>Add Credit Card</Text>
+                </Button>
+              </ImageBackground>
+              <ImageBackground
+                style={[globalStyle.Btn, {
+                  width: '100%',
                   alignItems: "center"
                 }]}
                 source={require('./../../../assets/Oval.png')}
@@ -213,7 +304,7 @@ const PaymentMethodListings = (props) => {
                   style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent: "center" }]}
                   onPress={() => props.navigation.navigate("Add Payment Account")}
                 >
-                  <Text style={[loginStyle.buttonText, { textAlign: "center" }]}>Add Account</Text>
+                  <Text style={[loginStyle.buttonText, { textAlign: "center" }]}>Add Bank Account</Text>
                 </Button>
               </ImageBackground>
             </View>

@@ -1,34 +1,33 @@
 import { Header, Left, Button, Icon, Body, Title, Right, Text, View } from "native-base";
 import React from "react";
-import { ImageBackground, Image } from 'react-native';
+import { ImageBackground, Image } from "react-native";
 import globalStyle from "../../style/globalStyle";
 const SideBarMenu = (props) => {
   const [navmenuLink, setNavmenuLink] = React.useState("");
   React.useEffect(() => {
     setNavmenuLink(props.title);
-  })
+  });
   return (
     <ImageBackground
       style={{
-        height: Platform.OS === 'android' ? 60 : 110
+        height: Platform.OS === "android" ? 60 : 110,
       }}
-      source={require('./../../../assets/bgtop.png')}
-      resizeMode={'stretch'}
+      source={require("./../../../assets/bgtop.png")}
+      resizeMode={"stretch"}
     >
       <Header style={globalStyle.barStylings}>
         <Left>
-          <Button
-            transparent
-            onPress={() => props.navigation.toggleDrawer()}>
-            {/* <Icon name="menu" /> */}
-            <Image style={{ height: 25, width: 25, resizeMode: 'contain', }} source={require('./../../../assets/TopMenu.png')} />
+          <Button transparent onPress={() => props.navigation.toggleDrawer()}>
+            <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/TopMenu.png")} />
           </Button>
         </Left>
         <Body style={globalStyle.titleBody}>
-          <Title><Text style={globalStyle.titleStyling}>{props.title}</Text></Title>
+          <Title>
+            <Text style={globalStyle.titleStyling}>{props.title}</Text>
+          </Title>
         </Body>
         <Right>
-          {navmenuLink != "Home" ?
+          {/* {navmenuLink != "Home" ?
             <View style={{display: "flex", flexDirection: "row", alignItems:"center"}}> 
               <Text
                 style={[globalStyle.titleStyling, { fontSize: 15 }]}
@@ -42,11 +41,10 @@ const SideBarMenu = (props) => {
                 resizeMode={'contain'}
               />
             </View>
-            : null}
-
+            : null} */}
         </Right>
       </Header>
     </ImageBackground>
-  )
-}
+  );
+};
 export default SideBarMenu;

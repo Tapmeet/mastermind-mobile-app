@@ -2,59 +2,136 @@ import React from "react";
 import { Container, Text, List, ListItem, Thumbnail, View } from "native-base";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { ImageBackground, Dimensions } from "react-native";
-const routes = [
-  "Home",
-  "Link Student",
-  "Profile",
-  "Inquiry",
-  "Memberships",
-  "Payment Methods",
-];
 import { API_URL } from "./../Utility/AppConst";
 import sideBar from "../../style/home/sidebarStyle";
 import { color } from "react-native-reanimated";
 import { useSelector, useDispatch } from "react-redux";
 import LOGGED_OUT_USER from "./../../redux/User";
+import EMPTY_CART from "./../../redux/Retail";
+import EMPTY_EVENT from "./../../redux/Event";
+import { EventDetails } from "../screens";
+import * as ImagePicker from 'expo-image-picker';
+const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Events", "Retail", "Class Reservation", "Payment Methods", "Purchase History"];
 
 const SideBar = (props) => {
   const dispatch = useDispatch();
-  const userData = (userInfo) =>
-    dispatch({ type: "LOGGED_OUT_USER", payload: userInfo });
+  const userData = (userInfo) => dispatch({ type: "LOGGED_OUT_USER", payload: userInfo });
+  const updateRetail = (updateRetail) =>
+    dispatch({ type: "EMPTY_CART", payload: updateRetail });
+  const updateEvent = (updateEvent) =>
+    dispatch({ type: "EMPTY_EVENT", payload: updateEvent });
   const userId = useSelector((state) => state);
   const [data, setData] = React.useState("");
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
+  const [img, setImg] = React.useState("");
   const [loader, setloader] = React.useState(true);
+  const [guid, setGuid] = React.useState("");
   const [studentIds, setStudentIds] = React.useState([]);
   const [PhotoPath, setPhotoPath] = React.useState("");
   const win = Dimensions.get("window");
-
+  const [image, setImage] = React.useState(null);
+  const apiUrl = API_URL.trim();
   const logout = () => {
-    userData(userId[0].id);
+    updateRetail([]);
+    updateEvent([])
+    userData(userId.userDataReducer[0].id);
+  };
+  const getprofilePic = (guids) => {
+    fetch(`${apiUrl}/Public/GetProfilePicture?guid=${guids}`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.text())
+      .then((data) => {
+     //    console.log(data); 
+        setImg(data)
+        // if (data.StudentIds.length > 0) {
+        //   setPhotoPath(data.PhotoPath);
+        // } else {
+        // }
+      });
+  }
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      let localUri = result.uri;
+      let filename = localUri.split('/').pop();
+
+      // Infer the type of the image
+      let match = /\.(\w+)$/.exec(filename);
+      let type = match ? `image/${match[1]}` : `image`;
+
+      // Upload the image using the fetch and FormData APIs
+      let formData = new FormData();
+      // Assume "photo" is the name of the form field the server expects
+      formData.append('', { uri: localUri, name: filename, type });
+     // console.log('formData')
+     // console.log(formData)
+      fetch(`${API_URL}/odata/StudentAccount`, {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+          'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
+        },
+        body: formData,
+      })
+        .then((response) => response.text())
+        .then((response) => {
+          // console.log('response here');
+          // console.log(response);
+          getprofilePic(guid) 
+        })
+        .catch((response) => {
+          //console.log('error');
+          console.log(response);
+          //  setErrorMessage("An error has occurred. Please check all the fields");
+        });
+      setImage(result.uri);
+    }
   };
   React.useEffect(() => {
-    const apiUrl = API_URL.trim();
-    if (data == "") {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+    if (typeof data !== "undefined" && data == "") {
       fetch(`${apiUrl}/odata/StudentAccount`, {
         method: "get",
         headers: {
           Accept: "*/*",
           "Content-Type": "application/json",
-          Authorization: "Bearer " + userId[0].access_Token,
+          Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
         },
       })
         .then((response) => response.json())
         .then((data) => {
-          // console.log(data)
+          console.log(data)
           if (data.StudentIds.length > 0) {
             setStudentIds(data.StudentIds);
-            //console.log("where")
             setFirstName(data.FirstName);
             setLastName(data.LastName);
-            setPhotoPath(data.PhotoPath);
+            setGuid(data.StudentAccountGuid);
             setloader(false);
+            getprofilePic(data.StudentAccountGuid)
           } else {
-            //  console.log("hhere")
+            setFirstName(data.FirstName);
+            setLastName(data.LastName);
             setloader(false);
           }
         });
@@ -62,9 +139,9 @@ const SideBar = (props) => {
   }, [data]);
 
   return (
-    <ScrollView>
+    <ScrollView >
       <ImageBackground
-        style={{ padding: 16, paddingTop: 48, height: win.height }}
+        style={{ padding: 15, paddingTop: 50, height: win.height }}
         source={require("./../../../assets/menu.png")}
         resizeMode={"stretch"}
       >
@@ -72,44 +149,34 @@ const SideBar = (props) => {
           style={{
             display: "flex",
             flexDirection: "row",
-            alignItems: "center",
+            alignItems: "center"
           }}
         >
-          {PhotoPath ? (
-            <Thumbnail
-              source={{
-                uri: "data:image/png;base64," + PhotoPath,
-              }}
-            />
-          ) : (
-            <Thumbnail
-              source={{
-                uri: "https://pickaface.net/gallery/avatar/20121015_175346_216_karatekid.png",
-              }}
-            />
-          )}
-          <Text
-            style={[
-              sideBar.name,
-              { color: "#333", marginLeft: 15, fontWeight: "bold" },
-            ]}
-          >
+          <TouchableOpacity onPress={pickImage} >
+            {img ? (
+              <Thumbnail
+                source={{
+                  uri: "data:image/png;base64," + img,
+                }}
+              />
+            ) : (
+              <Thumbnail
+                source={{
+                  uri: "https://pickaface.net/gallery/avatar/20121015_175346_216_karatekid.png",
+                }}
+              />
+            )}
+          </TouchableOpacity>
+          <Text style={[sideBar.name, { color: "#333", marginLeft: 15, fontWeight: "bold" }]}>
             {firstName ? firstName + " " + lastName : "Michael Jordan"}
           </Text>
         </View>
-        <Container style={{ backgroundColor: "transparent", marginTop: 60 }}>
-          <List style={{ backgroundColor: "transparent" }}>
+        <Container style={{ backgroundColor: "transparent", paddingTop: 30}}>
+          <List style={{ backgroundColor: "transparent"}}>
             {routes.map((item, index) => {
               return (
-                <ListItem
-                  key={index}
-                  button
-                  underlayColor="transparent"
-                  onPress={() => props.navigation.navigate(item)}
-                >
-                  <Text style={{ color: "#fff", fontWeight: "bold", backgroundColor: "transparent" }}>
-                    {item}
-                  </Text>
+                <ListItem key={index} button underlayColor="transparent" onPress={() => props.navigation.navigate(item)}>
+                  <Text style={{ color: "#fff", fontWeight: "bold", backgroundColor: "transparent" }}>{item}</Text>
                 </ListItem>
               );
             })}
@@ -118,10 +185,7 @@ const SideBar = (props) => {
         <TouchableOpacity
           style={{
             backgroundColor: "transparent",
-            paddingLeft: 15,
-            position: "relative",
-            marginBottom: 20,
-            zIndex: 99,
+            paddingLeft: 15
           }}
           button
           onPress={logout}

@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { color } from "react-native-reanimated";
 import { colorPallete } from "./colorPallete";
 
 export default StyleSheet.create({
@@ -8,7 +9,13 @@ export default StyleSheet.create({
     fontWeight: "bold",
     fontSize: 40,
     lineHeight: 48,
-    fontFamily: "HKGrotesk-Regular",
+    fontFamily: "HKGrotesk",
+  },
+  p: {
+    fontSize: 19,
+    lineHeight: 32,
+    fontFamily: "HKGrotesk",
+    fontWeight: "600"
   },
   h3: {
     marginTop: 20,
@@ -16,7 +23,7 @@ export default StyleSheet.create({
     fontWeight: "bold",
     fontSize: 29,
     lineHeight: 32,
-    fontFamily: "HKGrotesk-Regular",
+    fontFamily: "HKGrotesk",
   },
   small: {
     fontSize: 26,
@@ -25,7 +32,7 @@ export default StyleSheet.create({
   hyperlink: {
     color: colorPallete.primary,
     fontWeight: "bold",
-    fontSize: 18
+    fontSize: 18,
   },
   form: {
     paddingLeft: 30,
@@ -41,6 +48,12 @@ export default StyleSheet.create({
     marginBottom: 0,
     marginLeft: 0,
     backgroundColor: "#F7F8F9",
+  },
+  flexStandard: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    backgroundColor: "#fff"
   },
   Boxshadow: {
     shadowColor: "#000",
@@ -151,7 +164,6 @@ export default StyleSheet.create({
     alignSelf: "flex-start",
     fontWeight: "bold",
     textTransform: "uppercase",
-
   },
   barStylings: {
     backgroundColor: "transparent",
@@ -180,8 +192,8 @@ export default StyleSheet.create({
   emptylist: {
     padding: 10,
     textAlign: "center",
-    backgroundColor: "#f7f7f7",
     marginTop: 10,
+    fontSize: 20,
     marginLeft: 30,
     marginRight: 30,
   },
@@ -262,7 +274,7 @@ export default StyleSheet.create({
     borderBottomRightRadius: 15,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: '#efefef'
+    borderColor: "#efefef",
   },
   signatureField: {
     shadowColor: "#000",
@@ -277,8 +289,8 @@ export default StyleSheet.create({
     height: 180,
     overflow: "hidden",
     marginTop: 10,
-    borderColor: '#efefef',
-    borderWidth: 2
+    borderColor: "#efefef",
+    borderWidth: 2,
   },
   dflex: {
     display: "flex",
@@ -355,10 +367,100 @@ export default StyleSheet.create({
     backgroundColor: "#fff",
     width: "97%",
     marginBottom: 20,
-    borderRadius:5,
+    borderRadius: 5,
     paddingLeft: 15,
-    paddingRight:15,
+    paddingRight: 15,
     paddingTop: 15,
-    paddingBottom: 15
+    paddingBottom: 15,
+  },
+  eventsListingWrapper: {
+    shadowColor: "#CCC",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.54,
+    shadowRadius: 3.84,
+    elevation: 7,
+    backgroundColor: "#fff",
+    width: "97%",
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 15,
+    borderRadius: 15,
+    display: "flex",
+    flexDirection: "column",
+    padding: 15,
+  },
+  eventsListingTopWrapper: {
+    backgroundColor: "#fff",
+    display: "flex",
+    flexDirection: "row",
+  },
+  eventsListingBottomWrapper: {
+    backgroundColor: "#fff",
+    display: "flex",
+    flexDirection: "row",
+    paddingTop: 15,
+    marginTop: 15,
+    borderTopWidth: 1,
+    borderTopColor: "#efefef"
+  },
+  eventDetailLocations: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    backgroundColor: "#fff",
+    marginBottom: 10,
+  },
+  accordianStyle: {
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    paddingBottom: 25,
+    paddingTop: 25,
+    paddingRight: 10,
+    display: "flex",
+    position: "relative",
+    marginTop: 0,
+  },
+  arrow: {
+    maxWidth: 15,
+    position: "absolute",
+    right: 10,
+    top: -20,
+  },
+  arrows: {
+    maxWidth: 20,
+    position: "absolute",
+    right: 15,
+    top: 10,
+  },
+  trainersimg: {
+    height: 120,
+    width: 120
+  },
+  online: {
+    fontSize: 15,
+    color: "white",
+    marginTop: 8,
+    paddingTop: 2,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingBottom: 2,
+    backgroundColor: "green",
+    alignSelf: "flex-start",
+    borderRadius: 15,
+  },
+  offline: {
+    fontSize: 15,
+    color: "white",
+    marginTop: 8,
+    paddingTop: 2,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingBottom: 2,
+    backgroundColor: "red",
+    alignSelf: "flex-start",
+    borderRadius: 15,
   }
 });

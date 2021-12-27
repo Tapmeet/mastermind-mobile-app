@@ -35,7 +35,7 @@ const apiUrl = API_URL.trim();
 const ContractList = (props) => {
   const [loader, setloader] = React.useState(true);
   const [collapsed, setCollapsed] = React.useState(true);
-  const [collapsed2, setCollapsed2] = React.useState(true);
+  const [collapsed2, setCollapsed2] = React.useState(false);
   const [contractData, setContractData] = React.useState([]);
   const userId = useSelector((state) => state);
   const [contractDataPending, setContractDataPending] = React.useState([]);
@@ -61,7 +61,7 @@ const ContractList = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + userId[0].access_Token,
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
       },
     })
       .then((response) => response.json())
@@ -82,7 +82,7 @@ const ContractList = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + userId[0].access_Token,
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
       },
     })
       .then((response) => response.json())
@@ -112,7 +112,7 @@ const ContractList = (props) => {
         >
         </ImageBackground> */}
 
-        <View style={{ marginTop: 50 }}>
+        <View style={{ marginTop: 10 }}>
           {loader ? (
             <View style={[styles.container, styles.horizontal]}>
               <ActivityIndicator size="large" color="#29ABE2" />

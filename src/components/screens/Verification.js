@@ -23,7 +23,6 @@ import { API_URL } from "./../Utility/AppConst"
 const VerificationCode = (props) => {
   const userId = useSelector(state => state);
   const [otp, setOtp] = React.useState("");
-  const VerificationToken = 'MHK2JG';
   const [errorMessage, setErrorMessage] = React.useState("");
   const getOtp = (otp) => {
     setOtp(otp);
@@ -41,7 +40,7 @@ const VerificationCode = (props) => {
         headers: {
           Accept: "*/*",
           "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + userId[0].access_Token
+          'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
         },
         body: JSON.stringify({
           Email: props.route.params.Email,

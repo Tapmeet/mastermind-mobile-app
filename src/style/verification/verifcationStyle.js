@@ -14,12 +14,12 @@ export default StyleSheet.create({
     lineHeight: 25
   },
   envelop: {
-    height: 200,
+    height: 100,
     resizeMode: 'contain',
-    width: 200,
+    width: 100,
     margin: "auto",
-    marginTop: 40,
-    marginBottom: 50
+    marginTop: 10,
+    marginBottom: 10
   },
   resendSection: {
     paddingTop: 15,

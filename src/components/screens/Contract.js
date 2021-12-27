@@ -95,7 +95,7 @@ const Contract = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + userId[0].access_Token
+        'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
       },
     })
       .then(response => response.json())
@@ -110,7 +110,7 @@ const Contract = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + userId[0].access_Token
+        'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
       },
     })
       .then(response => response.json())
@@ -140,7 +140,7 @@ const Contract = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + userId[0].access_Token
+        'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
       },
     })
       .then(response => response.json())
@@ -156,7 +156,7 @@ const Contract = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + userId[0].access_Token
+        'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
       },
     })
       .then(response => response.json())
@@ -165,6 +165,9 @@ const Contract = (props) => {
         let methods = []
         data.value.map((method) => {
           methods.push({ label: method.Nickname, value: method.PersonPaymentMethodId });
+          if(method.IsDefault){
+            setUserPaymentSelected(method.PersonPaymentMethodId)
+          }
         })
         setPaymentMethod(methods);
       });
@@ -175,7 +178,7 @@ const Contract = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + userId[0].access_Token
+        'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
       },
     })
       .then(response => response.json())
@@ -203,7 +206,7 @@ const Contract = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + userId[0].access_Token
+        'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
       },
       body: JSON.stringify({
         "PersonPaymentMethodId": userPaymentSelected,
@@ -231,7 +234,7 @@ const Contract = (props) => {
   };
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"Contract "} navigation={props.navigation} />
+      <SideBarMenu title={"Contract"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           <View style={globalStyle.dflex}>
@@ -343,15 +346,6 @@ const Contract = (props) => {
                       }}>
                       <Text style={{ paddingRight: 15, fontWeight: "bold", fontSize: 18 }}>Clear</Text>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity
-                      style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
-                      onPress={() => {
-                        signatureRef.current.saveSignature();
-                        setShowSignature(false)
-                        setCheckNSignature(false)
-                      }}>
-                      <Text>Save</Text>
-                    </TouchableOpacity> */}
                   </View>
                   <View style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                     <ImageBackground
@@ -801,7 +795,7 @@ const Contract = (props) => {
         </View>
         {step3 == true ?
           showSignature2 == false ?
-            <View style={{ display: "flex", flexDirection: "columns", alignItems: "center", marginBottom: 0, paddingLeft: 40, paddingRight: 40, marginTop: 0 }}>
+            <View style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 0, paddingLeft: 40, paddingRight: 40, marginTop: 0 }}>
               {counter < 4 ?
                 <ImageBackground
                   style={counter == 1 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '100%' }]
@@ -820,7 +814,7 @@ const Contract = (props) => {
                 : null}
               {counter > 1 ?
                 <Button
-                  style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 0, borderRadius: 20, alignSelf: "middle", width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
+                  style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 0, borderRadius: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
                   onPress={decrement} >
                   <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
                 </Button>

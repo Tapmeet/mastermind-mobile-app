@@ -49,7 +49,7 @@ const SignedContract = (props) => {
         headers: {
           Accept: "*/*",
           "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + userId[0].access_Token
+          'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
         },
       })
         .then(response => response.json())
@@ -227,12 +227,12 @@ const SignedContract = (props) => {
                           </Item>
                         </View>
                         <View style={globalStyle.formField}>
-                          <Text style={globalStyle.formLabel}>Fee </Text>
+                          <Text style={globalStyle.formLabel}>Finance Charge </Text>
                           <Item style={globalStyle.formGroup} floatingLabel>
                             <Input
-                              value={"$" + personData[0].Fee}
+                              value={"$" + contract.FinanceCharge}
                               style={globalStyle.formControls}
-                              placeholder="Fee"
+                              placeholder="Finance Charge"
                               editable={false}
                             />
                           </Item>
@@ -317,11 +317,23 @@ const SignedContract = (props) => {
                         <Input
                           value={contract.FrequencyType}
                           style={globalStyle.formControls}
-                          placeholder="FrequencyType"
+                          placeholder="Frequency Type"
                           editable={false}
                         />
                       </Item>
                     </View>
+                    <View style={globalStyle.formField}>
+                      <Text style={globalStyle.formLabel}>Monthly Price</Text>
+                      <Item style={globalStyle.formGroup} floatingLabel>
+                        <Input
+                          value={"$" + contract.MonthlyPrice}
+                          style={globalStyle.formControls}
+                          placeholder="Monthly Price"
+                          editable={false}
+                        />
+                      </Item>
+                    </View>
+
                   </View>
                   : null}
               </View>
@@ -342,7 +354,7 @@ const SignedContract = (props) => {
                     </Button>
                   </ImageBackground>
                   : null}
-                  {counter > 1 ?
+                {counter > 1 ?
                   <Button
                     style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
                     onPress={decrement} >

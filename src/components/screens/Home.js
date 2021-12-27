@@ -1,18 +1,4 @@
-import {
-  Container,
-  Header,
-  Title,
-  Left,
-  Icon,
-  Right,
-  Button,
-  Body,
-  Text,
-  Card,
-  CardItem,
-  Content,
-  View,
-} from "native-base";
+import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View } from "native-base";
 import { Image, ImageBackground, Dimensions } from "react-native";
 import React from "react";
 import FooterTabs from "../footer/Footer";
@@ -56,13 +42,8 @@ const Home = (props) => {
         resizeMode={"stretch"}
       >
         <View style={globalStyle.sliderWrapper}>
-          <Text style={{ fontSize: 18, color: "#333", marginRight: 5 }}>
-            {item.rating}
-          </Text>
-          <Image
-            source={require("./../../../assets/star.png")}
-            style={{ height: 20, width: 20 }}
-          />
+          <Text style={{ fontSize: 18, color: "#333", marginRight: 5 }}>{item.rating}</Text>
+          <Image source={require("./../../../assets/star.png")} style={{ height: 20, width: 20 }} />
         </View>
         <Text
           style={{
@@ -82,9 +63,7 @@ const Home = (props) => {
     <Container>
       <SideBarMenu title={"Home"} navigation={props.navigation} />
       <Content padder>
-        <Text style={{ marginTop: 20, fontWeight: "bold", fontSize: 24 }}>
-          Top Courses
-        </Text>
+        <Text style={{ marginTop: 20, fontWeight: "bold", fontSize: 24 }}>Top Courses</Text>
         <View
           style={{
             marginLeft: -70,
@@ -114,10 +93,7 @@ const Home = (props) => {
         <View style={{ marginBottom: 30 }}>
           <View style={globalStyle.homeEvents}>
             <View style={{ borderRadius: 25, overflow: "hidden" }}>
-              <Image
-                source={require("./../../../assets/img1.png")}
-                style={{ height: 110, width: 130 }}
-              />
+              <Image source={require("./../../../assets/img1.png")} style={{ height: 110, width: 130 }} />
             </View>
             <View style={{ paddingLeft: 15, paddingRight: 10 }}>
               <Text
@@ -131,17 +107,12 @@ const Home = (props) => {
                 Kids Karate Workshop
               </Text>
               <Text style={{ fontSize: 16, color: "#555" }}>May 12, 2021</Text>
-              <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>
-                05:00 - 07:00 PM
-              </Text>
+              <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>05:00 - 07:00 PM</Text>
             </View>
           </View>
           <View style={globalStyle.homeEvents}>
             <View style={{ borderRadius: 25, overflow: "hidden" }}>
-              <Image
-                source={require("./../../../assets/img2.png")}
-                style={{ height: 110, width: 130 }}
-              />
+              <Image source={require("./../../../assets/img2.png")} style={{ height: 110, width: 130 }} />
             </View>
             <View style={{ paddingLeft: 15, paddingRight: 10 }}>
               <Text
@@ -155,17 +126,12 @@ const Home = (props) => {
                 Kids Karate Workshop
               </Text>
               <Text style={{ fontSize: 16, color: "#555" }}>May 12, 2021</Text>
-              <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>
-                05:00 - 07:00 PM
-              </Text>
+              <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>05:00 - 07:00 PM</Text>
             </View>
           </View>
           <View style={globalStyle.homeEvents}>
             <View style={{ borderRadius: 25, overflow: "hidden" }}>
-              <Image
-                source={require("./../../../assets/img3.png")}
-                style={{ height: 110, width: 130 }}
-              />
+              <Image source={require("./../../../assets/img3.png")} style={{ height: 110, width: 130 }} />
             </View>
             <View style={{ paddingLeft: 15, paddingRight: 10 }}>
               <Text
@@ -179,17 +145,12 @@ const Home = (props) => {
                 Kids Karate Workshop
               </Text>
               <Text style={{ fontSize: 16, color: "#555" }}>May 12, 2021</Text>
-              <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>
-                05:00 - 07:00 PM
-              </Text>
+              <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>05:00 - 07:00 PM</Text>
             </View>
           </View>
           <View style={globalStyle.homeEvents}>
             <View style={{ borderRadius: 25, overflow: "hidden" }}>
-              <Image
-                source={require("./../../../assets/img1.png")}
-                style={{ height: 110, width: 130 }}
-              />
+              <Image source={require("./../../../assets/img1.png")} style={{ height: 110, width: 130 }} />
             </View>
             <View style={{ paddingLeft: 15, paddingRight: 10 }}>
               <Text
@@ -203,9 +164,7 @@ const Home = (props) => {
                 Kids Karate Workshop
               </Text>
               <Text style={{ fontSize: 16, color: "#555" }}>May 12, 2021</Text>
-              <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>
-                05:00 - 07:00 PM
-              </Text>
+              <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>05:00 - 07:00 PM</Text>
             </View>
           </View>
         </View>

@@ -1,30 +1,11 @@
 import React from "react";
-import {
-  View,
-  Image,
-  StyleSheet,
-  ImageBackground,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import Collapsible from "react-native-collapsible";
 import DatePicker from "react-native-datepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import PhoneInput from "react-phone-number-input/react-native-input";
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H2,
-  Icon,
-} from "native-base";
+import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import profilestyle from "../../style/profile/profileStyle";
@@ -221,6 +202,7 @@ const UserProfileMultiple = (props) => {
       setCheckEmail(false);
     }
   };
+
   //Form Submission
   const submitForm = () => {
     setSuccessMessage("");
@@ -242,7 +224,7 @@ const UserProfileMultiple = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + userId[0].access_Token,
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
       },
       body: JSON.stringify({
         FirstName: firstName,
@@ -282,6 +264,13 @@ const UserProfileMultiple = (props) => {
         setErrorMessage("An error has occurred.");
       });
   };
+
+  React.useEffect(() => {
+    if (SuccessMessage !== "") {
+      setTimeout(() => setSuccessMessage(""), 3000);
+    }
+  }, [SuccessMessage]);
+
   const clearData = () => {
     setFirstName("");
     setCheckFirstname(false);
@@ -322,7 +311,7 @@ const UserProfileMultiple = (props) => {
                   headers: {
                     Accept: "*/*",
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + userId[0].access_Token,
+                    Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
                   },
                 })
                   .then((response) => response.json())
@@ -351,14 +340,8 @@ const UserProfileMultiple = (props) => {
                     setAdult(data.IsAdult);
                     let dob = new Date(data.DOB).toISOString().slice(0, 10);
                     setDOB(dob);
-                    //console.log(dob);
                     setState(data.State);
                     setData("set");
-                    // stateList.map((statedata, index) => {
-                    //   if (statedata[1] == data.State) {
-                    //     setState(statedata[0])
-                    //   }
-                    // })
                     setloader(false);
                   });
               }
@@ -367,7 +350,7 @@ const UserProfileMultiple = (props) => {
                 headers: {
                   Accept: "*/*",
                   "Content-Type": "application/json",
-                  Authorization: "Bearer " + userId[0].access_Token,
+                  Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
                 },
               })
                 .then((response) => response.json())
@@ -388,7 +371,7 @@ const UserProfileMultiple = (props) => {
                 headers: {
                   Accept: "*/*",
                   "Content-Type": "application/json",
-                  Authorization: "Bearer " + userId[0].access_Token,
+                  Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
                 },
               })
                 .then((response) => response.json())
@@ -411,7 +394,7 @@ const UserProfileMultiple = (props) => {
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"My Profile"} navigation={props.navigation} />
+      <SideBarMenu title={studentIds.length !== 1 ? "My Profiles" : "My Profile"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         <View style={[loginStyle.contentContainer]}>
           <Body>
@@ -426,47 +409,20 @@ const UserProfileMultiple = (props) => {
           <Form style={globalStyle.form}>
             <TouchableOpacity onPress={toggleExpanded}>
               <View style={loginStyle.textAccordians}>
-                <Image
-                  style={loginStyle.iconLefts}
-                  source={require("../../../assets/businessman-information.png")}
-                  resizeMode={"contain"}
-                />
-                <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>
-                  Personal Information
-                </Text>
+                <Image style={loginStyle.iconLefts} source={require("../../../assets/businessman-information.png")} resizeMode={"contain"} />
+                <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>Personal Information</Text>
                 {collapsed ? (
-                  <Image
-                    style={loginStyle.arrows}
-                    source={require("../../../assets/down-arrow.png")}
-                    resizeMode={"contain"}
-                  />
+                  <Image style={loginStyle.arrows} source={require("../../../assets/down-arrow.png")} resizeMode={"contain"} />
                 ) : (
-                  <Image
-                    style={loginStyle.arrows}
-                    source={require("../../../assets/up-arrow.png")}
-                    resizeMode={"contain"}
-                  />
+                  <Image style={loginStyle.arrows} source={require("../../../assets/up-arrow.png")} resizeMode={"contain"} />
                 )}
               </View>
             </TouchableOpacity>
-            {/*Content of Single Collapsible*/}
             <Collapsible collapsed={collapsed} align="center">
               <View style={{ paddingBottom: 10, paddingTop: 10 }}>
-                <View
-                  style={
-                    checkFirstname
-                      ? globalStyle.formFieldError
-                      : globalStyle.formField
-                  }
-                >
+                <View style={checkFirstname ? globalStyle.formFieldError : globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>First Name</Text>
-                  <Item
-                    style={[
-                      globalStyle.formGroup,
-                      { marginBottom: 10, marginTop: 0 },
-                    ]}
-                    floatingLabel
-                  >
+                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                     <Input
                       value={firstName}
                       onChangeText={(text) => setfirstName(text)}
@@ -476,24 +432,10 @@ const UserProfileMultiple = (props) => {
                     />
                   </Item>
                 </View>
-                {checkFirstname ? (
-                  <Text style={globalStyle.error}>Enter First Name</Text>
-                ) : null}
-                <View
-                  style={
-                    checklastName
-                      ? globalStyle.formFieldError
-                      : globalStyle.formField
-                  }
-                >
+                {checkFirstname ? <Text style={globalStyle.error}>Enter First Name</Text> : null}
+                <View style={checklastName ? globalStyle.formFieldError : globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Last Name</Text>
-                  <Item
-                    style={[
-                      globalStyle.formGroup,
-                      { marginBottom: 10, marginTop: 0 },
-                    ]}
-                    floatingLabel
-                  >
+                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                     <Input
                       value={lastName}
                       onChangeText={(text) => setlasttName(text)}
@@ -503,24 +445,10 @@ const UserProfileMultiple = (props) => {
                     />
                   </Item>
                 </View>
-                {checklastName ? (
-                  <Text style={globalStyle.error}>Enter Last Name </Text>
-                ) : null}
-                <View
-                  style={
-                    checkEmail
-                      ? globalStyle.formFieldError
-                      : globalStyle.formField
-                  }
-                >
+                {checklastName ? <Text style={globalStyle.error}>Enter Last Name </Text> : null}
+                <View style={checkEmail ? globalStyle.formFieldError : globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Email</Text>
-                  <Item
-                    style={[
-                      globalStyle.formGroup,
-                      { marginBottom: 10, marginTop: 0 },
-                    ]}
-                    floatingLabel
-                  >
+                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                     <Input
                       value={email}
                       onChangeText={(text) => setemail(text)}
@@ -530,42 +458,8 @@ const UserProfileMultiple = (props) => {
                     />
                   </Item>
                 </View>
-                {checkEmail ? (
-                  <Text style={globalStyle.error}>Enter Valid Email</Text>
-                ) : null}
-                {/* <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
-                <Text style={globalStyle.formLabel}>School Name</Text>
-                <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                  <Input
-                    value={SchoolName}
-                    onChangeText={(text) => setschoolName(text)}
-                    style={
-                      [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
-                    }
-                    placeholder="School Name "
-                    placeholderTextColor="#000"
-                    editable={false}
-                  />
-                </Item>
-              </View>
-              <View style={[globalStyle.formField, { backgroundColor: '#eee' }]}>
-                <Text style={globalStyle.formLabel}>Student Number</Text>
-                <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                  <Input
-                    value={StudentNumber}
-                    // onChangeText={(text) => setemail(text)}
-                    style={
-                      [globalStyle.formControls, { color: "#999", backgroundColor: '#eee' }]
-                    }
-                    placeholder="Student Number "
-                    placeholderTextColor="#ddd"
-                    editable={false}
-                  />
-                </Item>
-              </View> */}
-                <View
-                  style={[globalStyle.formField, { backgroundColor: "#eee" }]}
-                >
+                {checkEmail ? <Text style={globalStyle.error}>Enter Valid Email</Text> : null}
+                <View style={[globalStyle.formField, { backgroundColor: "#eee" }]}>
                   <Text style={globalStyle.formLabel}>Rank</Text>
                   <Item
                     style={[
@@ -582,10 +476,7 @@ const UserProfileMultiple = (props) => {
                     <Input
                       value={Rank}
                       //   onChangeText={(text) => setemail(text)}
-                      style={[
-                        globalStyle.formControls,
-                        { color: "#999", backgroundColor: "#eee" },
-                      ]}
+                      style={[globalStyle.formControls, { color: "#999", backgroundColor: "#eee" }]}
                       editable={false}
                       placeholder="Rank"
                       placeholderTextColor="#000"
@@ -594,13 +485,7 @@ const UserProfileMultiple = (props) => {
                 </View>
                 <View style={globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Medical Info</Text>
-                  <Item
-                    style={[
-                      globalStyle.formGroup,
-                      { marginBottom: 10, marginTop: 0 },
-                    ]}
-                    floatingLabel
-                  >
+                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                     <Input
                       value={MedicalInfo}
                       onChangeText={(text) => setMedicalInfo(text)}
@@ -667,12 +552,7 @@ const UserProfileMultiple = (props) => {
                 <View>
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>Uniform Size</Text>
-                    <View
-                      style={[
-                        globalStyle.formControls,
-                        { position: "relative", zIndex: 999 },
-                      ]}
-                    >
+                    <View style={[globalStyle.formControls, { position: "relative", zIndex: 999 }]}>
                       <RNPickerSelect
                         value={UniformSize}
                         items={items}
@@ -749,13 +629,7 @@ const UserProfileMultiple = (props) => {
                   <View>
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Employer</Text>
-                      <Item
-                        style={[
-                          globalStyle.formGroup,
-                          { marginBottom: 10, marginTop: 0 },
-                        ]}
-                        floatingLabel
-                      >
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={Employer}
                           onChangeText={(text) => setEmployer(text)}
@@ -767,13 +641,7 @@ const UserProfileMultiple = (props) => {
                     </View>
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Occupation</Text>
-                      <Item
-                        style={[
-                          globalStyle.formGroup,
-                          { marginBottom: 10, marginTop: 0 },
-                        ]}
-                        floatingLabel
-                      >
+                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={Occupation}
                           onChangeText={(text) => setOccupation(text)}
@@ -789,46 +657,20 @@ const UserProfileMultiple = (props) => {
             </Collapsible>
             <TouchableOpacity onPress={toggleExpanded2}>
               <View style={loginStyle.textAccordians}>
-                <Image
-                  style={loginStyle.iconLefts}
-                  source={require("../../../assets/contacts.png")}
-                  resizeMode={"contain"}
-                />
-                <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>
-                  Contact Information
-                </Text>
+                <Image style={loginStyle.iconLefts} source={require("../../../assets/contacts.png")} resizeMode={"contain"} />
+                <Text style={{ color: "#000", fontSize: 18, marginBottom: 0 }}>Contact Information</Text>
                 {collapsed2 ? (
-                  <Image
-                    style={loginStyle.arrows}
-                    source={require("../../../assets/down-arrow.png")}
-                    resizeMode={"contain"}
-                  />
+                  <Image style={loginStyle.arrows} source={require("../../../assets/down-arrow.png")} resizeMode={"contain"} />
                 ) : (
-                  <Image
-                    style={loginStyle.arrows}
-                    source={require("../../../assets/up-arrow.png")}
-                    resizeMode={"contain"}
-                  />
+                  <Image style={loginStyle.arrows} source={require("../../../assets/up-arrow.png")} resizeMode={"contain"} />
                 )}
               </View>
             </TouchableOpacity>
             <Collapsible collapsed={collapsed2} align="center">
               <View style={{ paddingBottom: 20, paddingTop: 30 }}>
-                <View
-                  style={
-                    checkAddress1
-                      ? globalStyle.formFieldError
-                      : globalStyle.formField
-                  }
-                >
+                <View style={checkAddress1 ? globalStyle.formFieldError : globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Permanent Address</Text>
-                  <Item
-                    style={[
-                      globalStyle.formGroup,
-                      { marginBottom: 10, marginTop: 0 },
-                    ]}
-                    floatingLabel
-                  >
+                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                     <Input
                       value={address1}
                       onChangeText={(text) => setaddress1(text)}
@@ -840,13 +682,7 @@ const UserProfileMultiple = (props) => {
                 </View>
                 <View style={globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Current Address</Text>
-                  <Item
-                    style={[
-                      globalStyle.formGroup,
-                      { marginBottom: 10, marginTop: 0 },
-                    ]}
-                    floatingLabel
-                  >
+                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                     <Input
                       value={address2}
                       onChangeText={(text) => setaddress2(text)}
@@ -858,25 +694,16 @@ const UserProfileMultiple = (props) => {
                 </View>
                 <View style={[globalStyle.formField]}>
                   <Text style={globalStyle.formLabel}>City</Text>
-                  <Item
-                    style={[
-                      globalStyle.formGroup,
-                      { marginBottom: 10, marginTop: 0 },
-                    ]}
-                    floatingLabel
-                  >
+                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                     <Input
                       value={city}
                       onChangeText={(text) => setcity(text)}
                       style={[globalStyle.formControls, { color: "#999" }]}
                       placeholder="City "
-                      // editable={false}
                     />
                   </Item>
                 </View>
-                {checkCity ? (
-                  <Text style={globalStyle.error}>Enter City</Text>
-                ) : null}
+                {checkCity ? <Text style={globalStyle.error}>Enter City</Text> : null}
                 <View
                   style={{
                     marginTop: 30,
@@ -921,78 +748,29 @@ const UserProfileMultiple = (props) => {
                 </View>
                 <View style={[globalStyle.formField]}>
                   <Text style={globalStyle.formLabel}>Postal Code</Text>
-                  <Item
-                    style={[
-                      globalStyle.formGroup,
-                      { marginBottom: 10, marginTop: 0 },
-                    ]}
-                    floatingLabel
-                  >
-                    <Input
-                      value={zipCode}
-                      onChangeText={(text) => setzipCode(text)}
-                      style={[globalStyle.formControls]}
-                      placeholder="Postal Code"
-                    />
+                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                    <Input value={zipCode} onChangeText={(text) => setzipCode(text)} style={[globalStyle.formControls]} placeholder="Postal Code" />
                   </Item>
                 </View>
-                {checkZipCode ? (
-                  <Text style={globalStyle.error}>Enter Postal Code</Text>
-                ) : null}
+                {checkZipCode ? <Text style={globalStyle.error}>Enter Postal Code</Text> : null}
 
-                <View
-                  style={
-                    checkPhone1
-                      ? globalStyle.formFieldError
-                      : globalStyle.formField
-                  }
-                >
+                <View style={checkPhone1 ? globalStyle.formFieldError : globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Phone1</Text>
-                  <Item
-                    style={[
-                      globalStyle.formGroup,
-                      { marginBottom: 10, marginTop: 0 },
-                    ]}
-                    floatingLabel
-                  >
-                    <Input
-                      value={phone1}
-                      onChangeText={(text) => setphone1(text)}
-                      style={globalStyle.formControls}
-                      placeholder="Phone1"
-                    />
+                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                    <Input value={phone1} onChangeText={(text) => setphone1(text)} style={globalStyle.formControls} placeholder="Phone1" />
                   </Item>
                 </View>
-                {checkPhone1 ? (
-                  <Text style={globalStyle.error}>Enter Phone Number </Text>
-                ) : null}
+                {checkPhone1 ? <Text style={globalStyle.error}>Enter Phone Number </Text> : null}
 
                 <View style={[globalStyle.formField]}>
                   <Text style={globalStyle.formLabel}>Phone2</Text>
-                  <Item
-                    style={[
-                      globalStyle.formGroup,
-                      { marginBottom: 10, marginTop: 0 },
-                    ]}
-                    floatingLabel
-                  >
-                    <Input
-                      value={phone2}
-                      onChangeText={(text) => setphone2(text)}
-                      style={globalStyle.formControls}
-                      placeholder="Phone2"
-                    />
+                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                    <Input value={phone2} onChangeText={(text) => setphone2(text)} style={globalStyle.formControls} placeholder="Phone2" />
                   </Item>
                 </View>
                 <View style={[globalStyle.formField]}>
                   <Text style={globalStyle.formLabel}>Emergency Contact</Text>
-                  <Item
-                    style={[
-                      globalStyle.formGroup,
-                      { marginBottom: 10, marginTop: 0 },
-                    ]}
-                    floatingLabel
-                  >
+                  <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                     <Input
                       value={EmergencyContact}
                       onChangeText={(text) => setEmergencyContact(text)}
@@ -1003,12 +781,8 @@ const UserProfileMultiple = (props) => {
                 </View>
               </View>
             </Collapsible>
-            {errorMessage != "" ? (
-              <Text style={globalStyle.errorText}>{errorMessage}</Text>
-            ) : null}
-            {SuccessMessage != "" ? (
-              <Text style={globalStyle.sucessText}>{SuccessMessage}</Text>
-            ) : null}
+            {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
+            {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
             <Content style={loginStyle.formContainer}>
               <ImageBackground
                 style={[
