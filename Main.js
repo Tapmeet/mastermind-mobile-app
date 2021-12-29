@@ -13,6 +13,7 @@ import {
   AccountSuccessScreen,
   ForgetPasswordScreen,
   VerificationLinkStudentSignupScreen,
+  VerificationSignupsScreen
 } from "./src/components/screens";
 import { Drawer } from "./src/components/sidebar";
 import { Logs } from "expo";
@@ -49,6 +50,7 @@ const Main = (props) => {
           <AuthStack.Screen name="ResetPassword" component={ResetPasswordScreen} />
           <AuthStack.Screen name="ResetSuccess" component={ResetSuccessScreen} />
           <AuthStack.Screen name="VerificationLinkStudentSignup" component={VerificationLinkStudentSignupScreen} />
+          <AuthStack.Screen name="VerificationSignups" component={VerificationSignupsScreen} />
         </AuthStack.Navigator>
       )}
     </NavigationContainer>

@@ -69,6 +69,7 @@ const EventOrdersListing = (props) => {
                     let dataArray = { label: "History by student - " + data.FirstName + " " + data.LastName, value: data.StudentId };
                     let dataArray2 = { label: data.FirstName + " " + data.LastName, value: data.StudentId };
                     //setStudentIds((prevState) => [...prevState, dataArray]);
+                    console.log(dataArray2)
                     uniqueStudent.push(dataArray2);
                     filterList.push(dataArray);
                     let uniquestudentList = [...new Map(uniqueStudent.map((item) => [item[key], item])).values()];
@@ -276,7 +277,7 @@ const EventOrdersListing = (props) => {
       <SideBarMenu title={" Purchase History"} navigation={props.navigation} />
       <View style={[globalStyle.flexStandard, { padding: 10, display: "flex", alignItems: "center", justifyContent: "center" }]}>
         <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-          {studentIds.length > 0 ? (
+          {loader== false && studentIds.length > 0 ? (
             <RNPickerSelect
               value={filter}
               items={filterList}

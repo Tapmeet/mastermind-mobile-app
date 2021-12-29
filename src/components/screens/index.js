@@ -1,6 +1,7 @@
 export { default as LoginScreen } from './Login';
 export { default as SignUpScreen } from './SignUp';
 export { default as VerificationScreen } from './Verification';
+export { default as VerificationSignupsScreen } from './VerificationSignups';
 export { default as VerificationCodeScreen } from './VerificationCode';
 export { default as ForgetPasswordScreen } from './ForgetPassword';
 export { default as ResetPasswordScreen } from './ResetPassword';

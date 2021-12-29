@@ -182,11 +182,11 @@ const ClassReservations = (props) => {
         //console.log(startDate)
 
         let starttime = moment(startDateUnformatted).format("HH:mm:ss");
-        let startDate = moment(date).format("DD/MM/YYYY");
+        let startDate = moment(date).format("MM/DD/YYYY");
         let datesCheck = new Date(date + ' ' + starttime);
         console.log(datesCheck)
         console.log(startDate + ' ' + starttime)
-        setSelectedDate(startDate + ' ' + starttime)
+        setSelectedDate(startDate)
 
 
     };
@@ -224,6 +224,7 @@ const ClassReservations = (props) => {
         })
         console.log(studentName)
         console.log(studentEmail)
+        setLoaderMessage(false)
         fetch(`${apiUrl}public/ClassReservation`, {
             method: "post",
             headers: {
@@ -233,7 +234,7 @@ const ClassReservations = (props) => {
             },
             body: JSON.stringify({
                 taskId: taskId,
-                CheckInTime: selectedDate,
+                CheckInTime: selectedDate + ' ' + moment(startDateUnformatted).format("HH:mm:ss"),
                 StudentId: selectedStudent,
                 StudentName: studentName,
                 StudentEmail: studentEmail,
@@ -403,10 +404,17 @@ const ClassReservations = (props) => {
                             {selectedDate ?
                                 <View style={globalStyle.eventsListingWrapper}>
                                     <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Check In</Text>
-                                    <Text style={{ fontWeight: "normal", marginBottom: 10 }}>{selectedDate}</Text>
+                                    <Text style={{ fontWeight: "normal", marginBottom: 10 }}>{selectedDate + ' ' + moment(startDateUnformatted).format("hh:mm:ss a")}</Text>
                                 </View>
                                 : null}
                             {/* </TouchableOpacity> */}
+                            {loaderMessage ? (
+                                <View style={[styles.container, styles.horizontal]}>
+                                    <ActivityIndicator size="large" color="#29ABE2" />
+                                </View>
+                            ) : null}
+                            {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
+                            {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
 
                             <ImageBackground
                                 style={[
@@ -422,13 +430,7 @@ const ClassReservations = (props) => {
                                     <Text style={loginStyle.buttonText}>Reserve Class</Text>
                                 </Button>
                             </ImageBackground>
-                            {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
-                            {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
-                            {loaderMessage ? (
-                                <View style={[styles.container, styles.horizontal]}>
-                                    <ActivityIndicator size="large" color="#29ABE2" />
-                                </View>
-                            ) : null}
+
                         </View>
                     ) : null
                 )}

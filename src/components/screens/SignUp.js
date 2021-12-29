@@ -103,12 +103,14 @@ const SignUp = (props) => {
     }
   };
 
-  //Form Submission
+  //Form Submission 
   const submitForm = () => {
+   // props.navigation.navigate("VerificationSignups");
+  //  console.log("here")
     if (firstName == "") {
       setCheckFirstname(true);
       return false;
-    }
+    } 
     if (schoolId == "") {
       setCheckShoolId(true);
       return false;
@@ -241,8 +243,13 @@ const SignUp = (props) => {
           console.log(response["odata.error"].message.value);
           setErrorMessage(response["odata.error"].message.value);
         } else {
-          login();
-          props.navigation.navigate("AccountSuccess");
+          props.navigation.navigate("VerificationSignups", {
+            Email: email,
+            FirstName: firstName,
+            LastName: lastName,
+          });
+          // login();
+          // props.navigation.navigate("Signup/Verification");
         }
       })
       .catch((response) => {
@@ -421,7 +428,10 @@ const SignUp = (props) => {
           ) : null}
 
           <Content style={loginStyle.formContainer}>
-            <Button style={loginStyle.button} onPress={submitForm} full>
+            <Button style={loginStyle.button} 
+            onPress={submitForm} 
+          // onPress={() => props.navigation.navigate("VerificationSignups")}
+            full>
               <Text style={loginStyle.buttonText} >Create An Account</Text>
             </Button>
           </Content>

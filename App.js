@@ -13,7 +13,7 @@ export default class App extends React.Component {
     loading: true,
   };
   async componentDidMount() {
-    await Font.loadAsync({
+    await Font.loadAsync({ 
       // Roboto: require("native-base/Fonts/Roboto.ttf"),
       // Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
       HKGrotesk: require("./assets/fonts/HKGrotesk-Regular.ttf"),
