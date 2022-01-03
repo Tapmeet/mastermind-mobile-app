@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator } from "react-native";
 import {
   Container,
   Content,
@@ -27,16 +27,19 @@ const SignUp = (props) => {
   const [confirmEmail, setConfirmEmail] = React.useState("");
   const [mobile, setMobile] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [confirmpassword, setConfirmpassword] = React.useState("");
   const [terms, setTerms] = React.useState(false);
   const [checkFirstname, setCheckFirstname] = React.useState(false);
   const [checkShoolId, setCheckShoolId] = React.useState(false);
   const [checkEmail, setCheckEmail] = React.useState(false);
   const [checkConfirmEmail, setCheckConfirmEmail] = React.useState(false);
   const [checkPassword, setCheckPassword] = React.useState(false);
+  const [checkConfirmpassword, setCheckConfirmpassword] = React.useState(false);
   const [checkmobile, setCheckmobile] = React.useState(false);
   const [checkterms, setCheckterms] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(false);
   const [accessToken, setAccessToken] = React.useState('');
+  const [loaderMessage, setLoaderMessage] = React.useState(false);
   // Email validations custom
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
@@ -86,6 +89,14 @@ const SignUp = (props) => {
       setCheckPassword(false);
     }
   };
+  const setconfirmpassword = (event) => {
+    setConfirmpassword(event);
+    if (event == "") {
+      setCheckConfirmpassword(true);
+    } else {
+      setCheckConfirmpassword(false);
+    }
+  };
   const setmobile = (event) => {
     setMobile(event);
     if (event == "") {
@@ -105,12 +116,12 @@ const SignUp = (props) => {
 
   //Form Submission 
   const submitForm = () => {
-   // props.navigation.navigate("VerificationSignups");
-  //  console.log("here")
+    // props.navigation.navigate("VerificationSignups");
+    //  console.log("here")
     if (firstName == "") {
       setCheckFirstname(true);
       return false;
-    } 
+    }
     if (schoolId == "") {
       setCheckShoolId(true);
       return false;
@@ -125,22 +136,30 @@ const SignUp = (props) => {
       return false;
     }
 
-    if (confirmEmail == "") {
-      setCheckConfirmEmail(true);
-      return false;
-    }
-    let checkConfirmemail = ValidateEmail(confirmEmail);
-    if (checkConfirmemail == false) {
-      setCheckConfirmEmail(true);
-      return false;
-    }
-    if (email != confirmEmail) {
-      setCheckConfirmEmail(true);
-      return false;
-    }
+    // if (confirmEmail == "") {
+    //   setCheckConfirmEmail(true);
+    //   return false;
+    // }
+    // let checkConfirmemail = ValidateEmail(confirmEmail);
+    // if (checkConfirmemail == false) {
+    //   setCheckConfirmEmail(true);
+    //   return false;
+    // }
+
     if (password == "") {
       setCheckPassword(true);
       return false;
+    }
+    if (confirmpassword == "") {
+      setCheckConfirmpassword(true);
+      return false;
+    }
+    if (password != confirmpassword) {
+      setCheckConfirmpassword(true);
+      return false;
+    }
+    else{
+      setCheckConfirmpassword(false);
     }
     if (mobile == "") {
       setCheckmobile(true);
@@ -219,6 +238,7 @@ const SignUp = (props) => {
           props.navigation.navigate("AccountSuccess");
         });
     }
+    setLoaderMessage(true)
     fetch(`${API_URL}/odata/Register`, {
       method: "post",
       headers: {
@@ -227,7 +247,7 @@ const SignUp = (props) => {
       },
       body: JSON.stringify({
         Email: email,
-        EmailConfirmed: confirmEmail,
+        EmailConfirmed: email,
         Password: password,
         SchoolUniqueId: schoolId,
         FirstName: firstName,
@@ -239,10 +259,12 @@ const SignUp = (props) => {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        setLoaderMessage(false)
         if (response["odata.error"]) {
           console.log(response["odata.error"].message.value);
           setErrorMessage(response["odata.error"].message.value);
         } else {
+
           props.navigation.navigate("VerificationSignups", {
             Email: email,
             FirstName: firstName,
@@ -253,6 +275,7 @@ const SignUp = (props) => {
         }
       })
       .catch((response) => {
+        setLoaderMessage(false)
         setErrorMessage("An error has occurred. Please check all the fields");
       });
   };
@@ -352,7 +375,7 @@ const SignUp = (props) => {
           {checkEmail ? (
             <Text style={globalStyle.error}>Enter Valid Email</Text>
           ) : null}
-          <Item style={globalStyle.formGroup} floatingLabel>
+          {/* <Item style={globalStyle.formGroup} floatingLabel>
             <Input
               value={confirmEmail}
               autoCapitalize='none'
@@ -368,7 +391,7 @@ const SignUp = (props) => {
           </Item>
           {checkConfirmEmail ? (
             <Text style={globalStyle.error}>Check Confirm Email</Text>
-          ) : null}
+          ) : null} */}
           <Item style={globalStyle.formGroup} floatingLabel>
             <Input
               secureTextEntry={true}
@@ -384,7 +407,24 @@ const SignUp = (props) => {
             />
           </Item>
           {checkPassword ? (
-            <Text style={globalStyle.error}>Enter Password</Text>
+            <Text style={globalStyle.error}>Confirm Password</Text>
+          ) : null}
+          <Item style={globalStyle.formGroup} floatingLabel>
+            <Input
+              secureTextEntry={true}
+              value={confirmpassword}
+              onChangeText={(text) => setconfirmpassword(text)}
+              placeholderTextColor='#ccc'
+              style={
+                checkConfirmpassword
+                  ? globalStyle.formControlError
+                  : globalStyle.formControl
+              }
+              placeholder="Confirm Password "
+            />
+          </Item>
+          {checkConfirmpassword ? (
+            <Text style={globalStyle.error}>Password doesn't match</Text>
           ) : null}
           <Item style={globalStyle.formGroup} floatingLabel>
             <Input
@@ -404,7 +444,7 @@ const SignUp = (props) => {
           ) : null}
           <View style={loginStyle.radioSection}>
             <TouchableOpacity
-              style={{ borderColor: "#ddd", borderRadius: 5, borderWidth: 2, height: 25, width: 28, marginRight:10 }}
+              style={{ borderColor: "#ddd", borderRadius: 5, borderWidth: 2, height: 25, width: 28, marginRight: 10 }}
               value={terms}
               onPress={setterms}
             >
@@ -426,12 +466,16 @@ const SignUp = (props) => {
           {errorMessage != "" ? (
             <Text style={globalStyle.errorText}>{errorMessage}</Text>
           ) : null}
-
+          {loaderMessage ?
+            <View style={[styles.container, styles.horizontal, { marginTop: 10, marginBottom: 10, zIndex: 9999 }]}>
+              <ActivityIndicator size="large" color="#29ABE2" />
+            </View>
+            : null}
           <Content style={loginStyle.formContainer}>
-            <Button style={loginStyle.button} 
-            onPress={submitForm} 
-          // onPress={() => props.navigation.navigate("VerificationSignups")}
-            full>
+            <Button style={loginStyle.button}
+              onPress={submitForm}
+              // onPress={() => props.navigation.navigate("VerificationSignups")}
+              full>
               <Text style={loginStyle.buttonText} >Create An Account</Text>
             </Button>
           </Content>
@@ -441,3 +485,15 @@ const SignUp = (props) => {
   );
 };
 export default SignUp;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  horizontal: {
+    position: 'absolute',
+    width: '100%',
+    left: 0,
+    top: -18
+  },
+});
