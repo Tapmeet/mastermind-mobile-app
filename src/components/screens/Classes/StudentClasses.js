@@ -107,6 +107,7 @@ const StudentClasses = (props) => {
         })
             .then(response => response.text())
             .then(result => {
+                console.log(result)
                 fetchClasses()
             })
             .catch((response) => {
