@@ -97,7 +97,7 @@ const pickImage = async () => {
     .then((response) => {
       let jsonData = JSON.stringify(response);
       let jsonDataPrase = JSON.parse(jsonData);
-      console.log(jsonDataPrase)
+      //console.log(jsonDataPrase)
       
     })
     .catch((response) => {

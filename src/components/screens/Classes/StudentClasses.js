@@ -35,6 +35,7 @@ const StudentClasses = (props) => {
             .then((data) => {
                 // console.log(data.value)
                 if (data.value) {
+                    var dataCount = data.value.length;
                     setEventListing(data.value);
                     setClassListings([])
                     data.value.map(function (event, index) {
@@ -49,15 +50,16 @@ const StudentClasses = (props) => {
                             .then((responses) => responses.json())
                             .then((taskData) => {
                                 // console.log(taskData)
-                                let data = { ...event, ...taskData[0] }
-                                console.log('taskData')
-                                console.log(data)
-                                setClassListings((prevState) => [...prevState, data]);
-
+                                let datas = { ...event, ...taskData[0] }
+                                // console.log('taskData')
+                                // console.log(datas)
+                                setClassListings((prevState) => [...prevState, datas]);
+                                if (index == dataCount - 1) {
+                                    setloader(false);
+                                }
                             });
-
                     })
-                    setloader(false);
+
                 } else {
                     setloader(false);
                 }
@@ -89,24 +91,29 @@ const StudentClasses = (props) => {
             { cancelable: false }
         );
     }
-    function cancelClass(AttendanceReservationId) {
-        fetch(`${apiUrl}/public/CancelReservation)`, {
-            method: "post",
+    function cancelClass(attendanceReservationId) {
+        console.log(attendanceReservationId)
+        console.log('AttendanceReservationId')
+        fetch(`${apiUrl}public/CancelReservation`, {
+            method: "POST",
             headers: {
                 Accept: "*/*",
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
             },
             body: JSON.stringify({
-                "AttendanceReservationId": AttendanceReservationId,
+                AttendanceReservationId: attendanceReservationId,
             }),
         })
-            .then((response) => {
+            .then(response => response.text())
+            .then(result => {
                 fetchClasses()
             })
             .catch((response) => {
+                setloader(true)
                 fetchClasses()
             });
+
     }
     function checkinClass(StudentId, StudentName, StudentEmail, TaskId, CheckInTime) {
         fetch(`${apiUrl}/odata/StudentAttendance)`, {
@@ -125,9 +132,11 @@ const StudentClasses = (props) => {
             }),
         })
             .then((response) => {
+                setloader(true)
                 fetchClasses()
             })
             .catch((response) => {
+                setloader(true)
                 fetchClasses()
             });
     }
@@ -157,7 +166,7 @@ const StudentClasses = (props) => {
                         flex: 1,
                     }}
                 >
-                    {eventListing.length} Reserved Classes
+                    Reserved Classes
                 </Text>
             </View>
             <Content padder>
@@ -171,54 +180,56 @@ const StudentClasses = (props) => {
                         // console.log('event')
                         let starttime = moment(event.CheckInTime).format("MM-DD-YYYY, hh:mm a ");
                         return (
-                            <View style={{ marginBottom: 10 }} key={index}>
-                                <TouchableOpacity onPress={() => storeData(event.ClassId, event.Name)}>
-                                    <View style={globalStyle.eventsListingWrapper}>
-                                        <View style={globalStyle.eventsListingTopWrapper}>
-                                            <View style={{ paddingLeft: 0, paddingRight: 10 }}>
-                                                <Text
-                                                    style={{
-                                                        fontSize: 18,
-                                                        fontWeight: "bold",
-                                                        color: "#16161D",
-                                                        paddingBottom: 10,
-                                                    }}
-                                                >
-                                                    {event.Title}
-                                                </Text>
-                                                <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
-                                                    {event.StudentName}
-                                                </Text>
-                                                <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
-                                                    {event.StudentEmail}
-                                                </Text>
-                                                <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
-                                                    <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
-                                                    {starttime}
-                                                </Text>
-                                                <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10 }}>
-                                                    {event.WaitingList == false ?
-                                                        <Button
-                                                            style={{ alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 }}
-                                                            onPress={() => checkinClass(event.StudentId, event.StudentName, event.StudentEmail, event.TaskId, event.CheckInTime)}
-                                                        >
+                            !event.isAlreadyCheckedIn ?
+                                <View style={{ marginBottom: 10 }} key={index}>
+                                    <View >
+                                        <View style={globalStyle.eventsListingWrapper}>
+                                            <View style={globalStyle.eventsListingTopWrapper}>
+                                                <View style={{ paddingLeft: 0, paddingRight: 10 }}>
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 18,
+                                                            fontWeight: "bold",
+                                                            color: "#16161D",
+                                                            paddingBottom: 10,
+                                                        }}
+                                                    >
+                                                        {event.Title}
+                                                    </Text>
+                                                    <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                                                        {event.StudentName}
+                                                    </Text>
+                                                    <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                                                        {event.StudentEmail}
+                                                    </Text>
+                                                    <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
+                                                        <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
+                                                        {starttime}
+                                                    </Text>
+                                                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
+
+                                                        <Button disabled={event.isReadyForCheckIn ? false : true}
+                                                            style={event.isReadyForCheckIn ? { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#ccc", borderRadius: 6 }}
+                                                            onPress={() => checkinClass(event.StudentId, event.StudentName, event.StudentEmail, event.TaskId, event.CheckInTime)
+                                                            } >
                                                             <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check-In</Text>
                                                         </Button>
-                                                        : null}
-                                                    <Button
-                                                        style={[{ alignSelf: "center", width: '48%', justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 18 }]}
-                                                        onPress={() =>
-                                                            alertCancel(event.AttendanceReservationId)}
-                                                    >
-                                                        <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
-                                                    </Button>
-                                                </View>
-                                            </View>
 
+                                                        <Button
+                                                            style={[{ alignSelf: "center", width: '48%', justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 18 }]}
+                                                            onPress={() =>
+                                                                alertCancel(event.AttendanceReservationId)}
+                                                        >
+                                                            <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
+                                                        </Button>
+                                                    </View>
+                                                </View>
+
+                                            </View>
                                         </View>
                                     </View>
-                                </TouchableOpacity>
-                            </View>
+                                </View>
+                                : null
                         );
                     })
                 ) : (

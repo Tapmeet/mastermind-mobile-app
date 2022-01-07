@@ -16,6 +16,16 @@ import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 const apiUrl = API_URL.trim();
 var uniqueStudent = [];
 const key = 'value';
+const weekDays = [
+    { name: "SU", value: "0" },
+    { name: "MO", value: "1" },
+    { name: "TU", value: "2" },
+    { name: "WE", value: "3" },
+    { name: "TH", value: "4" },
+    { name: "FR", value: "5" },
+    { name: "SA", value: "6" },
+]
+var weekdays = [];
 const ClassReservations = (props) => {
     var todayDate = new Date();
     todayDate = moment(todayDate).format('YYYY-MM-DD');
@@ -51,6 +61,8 @@ const ClassReservations = (props) => {
     };
     React.useEffect(() => {
         navigation.addListener("focus", async () => {
+            clearData()
+
             if (loader) {
                 async function getData() {
                     try {
@@ -76,7 +88,7 @@ const ClassReservations = (props) => {
     });
 
     const fetchdata = (value, taskId) => {
-        clearData()
+
         fetch(`${apiUrl}public/GetClassOccurrences?classId=${value}`, {
             method: "get",
             headers: {
@@ -88,7 +100,7 @@ const ClassReservations = (props) => {
             .then((response) => response.json())
             .then((data) => {
                 setEventListing(data);
-                setloader(false);
+
                 data.map(function (event, index) {
                     // console.log('event')
                     if (event.Id == taskId) {
@@ -104,34 +116,103 @@ const ClassReservations = (props) => {
                         //var options = RRule.fromString(event.RecurrenceRule)
                         var options = RRule.fromString('FREQ=WEEKLY;UNTIL=20220528T235959Z;BYDAY=SU;WKST=SU')
                         const rrule = options.all();
-
-                        var datesArray = {};
-                        const complete = { key: 'complete', color: 'green' };
-                        if (rrule.length > 0) {
-                            rrule.map(function (rules, index) {
-                                let dates = moment(rules).format('YYYY-MM-DD');
-                                Object.assign(datesArray, {
-                                    [dates]: {
-                                        selected: true,
-                                        selectedColor: '#4895FF',
-                                        disabled: false,
-                                        disableTouchEvent: false,
-                                        marked: true
-                                    },
-                                })
-                            })
+                        var str = event.RecurrenceRule;
+                        var chars = str.split(';');
+                        var str1, chars1;
+                        if (chars.length == 4) {
+                            str1 = chars[3];
+                            chars1 = str1.split('=');
                         }
+                        else if (chars.length == 3) {
+                            str1 = chars[2];
+                            chars1 = str1.split('=');
+                        }
+                        else if (chars.length == 2) {
+                            str1 = chars[1];
+                            chars1 = str1.split('=');
+                        }
+                        var chars2;
+                        if (chars1[0] == 'BYDAY' || chars1[0] == 'WKST') {
+                            chars2 = chars1[1].split(',');
+
+                        }
+
+                        weekDays.map(function (rules, index) {
+                            chars2.map(function (weekday, index) {
+                                if (weekday == rules.name) {
+                                    weekdays.push(rules.value)
+                                }
+                            })
+                        })
+                        console.log(weekdays)
+                        console.log('weekdays')
+                        var startDates = moment()
+                        var endDate = moment(startDates, "DD-MM-YYYY").add(14, 'days');
+                        // console.log(startDates)
+                        // console.log('startDate')
+                        // console.log(endDate)
+                        // console.log('endDate')
+                        getDates(startDates, endDate);
+                        // var datesArray = {};
+                        // const complete = { key: 'complete', color: 'green' };
+                        // if (rrule.length > 0) {
+                        //     rrule.map(function (rules, index) {
+                        //         let dates = moment(rules).format('YYYY-MM-DD');
+                        //         Object.assign(datesArray, {
+                        //             [dates]: {
+                        //                 selected: true,
+                        //                 selectedColor: '#4895FF',
+                        //                 disabled: false,
+                        //                 disableTouchEvent: false,
+                        //                 marked: true
+                        //             },
+                        //         })
+                        //     })
+                        // }
                         setRecurrenceText(options.toText())
-                        setRecurrenceRule(datesArray)
+                        //setRecurrenceRule(datesArray)
                         //options.toText()
                         // console.log(options.toText())
-                        console.log('optionsss')
+                        // console.log('optionsss')
 
                         //   console.log(options.all())
                     }
                 })
             });
     }
+
+    const getDates = (sDate, eDate) => {
+        const startDate = moment(sDate)
+        const endDate = moment(eDate);
+        const daysOfWeek = [];
+        let i = 0;
+        var datesArray = {};
+        const complete = { key: 'complete', color: 'green' };
+        while (i < 14 && startDate <= endDate) {
+            weekdays.map(function (rules, index) {
+                if (startDate.day() == rules) {
+                    let dates = moment(startDate).format('YYYY-MM-DD');
+                    Object.assign(datesArray, {
+                        [dates]: {
+                             selected: true,
+                            selectedColor: '#4895FF',
+                            disabled: false,
+                            disableTouchEvent: false,
+                            marked: true
+                        },
+                    })
+                }
+            })
+            daysOfWeek.push(startDate.day());
+            startDate.add(1, "day");
+            i++;
+        }
+        console.log(datesArray)
+        console.log('datesArray')
+        setRecurrenceRule(datesArray)
+        setloader(false)
+    }
+
     function getStudents() {
         fetch(`${apiUrl}/odata/StudentAccount`, {
             method: "get",
@@ -170,7 +251,7 @@ const ClassReservations = (props) => {
                                     let uniquestudentList = [...new Map(uniqueStudent.map(item =>
                                         [item[key], item])).values()];
                                     setStudentIds(uniquestudentList);
-                                    setloader(false)
+
                                 }
                             });
                     });
@@ -178,7 +259,7 @@ const ClassReservations = (props) => {
             });
     }
     const getSelectedDayEvents = date => {
-        console.log(date)
+       
         //console.log(startDate)
 
         let starttime = moment(startDateUnformatted).format("HH:mm:ss");
@@ -187,7 +268,35 @@ const ClassReservations = (props) => {
         console.log(datesCheck)
         console.log(startDate + ' ' + starttime)
         setSelectedDate(startDate)
+        let markedDates = {};
+        Object.entries(recurrenceRule).forEach(([key, value]) => {
+            console.log(key)
+           if(key == date){
+            Object.assign(markedDates, {
+                [key]: {
+                    selected: true,
+                    selectedColor: '#3db9adf0',
+                    disabled: false,
+                    disableTouchEvent: false,
+                    marked: true
+                },
+            })
+           }else{
+            Object.assign(markedDates, {
+                [key]: {
+                     selected: true,
+                    selectedColor: '#4895FF',
+                    disabled: false,
+                    disableTouchEvent: false,
+                    marked: true
+                },
+            })
+           }
+          });
 
+        console.log("here")
+        console.log(markedDates)
+        setRecurrenceRule(markedDates)
 
     };
     const reserveClass = () => {
@@ -250,7 +359,7 @@ const ClassReservations = (props) => {
                     setLoaderMessage(false)
                     setErrorMessage("An error has occurred.");
                 } else {
-                    setLoaderMessage(false)
+
                     setSuccessMessage("Successfully Submitted.");
                     setTimeout(function () {
                         setSelectedDate('')
@@ -269,6 +378,9 @@ const ClassReservations = (props) => {
         setSuccessMessage('')
         setErrorMessage('')
         setLoaderMessage(false)
+        weekdays = [];
+        setRecurrenceRule({})
+        setloader(true);
     }
     const placeholderStudent = {
         label: "Select Student",
@@ -321,8 +433,7 @@ const ClassReservations = (props) => {
                                             : null}
                                         <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Start Date: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{startDate}</Text></Text>
                                         <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Start Time: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{startTime}</Text></Text>
-                                        <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>End Date: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{endDate}</Text></Text>
-                                        <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}> <Text style={{ fontSize: 18, color: "#555", lineHeight: 30, fontWeight: "normal", textTransform: "capitalize" }}>{recurrenceText}</Text></Text>
+                                        {/* <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}> <Text style={{ fontSize: 18, color: "#555", lineHeight: 30, fontWeight: "normal", textTransform: "capitalize" }}>{recurrenceText}</Text></Text> */}
 
                                     </View>
                                 </View>
