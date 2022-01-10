@@ -12,6 +12,7 @@ const ClassList = (props) => {
     const [loader, setloader] = React.useState(true);
     const userId = useSelector((state) => state);
     const [eventListing, setEventListing] = React.useState([]);
+    const [threshold, setThreshold] = React.useState('');
     React.useEffect(() => {
         navigation.addListener("focus", () => {
             fetch(`${apiUrl}/odata/OrganizationClass`, {
@@ -25,6 +26,7 @@ const ClassList = (props) => {
                 .then((response) => response.json())
                 .then((data) => {
                     // console.log(data)
+                    setThreshold(data.threshold)
                     if (data.classes) {
                         setEventListing(data.classes);
                         setloader(false);
@@ -40,8 +42,11 @@ const ClassList = (props) => {
         let eventId = JSON.stringify(value);
         // console.log(eventId);
         try {
+           
+            let thresholdString = threshold.toString()
             await AsyncStorage.setItem("eventId", eventId);
             await AsyncStorage.setItem("eventTitle", title);
+            await AsyncStorage.setItem("threshold", thresholdString);
             props.navigation.navigate("Class Tasks");
         } catch (e) {
             // saving error
@@ -84,7 +89,6 @@ const ClassList = (props) => {
                     </View>
                 ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
                     eventListing.map(function (event, index) {
-
                         return (
                             <View style={{ marginBottom: 10 }} key={index}>
                                 <TouchableOpacity onPress={() => storeData(event.ClassId, event.Name)}>
@@ -108,16 +112,12 @@ const ClassList = (props) => {
                                             </View>
                                         </View>
                                         <View style={globalStyle.eventsListingBottomWrapper}>
+                                            { event.OnlineClass ?
                                             <Text
-                                                style={
-                                                    event.OnlineClass ?
-                                                        globalStyle.online
-                                                        :
-                                                        globalStyle.offline
-                                                }
-                                            >
-                                                {event.OnlineClass ? "Online" : "Offline"}
+                                                style={ globalStyle.online }>
+                                                Online
                                             </Text>
+                                            : null }
                                         </View>
                                     </View>
                                 </TouchableOpacity>

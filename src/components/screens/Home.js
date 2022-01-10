@@ -52,7 +52,13 @@ const Home = (props) => {
           // console.log(data)
           setThreshold(data.threshold)
           if (data.classes) {
-            setClassListing(data.classes);
+            var classes = [];
+            data.classes.map(function (event, index) {
+              if (index <= 5) {
+                classes.push(event)
+              }
+            })
+            setClassListing(classes);
             // setloader(false);
           } else {
             // setloader(false);
@@ -97,8 +103,10 @@ const Home = (props) => {
     let eventId = JSON.stringify(value);
     // console.log(eventId);
     try {
+      let thresholdString = threshold.toString()
       await AsyncStorage.setItem("eventId", eventId);
       await AsyncStorage.setItem("eventTitle", title);
+      await AsyncStorage.setItem("threshold", thresholdString);
       props.navigation.navigate("Class Tasks");
     } catch (e) {
       // saving error

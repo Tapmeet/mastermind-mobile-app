@@ -125,7 +125,7 @@ const pickImage = async () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data)
+        //  console.log(data)
           if (data.StudentIds.length > 0) {
             setStudentIds(data.StudentIds);
             setFirstName(data.FirstName);
