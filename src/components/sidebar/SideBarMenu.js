@@ -17,9 +17,28 @@ const SideBarMenu = (props) => {
     >
       <Header style={globalStyle.barStylings}>
         <Left>
-          <Button transparent onPress={() => props.navigation.toggleDrawer()}>
-            <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/TopMenu.png")} />
-          </Button>
+          {props.title == "Home" ?
+            <Button transparent onPress={() => props.navigation.toggleDrawer()}>
+              <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/TopMenu.png")} />
+            </Button>
+            :
+            <View style={{ display: "flex", flexDirection: "row", width: 80, alignItems: "center" }}>
+              <Image
+                style={{
+                  width: 12,
+                  marginRight: 2,
+
+                }}
+                source={require('./../../../assets/prev2.png')}
+                resizeMode={'contain'}
+              />
+              <Text
+                style={[globalStyle.titleStyling, { fontSize: 15 }]}
+                onPress={() => props.navigation.goBack()}
+              >Back </Text>
+
+            </View>
+          }
         </Left>
         <Body style={globalStyle.titleBody}>
           <Title>
@@ -27,24 +46,14 @@ const SideBarMenu = (props) => {
           </Title>
         </Body>
         <Right>
-          {/* {navmenuLink != "Home" ?
-            <View style={{display: "flex", flexDirection: "row", alignItems:"center"}}> 
-              <Text
-                style={[globalStyle.titleStyling, { fontSize: 15 }]}
-                onPress={() => props.navigation.goBack()}
-              >Back </Text>
-              <Image
-                style={{
-                  width: 12
-                }}
-                source={require('./../../../assets/next.png')}
-                resizeMode={'contain'}
-              />
-            </View>
-            : null} */}
+          {navmenuLink != "Home" ?
+            <Button transparent onPress={() => props.navigation.toggleDrawer()}>
+              <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/TopMenu.png")} />
+            </Button>
+            : null}
         </Right>
       </Header>
     </ImageBackground>
   );
-};
+}; 
 export default SideBarMenu;

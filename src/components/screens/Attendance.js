@@ -2,6 +2,7 @@ import { Container, Content, Body, Text, Card, CardItem, Left, Right, Icon } fro
 import React from "react";
 import { SideBarMenu } from "../sidebar";
 import { Col, Row, Grid } from 'react-native-easy-grid';
+import FooterTabs from "../footer/Footer";
 const Attendance = (props) => {
     return (
       <Container>

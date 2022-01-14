@@ -180,56 +180,64 @@ const StudentClasses = (props) => {
                         // console.log(event)
                         // console.log('event')
                         let starttime = moment(event.CheckInTime).format("MM-DD-YYYY, hh:mm a ");
+                        let classDate = moment(event.CheckInTime).format("YYYY-MM-DD");
+                        var GivenDate = classDate;
+                        var CurrentDate = new Date();
+                        CurrentDate.setHours(0,0,0,0)
+                        GivenDate = new Date(GivenDate);
+                      //  console.log(GivenDate)
                         return (
                             !event.isAlreadyCheckedIn ?
-                                <View style={{ marginBottom: 10 }} key={index}>
-                                    <View >
-                                        <View style={globalStyle.eventsListingWrapper}>
-                                            <View style={globalStyle.eventsListingTopWrapper}>
-                                                <View style={{ paddingLeft: 0, paddingRight: 10 }}>
-                                                    <Text
-                                                        style={{
-                                                            fontSize: 18,
-                                                            fontWeight: "bold",
-                                                            color: "#16161D",
-                                                            paddingBottom: 10,
-                                                        }}
-                                                    >
-                                                        {event.Title}
-                                                    </Text>
-                                                    <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
-                                                        {event.StudentName}
-                                                    </Text>
-                                                    <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
-                                                        {event.StudentEmail}
-                                                    </Text>
-                                                    <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
-                                                        <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
-                                                        {starttime}
-                                                    </Text>
-                                                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
-
-                                                        <Button disabled={event.isReadyForCheckIn ? false : true}
-                                                            style={event.isReadyForCheckIn ? { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#ccc", borderRadius: 6 }}
-                                                            onPress={() => checkinClass(event.StudentId, event.StudentName, event.StudentEmail, event.TaskId, event.CheckInTime)
-                                                            } >
-                                                            <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check-In</Text>
-                                                        </Button>
-
-                                                        <Button
-                                                            style={[{ alignSelf: "center", width: '48%', justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 18 }]}
-                                                            onPress={() =>
-                                                                alertCancel(event.AttendanceReservationId)}
+                            GivenDate >= CurrentDate ?
+                                    <View style={{ marginBottom: 10 }} key={index}>
+                                        <View >
+                                            <View style={globalStyle.eventsListingWrapper}>
+                                                <View style={globalStyle.eventsListingTopWrapper}>
+                                                    <View style={{ paddingLeft: 0, paddingRight: 10 }}>
+                                                        <Text
+                                                            style={{
+                                                                fontSize: 18,
+                                                                fontWeight: "bold",
+                                                                color: "#16161D",
+                                                                paddingBottom: 10,
+                                                            }}
                                                         >
-                                                            <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
-                                                        </Button>
-                                                    </View>
-                                                </View>
+                                                            {event.Title}
+                                                        </Text>
+                                                        <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                                                            {event.StudentName}
+                                                        </Text>
+                                                        <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                                                            {event.StudentEmail}
+                                                        </Text>
+                                                        <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
+                                                            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
+                                                            {starttime}
+                                                        </Text>
+                                                        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
 
+                                                            <Button disabled={event.isReadyForCheckIn ? false : true}
+                                                                style={event.isReadyForCheckIn ? { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#ccc", borderRadius: 6 }}
+                                                                onPress={() => checkinClass(event.StudentId, event.StudentName, event.StudentEmail, event.TaskId, event.CheckInTime)
+                                                                } >
+                                                                <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check-In</Text>
+                                                            </Button>
+
+                                                            <Button
+                                                                style={[{ alignSelf: "center", width: '48%', justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 18 }]}
+                                                                onPress={() =>
+                                                                    alertCancel(event.AttendanceReservationId)}
+                                                            >
+                                                                <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
+                                                            </Button>
+                                                        </View>
+                                                    </View>
+
+                                                </View>
                                             </View>
                                         </View>
                                     </View>
-                                </View>
+                                    : null
                                 : null
                         );
                     })

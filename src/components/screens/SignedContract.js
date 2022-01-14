@@ -19,6 +19,7 @@ import globalStyle from "../../style/globalStyle";
 import { useSelector } from 'react-redux'
 import { SideBarMenu } from "../sidebar";
 import HTML from "react-native-render-html";
+import FooterTabs from "../footer/Footer";
 import { SignatureView } from 'react-native-signature-capture-view';
 //import AddPaymentMethod from './AddPaymentMethod';
 const apiUrl = API_URL.trim();
@@ -366,6 +367,7 @@ const SignedContract = (props) => {
           }
         </View>
       </Content>
+      <FooterTabs />
     </Container>
   );
 };

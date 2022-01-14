@@ -12,6 +12,7 @@ import profilestyle from "../../style/profile/profileStyle";
 import { useSelector } from "react-redux";
 import { SideBarMenu } from "../sidebar";
 import { set } from "react-native-reanimated";
+import FooterTabs from "../footer/Footer";
 import moment from "moment";
 const UserProfile = (props) => {
   const [adult, setAdult] = React.useState("");
@@ -882,6 +883,7 @@ const UserProfile = (props) => {
           </View>
         )}
       </Content>
+      <FooterTabs />
     </Container>
   );
 };

@@ -7,6 +7,7 @@ import globalStyle from "../../../style/globalStyle";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "./../../Utility/AppConst";
+import loginStyle from "../../../style/login/loginStyle";
 const apiUrl = API_URL.trim();
 const ClassList = (props) => {
     const [loader, setloader] = React.useState(true);
@@ -42,7 +43,7 @@ const ClassList = (props) => {
         let eventId = JSON.stringify(value);
         // console.log(eventId);
         try {
-           
+
             let thresholdString = threshold.toString()
             await AsyncStorage.setItem("eventId", eventId);
             await AsyncStorage.setItem("eventTitle", title);
@@ -94,31 +95,46 @@ const ClassList = (props) => {
                                 <TouchableOpacity onPress={() => storeData(event.ClassId, event.Name)}>
                                     <View style={globalStyle.eventsListingWrapper}>
                                         <View style={globalStyle.eventsListingTopWrapper}>
-                                            <View style={{ paddingLeft: 0, paddingRight: 10 }}>
+                                            <View style={{ borderRadius: 25, overflow: "hidden" }}>
+                                                {event.ImagePhotoPath == null ?
+                                                      <Image source={require("./../../../../assets/img-dummy.jpg")} style={{ height: 110, width: 130 }} />
+                                                    :
+                                                    <Image source={{
+                                                        uri: "data:image/png;base64," + event.ImagePhotoPath,
+                                                    }}
+                                                        style={{ height: 110, width: 130 }} />
+                                                }
+                                            </View>
+                                            <View style={{ paddingLeft: 15, paddingRight: 10 }}>
                                                 <Text
                                                     style={{
                                                         fontSize: 18,
                                                         fontWeight: "bold",
                                                         color: "#16161D",
                                                         paddingBottom: 10,
+
                                                     }}
                                                 >
                                                     {event.Name}
                                                 </Text>
-                                                <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
-                                                    {/* //{event.Description}  */}
-                                                    Learning starts with a calm body, eyes & ears on the instructor and following group directions.
-                                                </Text>
+                                                {/* {event.OnlineClass ?
+                                                    <View style={[globalStyle.eventsListingBottomWrapper, { borderTopWidth: 0 }]}>
+
+                                                        <Text
+                                                            style={globalStyle.online}>
+                                                            Online
+                                                        </Text>
+
+                                                    </View>
+                                                    : null} */}
+                                                <Button onPress={() => storeData(event.ClassId, event.Name)}
+                                                    style={{ marginTop: 10, justifyContent: "center", width: '80%', backgroundColor: "#4585ff", borderRadius: 6 }}
+                                                >
+                                                    <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>View Detail</Text>
+                                                </Button>
                                             </View>
                                         </View>
-                                        <View style={globalStyle.eventsListingBottomWrapper}>
-                                            { event.OnlineClass ?
-                                            <Text
-                                                style={ globalStyle.online }>
-                                                Online
-                                            </Text>
-                                            : null }
-                                        </View>
+
                                     </View>
                                 </TouchableOpacity>
                             </View>

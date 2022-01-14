@@ -8,7 +8,7 @@ import globalStyle from "../../style/globalStyle";
 import { useSelector } from "react-redux";
 import { SideBarMenu } from "../sidebar";
 import DatePicker from "react-native-datepicker";
-
+import FooterTabs from "../footer/Footer";
 import moment from "moment";
 const apiUrl = API_URL.trim();
 const AddPaymentMethod = (props) => {

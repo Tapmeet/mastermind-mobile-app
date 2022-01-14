@@ -39,6 +39,7 @@ const Drawer = (props) => {
       screenOptions={{
         headerShown: false,
       }}
+      drawerPosition="right" 
       drawerContent={(props) => <SideBar {...props} />}
     >
       <HomeDrawer.Screen name="Home" component={HomeScreen} />
@@ -67,7 +68,7 @@ const Drawer = (props) => {
       <HomeDrawer.Screen name="Class Reservation" component={ClassList} />
       <HomeDrawer.Screen name="Class Tasks" component={TaskClass} />
       <HomeDrawer.Screen name="Class Reservations" component={ClassReservations} />
-      <HomeDrawer.Screen name="Student Classes" component={StudentClasses} />
+      <HomeDrawer.Screen name="Reserved Classes" component={StudentClasses} />
     </HomeDrawer.Navigator>
   );
 };

@@ -6,6 +6,7 @@ import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { useSelector } from "react-redux";
 import { SideBarMenu } from "../sidebar";
+import FooterTabs from "../footer/Footer";
 const LinkStudent = (props) => {
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
@@ -164,6 +165,7 @@ const LinkStudent = (props) => {
           </Form>
         </View>
       </Content>
+      <FooterTabs/>
     </Container>
   );
 };

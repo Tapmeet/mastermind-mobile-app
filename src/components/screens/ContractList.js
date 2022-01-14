@@ -31,6 +31,7 @@ import { SideBarMenu } from "../sidebar";
 import { set } from "react-native-reanimated";
 import moment from "moment";
 import Contract from "./Contract";
+import FooterTabs from "../footer/Footer";
 const apiUrl = API_URL.trim();
 const ContractList = (props) => {
   const [loader, setloader] = React.useState(true);
@@ -348,6 +349,7 @@ const ContractList = (props) => {
           )}
         </View>
       </Content>
+      <FooterTabs />
     </Container>
   );
 };
