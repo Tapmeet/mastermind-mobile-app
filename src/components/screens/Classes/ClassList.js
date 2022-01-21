@@ -61,7 +61,7 @@ const ClassList = (props) => {
                 backgroundColor: "#f1f1f1",
             }}
         >
-            <SideBarMenu title={"Classes"} navigation={props.navigation} />
+            <SideBarMenu title={"Classes"} navigation={props.navigation} backLink="Home" />
             <View
                 style={[
                     globalStyle.flexStandard,

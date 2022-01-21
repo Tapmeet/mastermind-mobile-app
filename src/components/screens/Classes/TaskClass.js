@@ -13,10 +13,14 @@ import moment from 'moment';
 import { RRule, RRuleSet, rrulestr } from 'rrule'
 import { CalendarList, Calendar } from 'react-native-calendars';
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import { useFocusEffect } from '@react-navigation/native';
 const apiUrl = API_URL.trim();
 var uniqueStudent = [];
 var datesArray = {};
 var datesCleassesArray = [];
+var classDate = '';
+var classTitle = '';
+var checkClass = false;
 const key = 'value';
 const weekDays = [
     { name: "SU", value: "0", fullName: "Sunday" },
@@ -65,25 +69,31 @@ const TaskClass = (props) => {
     const toggleExpanded = () => {
         setCollapsed(!collapsed);
     };
-    React.useEffect(() => {
-        navigation.addListener("focus", async () => {
-            await clearData()
-            if (loader) {
-                if (loaderCheck) {
-                    setLoaderCheck(false)
-                    setDatesClasses([])
-                    await getData();
-                    getStudents()
-                }
-            }
-        });
-    });
+    useFocusEffect(
+        React.useCallback(() => {
+            //  navigation.addListener("focus", () => {
+            console.log("here")
+            clearData()
+            // if (loader) {
+            //     if (loaderCheck) {
+            setDatesClasses([])
+            getData();
+            setLoaderCheck(false)
+            setDatesClasses([])
+            getStudents()
+            //     }
+            // }
+            // });
+        }, [classId])
+    );
     async function getData() {
         setLoaderCheck(false)
         try {
             const value = await AsyncStorage.getItem("eventId");
             const title = await AsyncStorage.getItem("eventTitle");
             const threshold = await AsyncStorage.getItem("threshold");
+            // console.log(value);
+            //  console.log('value')
             setThreshold(threshold)
             setClassId(value)
             setTaskTitle(title)
@@ -102,6 +112,8 @@ const TaskClass = (props) => {
                     data.map(function (event, index) {
                         if (index == 0) {
                             setDatesClasses([])
+                            datesCleassesArray = [];
+
                         }
                         var str = event.RecurrenceRule;
                         var chars = str.split(';');
@@ -131,6 +143,7 @@ const TaskClass = (props) => {
                                 }
                             })
                         })
+
                         var maxAttendance = '';
                         var confirmedRegistration = '';
                         var availableRegistartion = '';
@@ -149,8 +162,16 @@ const TaskClass = (props) => {
                         starttimeUnformated = moment(event.StartDate).format("HH:mm:ss");
                         // console.log(starttime)
                         // console.log('starttime')
-
-                        getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated);
+                        setloader(false)
+                        if (index == 0) {
+                            setDatesClasses([])
+                            datesCleassesArray = [];
+                            console.log("here1")
+                            getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 0);
+                        }
+                        else {
+                            getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 1);
+                        }
                         if (index + 1 == data.length) {
                             setloader(false)
                         }
@@ -158,15 +179,16 @@ const TaskClass = (props) => {
                 });
         } catch (e) { }
     }
-    const getDates = (sDate, eDate, threshold, availableRegistartion, starttime, title, taskId, starttimeUnformated) => {
+    const getDates = (sDate, eDate, threshold, availableRegistartion, starttime, title, taskId, starttimeUnformated, index) => {
         const startDate = moment(sDate)
         const endDate = moment(eDate);
         const daysOfWeek = [];
         let i = 0;
         datesArray = recurrenceRule;
-        datesCleassesArray = datesClasses;
+        datesCleassesArray = [];
         const complete = { key: 'complete', color: 'green' };
         while (i < parseInt(threshold) && startDate <= endDate) {
+            //console.log(weekdays);
             weekdays.map(function (rules, index) {
                 if (startDate.day() == rules) {
                     let dates = moment(startDate).format('YYYY-MM-DD');
@@ -179,26 +201,30 @@ const TaskClass = (props) => {
                             marked: true
                         },
                     })
-                    datesCleassesArray.push(
-                        {
-                            'classdate': dates,
-                            "availableRegistartion": availableRegistartion,
-                            "starttime": starttime,
-                            "title": title,
-                            "taskId": taskId,
-                            "starttimeUnformated": starttimeUnformated
-                        }
-                    )
+                    let dats =
+                    {
+                        'classdate': dates,
+                        "availableRegistartion": availableRegistartion,
+                        "starttime": starttime,
+                        "title": title,
+                        "taskId": taskId,
+                        "starttimeUnformated": starttimeUnformated
+                    }
+
+                    setDatesClasses((prevStates) => [...prevStates, dats]);
                 }
             })
             daysOfWeek.push(startDate.day());
             startDate.add(1, "day");
             i++;
         }
+        // console.log(datesCleassesArray);
+        // console.log('weekdays array');
         weekdays = [];
         setRecurrenceRule(datesArray)
-        setDatesClasses(datesCleassesArray)
 
+        //setDatesClasses(datesCleassesArray)
+        datesCleassesArray = [];
     }
 
     function getStudents() {
@@ -331,7 +357,8 @@ const TaskClass = (props) => {
         // console.log('studentName')
         // console.log(studentEmail)
         // console.log('studentEmail')
-
+        console.log(classId)
+        console.log('taskId')
         fetch(`${apiUrl}public/ClassReservation`, {
             method: "post",
             headers: {
@@ -340,24 +367,18 @@ const TaskClass = (props) => {
                 Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
             },
             body: JSON.stringify({
-                taskId: taskId,
+                taskId: classId,
                 CheckInTime: selecteDate + ' ' + selectedTaskTime,
                 StudentId: selectedStudent,
                 StudentName: studentName,
                 StudentEmail: studentEmail,
             }),
         })
-            .then((response) => {
-                console.log("response")
-                let jsonData = JSON.stringify(response);
-                console.log(jsonData)
-                let jsonDataPrase = JSON.parse(jsonData);
-                setLoaderMessage(false)
-                // console.log(jsonDataPrase.status)
-                if (jsonDataPrase.status != 200) {
+            .then((response) => response.text())
+            .then((data) => {
+                console.log(data)
+                if (data != "FAILURE:You are already signed up for this class") {
                     setLoaderMessage(false)
-                    setErrorMessage("An error has occurred.");
-                } else {
                     setSuccessMessage("Successfully Submitted.");
                     setTimeout(function () {
                         setSelectedDate('')
@@ -370,7 +391,35 @@ const TaskClass = (props) => {
                         clearCalander()
                     }, 3000);
                 }
+                else {
+                    setLoaderMessage(false)
+                    setErrorMessage(data);
+                }
             });
+        // .then((response) => {
+        //     console.log("response")
+        //     let jsonData = JSON.stringify(response);
+        //     console.log(jsonData)
+        //     let jsonDataPrase = JSON.parse(jsonData);
+        //     setLoaderMessage(false)
+        //     // console.log(jsonDataPrase.status)
+        //     if (jsonDataPrase.status != 200) {
+        //         setLoaderMessage(false)
+        //         setErrorMessage("An error has occurred.");
+        //     } else {
+        //         setSuccessMessage("Successfully Submitted.");
+        //         setTimeout(function () {
+        //             setSelectedDate('')
+        //             setSelectedStudent('')
+        //             setSuccessMessage('')
+        //             setErrorMessage('')
+        //             setSelectedTaskId('')
+        //             setselectedTaskTime('')
+        //             setSelectedTaskDate('')
+        //             clearCalander()
+        //         }, 3000);
+        //     }
+        // });
     }
     const clearData = async () => {
         setDatesClasses([])
@@ -423,7 +472,7 @@ const TaskClass = (props) => {
                 backgroundColor: "#FFFFFF",
             }}
         >
-            <SideBarMenu title={"Class Tasks"} navigation={props.navigation} />
+            <SideBarMenu title={"Class Schedule"} backLink="Class Reservation" navigation={props.navigation} />
             <Content padder>
                 {loader ? (
                     <Content>
@@ -571,6 +620,8 @@ const TaskClass = (props) => {
                         <View>
                             {selectedDate != '' ?
                                 datesClasses.map(function (classes, index) {
+                                    // console.log('classes')
+                                    // console.log(classes)
                                     return (
                                         classes.classdate == selectedDate && eventListing['0'].Title == classes.title ?
                                             <View style={{ marginBottom: 10, marginTop: 10 }} key={index}>
@@ -606,45 +657,47 @@ const TaskClass = (props) => {
                                 : null
                             }
                         </View>
-                        <View style={globalStyle.eventsListingWrapper}>
-                            <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Student</Text>
-                            <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-                                {studentIds.length > 0 && studentIds.length != undefined ?
-                                    <RNPickerSelect
-                                        value={selectedStudent}
-                                        items={studentIds}
-                                        placeholder={placeholderStudent}
-                                        onValueChange={(value) => setSelectedStudent(value)}
-                                        style={{
-                                            ...pickerSelectStyles,
-                                            iconContainer: {
-                                                top: Platform.OS === "android" ? 20 : 30,
-                                                right: 10,
-                                            },
-                                            placeholder: {
-                                                color: "#8a898e",
-                                                fontSize: 12,
-                                                fontWeight: "bold",
-                                            },
-                                        }}
-                                        Icon={() => {
-                                            return (
-                                                <Image
-                                                    style={{
-                                                        width: 12,
-                                                        position: "absolute",
-                                                        top: Platform.OS === "android" ? -15 : -28,
-                                                        right: 5,
-                                                    }}
-                                                    source={require("../../../../assets/arrow-down.png")}
-                                                    resizeMode={"contain"}
-                                                />
-                                            );
-                                        }}
-                                    />
-                                    : null}
+                        {selectedDate != '' ?
+                            <View style={globalStyle.eventsListingWrapper}>
+                                <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Student</Text>
+                                <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
+                                    {studentIds.length > 0 && studentIds.length != undefined ?
+                                        <RNPickerSelect
+                                            value={selectedStudent}
+                                            items={studentIds}
+                                            placeholder={placeholderStudent}
+                                            onValueChange={(value) => setSelectedStudent(value)}
+                                            style={{
+                                                ...pickerSelectStyles,
+                                                iconContainer: {
+                                                    top: Platform.OS === "android" ? 20 : 30,
+                                                    right: 10,
+                                                },
+                                                placeholder: {
+                                                    color: "#8a898e",
+                                                    fontSize: 12,
+                                                    fontWeight: "bold",
+                                                },
+                                            }}
+                                            Icon={() => {
+                                                return (
+                                                    <Image
+                                                        style={{
+                                                            width: 12,
+                                                            position: "absolute",
+                                                            top: Platform.OS === "android" ? -15 : -28,
+                                                            right: 5,
+                                                        }}
+                                                        source={require("../../../../assets/arrow-down.png")}
+                                                        resizeMode={"contain"}
+                                                    />
+                                                );
+                                            }}
+                                        />
+                                        : null}
+                                </View>
                             </View>
-                        </View>
+                            : null}
                         {loaderMessage ? (
                             <View style={[styles.container, styles.horizontal]}>
                                 <ActivityIndicator size="large" color="#29ABE2" />

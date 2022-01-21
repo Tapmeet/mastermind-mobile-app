@@ -9,19 +9,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../../Utility/AppConst";
 import moment from 'moment';
 import loginStyle from "../../../style/login/loginStyle";
+import { useFocusEffect } from '@react-navigation/native';
 const apiUrl = API_URL.trim();
 const StudentClasses = (props) => {
     const [loader, setloader] = React.useState(true);
     const userId = useSelector((state) => state);
     const [eventListing, setEventListing] = React.useState([]);
     const [classListings, setClassListings] = React.useState([]);
-    React.useEffect(() => {
-        navigation.addListener("focus", () => {
+    useFocusEffect(
+        React.useCallback(() => {
             if (eventListing == '') {
                 fetchClasses()
             }
-        });
-    });
+        }, [eventListing])
+    );
     const fetchClasses = () => {
         fetch(`${apiUrl}/odata/StudentAttendance`, {
             method: "get",
@@ -38,6 +39,7 @@ const StudentClasses = (props) => {
                     var dataCount = data.value.length;
                     setEventListing(data.value);
                     setClassListings([])
+                    setloader(false);
                     data.value.map(function (event, index) {
                         fetch(`${apiUrl}public/GetClassOccurrences?classId=${event.TaskId}`, {
                             method: "get",
@@ -53,6 +55,7 @@ const StudentClasses = (props) => {
                                 let datas = { ...event, ...taskData[0] }
                                 // console.log('taskData')
                                 // console.log(datas)
+
                                 setClassListings((prevState) => [...prevState, datas]);
                                 if (index == dataCount - 1) {
                                     setloader(false);
@@ -183,12 +186,12 @@ const StudentClasses = (props) => {
                         let classDate = moment(event.CheckInTime).format("YYYY-MM-DD");
                         var GivenDate = classDate;
                         var CurrentDate = new Date();
-                        CurrentDate.setHours(0,0,0,0)
+                        CurrentDate.setHours(0, 0, 0, 0)
                         GivenDate = new Date(GivenDate);
-                      //  console.log(GivenDate)
+                        //  console.log(GivenDate)
                         return (
                             !event.isAlreadyCheckedIn ?
-                            GivenDate >= CurrentDate ?
+                                GivenDate >= CurrentDate ?
                                     <View style={{ marginBottom: 10 }} key={index}>
                                         <View >
                                             <View style={globalStyle.eventsListingWrapper}>

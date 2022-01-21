@@ -60,7 +60,7 @@ const ClassReservations = (props) => {
         setCollapsed(!collapsed);
     };
     React.useEffect(() => {
-        navigation.addListener("focus", async () => {
+        navigation.addListener("focus",  () => {
             clearData()
 
             if (loader) {

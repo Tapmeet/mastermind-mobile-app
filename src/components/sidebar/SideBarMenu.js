@@ -6,6 +6,7 @@ const SideBarMenu = (props) => {
   const [navmenuLink, setNavmenuLink] = React.useState("");
   React.useEffect(() => {
     setNavmenuLink(props.title);
+ 
   });
   return (
     <ImageBackground
@@ -34,7 +35,7 @@ const SideBarMenu = (props) => {
               />
               <Text
                 style={[globalStyle.titleStyling, { fontSize: 15 }]}
-                onPress={() => props.navigation.goBack()}
+                onPress={ props.backLink != undefined ? () => props.navigation.navigate(props.backLink) : () => props.navigation.goBack() }
               >Back </Text>
 
             </View>
@@ -55,5 +56,5 @@ const SideBarMenu = (props) => {
       </Header>
     </ImageBackground>
   );
-}; 
+};
 export default SideBarMenu;
