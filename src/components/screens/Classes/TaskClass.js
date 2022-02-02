@@ -633,8 +633,8 @@ const TaskClass = (props) => {
                                                                 <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Date: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{moment(selectedDate).format("MMMM Do, YYYY")}</Text></Text>
                                                             </View>
                                                             <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Start Time: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.starttime}</Text></Text>
-                                                            <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Available Slots: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.availableRegistartion}</Text></Text>
-                                                            {classes.availableRegistartion != 0 ?
+                                                            <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Available Slots: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.availableRegistartion > 0 ? classes.availableRegistartion : 0}</Text></Text>
+                                                            {classes.availableRegistartion > 0 ?
                                                                 <Button
                                                                     onPress={() => selectClass(classes.Id, classes.starttimeUnformated, classes.classdate)}
                                                                     style={classes.Id == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ? { width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { width: '48%', backgroundColor: "#aaa", borderRadius: 6 }}
