@@ -40,28 +40,28 @@ const StudentClasses = (props) => {
                     setEventListing(data.value);
                     setClassListings([])
                     setloader(false);
-                    data.value.map(function (event, index) {
-                        fetch(`${apiUrl}public/GetClassOccurrences?classId=${event.TaskId}`, {
-                            method: "get",
-                            headers: {
-                                Accept: "*/*",
-                                "Content-Type": "application/json",
-                                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-                            },
-                        })
-                            .then((responses) => responses.json())
-                            .then((taskData) => {
-                                // console.log(taskData)
-                                let datas = { ...event, ...taskData[0] }
-                                // console.log('taskData')
-                                // console.log(datas)
+                    // data.value.map(function (event, index) {
+                    //     fetch(`${apiUrl}public/GetClassOccurrences?classId=${event.TaskId}`, {
+                    //         method: "get",
+                    //         headers: {
+                    //             Accept: "*/*",
+                    //             "Content-Type": "application/json",
+                    //             Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+                    //         },
+                    //     })
+                    //         .then((responses) => responses.json())
+                    //         .then((taskData) => {
+                    //             // console.log(taskData)
+                    //             let datas = { ...event, ...taskData[0] }
+                    //             // console.log('taskData')
+                    //             // console.log(datas)
 
-                                setClassListings((prevState) => [...prevState, datas]);
-                                if (index == dataCount - 1) {
-                                    setloader(false);
-                                }
-                            });
-                    })
+                    //             setClassListings((prevState) => [...prevState, datas]);
+                    //             if (index == dataCount - 1) {
+                    //                 setloader(false);
+                    //             }
+                    //         });
+                    // })
 
                 } else {
                     setloader(false);
@@ -111,7 +111,10 @@ const StudentClasses = (props) => {
             .then(response => response.text())
             .then(result => {
                 console.log(result)
-                fetchClasses()
+                setloader(true)
+                setTimeout(function () {
+                    fetchClasses()
+                }, 3000);
             })
             .catch((response) => {
                 setloader(true)
@@ -179,7 +182,7 @@ const StudentClasses = (props) => {
                         <ActivityIndicator size="large" color="#29ABE2" />
                     </View>
                 ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
-                    classListings.map(function (event, index) {
+                    eventListing.map(function (event, index) {
                         // console.log(event)
                         // console.log('event')
                         let starttime = moment(event.CheckInTime).format("MM-DD-YYYY, hh:mm a ");
@@ -197,7 +200,7 @@ const StudentClasses = (props) => {
                                             <View style={globalStyle.eventsListingWrapper}>
                                                 <View style={globalStyle.eventsListingTopWrapper}>
                                                     <View style={{ paddingLeft: 0, paddingRight: 10 }}>
-                                                        <Text
+                                                        {/* <Text
                                                             style={{
                                                                 fontSize: 18,
                                                                 fontWeight: "bold",
@@ -206,7 +209,7 @@ const StudentClasses = (props) => {
                                                             }}
                                                         >
                                                             {event.Title}
-                                                        </Text>
+                                                        </Text> */}
                                                         <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
                                                             {event.StudentName}
                                                         </Text>

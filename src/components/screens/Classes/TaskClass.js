@@ -151,7 +151,7 @@ const TaskClass = (props) => {
                         var endDate = moment(startDates, "DD-MM-YYYY").add(threshold, 'days');
                         maxAttendance = event.MaxAttendance;
                         if (event.MaxAttendance == null) {
-                            availableRegistartion = 10;
+                            availableRegistartion = 0;
                         } else {
                             confirmedRegistration = event.ConfirmedReservations.length;
                             availableRegistartion = parseFloat(event.MaxAttendance) - parseFloat(confirmedRegistration);
@@ -357,8 +357,8 @@ const TaskClass = (props) => {
         // console.log('studentName')
         // console.log(studentEmail)
         // console.log('studentEmail')
-        console.log(classId)
-        console.log('taskId')
+        // console.log(classId)
+        // console.log('taskId')
         fetch(`${apiUrl}public/ClassReservation`, {
             method: "post",
             headers: {
@@ -394,6 +394,9 @@ const TaskClass = (props) => {
                 else {
                     setLoaderMessage(false)
                     setErrorMessage(data);
+                    setTimeout(function () {
+                        setErrorMessage('');
+                    }, 3000);
                 }
             });
         // .then((response) => {

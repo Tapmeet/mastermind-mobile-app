@@ -36,3 +36,4 @@ export { default as TaskClass } from './Classes/TaskClass';
 export { default as ClassReservations } from './Classes/ClassReservations';
 export { default as StudentClasses } from './Classes/StudentClasses';
 export { default as Awards } from './Awards/Awards';
+export { default as Share } from './Share/Share';

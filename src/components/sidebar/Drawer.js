@@ -27,7 +27,8 @@ import {
   ClassList,
   ClassReservations,
   StudentClasses,
-  Awards
+  Awards,
+  Share
 } from "../screens";
 import { SideBar } from ".";
 import { FlatList } from "react-native";
@@ -71,6 +72,7 @@ const Drawer = (props) => {
       <HomeDrawer.Screen name="Class Reservations" component={ClassReservations} />
       <HomeDrawer.Screen name="Reserved Classes" component={StudentClasses} />
       <HomeDrawer.Screen name="Awards" component={Awards} />
+      <HomeDrawer.Screen name="Share" component={Share} />
     </HomeDrawer.Navigator>
   );
 };

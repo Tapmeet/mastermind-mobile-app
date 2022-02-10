@@ -10,9 +10,9 @@ import LOGGED_OUT_USER from "./../../redux/User";
 import EMPTY_CART from "./../../redux/Retail";
 import EMPTY_EVENT from "./../../redux/Event";
 import { EventDetails } from "../screens";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker'; 
 import * as FileSystem from 'expo-file-system';
-const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Awards", "Events", "Retail", "Class Reservation","Reserved Classes", "Payment Methods", "Purchase History"];
+const routes = ["Home", "Link Student", "Profile", "Inquiry", "Memberships", "Awards","Share", "Events", "Retail", "Class Reservation","Reserved Classes", "Payment Methods", "Purchase History"];
 
 const SideBar = (props) => {
   const dispatch = useDispatch();
