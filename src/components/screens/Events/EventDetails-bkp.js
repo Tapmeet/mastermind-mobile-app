@@ -396,7 +396,7 @@ const EventDetails = (props) => {
         ) : null
       )}
 
-      <FooterTabs />
+     <FooterTabs navigation={props.navigation}  />
       {showModal ?
         <View style={{ position: "absolute", backgroundColor: "rgba(0,0,0,0.5)", height: windowHeight, width: windowWidth, top: 0, bottom: 0, left: 0, right: 0, display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "center" }}>
           <View style={{ width: "90%", minHeight: 300, backgroundColor: "#fff", padding: 15 }}>

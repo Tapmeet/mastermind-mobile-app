@@ -823,7 +823,7 @@ const Contract = (props) => {
             : null
           : null}
       </Content>
-      <FooterTabs />
+     <FooterTabs navigation={props.navigation}  />
     </Container>
   );
 };

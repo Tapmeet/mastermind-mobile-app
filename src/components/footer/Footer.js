@@ -18,11 +18,11 @@ const FooterTabs = (props) => {
           <Button onPress={() => props.navigation.navigate("Home")}>
             <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/home.png")} />
           </Button>
-          <Button>
-            <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/chat.png")} />
+          <Button onPress={() => props.navigation.navigate("Class Reservation")}>
+            <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/calendar.png")} />
           </Button>
-          <Button>
-            <Image style={{ height: 20, width: 20, resizeMode: "contain" }} source={require("./../../../assets/facebook.png")} />
+          <Button onPress={() => props.navigation.navigate("Share")}>
+            <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/share-footer.png")} />
           </Button>
         </FooterTab>
       </Footer>

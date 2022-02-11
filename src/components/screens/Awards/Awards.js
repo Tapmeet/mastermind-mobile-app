@@ -8,13 +8,15 @@ import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "./../../Utility/AppConst";
 import loginStyle from "../../../style/login/loginStyle";
+import { useFocusEffect } from '@react-navigation/native';
 const apiUrl = API_URL.trim();
 const Awards = (props) => {
     const [loader, setloader] = React.useState(true);
     const userId = useSelector((state) => state);
     const [awardsListing, setAwardsListing] = React.useState([]);
-    React.useEffect(() => {
-        navigation.addListener("focus", () => {
+    useFocusEffect(
+        //navigation.addListener("focus", () => {
+        React.useCallback(() => {
             fetch(`${apiUrl}/odata/StudentAwards`, {
                 method: "get",
                 headers: {
@@ -33,8 +35,10 @@ const Awards = (props) => {
                         setloader(false);
                     }
                 });
-        });
-    });
+            //   });
+            // });
+        }, [])
+    );
 
 
 
@@ -115,7 +119,7 @@ const Awards = (props) => {
                     </View>
                 )}
             </Content>
-            {<FooterTabs />}
+             <FooterTabs navigation={props.navigation}  />
 
         </Container>
     );

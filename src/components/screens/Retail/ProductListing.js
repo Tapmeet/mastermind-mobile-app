@@ -12,6 +12,7 @@ import moment from "moment";
 import CartWidget from "../../cart/Cartwidget"
 import { API_URL } from "../../Utility/AppConst";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import { useFocusEffect } from '@react-navigation/native';
 import { flex } from "styled-system";
 const apiUrl = API_URL.trim();
 const ProductListing = (props) => {
@@ -26,8 +27,9 @@ const ProductListing = (props) => {
   ];
 
 
-  React.useEffect(() => {
-    navigation.addListener("focus", () => {
+  useFocusEffect(
+    //navigation.addListener("focus", () => {
+        React.useCallback(() => {
       fetch(`${apiUrl}/odata/OrganizationRetail`, {
         method: "get",
         headers: {
@@ -46,8 +48,10 @@ const ProductListing = (props) => {
             setloader(false);
           }
         });
-    });
-  });
+  //   });
+  // });
+}, [])
+);
   const placeholderFiler = {
     label: "Filter",
   };

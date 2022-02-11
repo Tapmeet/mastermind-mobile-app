@@ -162,18 +162,22 @@ const TaskClass = (props) => {
                         starttimeUnformated = moment(event.StartDate).format("HH:mm:ss");
                         // console.log(starttime)
                         // console.log('starttime')
-                        setloader(false)
+                        setTimeout(function () {
+                            setloader(false);
+                        }, 1000);
                         if (index == 0) {
-                            setDatesClasses([])
-                            datesCleassesArray = [];
-                            console.log("here1")
+                            // setDatesClasses([])
+                            // datesCleassesArray = [];
+
                             getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 0);
                         }
                         else {
                             getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 1);
                         }
                         if (index + 1 == data.length) {
-                            setloader(false)
+                            setTimeout(function () {
+                                setloader(false);
+                            }, 1000);
                         }
                     })
                 });
@@ -312,8 +316,10 @@ const TaskClass = (props) => {
         // console.log("here")
         // console.log(markedDates)
         setRecurrenceRule(markedDates)
-        setloader(false);
 
+        setTimeout(function () {
+            setloader(false);
+        }, 1000);
     };
     const reserveClass = () => {
         if (selectedTaskDate == '') {
@@ -637,17 +643,17 @@ const TaskClass = (props) => {
                                                             </View>
                                                             <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Start Time: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.starttime}</Text></Text>
                                                             <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Available Slots: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.availableRegistartion > 0 ? classes.availableRegistartion : 0}</Text></Text>
-                                                            {classes.availableRegistartion > 0 ?
-                                                                <Button
-                                                                    onPress={() => selectClass(classes.Id, classes.starttimeUnformated, classes.classdate)}
-                                                                    style={classes.Id == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ? { width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { width: '48%', backgroundColor: "#aaa", borderRadius: 6 }}
-                                                                    full>
-                                                                    <Text style={loginStyle.buttonText}>
-                                                                        {classes.Id == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ?
-                                                                            "Selected" : "Select"}
-                                                                    </Text>
-                                                                </Button>
-                                                                : null}
+                                                            {/* {classes.availableRegistartion > 0 ? */}
+                                                            <Button
+                                                                onPress={() => selectClass(classes.Id, classes.starttimeUnformated, classes.classdate)}
+                                                                style={classes.Id == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ? { width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { width: '48%', backgroundColor: "#aaa", borderRadius: 6 }}
+                                                                full>
+                                                                <Text style={loginStyle.buttonText}>
+                                                                    {classes.Id == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ?
+                                                                        "Selected" : "Select"}
+                                                                </Text>
+                                                            </Button>
+                                                            {/* // : null} */}
 
                                                         </View>
                                                     </View>
@@ -708,22 +714,29 @@ const TaskClass = (props) => {
                         ) : null}
                         {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
                         {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
-
-                        <ImageBackground
-                            style={[
-                                globalStyle.Btn,
-                                {
-                                    width: "100%",
-                                    marginBottom: 30
-                                },
-                            ]}
-                            source={require("./../../../../assets/Oval.png")}
-                            resizeMode={"stretch"}
-                        >
-                            <Button onPress={() => reserveClass()} style={loginStyle.buttons} full>
-                                <Text style={loginStyle.buttonText}>Reserve Class</Text>
-                            </Button>
-                        </ImageBackground>
+                        {selectedDate == '' ? <View style={[globalStyle.eventsListingWrapper, {marginTop: 10}]}>
+                            <Text style={{ fontSize: 16, color: "#555", fontWeight: "bold", textAlign:"center", marginBottom: 0 }}>
+                                Select date to view class times and availability 
+                            </Text>
+                        </View>
+                            : null}
+                        {selectedDate != '' && selectedStudent != '' &&  selectedStudent != null ?
+                            <ImageBackground
+                                style={[
+                                    globalStyle.Btn,
+                                    {
+                                        width: "100%",
+                                        marginBottom: 30
+                                    },
+                                ]}
+                                source={require("./../../../../assets/Oval.png")}
+                                resizeMode={"stretch"}
+                            >
+                                <Button onPress={() => reserveClass()} style={loginStyle.buttons} full>
+                                    <Text style={loginStyle.buttonText}>Reserve Class</Text>
+                                </Button>
+                            </ImageBackground>
+                            : null}
                     </View>
                 )}
             </Content>

@@ -195,7 +195,7 @@ const AddAccountMethod = (props) => {
           )}
         </View>
       </Content>
-      <FooterTabs></FooterTabs>
+    <FooterTabs navigation={props.navigation}  />
     </Container>
   );
 };

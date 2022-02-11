@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 import { API_URL } from "./../Utility/AppConst";
+import { useFocusEffect } from '@react-navigation/native';
 const apiUrl = API_URL.trim();
 const Home = (props) => {
   const isCarousel = React.useRef(null);
@@ -18,8 +19,10 @@ const Home = (props) => {
   const [classListing, setClassListing] = React.useState([]);
   const [retailListing, setRetailListing] = React.useState([]);
   const [threshold, setThreshold] = React.useState('');
-  React.useEffect(() => {
-    navigation.addListener("focus", () => {
+
+  useFocusEffect(
+    //navigation.addListener("focus", () => {
+    React.useCallback(() => {
       fetch(`${apiUrl}/odata/OrganizationEvent`, {
         method: "get",
         headers: {
@@ -83,9 +86,10 @@ const Home = (props) => {
             setloader(false);
           }
         });
-    });
-  });
-
+      //   });
+      // });
+    }, [])
+  );
   const storeData = async (value, title) => {
     //console.log(value);
     let eventId = JSON.stringify(value);
@@ -441,7 +445,7 @@ const Home = (props) => {
           )}
         </Content>
       }
-      <FooterTabs />
+  <FooterTabs navigation={props.navigation}  />
     </Container>
   );
 };

@@ -349,7 +349,7 @@ const ContractList = (props) => {
           )}
         </View>
       </Content>
-      <FooterTabs />
+     <FooterTabs navigation={props.navigation}  />
     </Container>
   );
 };

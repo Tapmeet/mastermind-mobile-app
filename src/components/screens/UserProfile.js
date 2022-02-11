@@ -883,7 +883,7 @@ const UserProfile = (props) => {
           </View>
         )}
       </Content>
-      <FooterTabs />
+     <FooterTabs navigation={props.navigation}  />
     </Container>
   );
 };

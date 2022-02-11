@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 import { API_URL } from "./../../Utility/AppConst";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import { useFocusEffect } from '@react-navigation/native';
 import { flex } from "styled-system";
 const apiUrl = API_URL.trim();
 const EventListing = (props) => {
@@ -33,8 +34,9 @@ const EventListing = (props) => {
       return index == arr.indexOf(el);
     });
   }
-  React.useEffect(() => {
-    navigation.addListener("focus", () => {
+  useFocusEffect(
+    //navigation.addListener("focus", () => {
+    React.useCallback(() => {
       fetch(`${apiUrl}/odata/OrganizationEvent`, {
         method: "get",
         headers: {
@@ -47,7 +49,7 @@ const EventListing = (props) => {
         .then((data) => {
           if (data.events) {
             setEventListing(data.events);
-         //   console.log(data.events)
+            //   console.log(data.events)
             setEventList(data.events)
             var category = [];
             data.events.map(function (event, index) {
@@ -65,8 +67,10 @@ const EventListing = (props) => {
             setloader(false);
           }
         });
-    });
-  });
+      //   });
+      // });
+    }, [])
+  );
 
   const storeData = async (value, title) => {
     //console.log(value);
@@ -81,7 +85,7 @@ const EventListing = (props) => {
     }
   };
   const setcategory = (value) => {
-  //  console.log('heress')
+    //  console.log('heress')
     if (value != '' && value != undefined) {
       setSelectedCategory(value)
       var newArray = eventsList.filter(function (el) {
@@ -96,63 +100,63 @@ const EventListing = (props) => {
     }
   }
   const setfilter = (value) => {
-      setFilter(value);
-      setEventListing(eventsList);
-      if (value == 'low') {
-        eventListing.sort((a, b) => parseFloat(a.Price) - parseFloat(b.Price));
-        if (selectedCategory != '') {
-          var newArray = eventListing.filter(function (el) {
-            return el.Category == selectedCategory;
-          });
-          setEventListing(newArray);
-        }
-      }
-      else if (value == 'high') {
-
-        eventListing.sort((a, b) => parseFloat(b.Price) - parseFloat(a.Price));
-        if (selectedCategory != '') {
-          var newArray = eventListing.filter(function (el) {
-            return el.Category == selectedCategory;
-          });
-          setEventListing(newArray);
-        }
-      }
-      else if (value == 'recently') {
-        eventListing.sort((a, b) => parseFloat(b.PosItemId) - parseFloat(a.PosItemId));
-       // console.log(selectedCategory);
-        if (selectedCategory != '') {
-          var newArray = eventListing.filter(function (el) {
-            return el.Category == selectedCategory;
-          });
-          setEventListing(newArray);
-        }
-      }
-      else if (value == 'month') {
-        var date = new Date();
-        var fromDate = new Date(date.getFullYear(), date.getMonth(), 0);
-        var toDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
-        const eventlisting = eventsList.filter((item) => {
-          // console.log(new Date(item.EventStartDateTime).getTime())
-          // console.log('from')
-          // console.log(fromDate.getTime())
-          // console.log('to')
-          // console.log(toDate.getTime())
-          // console.log(item)
-          if (new Date(item.EventStartDateTime).getTime() >= fromDate.getTime() &&
-            new Date(item.EventStartDateTime).getTime() <= toDate.getTime()) {
-            return item
-          }
+    setFilter(value);
+    setEventListing(eventsList);
+    if (value == 'low') {
+      eventListing.sort((a, b) => parseFloat(a.Price) - parseFloat(b.Price));
+      if (selectedCategory != '') {
+        var newArray = eventListing.filter(function (el) {
+          return el.Category == selectedCategory;
         });
-        //  console.log(eventlisting)
-        if (selectedCategory != '') {
-          var newArray = eventlisting.filter(function (el) {
-            return el.Category == selectedCategory;
-          });
-          setEventListing(newArray);
-        } else {
-          setEventListing(eventlisting);
-        }
+        setEventListing(newArray);
       }
+    }
+    else if (value == 'high') {
+
+      eventListing.sort((a, b) => parseFloat(b.Price) - parseFloat(a.Price));
+      if (selectedCategory != '') {
+        var newArray = eventListing.filter(function (el) {
+          return el.Category == selectedCategory;
+        });
+        setEventListing(newArray);
+      }
+    }
+    else if (value == 'recently') {
+      eventListing.sort((a, b) => parseFloat(b.PosItemId) - parseFloat(a.PosItemId));
+      // console.log(selectedCategory);
+      if (selectedCategory != '') {
+        var newArray = eventListing.filter(function (el) {
+          return el.Category == selectedCategory;
+        });
+        setEventListing(newArray);
+      }
+    }
+    else if (value == 'month') {
+      var date = new Date();
+      var fromDate = new Date(date.getFullYear(), date.getMonth(), 0);
+      var toDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+      const eventlisting = eventsList.filter((item) => {
+        // console.log(new Date(item.EventStartDateTime).getTime())
+        // console.log('from')
+        // console.log(fromDate.getTime())
+        // console.log('to')
+        // console.log(toDate.getTime())
+        // console.log(item)
+        if (new Date(item.EventStartDateTime).getTime() >= fromDate.getTime() &&
+          new Date(item.EventStartDateTime).getTime() <= toDate.getTime()) {
+          return item
+        }
+      });
+      //  console.log(eventlisting)
+      if (selectedCategory != '') {
+        var newArray = eventlisting.filter(function (el) {
+          return el.Category == selectedCategory;
+        });
+        setEventListing(newArray);
+      } else {
+        setEventListing(eventlisting);
+      }
+    }
   }
   const placeholderFiler = {
     label: "Filter",
@@ -160,7 +164,7 @@ const EventListing = (props) => {
   const placeholderCategory = {
     label: "Category",
   };
-  
+
   const { navigation } = props;
   return (
     <Container
@@ -273,7 +277,7 @@ const EventListing = (props) => {
             let endtime = moment(event.EventEndDateTime).format("hh:mm a ");
             return (
               <View style={{ marginBottom: 10 }} key={index}>
-              <TouchableOpacity onPress={() => storeData(event.PosItemId, event.Title)}>
+                <TouchableOpacity onPress={() => storeData(event.PosItemId, event.Title)}>
                   <View style={globalStyle.eventsListingWrapper}>
                     <View style={globalStyle.eventsListingTopWrapper}>
                       <View style={{ borderRadius: 25, overflow: "hidden" }}>
@@ -328,7 +332,7 @@ const EventListing = (props) => {
           </View>
         )}
       </Content>
-      {/* <FooterTabs /> */}
+      {/*<FooterTabs navigation={props.navigation}  /> */}
       <CartWidget navigation={props.navigation} />
     </Container>
   );

@@ -487,7 +487,7 @@ const EventOrdersListing = (props) => {
           </View>
         )}
       </Content>
-      <FooterTabs />
+     <FooterTabs navigation={props.navigation}  />
     </Container>
   );
 };

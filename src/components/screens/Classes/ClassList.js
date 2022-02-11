@@ -8,14 +8,17 @@ import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "./../../Utility/AppConst";
 import loginStyle from "../../../style/login/loginStyle";
+import { useFocusEffect } from '@react-navigation/native';
 const apiUrl = API_URL.trim();
 const ClassList = (props) => {
     const [loader, setloader] = React.useState(true);
     const userId = useSelector((state) => state);
     const [eventListing, setEventListing] = React.useState([]);
     const [threshold, setThreshold] = React.useState('');
-    React.useEffect(() => {
-        navigation.addListener("focus", () => {
+    useFocusEffect(
+//navigation.addListener("focus", () => {
+    React.useCallback(() => {
+            console.log("here class list")
             fetch(`${apiUrl}/odata/OrganizationClass`, {
                 method: "get",
                 headers: {
@@ -35,8 +38,9 @@ const ClassList = (props) => {
                         setloader(false);
                     }
                 });
-        });
-    });
+       // });
+    }, [])
+    );
 
     const storeData = async (value, title) => {
         console.log(value);
@@ -146,7 +150,7 @@ const ClassList = (props) => {
                     </View>
                 )}
             </Content>
-            {<FooterTabs />}
+             <FooterTabs navigation={props.navigation}  />
 
         </Container>
     );

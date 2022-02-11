@@ -253,7 +253,7 @@ const StudentClasses = (props) => {
                     </View>
                 )}
             </Content>
-            {<FooterTabs />}
+             <FooterTabs navigation={props.navigation}  />
 
         </Container>
     );
