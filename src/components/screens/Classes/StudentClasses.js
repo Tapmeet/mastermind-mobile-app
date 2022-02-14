@@ -18,12 +18,13 @@ const StudentClasses = (props) => {
     const [classListings, setClassListings] = React.useState([]);
     useFocusEffect(
         React.useCallback(() => {
-            if (eventListing == '') {
+           // if (eventListing == '') {
                 fetchClasses()
-            }
-        }, [eventListing])
+           // }
+        }, [])
     );
     const fetchClasses = () => {
+        console.log("here class listss") 
         fetch(`${apiUrl}/odata/StudentAttendance`, {
             method: "get",
             headers: {

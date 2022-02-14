@@ -395,9 +395,9 @@ const TaskClass = (props) => {
                         setselectedTaskTime('')
                         setSelectedTaskDate('')
                         clearCalander()
-                        clearData()
-                        setDatesClasses([])
-                        getData();
+                        // clearData()
+                        // setDatesClasses([])
+                        // getData();
                        
                     }, 3000);
                 }
