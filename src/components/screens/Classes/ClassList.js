@@ -18,7 +18,7 @@ const ClassList = (props) => {
     useFocusEffect(
 //navigation.addListener("focus", () => {
     React.useCallback(() => {
-            console.log("here class list")
+            
             fetch(`${apiUrl}/odata/OrganizationClass`, {
                 method: "get",
                 headers: {

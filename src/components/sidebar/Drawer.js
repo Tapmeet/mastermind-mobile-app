@@ -33,6 +33,7 @@ import {
 import { SideBar } from ".";
 import { FlatList } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { right } from "styled-system";
 
 const HomeDrawer = createDrawerNavigator();
 const Drawer = (props) => {
@@ -40,8 +41,11 @@ const Drawer = (props) => {
     <HomeDrawer.Navigator
       screenOptions={{
         headerShown: false,
+        drawerPosition:'right',
+        drawerType:'front'
       }}
-      drawerPosition="right" 
+      // drawerPosition="right" 
+      // drawerType="front"
       drawerContent={(props) => <SideBar {...props} />}
     >
       <HomeDrawer.Screen name="Home" component={HomeScreen} />

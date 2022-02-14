@@ -24,7 +24,7 @@ const StudentClasses = (props) => {
         }, [])
     );
     const fetchClasses = () => {
-        console.log("here class listss") 
+
         fetch(`${apiUrl}/odata/StudentAttendance`, {
             method: "get",
             headers: {

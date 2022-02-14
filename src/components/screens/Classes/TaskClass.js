@@ -72,7 +72,7 @@ const TaskClass = (props) => {
     useFocusEffect(
         React.useCallback(() => {
             //  navigation.addListener("focus", () => {
-            console.log("here")
+        
             clearData()
             // if (loader) {
             //     if (loaderCheck) {
