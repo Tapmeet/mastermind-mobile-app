@@ -883,7 +883,7 @@ const UserProfile = (props) => {
           </View>
         )}
       </Content>
-     <FooterTabs navigation={props.navigation}  />
+      <FooterTabs navigation={props.navigation} />
     </Container>
   );
 };
@@ -891,7 +891,7 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "column",
-    minHeight: "100%",
+    minHeight: 100,
     justifyContent: "center",
   },
   horizontal: {
