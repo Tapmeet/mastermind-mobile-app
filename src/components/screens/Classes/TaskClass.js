@@ -395,6 +395,10 @@ const TaskClass = (props) => {
                         setselectedTaskTime('')
                         setSelectedTaskDate('')
                         clearCalander()
+                        clearData()
+                        setDatesClasses([])
+                        getData();
+                       
                     }, 3000);
                 }
                 else {
@@ -714,13 +718,13 @@ const TaskClass = (props) => {
                         ) : null}
                         {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
                         {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
-                        {selectedDate == '' ? <View style={[globalStyle.eventsListingWrapper, {marginTop: 10}]}>
-                            <Text style={{ fontSize: 16, color: "#555", fontWeight: "bold", textAlign:"center", marginBottom: 0 }}>
-                                Select date to view class times and availability 
+                        {selectedDate == '' ? <View style={[globalStyle.eventsListingWrapper, { marginTop: 10 }]}>
+                            <Text style={{ fontSize: 16, color: "#555", fontWeight: "bold", textAlign: "center", marginBottom: 0 }}>
+                                Select date to view class times and availability
                             </Text>
                         </View>
                             : null}
-                        {selectedDate != '' && selectedStudent != '' &&  selectedStudent != null ?
+                        {selectedDate != '' && selectedStudent != '' && selectedStudent != null ?
                             <ImageBackground
                                 style={[
                                     globalStyle.Btn,
@@ -732,7 +736,20 @@ const TaskClass = (props) => {
                                 source={require("./../../../../assets/Oval.png")}
                                 resizeMode={"stretch"}
                             >
-                                <Button onPress={() => reserveClass()} style={loginStyle.buttons} full>
+                                <Button
+                                    onPress={() => {
+                                        Alert.alert(" Alert",
+                                            "Are you sure you want to make a reservation?",
+                                            [{
+                                                text: 'OK',
+                                                onPress: () => reserveClass()
+                                            }, {
+                                                text: 'Cancel',
+                                                //onPress: () => //console.log('Cancel Pressed'),
+                                                style: 'cancel',
+                                            },]);
+                                    }}
+                                    style={loginStyle.buttons} full>
                                     <Text style={loginStyle.buttonText}>Reserve Class</Text>
                                 </Button>
                             </ImageBackground>
