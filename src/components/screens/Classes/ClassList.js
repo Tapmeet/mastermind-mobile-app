@@ -84,7 +84,7 @@ const ClassList = (props) => {
                         flex: 1,
                     }}
                 >
-                    {eventListing.length} Classes
+                     Classes
                 </Text>
             </View>
             <Content padder>

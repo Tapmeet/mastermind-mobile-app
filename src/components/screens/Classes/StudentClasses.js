@@ -227,7 +227,7 @@ const StudentClasses = (props) => {
                                                                 style={event.isReadyForCheckIn ? { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#ccc", borderRadius: 6 }}
                                                                 onPress={() => checkinClass(event.StudentId, event.StudentName, event.StudentEmail, event.TaskId, event.CheckInTime)
                                                                 } >
-                                                                <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check-In</Text>
+                                                                <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
                                                             </Button>
 
                                                             <Button

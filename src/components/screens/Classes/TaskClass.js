@@ -65,6 +65,7 @@ const TaskClass = (props) => {
     const [selectedTaskId, setSelectedTaskId] = React.useState('');
     const [selectedTaskTime, setselectedTaskTime] = React.useState('');
     const [selectedTaskDate, setSelectedTaskDate] = React.useState('');
+    const [slot, setSetSlot] = React.useState('');
 
     const toggleExpanded = () => {
         setCollapsed(!collapsed);
@@ -72,7 +73,7 @@ const TaskClass = (props) => {
     useFocusEffect(
         React.useCallback(() => {
             //  navigation.addListener("focus", () => {
-        
+
             clearData()
             // if (loader) {
             //     if (loaderCheck) {
@@ -116,68 +117,71 @@ const TaskClass = (props) => {
 
                         }
                         var str = event.RecurrenceRule;
-                        var chars = str.split(';');
-                        var str1, chars1;
-                        if (chars.length == 4) {
-                            str1 = chars[3];
-                            chars1 = str1.split('=');
-                        }
-                        else if (chars.length == 3) {
-                            str1 = chars[2];
-                            chars1 = str1.split('=');
-                        }
-                        else if (chars.length == 2) {
-                            str1 = chars[1];
-                            chars1 = str1.split('=');
-                        }
-                        var chars2;
-                        if (chars1[0] == 'BYDAY' || chars1[0] == 'WKST') {
-                            chars2 = chars1[1].split(',');
+                        if (str != null) {
+                           // console.log(str)
+                            var chars = str.split(';');
+                            var str1, chars1;
+                            if (chars.length == 4) {
+                                str1 = chars[3];
+                                chars1 = str1.split('=');
+                            }
+                            else if (chars.length == 3) {
+                                str1 = chars[2];
+                                chars1 = str1.split('=');
+                            }
+                            else if (chars.length == 2) {
+                                str1 = chars[1];
+                                chars1 = str1.split('=');
+                            }
+                            var chars2;
+                            if (chars1[0] == 'BYDAY' || chars1[0] == 'WKST') {
+                                chars2 = chars1[1].split(',');
 
-                        }
+                            }
 
-                        weekDays.map(function (rules, index) {
-                            chars2.map(function (weekday, index) {
-                                if (weekday == rules.name) {
-                                    weekdays.push(rules.value)
-                                }
+                            weekDays.map(function (rules, index) {
+                                chars2.map(function (weekday, index) {
+                                    if (weekday == rules.name) {
+                                        weekdays.push(rules.value)
+                                    }
+                                })
                             })
-                        })
 
-                        var maxAttendance = '';
-                        var confirmedRegistration = '';
-                        var availableRegistartion = '';
-                        var startDates = moment();
-                        var endDate = moment(startDates, "DD-MM-YYYY").add(threshold, 'days');
-                        maxAttendance = event.MaxAttendance;
-                        if (event.MaxAttendance == null) {
-                            availableRegistartion = 0;
-                        } else {
-                            confirmedRegistration = event.ConfirmedReservations.length;
-                            availableRegistartion = parseFloat(event.MaxAttendance) - parseFloat(confirmedRegistration);
-                        }
-                        let starttime = '';
-                        let starttimeUnformated = '';
-                        starttime = moment(event.StartDate).format("hh:mm a ");
-                        starttimeUnformated = moment(event.StartDate).format("HH:mm:ss");
-                        // console.log(starttime)
-                        // console.log('starttime')
-                        setTimeout(function () {
-                            setloader(false);
-                        }, 1000);
-                        if (index == 0) {
-                            // setDatesClasses([])
-                            // datesCleassesArray = [];
-
-                            getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 0);
-                        }
-                        else {
-                            getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 1);
-                        }
-                        if (index + 1 == data.length) {
+                            var maxAttendance = '';
+                            var confirmedRegistration = '';
+                            var availableRegistartion = '';
+                            var startDates = moment();
+                            var endDate = moment(startDates, "DD-MM-YYYY").add(threshold, 'days');
+                            maxAttendance = event.MaxAttendance;
+                            if (event.MaxAttendance == null) {
+                                availableRegistartion = 0;
+                            } else {
+                                confirmedRegistration = event.ConfirmedReservations.length;
+                                availableRegistartion = parseFloat(event.MaxAttendance) - parseFloat(confirmedRegistration);
+                            }
+                            let starttime = '';
+                            let starttimeUnformated = '';
+                            starttime = moment(event.StartDate).format("hh:mm a ");
+                            starttimeUnformated = moment(event.StartDate).format("HH:mm:ss");
+                            // console.log(starttime)
+                            // console.log('starttime')
                             setTimeout(function () {
                                 setloader(false);
-                            }, 1000);
+                            }, 2000);
+                            if (index == 0) {
+                                // setDatesClasses([])
+                                // datesCleassesArray = [];
+
+                                getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 0);
+                            }
+                            else {
+                                getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 1);
+                            }
+                            if (index + 1 == data.length) {
+                                setTimeout(function () {
+                                    setloader(false);
+                                }, 2000);
+                            }
                         }
                     })
                 });
@@ -319,7 +323,7 @@ const TaskClass = (props) => {
 
         setTimeout(function () {
             setloader(false);
-        }, 1000);
+        }, 2000);
     };
     const reserveClass = () => {
         if (selectedTaskDate == '') {
@@ -398,7 +402,7 @@ const TaskClass = (props) => {
                         // clearData()
                         // setDatesClasses([])
                         // getData();
-                       
+
                     }, 3000);
                 }
                 else {
@@ -455,10 +459,15 @@ const TaskClass = (props) => {
         datesArray = {};
         datesCleassesArray = [];
     }
-    const selectClass = (id, time, date) => {
+    const selectClass = (id, time, date, slots) => {
         setSelectedTaskId(id)
         setselectedTaskTime(time)
         setSelectedTaskDate(date)
+        if (slots > 0) {
+            setSetSlot(slots)
+        } else {
+            setSetSlot('0')
+        }
     }
     const placeholderStudent = {
         label: "Select Student",
@@ -649,7 +658,7 @@ const TaskClass = (props) => {
                                                             <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Available Slots: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.availableRegistartion > 0 ? classes.availableRegistartion : 0}</Text></Text>
                                                             {/* {classes.availableRegistartion > 0 ? */}
                                                             <Button
-                                                                onPress={() => selectClass(classes.Id, classes.starttimeUnformated, classes.classdate)}
+                                                                onPress={() => selectClass(classes.Id, classes.starttimeUnformated, classes.classdate, classes.availableRegistartion)}
                                                                 style={classes.Id == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ? { width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { width: '48%', backgroundColor: "#aaa", borderRadius: 6 }}
                                                                 full>
                                                                 <Text style={loginStyle.buttonText}>
@@ -738,16 +747,18 @@ const TaskClass = (props) => {
                             >
                                 <Button
                                     onPress={() => {
-                                        Alert.alert(" Alert",
-                                            "Are you sure you want to make a reservation?",
-                                            [{
-                                                text: 'OK',
-                                                onPress: () => reserveClass()
-                                            }, {
-                                                text: 'Cancel',
-                                                //onPress: () => //console.log('Cancel Pressed'),
-                                                style: 'cancel',
-                                            },]);
+                                        slot > 0 ?
+                                            reserveClass() :
+                                            Alert.alert(" Alert",
+                                                "There are no slots available for this class. You will be added to the waitlist. Are you sure you would like to reserve a slot for the waitlist?",
+                                                [{
+                                                    text: 'OK',
+                                                    onPress: () => reserveClass()
+                                                }, {
+                                                    text: 'Cancel',
+                                                    //onPress: () => //console.log('Cancel Pressed'),
+                                                    style: 'cancel',
+                                                },]);
                                     }}
                                     style={loginStyle.buttons} full>
                                     <Text style={loginStyle.buttonText}>Reserve Class</Text>
