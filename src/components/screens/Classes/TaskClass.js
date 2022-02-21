@@ -118,7 +118,7 @@ const TaskClass = (props) => {
                         }
                         var str = event.RecurrenceRule;
                         if (str != null) {
-                           // console.log(str)
+                            // console.log(str)
                             var chars = str.split(';');
                             var str1, chars1;
                             if (chars.length == 4) {
@@ -156,6 +156,7 @@ const TaskClass = (props) => {
                             if (event.MaxAttendance == null) {
                                 availableRegistartion = 0;
                             } else {
+
                                 confirmedRegistration = event.ConfirmedReservations.length;
                                 availableRegistartion = parseFloat(event.MaxAttendance) - parseFloat(confirmedRegistration);
                             }
@@ -172,10 +173,10 @@ const TaskClass = (props) => {
                                 // setDatesClasses([])
                                 // datesCleassesArray = [];
 
-                                getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 0);
+                                getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 0, event.ConfirmedReservations);
                             }
                             else {
-                                getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 1);
+                                getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 1, event.ConfirmedReservations);
                             }
                             if (index + 1 == data.length) {
                                 setTimeout(function () {
@@ -187,7 +188,7 @@ const TaskClass = (props) => {
                 });
         } catch (e) { }
     }
-    const getDates = (sDate, eDate, threshold, availableRegistartion, starttime, title, taskId, starttimeUnformated, index) => {
+    const getDates = (sDate, eDate, threshold, availableRegistartion, starttime, title, taskId, starttimeUnformated, index, confirmedReservations) => {
         const startDate = moment(sDate)
         const endDate = moment(eDate);
         const daysOfWeek = [];
@@ -200,6 +201,7 @@ const TaskClass = (props) => {
             weekdays.map(function (rules, index) {
                 if (startDate.day() == rules) {
                     let dates = moment(startDate).format('YYYY-MM-DD');
+                    let datesCheck = moment(startDate).format('MM-DD-YYYY');
                     Object.assign(datesArray, {
                         [dates]: {
                             selected: true,
@@ -209,16 +211,28 @@ const TaskClass = (props) => {
                             marked: true
                         },
                     })
-                    let dats =
+                    var dats;
+                    var slotsavailable = availableRegistartion;
+                    confirmedReservations.map(function (reserved, index) {
+                        if (datesCheck == reserved.CheckInTime) {
+                            if(availableRegistartion != 0){
+                                slotsavailable = availableRegistartion - reserved.Count
+                            }else{
+                                slotsavailable = 0
+                            }
+                            
+                        }
+                    })
+                    
+                    dats =
                     {
                         'classdate': dates,
-                        "availableRegistartion": availableRegistartion,
+                        "availableRegistartion": slotsavailable,
                         "starttime": starttime,
                         "title": title,
                         "taskId": taskId,
                         "starttimeUnformated": starttimeUnformated
                     }
-
                     setDatesClasses((prevStates) => [...prevStates, dats]);
                 }
             })
@@ -368,7 +382,7 @@ const TaskClass = (props) => {
         // console.log(studentEmail)
         // console.log('studentEmail')
         // console.log(classId)
-        // console.log('taskId')
+        // console.log(selectedTaskId)
         fetch(`${apiUrl}public/ClassReservation`, {
             method: "post",
             headers: {
@@ -377,7 +391,7 @@ const TaskClass = (props) => {
                 Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
             },
             body: JSON.stringify({
-                taskId: classId,
+                taskId: selectedTaskId,
                 CheckInTime: selecteDate + ' ' + selectedTaskTime,
                 StudentId: selectedStudent,
                 StudentName: studentName,
@@ -460,6 +474,7 @@ const TaskClass = (props) => {
         datesCleassesArray = [];
     }
     const selectClass = (id, time, date, slots) => {
+        console.log(id)
         setSelectedTaskId(id)
         setselectedTaskTime(time)
         setSelectedTaskDate(date)
@@ -658,11 +673,11 @@ const TaskClass = (props) => {
                                                             <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Available Slots: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.availableRegistartion > 0 ? classes.availableRegistartion : 0}</Text></Text>
                                                             {/* {classes.availableRegistartion > 0 ? */}
                                                             <Button
-                                                                onPress={() => selectClass(classes.Id, classes.starttimeUnformated, classes.classdate, classes.availableRegistartion)}
-                                                                style={classes.Id == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ? { width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { width: '48%', backgroundColor: "#aaa", borderRadius: 6 }}
+                                                                onPress={() => selectClass(classes.taskId, classes.starttimeUnformated, classes.classdate, classes.availableRegistartion)}
+                                                                style={classes.taskId == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ? { width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { width: '48%', backgroundColor: "#aaa", borderRadius: 6 }}
                                                                 full>
                                                                 <Text style={loginStyle.buttonText}>
-                                                                    {classes.Id == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ?
+                                                                    {classes.taskId == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ?
                                                                         "Selected" : "Select"}
                                                                 </Text>
                                                             </Button>
