@@ -158,7 +158,8 @@ const TaskClass = (props) => {
                             } else {
 
                                 confirmedRegistration = event.ConfirmedReservations.length;
-                                availableRegistartion = parseFloat(event.MaxAttendance) - parseFloat(confirmedRegistration);
+                              //  availableRegistartion = parseFloat(event.MaxAttendance) - parseFloat(confirmedRegistration);
+                                availableRegistartion = parseFloat(event.MaxAttendance);
                             }
                             let starttime = '';
                             let starttimeUnformated = '';
@@ -201,7 +202,7 @@ const TaskClass = (props) => {
             weekdays.map(function (rules, index) {
                 if (startDate.day() == rules) {
                     let dates = moment(startDate).format('YYYY-MM-DD');
-                    let datesCheck = moment(startDate).format('MM-DD-YYYY');
+                    let datesCheck = moment(startDate).format('MM/DD/YYYY');
                     Object.assign(datesArray, {
                         [dates]: {
                             selected: true,
@@ -213,7 +214,7 @@ const TaskClass = (props) => {
                     })
                     var dats;
                     var slotsavailable = availableRegistartion;
-                    confirmedReservations.map(function (reserved, index) {
+                    confirmedReservations.map(function (reserved, index) {              
                         if (datesCheck == reserved.CheckInTime) {
                             if(availableRegistartion != 0){
                                 slotsavailable = availableRegistartion - reserved.Count
@@ -223,6 +224,7 @@ const TaskClass = (props) => {
                             
                         }
                     })
+
                     
                     dats =
                     {
@@ -413,9 +415,9 @@ const TaskClass = (props) => {
                         setselectedTaskTime('')
                         setSelectedTaskDate('')
                         clearCalander()
-                        // clearData()
-                        // setDatesClasses([])
-                        // getData();
+                         clearData()
+                         setDatesClasses([])
+                         getData();
 
                     }, 3000);
                 }
