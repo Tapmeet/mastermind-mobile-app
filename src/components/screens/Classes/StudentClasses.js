@@ -9,18 +9,36 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../../Utility/AppConst";
 import moment from 'moment';
 import loginStyle from "../../../style/login/loginStyle";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import { useFocusEffect } from '@react-navigation/native';
 const apiUrl = API_URL.trim();
+const key = 'value';
+var uniqueStudent = [];
+const placeholderStudent = {
+    label: "Select Student",
+};
 const StudentClasses = (props) => {
     const [loader, setloader] = React.useState(true);
     const userId = useSelector((state) => state);
     const [eventListing, setEventListing] = React.useState([]);
     const [classListings, setClassListings] = React.useState([]);
     const [toggle, setToggle] = React.useState(false);
+    const [studentIds, setStudentIds] = React.useState([]);
+    const [selectedStudent, setSelectedStudent] = React.useState([]);
+    const [studentData, setStudentData] = React.useState([]);
+    const [totalStudent, setTotalStudent] = React.useState([]);
+    const [personId, setPersonId] = React.useState('');
+    const [selectedTaskId, setSelectedTaskId] = React.useState('');
+    const [selectedCheckinTime, setSelectedCheckinTime] = React.useState('');
+    const [togglePopup, setTogglePopup] = React.useState(false);
+    const [loaderMessage, setLoaderMessage] = React.useState(false);
+    const [SuccessMessage, setSuccessMessage] = React.useState("");
+    const [errorMessage, setErrorMessage] = React.useState("");
     useFocusEffect(
         React.useCallback(() => {
             // if (eventListing == '') {
             fetchClasses()
+            getStudents()
             // }
         }, [])
     );
@@ -40,30 +58,75 @@ const StudentClasses = (props) => {
                 if (data.value) {
                     var dataCount = data.value.length;
                     setEventListing(data.value);
-                  //  setClassListings([])
+                    //  setClassListings([])
                     setloader(false);
                 } else {
                     setloader(false);
                 }
             });
-            fetch(`${apiUrl}odata/ActiveClass`, {
-                method: "get",
-                headers: {
-                    Accept: "*/*",
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-                },
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                 console.log(data)
-                 console.log('data')
-                    if (data.value) {
-                        setClassListings(data.value);
-                    } else {
-                        setloader(false);
-                    }
-                });
+        fetch(`${apiUrl}odata/ActiveClass`, {
+            method: "get",
+            headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                console.log('data')
+                if (data.value) {
+                    setClassListings(data.value);
+                } else {
+                    setloader(false);
+                }
+            });
+    }
+    function getStudents() {
+        fetch(`${apiUrl}/odata/StudentAccount`, {
+            method: "get",
+            headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setPersonId(data.PersonId)
+                setStudentIds([]);
+                if (data.StudentIds.length > 0) {
+                    var students = data.StudentIds.length;
+                    setTotalStudent(data.StudentIds.length)
+                    setStudentIds([]);
+                    data.StudentIds.map((id, index) => {
+                        fetch(`${apiUrl}/odata/StudentData(${id})`, {
+                            method: "get",
+                            headers: {
+                                Accept: "*/*",
+                                "Content-Type": "application/json",
+                                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+                            },
+                        })
+                            .then((response) => response.json())
+                            .then((data) => {
+                                //console.log(data)
+                                // setStudentData(data)
+                                if (studentIds.length <= students) {
+                                    let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
+                                    setStudentData((prevState) => [...prevState, data]);
+                                    //setStudentIds((prevState) => [...prevState, dataArray]);
+                                    uniqueStudent.push(dataArray)
+                                    let uniquestudentList = [...new Map(uniqueStudent.map(item =>
+                                        [item[key], item])).values()];
+                                    setStudentIds(uniquestudentList);
+
+                                }
+                            });
+                    });
+                }
+            });
     }
     const storeData = async (value, title) => {
         console.log(value);
@@ -120,7 +183,7 @@ const StudentClasses = (props) => {
 
     }
     function checkinClass(StudentId, StudentName, StudentEmail, TaskId, CheckInTime) {
-        
+
         fetch(`${apiUrl}/odata/StudentAttendance)`, {
             method: "post",
             headers: {
@@ -146,6 +209,51 @@ const StudentClasses = (props) => {
             });
     }
 
+    const checkinActiveClass = () => {
+        let studentName = '';
+        let studentEmail = '';
+        studentData.map(function (student, index) {
+            if (selectedStudent == student.StudentId) {
+                studentName = student.FirstName + ' ' + student.LastName
+                studentEmail = student.Email
+            }
+
+        })
+        setLoaderMessage(true)
+        fetch(`${apiUrl}/odata/StudentAttendance)`, {
+            method: "post",
+            headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+            },
+            body: JSON.stringify({
+                "StudentId": selectedStudent,
+                "StudentName": studentName,
+                "StudentEmail": studentEmail,
+                "TaskId": selectedTaskId,
+                "CheckInTime": selectedCheckinTime
+            }),
+        })
+            .then((response) => {
+                console.log(response)
+                setLoaderMessage(false)
+                fetchClasses()
+                setTogglePopup(false)
+            })
+            .catch((response) => {
+                setLoaderMessage(false)
+                fetchClasses()
+                setTogglePopup(false)
+            });
+    }
+    const activeCheckin = (selectedCheckintime, selectetaskIn) => {
+        setSelectedStudent([])
+        setTogglePopup(true);
+        setSelectedCheckinTime(selectedCheckintime)
+        setSelectedTaskId(selectetaskIn);
+
+    }
     const { navigation } = props;
     return (
         <Container
@@ -158,8 +266,7 @@ const StudentClasses = (props) => {
                 style={[
                     globalStyle.flexStandard,
                     {
-                        paddingTop: 0,
-                        paddingBottom: 0,
+                        padding: 15,
                     },
                 ]}
             >
@@ -171,15 +278,27 @@ const StudentClasses = (props) => {
                         paddingBottom: 15,
                         fontSize: 16,
                         fontWeight: "bold",
-
-                        backgroundColor: "#000",
+                        borderBottomLeftRadius: 20,
+                        borderTopLeftRadius: 20,
+                        backgroundColor: "#52cbff",
                         flex: 1,
                         color: '#fff',
                         width: "50%",
                         justifyContent: "center",
-                        textAlign: "center"
+                        textAlign: "center",
+                        shadowColor: "#CCC",
+                        shadowOffset: {
+                          width: 0,
+                          height: 5,
+                        },
+                        shadowOpacity: 0.54,
+                        shadowRadius: 3.84,
+                        elevation: 7,
+                     
                     }
                         : {
+                            borderBottomLeftRadius: 20,
+                            borderTopLeftRadius: 20,
                             paddingTop: 15,
                             paddingBottom: 15,
                             fontSize: 16,
@@ -190,7 +309,16 @@ const StudentClasses = (props) => {
                             color: '#777',
                             width: "50%",
                             justifyContent: "center",
-                            textAlign: "center"
+                            textAlign: "center",
+                            shadowColor: "#CCC",
+                            shadowOffset: {
+                              width: 0,
+                              height: 5,
+                            },
+                            shadowOpacity: 0.54,
+                            shadowRadius: 3.84,
+                            elevation: 7,
+                           
                         }}
                 >
                     Reserved Classes
@@ -203,26 +331,46 @@ const StudentClasses = (props) => {
                         paddingBottom: 15,
                         fontSize: 16,
                         fontWeight: "bold",
-
-                        backgroundColor: "#000",
+                        borderBottomRightRadius: 20,
+                        borderTopRightRadius: 20,
+                        backgroundColor: "#52cbff",
                         flex: 1,
                         color: '#fff',
                         width: "50%",
                         justifyContent: "center",
-                        textAlign: "center"
+                        textAlign: "center",
+                        shadowColor: "#CCC",
+                        shadowOffset: {
+                          width: 0,
+                          height: 5,
+                        },
+                        shadowOpacity: 0.54,
+                        shadowRadius: 3.84,
+                        elevation: 7,
+                       
                     }
                         : {
                             paddingTop: 15,
                             paddingBottom: 15,
                             fontSize: 16,
                             fontWeight: "bold",
-
+                            borderBottomRightRadius: 20,
+                            borderTopRightRadius: 20,
                             backgroundColor: "#fff",
                             flex: 1,
                             color: '#777',
                             width: "50%",
                             justifyContent: "center",
-                            textAlign: "center"
+                            textAlign: "center",
+                            shadowColor: "#CCC",
+                            shadowOffset: {
+                              width: 0,
+                              height: 5,
+                            },
+                            shadowOpacity: 0.54,
+                            shadowRadius: 3.84,
+                            elevation: 7,
+                            
                         }}
                 >
                     Active Classes
@@ -280,7 +428,9 @@ const StudentClasses = (props) => {
                                                                     <Button disabled={event.isReadyForCheckIn ? false : true}
                                                                         style={event.isReadyForCheckIn ? { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#ccc", borderRadius: 6 }}
                                                                         onPress={() => checkinClass(event.StudentId, event.StudentName, event.StudentEmail, event.TaskId, event.CheckInTime)
-                                                                        } >
+                                                                        }
+                                                                        //onPress={() => activeCheckin(event.CheckInTime, event.TaskId)}
+                                                                    >
                                                                         <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
                                                                     </Button>
 
@@ -319,48 +469,38 @@ const StudentClasses = (props) => {
                                 GivenDate = new Date(GivenDate);
                                 //  console.log(GivenDate)
                                 return (
-                               
-                                            <View style={{ marginBottom: 10 }} key={index}>
-                                                <View >
-                                                    <View style={globalStyle.eventsListingWrapper}>
-                                                        <View style={globalStyle.eventsListingTopWrapper}>
-                                                            <View style={{ paddingLeft: 0, paddingRight: 10 }}>
-                                                                {/* <Text
-                                                            style={{
-                                                                fontSize: 18,
-                                                                fontWeight: "bold",
-                                                                color: "#16161D",
-                                                                paddingBottom: 10,
-                                                            }}
-                                                        >
-                                                            {event.Title}
-                                                        </Text> */}
-                                                                <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
-                                                                    {event.ClassName}
-                                                                </Text>
-                                                                
-                                                                <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
-                                                                    <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
-                                                                    {starttime}
-                                                                </Text>
-                                                                <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
 
-                                                                    <Button
-                                                                        style={{ alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 }}
-                                                                        // onPress={() => checkinClass(event.StudentId, event.StudentName, event.StudentEmail, event.TaskId, event.CheckInTime)
-                                                                        // } 
-                                                                        >
-                                                                        <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
-                                                                    </Button>
+                                    <View style={{ marginBottom: 10 }} key={index}>
+                                        <View >
+                                            <View style={globalStyle.eventsListingWrapper}>
+                                                <View style={globalStyle.eventsListingTopWrapper}>
+                                                    <View style={{ paddingLeft: 0, paddingRight: 10 }}>
+                                                        <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                                                            {event.ClassName}
+                                                        </Text>
 
-                                                                   
-                                                                </View>
-                                                            </View>
+                                                        <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
+                                                            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
+                                                            {starttime}
+                                                        </Text>
+                                                        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
+
+                                                            <Button
+                                                                style={{ alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 }}
+                                                                onPress={() => activeCheckin(event.ClassStartTime, event.TaskId)
+                                                                }
+                                                            >
+                                                                <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
+                                                            </Button>
+
 
                                                         </View>
                                                     </View>
+
                                                 </View>
-                                            </View>   
+                                            </View>
+                                        </View>
+                                    </View>
                                 );
                             })
                         ) : (
@@ -369,7 +509,76 @@ const StudentClasses = (props) => {
                             </View>
                         )
                 }
+
+
             </Content>
+            {togglePopup ?
+                <View style={globalStyle.popup}>
+                    <View style={globalStyle.eventsListingWrapper}>
+                        <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Check In time:  {moment(selectedCheckinTime).format("MM-DD-YYYY, hh:mm a ")} </Text>
+                        <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Student</Text>
+                        <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
+                            {studentIds.length > 0 && studentIds.length != undefined ?
+                                <RNPickerSelect
+                                    value={selectedStudent}
+                                    items={studentIds}
+                                    placeholder={placeholderStudent}
+                                    onValueChange={(value) => setSelectedStudent(value)}
+                                    style={{
+                                        ...pickerSelectStyles,
+                                        iconContainer: {
+                                            top: Platform.OS === "android" ? 20 : 30,
+                                            right: 10,
+                                        },
+                                        placeholder: {
+                                            color: "#8a898e",
+                                            fontSize: 12,
+                                            fontWeight: "bold",
+                                        },
+                                    }}
+                                    Icon={() => {
+                                        return (
+                                            <Image
+                                                style={{
+                                                    width: 12,
+                                                    position: "absolute",
+                                                    top: Platform.OS === "android" ? -15 : -28,
+                                                    right: 5,
+                                                }}
+                                                source={require("../../../../assets/arrow-down.png")}
+                                                resizeMode={"contain"}
+                                            />
+                                        );
+                                    }}
+                                />
+                                : null}
+                        </View>
+                        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
+
+                            <Button
+                                style={{ alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 }}
+                                onPress={() => checkinActiveClass()
+                                } >
+                                <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
+                            </Button>
+
+                            <Button
+                                style={[{ alignSelf: "center", width: '48%', justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 18 }]}
+                                onPress={() => setTogglePopup(false)}
+                            >
+                                <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Close</Text>
+                            </Button>
+                        </View>
+                        {loaderMessage ? (
+                            <View style={[styles.container, styles.horizontal]}>
+                                <ActivityIndicator size="large" color="#29ABE2" />
+                            </View>
+                        ) : null}
+                        {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
+                        {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
+                    </View>
+                </View>
+                : null}
             <FooterTabs navigation={props.navigation} />
 
         </Container>

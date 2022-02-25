@@ -462,5 +462,16 @@ export default StyleSheet.create({
     backgroundColor: "red",
     alignSelf: "flex-start",
     borderRadius: 15,
+  },
+  popup: {
+    position: "absolute",
+    height: '100%',
+    width: "100%",
+    zIndex: 9,
+    backgroundColor: "#fff",
+    padding: 10,
+    paddingTop: 80,
+    top: 50,
+    alignItems:"center"
   }
 });
