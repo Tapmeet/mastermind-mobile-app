@@ -34,6 +34,8 @@ const StudentClasses = (props) => {
     const [loaderMessage, setLoaderMessage] = React.useState(false);
     const [SuccessMessage, setSuccessMessage] = React.useState("");
     const [errorMessage, setErrorMessage] = React.useState("");
+    const [selectedTaskName, setSelectedTaskName] = React.useState('');
+    const [checkinActive, setCheckinActive] = React.useState(false);
     useFocusEffect(
         React.useCallback(() => {
             // if (eventListing == '') {
@@ -43,7 +45,7 @@ const StudentClasses = (props) => {
         }, [])
     );
     const fetchClasses = () => {
-
+        setCheckinActive(false)
         fetch(`${apiUrl}/odata/StudentAttendance`, {
             method: "get",
             headers: {
@@ -74,8 +76,8 @@ const StudentClasses = (props) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
-                console.log('data')
+                // console.log(data)
+                // console.log('data')
                 if (data.value) {
                     setClassListings(data.value);
                 } else {
@@ -183,8 +185,12 @@ const StudentClasses = (props) => {
 
     }
     function checkinClass(StudentId, StudentName, StudentEmail, TaskId, CheckInTime) {
-
-        fetch(`${apiUrl}/odata/StudentAttendance)`, {
+        setCheckinActive(true)
+        setLoaderMessage(true)
+        setSuccessMessage('')
+        setErrorMessage("")
+        console.log(TaskId)
+        fetch(`${apiUrl}/odata/StudentAttendance`, {
             method: "post",
             headers: {
                 Accept: "*/*",
@@ -198,18 +204,40 @@ const StudentClasses = (props) => {
                 "TaskId": TaskId,
                 "CheckInTime": CheckInTime
             }),
-        })
+        }).then((response) => response.json())
             .then((response) => {
-                setloader(true)
-                fetchClasses()
+                setLoaderMessage(false)
+                if (response["odata.error"]) {
+                    console.log(response["odata.error"].message.value)
+                    setErrorMessage(response["odata.error"].message.value)
+                    setTimeout(function () {
+                        // fetchClasses()
+                        setCheckinActive(false)
+                    }, 3000);
+                }
+                else {
+                    setSuccessMessage("Successfully! Checked In")
+                    setTimeout(function () {
+                        fetchClasses()
+                        setCheckinActive(false)
+                    }, 2000);
+                }
             })
             .catch((response) => {
-                setloader(true)
-                fetchClasses()
+                setLoaderMessage(false)
+                setErrorMessage("Error!")
+                setTimeout(function () {
+                    fetchClasses()
+                    setTogglePopup(false)
+                }, 3000);
             });
     }
 
     const checkinActiveClass = () => {
+        if (selectedStudent == '') {
+            setErrorMessage('Please Select Student')
+            return false
+        }
         let studentName = '';
         let studentEmail = '';
         studentData.map(function (student, index) {
@@ -220,7 +248,7 @@ const StudentClasses = (props) => {
 
         })
         setLoaderMessage(true)
-        fetch(`${apiUrl}/odata/StudentAttendance)`, {
+        fetch(`${apiUrl}/odata/StudentAttendance`, {
             method: "post",
             headers: {
                 Accept: "*/*",
@@ -234,31 +262,49 @@ const StudentClasses = (props) => {
                 "TaskId": selectedTaskId,
                 "CheckInTime": selectedCheckinTime
             }),
-        })
+        }).then((response) => response.json())
             .then((response) => {
-                console.log(response)
+                console.log('response')
+                //  console.log(response.odata.error)
                 setLoaderMessage(false)
-                fetchClasses()
-                setTogglePopup(false)
+                if (response["odata.error"]) {
+                    console.log('responses')
+                    console.log(response["odata.error"].message.value)
+                    setErrorMessage(response["odata.error"].message.value)
+                }
+                else {
+                    setSuccessMessage("Successfully! Checked In")
+                    setTimeout(function () {
+                        fetchClasses()
+                        setTogglePopup(false)
+                    }, 2000);
+                }
+
+
             })
             .catch((response) => {
                 setLoaderMessage(false)
-                fetchClasses()
-                setTogglePopup(false)
+                setTimeout(function () {
+                    fetchClasses()
+                    setTogglePopup(false)
+                }, 2000);
             });
     }
-    const activeCheckin = (selectedCheckintime, selectetaskIn) => {
+    const activeCheckin = (selectedCheckintime, selectetaskIn, className) => {
         setSelectedStudent([])
         setTogglePopup(true);
         setSelectedCheckinTime(selectedCheckintime)
         setSelectedTaskId(selectetaskIn);
-
+        setSelectedTaskName(className)
+        setErrorMessage('')
+        setSuccessMessage('')
     }
     const { navigation } = props;
     return (
         <Container
             style={{
                 backgroundColor: "#f1f1f1",
+
             }}
         >
             <SideBarMenu title={"Reserved Classes"} navigation={props.navigation} />
@@ -288,13 +334,13 @@ const StudentClasses = (props) => {
                         textAlign: "center",
                         shadowColor: "#CCC",
                         shadowOffset: {
-                          width: 0,
-                          height: 5,
+                            width: 0,
+                            height: 5,
                         },
                         shadowOpacity: 0.54,
                         shadowRadius: 3.84,
                         elevation: 7,
-                     
+
                     }
                         : {
                             borderBottomLeftRadius: 20,
@@ -312,13 +358,13 @@ const StudentClasses = (props) => {
                             textAlign: "center",
                             shadowColor: "#CCC",
                             shadowOffset: {
-                              width: 0,
-                              height: 5,
+                                width: 0,
+                                height: 5,
                             },
                             shadowOpacity: 0.54,
                             shadowRadius: 3.84,
                             elevation: 7,
-                           
+
                         }}
                 >
                     Reserved Classes
@@ -341,13 +387,13 @@ const StudentClasses = (props) => {
                         textAlign: "center",
                         shadowColor: "#CCC",
                         shadowOffset: {
-                          width: 0,
-                          height: 5,
+                            width: 0,
+                            height: 5,
                         },
                         shadowOpacity: 0.54,
                         shadowRadius: 3.84,
                         elevation: 7,
-                       
+
                     }
                         : {
                             paddingTop: 15,
@@ -364,13 +410,13 @@ const StudentClasses = (props) => {
                             textAlign: "center",
                             shadowColor: "#CCC",
                             shadowOffset: {
-                              width: 0,
-                              height: 5,
+                                width: 0,
+                                height: 5,
                             },
                             shadowOpacity: 0.54,
                             shadowRadius: 3.84,
                             elevation: 7,
-                            
+
                         }}
                 >
                     Active Classes
@@ -386,8 +432,7 @@ const StudentClasses = (props) => {
                     !toggle ?
                         typeof eventListing !== "undefined" && eventListing.length > 0 ? (
                             eventListing.map(function (event, index) {
-                                // console.log(event)
-                                // console.log('event')
+                             
                                 let starttime = moment(event.CheckInTime).format("MM-DD-YYYY, hh:mm a ");
                                 let classDate = moment(event.CheckInTime).format("YYYY-MM-DD");
                                 var GivenDate = classDate;
@@ -396,7 +441,6 @@ const StudentClasses = (props) => {
                                 GivenDate = new Date(GivenDate);
                                 //  console.log(GivenDate)
                                 return (
-                                    !event.isAlreadyCheckedIn ?
                                         GivenDate >= CurrentDate ?
                                             <View style={{ marginBottom: 10 }} key={index}>
                                                 <View >
@@ -414,34 +458,40 @@ const StudentClasses = (props) => {
                                                             {event.Title}
                                                         </Text> */}
                                                                 <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
-                                                                    {event.StudentName}
+                                                                    {event.StudentName} {event.AttendanceReservationId}
                                                                 </Text>
                                                                 <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
                                                                     {event.StudentEmail}
                                                                 </Text>
                                                                 <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
                                                                     <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
-                                                                    {starttime}
+                                                                    {starttime} 
                                                                 </Text>
-                                                                <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
+                                                                {event.isAlreadyCheckedIn ?
+                                                                     <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>
+                                                                        Checked In
+                                                                    </Text>
+                                                                    :
+                                                                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
 
-                                                                    <Button disabled={event.isReadyForCheckIn ? false : true}
-                                                                        style={event.isReadyForCheckIn ? { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#ccc", borderRadius: 6 }}
-                                                                        onPress={() => checkinClass(event.StudentId, event.StudentName, event.StudentEmail, event.TaskId, event.CheckInTime)
-                                                                        }
+                                                                        <Button disabled={event.isReadyForCheckIn ? false : true}
+                                                                            style={event.isReadyForCheckIn ? { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#ccc", borderRadius: 6 }}
+                                                                            onPress={() => checkinClass(event.StudentId, event.StudentName, event.StudentEmail, event.TaskId, event.CheckInTime)
+                                                                            }
                                                                         //onPress={() => activeCheckin(event.CheckInTime, event.TaskId)}
-                                                                    >
-                                                                        <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
-                                                                    </Button>
+                                                                        >
+                                                                            <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
+                                                                        </Button>
 
-                                                                    <Button
-                                                                        style={[{ alignSelf: "center", width: '48%', justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 18 }]}
-                                                                        onPress={() =>
-                                                                            alertCancel(event.AttendanceReservationId)}
-                                                                    >
-                                                                        <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
-                                                                    </Button>
-                                                                </View>
+                                                                        <Button
+                                                                            style={[{ alignSelf: "center", width: '48%', justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 18 }]}
+                                                                            onPress={() =>
+                                                                                alertCancel(event.AttendanceReservationId)}
+                                                                        >
+                                                                            <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
+                                                                        </Button>
+                                                                    </View>
+                                                                }
                                                             </View>
 
                                                         </View>
@@ -449,7 +499,7 @@ const StudentClasses = (props) => {
                                                 </View>
                                             </View>
                                             : null
-                                        : null
+                                      
                                 );
                             })
                         ) : (
@@ -487,7 +537,7 @@ const StudentClasses = (props) => {
 
                                                             <Button
                                                                 style={{ alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 }}
-                                                                onPress={() => activeCheckin(event.ClassStartTime, event.TaskId)
+                                                                onPress={() => activeCheckin(event.ClassStartTime, event.TaskId, event.ClassName)
                                                                 }
                                                             >
                                                                 <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
@@ -515,7 +565,13 @@ const StudentClasses = (props) => {
             {togglePopup ?
                 <View style={globalStyle.popup}>
                     <View style={globalStyle.eventsListingWrapper}>
-                        <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Check In time:  {moment(selectedCheckinTime).format("MM-DD-YYYY, hh:mm a ")} </Text>
+                        <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                            {selectedTaskName}
+                        </Text>
+                        <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Check In time:
+                            <Text style={{ fontSize: 18, fontWeight: "normal", color: "#555", paddingLeft: 10, lineHeight: 26, marginBottom: 10 }}>
+                                {moment(selectedCheckinTime).format("MM-DD-YYYY, hh:mm a ")}
+                            </Text> </Text>
                         <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Student</Text>
                         <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
                             {studentIds.length > 0 && studentIds.length != undefined ?
@@ -523,7 +579,7 @@ const StudentClasses = (props) => {
                                     value={selectedStudent}
                                     items={studentIds}
                                     placeholder={placeholderStudent}
-                                    onValueChange={(value) => setSelectedStudent(value)}
+                                    onValueChange={(value) => { setSelectedStudent(value), setErrorMessage('') }}
                                     style={{
                                         ...pickerSelectStyles,
                                         iconContainer: {
@@ -576,6 +632,23 @@ const StudentClasses = (props) => {
                         ) : null}
                         {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
                         {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
+                    </View>
+                </View>
+                : null}
+            {checkinActive ?
+                <View style={globalStyle.popup}>
+                    <View style={globalStyle.eventsListingWrapper}>
+                        <View style={{ minHeight: 100, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "row" }}>
+                            <View>
+                                {loaderMessage ? (
+                                    <View style={[styles.container, styles.horizontal]}>
+                                        <ActivityIndicator size="large" color="#29ABE2" />
+                                    </View>
+                                ) : null}
+                                {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
+                                {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
+                            </View>
+                        </View>
                     </View>
                 </View>
                 : null}

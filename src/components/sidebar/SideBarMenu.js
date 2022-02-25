@@ -12,6 +12,8 @@ const SideBarMenu = (props) => {
     <ImageBackground
       style={{
         height: Platform.OS === "android" ? 60 : 110,
+        zIndex: 999999,
+        position:"relative"
       }}
       source={require("./../../../assets/bgtop.png")}
       resizeMode={"stretch"}

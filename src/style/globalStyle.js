@@ -139,6 +139,8 @@ export default StyleSheet.create({
   },
   barStyling: {
     backgroundColor: "transparent",
+    zIndex: 999999,
+    position:"relative"
   },
   formField: {
     borderWidth: 2,
@@ -172,6 +174,8 @@ export default StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
     elevation: 0,
+    zIndex: 999999,
+    position:"relative"
   },
   titleStyling: {
     textAlign: "center",
@@ -467,11 +471,11 @@ export default StyleSheet.create({
     position: "absolute",
     height: '100%',
     width: "100%",
-    zIndex: 9,
-    backgroundColor: "#fff",
+    zIndex: 0,
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
     padding: 10,
-    paddingTop: 80,
-    top: 50,
+    paddingTop: 180,
+    top: 0,
     alignItems:"center"
   }
 });
