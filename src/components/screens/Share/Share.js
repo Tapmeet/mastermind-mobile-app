@@ -67,7 +67,7 @@ const Share = (props) => {
                         {typeof school !== "undefined" && school.length > 0 ? (
                             school.map(function (school, index) {
                                 return (
-                                    <View>
+                                    <View key={index}> 
 
                                         <View style={globalStyle.eventsListingWrapper}>
                                             <TouchableOpacity onPress={() => openLink(school.Address)}>
