@@ -14,6 +14,7 @@ import { RRule, RRuleSet, rrulestr } from 'rrule'
 import { CalendarList, Calendar } from 'react-native-calendars';
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import { useFocusEffect } from '@react-navigation/native';
+import { textAlign } from "styled-system";
 const apiUrl = API_URL.trim();
 var uniqueStudent = [];
 var datesArray = {};
@@ -21,6 +22,7 @@ var datesCleassesArray = [];
 var classDate = '';
 var classTitle = '';
 var checkClass = false;
+
 const key = 'value';
 const weekDays = [
     { name: "SU", value: "0", fullName: "Sunday" },
@@ -37,6 +39,7 @@ const TaskClass = (props) => {
     todayDate = moment(todayDate).format('YYYY-MM-DD');
     const [loader, setloader] = React.useState(true);
     const [loaderCheck, setLoaderCheck] = React.useState(true);
+    const [checkClasses, setCheckClasses] = React.useState(true);
     const userId = useSelector((state) => state);
     const [studentIds, setStudentIds] = React.useState([]);
     const [selectedStudent, setSelectedStudent] = React.useState([]);
@@ -110,6 +113,7 @@ const TaskClass = (props) => {
                 .then((data) => {
                     setEventListing(data);
                     setDatesClasses([])
+
                     data.map(function (event, index) {
                         if (index == 0) {
                             setDatesClasses([])
@@ -151,41 +155,47 @@ const TaskClass = (props) => {
                             var confirmedRegistration = '';
                             var availableRegistartion = '';
                             var startDates = moment();
-                            var endDate = moment(startDates, "DD-MM-YYYY").add(threshold, 'days');
+                            let classDate = moment(event.EndDate).format("YYYY-MM-DD");
+                            
                             maxAttendance = event.MaxAttendance;
-                            if (event.MaxAttendance == null) {
-                                availableRegistartion = 0;
-                            } else {
-
+                            const date = moment().toDate();
+                            const dateIsAfter = moment(event.EndDate).isAfter(moment(date));
+                            console.log(dateIsAfter)
+                            if (event.MaxAttendance != null && dateIsAfter ) {
+                                setCheckClasses(false)
                                 confirmedRegistration = event.ConfirmedReservations.length;
-                              //  availableRegistartion = parseFloat(event.MaxAttendance) - parseFloat(confirmedRegistration);
+                                //  availableRegistartion = parseFloat(event.MaxAttendance) - parseFloat(confirmedRegistration);
                                 availableRegistartion = parseFloat(event.MaxAttendance);
-                            }
-                            let starttime = '';
-                            let starttimeUnformated = '';
-                            starttime = moment(event.StartDate).format("hh:mm a ");
-                            starttimeUnformated = moment(event.StartDate).format("HH:mm:ss");
-                            // console.log(starttime)
-                            // console.log('starttime')
-                            setTimeout(function () {
-                                setloader(false);
-                            }, 2000);
-                            if (index == 0) {
-                                // setDatesClasses([])
-                                // datesCleassesArray = [];
 
-                                getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 0, event.ConfirmedReservations);
-                            }
-                            else {
-                                getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 1, event.ConfirmedReservations);
-                            }
-                            if (index + 1 == data.length) {
+                                let starttime = '';
+                                let starttimeUnformated = '';
+                                starttime = moment(event.StartDate).format("hh:mm a ");
+                                starttimeUnformated = moment(event.StartDate).format("HH:mm:ss");
+                                // console.log(starttime)
+                                // console.log('starttime')
                                 setTimeout(function () {
                                     setloader(false);
                                 }, 2000);
+                                if (index == 0) {
+                                    // setDatesClasses([])
+                                    // datesCleassesArray = [];
+
+                                    getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 0, event.ConfirmedReservations);
+                                }
+                                else {
+                                    getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 1, event.ConfirmedReservations);
+                                }
+                                if (index + 1 == data.length) {
+                                    setTimeout(function () {
+                                        setloader(false);
+                                    }, 2000);
+                                }
                             }
                         }
                     })
+                    if (checkClasses == true) {
+                        setloader(false)
+                    }
                 });
         } catch (e) { }
     }
@@ -214,18 +224,18 @@ const TaskClass = (props) => {
                     })
                     var dats;
                     var slotsavailable = availableRegistartion;
-                    confirmedReservations.map(function (reserved, index) {              
+                    confirmedReservations.map(function (reserved, index) {
                         if (datesCheck == reserved.CheckInTime) {
-                            if(availableRegistartion != 0){
+                            if (availableRegistartion != 0) {
                                 slotsavailable = availableRegistartion - reserved.Count
-                            }else{
+                            } else {
                                 slotsavailable = 0
                             }
-                            
+
                         }
                     })
 
-                    
+
                     dats =
                     {
                         'classdate': dates,
@@ -415,9 +425,9 @@ const TaskClass = (props) => {
                         setselectedTaskTime('')
                         setSelectedTaskDate('')
                         clearCalander()
-                         clearData()
-                         setDatesClasses([])
-                         getData();
+                        clearData()
+                        setDatesClasses([])
+                        getData();
 
                     }, 3000);
                 }
@@ -520,269 +530,184 @@ const TaskClass = (props) => {
                         </View>
                     </Content>
                 ) : (
-                    //     typeof eventListing !== "undefined" &&
-                    //         eventListing.length > 0 ? (
-                    //         eventListing.map(function (event, index) {
-                    //             let startDate = moment(event.StartDate).format("MMMM Do, YYYY");
-                    //             let starttime = moment(event.StartDate).format("hh:mm a ");
-                    //             let str = event.RecurrenceRule;
-                    //             let chars = str.split(';');
-                    //             let str1, chars1;
-                    //             if (chars.length == 4) {
-                    //                 str1 = chars[3];
-                    //                 chars1 = str1.split('=');
-                    //             }
-                    //             else if (chars.length == 3) {
-                    //                 str1 = chars[2];
-                    //                 chars1 = str1.split('=');
-                    //             }
-                    //             else if (chars.length == 2) {
-                    //                 str1 = chars[1];
-                    //                 chars1 = str1.split('=');
-                    //             }
-                    //             let chars2;
-                    //             if (chars1[0] == 'BYDAY' || chars1[0] == 'WKST') {
-                    //                 chars2 = chars1[1].split(',');
-
-                    //             }
-                    //             let weekdayname = [];
-
-                    //             weekDays.map(function (rules, index) {
-                    //                 chars2.map(function (weekday, index) {
-                    //                     if (weekday == rules.name) {
-                    //                         weekdayname.push(rules.fullName)
-                    //                     }
-                    //                 })
-                    //             })
-                    //             return (
-                    //                 <View style={{ marginBottom: 10, marginTop: 10 }} key={index}>
-                    //                     {/* <TouchableOpacity
-                    //                     //  onPress={() => storeData(event.ClassId, event.Name)}
-                    //                     >
-                    //                         <View style={globalStyle.eventsListingWrapper}>
-                    //                             <View style={globalStyle.eventsListingTopWrapper}>
-                    //                                 <View style={{ paddingLeft: 15, paddingRight: 10, width: "100%" }}>
-                    //                                     <Title style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {event.Title}</Title>
-                    //                                     <View style={{ borderTopColor: "#ccc", borderTopWidth: 1, paddingTop: 20, marginTop: 20 }}>
-                    //                                         {event.Description != '' && event.Description != null ?
-                    //                                             <Text
-                    //                                                 style={{
-                    //                                                     color: "#000",
-                    //                                                     fontSize: 22,
-                    //                                                     marginBottom: 0,
-                    //                                                     fontWeight: "bold",
-                    //                                                     width: "100%"
-                    //                                                 }}
-                    //                                             >
-                    //                                                 Description
-                    //                                             </Text>
-                    //                                             : null}
-                    //                                     </View>
-                    //                                     {event.Description != '' && event.Description != null ?
-                    //                                         <View style={{ borderBottomColor: "#ccc", borderBottomWidth: 1, paddingBottom: 20, marginBottom: 20 }}>
-                    //                                             <Text style={globalStyle.p}>{event.Description}</Text>
-                    //                                         </View>
-                    //                                         : null}
-                    //                                     <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Start Date: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{startDate}</Text></Text>
-                    //                                     <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Start Time: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{starttime}</Text></Text>
-                    //                                     <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Weekday: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{weekdayname.toString()}</Text></Text>
-                    //                                     {/* <ImageBackground
-                    //                                         style={[
-                    //                                             globalStyle.Btn,
-                    //                                             {
-                    //                                                 width: "100%",
-                    //                                             },
-                    //                                         ]}
-                    //                                         source={require("./../../../../assets/Oval.png")}
-                    //                                         resizeMode={"stretch"}
-                    //                                     >
-                    //                                         <Button onPress={() => storeData(event.Id)} style={loginStyle.buttons} full>
-                    //                                             <Text style={loginStyle.buttonText}>Select</Text>
-                    //                                         </Button>
-                    //                                     </ImageBackground> */}
-                    //                                 </View>
-                    //                             </View>
-                    //                         </View>
-                    //                     </TouchableOpacity> */}
-
-
-                    //                 </View>
-
-                    //             );
-                    //         })
-                    //     ) : null
-                    // )}
-                    <View>
-                        {typeof eventListing !== "undefined" &&
-                            eventListing.length > 0 ?
-                            <View>
-                                <Title style={{ justifyContent: "flex-start", textAlign: "left", marginLeft: 5, marginBottom: 10, fontSize: 26, color: "#222", fontWeight: "bold", paddingBottom: 20, }}>  {eventListing['0'].Title}</Title>
-                            </View>
-                            : null}
-                        <View style={globalStyle.eventsListingWrapper}>
-
-                            <Calendar
-                                // markingType={'custom'}
-                                markingType={'multi-dot'}
-                                markedDates={recurrenceRule}
-                                onDayPress={day => {
-                                    getSelectedDayEvents(day.dateString);
-                                }}
-                                disabledByDefault={true}
-                                disableAllTouchEventsForDisabledDays={true}
-                                // minDate={'2021-05-10'} 
-                                // maxDate={'2021-05-30'}
-                                // onDayPress={day => this.onDayPress(day)}
-                                // onMonthChange={months => this.onMonthChange(months)}
-                                theme={{
-                                    selectedDayBackgroundColor: '#30B3AB',
-                                    selectedDayTextColor: '#ffffff',
-                                    todayTextColor: '#30B3AB',
-                                    todayTextBackgroundColor: 'black',
-                                    textMonthFontSize: 15,
-                                }}>
-                                <CalendarList
-                                    pastScrollRange={24}
-                                    futureScrollRange={24}
-                                    displayLoadingIndicator={true}
-                                    scrollEnabled={true}
-                                    showScrollIndicator={true}
-                                    horizontal={true}
-                                    pagingEnabled={true}
-                                    current={todayDate}
-                                    // onVisibleMonthsChange={months => this.onMonthChange(months)}
-                                    // pagingEnabled
-                                    style={{ borderBottomWidth: 1, borderBottomColor: ' black' }}
-                                />
-                            </Calendar>
-                        </View>
+                    !checkClasses ?
                         <View>
-                            {selectedDate != '' ?
-                                datesClasses.map(function (classes, index) {
-                                    // console.log('classes')
-                                    // console.log(classes)
-                                    return (
-                                        classes.classdate == selectedDate && eventListing['0'].Title == classes.title ?
-                                            <View style={{ marginBottom: 10, marginTop: 10 }} key={index}>
-                                                <View style={globalStyle.eventsListingWrapper}>
-                                                    <View style={globalStyle.eventsListingTopWrapper}>
-                                                        <View style={{ paddingLeft: 15, paddingRight: 10, width: "100%" }}>
-                                                            <Title style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {classes.title}</Title>
-                                                            <View style={{ borderTopColor: "#ccc", borderTopWidth: 1, paddingTop: 20, marginTop: 20 }}>
-                                                                <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Date: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{moment(selectedDate).format("MMMM Do, YYYY")}</Text></Text>
-                                                            </View>
-                                                            <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Start Time: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.starttime}</Text></Text>
-                                                            <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Available Slots: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.availableRegistartion > 0 ? classes.availableRegistartion : 0}</Text></Text>
-                                                            {/* {classes.availableRegistartion > 0 ? */}
-                                                            <Button
-                                                                onPress={() => selectClass(classes.taskId, classes.starttimeUnformated, classes.classdate, classes.availableRegistartion)}
-                                                                style={classes.taskId == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ? { width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { width: '48%', backgroundColor: "#aaa", borderRadius: 6 }}
-                                                                full>
-                                                                <Text style={loginStyle.buttonText}>
-                                                                    {classes.taskId == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ?
-                                                                        "Selected" : "Select"}
-                                                                </Text>
-                                                            </Button>
-                                                            {/* // : null} */}
+                            {typeof eventListing !== "undefined" &&
+                                eventListing.length > 0 ?
+                                <View>
+                                    <Title style={{ justifyContent: "flex-start", textAlign: "left", marginLeft: 5, marginBottom: 10, fontSize: 26, color: "#222", fontWeight: "bold", paddingBottom: 20, }}>  {eventListing['0'].Title}</Title>
+                                </View>
+                                : null}
+                            <View style={globalStyle.eventsListingWrapper}>
 
+                                <Calendar
+                                    // markingType={'custom'}
+                                    markingType={'multi-dot'}
+                                    markedDates={recurrenceRule}
+                                    onDayPress={day => {
+                                        getSelectedDayEvents(day.dateString);
+                                    }}
+                                    disabledByDefault={true}
+                                    disableAllTouchEventsForDisabledDays={true}
+                                    // minDate={'2021-05-10'} 
+                                    // maxDate={'2021-05-30'}
+                                    // onDayPress={day => this.onDayPress(day)}
+                                    // onMonthChange={months => this.onMonthChange(months)}
+                                    theme={{
+                                        selectedDayBackgroundColor: '#30B3AB',
+                                        selectedDayTextColor: '#ffffff',
+                                        todayTextColor: '#30B3AB',
+                                        todayTextBackgroundColor: 'black',
+                                        textMonthFontSize: 15,
+                                    }}>
+                                    <CalendarList
+                                        pastScrollRange={24}
+                                        futureScrollRange={24}
+                                        displayLoadingIndicator={true}
+                                        scrollEnabled={true}
+                                        showScrollIndicator={true}
+                                        horizontal={true}
+                                        pagingEnabled={true}
+                                        current={todayDate}
+                                        // onVisibleMonthsChange={months => this.onMonthChange(months)}
+                                        // pagingEnabled
+                                        style={{ borderBottomWidth: 1, borderBottomColor: ' black' }}
+                                    />
+                                </Calendar>
+                            </View>
+                            <View>
+                                {selectedDate != '' ?
+                                    datesClasses.map(function (classes, index) {
+                                        // console.log('classes')
+                                        // console.log(classes)
+                                        return (
+                                            classes.classdate == selectedDate && eventListing['0'].Title == classes.title ?
+                                                <View style={{ marginBottom: 10, marginTop: 10 }} key={index}>
+                                                    <View style={globalStyle.eventsListingWrapper}>
+                                                        <View style={globalStyle.eventsListingTopWrapper}>
+                                                            <View style={{ paddingLeft: 15, paddingRight: 10, width: "100%" }}>
+                                                                <Title style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {classes.title}</Title>
+                                                                <View style={{ borderTopColor: "#ccc", borderTopWidth: 1, paddingTop: 20, marginTop: 20 }}>
+                                                                    <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Date: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{moment(selectedDate).format("MMMM Do, YYYY")}</Text></Text>
+                                                                </View>
+                                                                <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Start Time: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.starttime}</Text></Text>
+                                                                <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Available Slots: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.availableRegistartion > 0 ? classes.availableRegistartion : 0}</Text></Text>
+                                                                {/* {classes.availableRegistartion > 0 ? */}
+                                                                <Button
+                                                                    onPress={() => selectClass(classes.taskId, classes.starttimeUnformated, classes.classdate, classes.availableRegistartion)}
+                                                                    style={classes.taskId == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ? { width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { width: '48%', backgroundColor: "#aaa", borderRadius: 6 }}
+                                                                    full>
+                                                                    <Text style={loginStyle.buttonText}>
+                                                                        {classes.taskId == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ?
+                                                                            "Selected" : "Select"}
+                                                                    </Text>
+                                                                </Button>
+                                                                {/* // : null} */}
+
+                                                            </View>
                                                         </View>
                                                     </View>
                                                 </View>
-                                            </View>
-                                            : null
-                                    )
+                                                : null
+                                        )
 
-                                })
-                                : null
-                            }
-                        </View>
-                        {selectedDate != '' ?
-                            <View style={globalStyle.eventsListingWrapper}>
-                                <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Student</Text>
-                                <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-                                    {studentIds.length > 0 && studentIds.length != undefined ?
-                                        <RNPickerSelect
-                                            value={selectedStudent}
-                                            items={studentIds}
-                                            placeholder={placeholderStudent}
-                                            onValueChange={(value) => setSelectedStudent(value)}
-                                            style={{
-                                                ...pickerSelectStyles,
-                                                iconContainer: {
-                                                    top: Platform.OS === "android" ? 20 : 30,
-                                                    right: 10,
-                                                },
-                                                placeholder: {
-                                                    color: "#8a898e",
-                                                    fontSize: 12,
-                                                    fontWeight: "bold",
-                                                },
-                                            }}
-                                            Icon={() => {
-                                                return (
-                                                    <Image
-                                                        style={{
-                                                            width: 12,
-                                                            position: "absolute",
-                                                            top: Platform.OS === "android" ? -15 : -28,
-                                                            right: 5,
-                                                        }}
-                                                        source={require("../../../../assets/arrow-down.png")}
-                                                        resizeMode={"contain"}
-                                                    />
-                                                );
-                                            }}
-                                        />
-                                        : null}
+                                    })
+                                    : null
+                                }
+                            </View>
+                            {selectedDate != '' ?
+                                <View style={globalStyle.eventsListingWrapper}>
+                                    <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Student</Text>
+                                    <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
+                                        {studentIds.length > 0 && studentIds.length != undefined ?
+                                            <RNPickerSelect
+                                                value={selectedStudent}
+                                                items={studentIds}
+                                                placeholder={placeholderStudent}
+                                                onValueChange={(value) => setSelectedStudent(value)}
+                                                style={{
+                                                    ...pickerSelectStyles,
+                                                    iconContainer: {
+                                                        top: Platform.OS === "android" ? 20 : 30,
+                                                        right: 10,
+                                                    },
+                                                    placeholder: {
+                                                        color: "#8a898e",
+                                                        fontSize: 12,
+                                                        fontWeight: "bold",
+                                                    },
+                                                }}
+                                                Icon={() => {
+                                                    return (
+                                                        <Image
+                                                            style={{
+                                                                width: 12,
+                                                                position: "absolute",
+                                                                top: Platform.OS === "android" ? -15 : -28,
+                                                                right: 5,
+                                                            }}
+                                                            source={require("../../../../assets/arrow-down.png")}
+                                                            resizeMode={"contain"}
+                                                        />
+                                                    );
+                                                }}
+                                            />
+                                            : null}
+                                    </View>
                                 </View>
+                                : null}
+                            {loaderMessage ? (
+                                <View style={[styles.container, styles.horizontal]}>
+                                    <ActivityIndicator size="large" color="#29ABE2" />
+                                </View>
+                            ) : null}
+                            {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
+                            {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
+                            {selectedDate == '' ? <View style={[globalStyle.eventsListingWrapper, { marginTop: 10 }]}>
+                                <Text style={{ fontSize: 16, color: "#555", fontWeight: "bold", textAlign: "center", marginBottom: 0 }}>
+                                    Select date to view class times and availability
+                                </Text>
                             </View>
-                            : null}
-                        {loaderMessage ? (
-                            <View style={[styles.container, styles.horizontal]}>
-                                <ActivityIndicator size="large" color="#29ABE2" />
-                            </View>
-                        ) : null}
-                        {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
-                        {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
-                        {selectedDate == '' ? <View style={[globalStyle.eventsListingWrapper, { marginTop: 10 }]}>
-                            <Text style={{ fontSize: 16, color: "#555", fontWeight: "bold", textAlign: "center", marginBottom: 0 }}>
-                                Select date to view class times and availability
-                            </Text>
+                                : null}
+                            {selectedDate != '' && selectedStudent != '' && selectedStudent != null ?
+                                <ImageBackground
+                                    style={[
+                                        globalStyle.Btn,
+                                        {
+                                            width: "100%",
+                                            marginBottom: 30
+                                        },
+                                    ]}
+                                    source={require("./../../../../assets/Oval.png")}
+                                    resizeMode={"stretch"}
+                                >
+                                    <Button
+                                        onPress={() => {
+                                            slot > 0 ?
+                                                reserveClass() :
+                                                Alert.alert(" Alert",
+                                                    "There are no slots available for this class. You will be added to the waitlist. Are you sure you would like to reserve a slot for the waitlist?",
+                                                    [{
+                                                        text: 'OK',
+                                                        onPress: () => reserveClass()
+                                                    }, {
+                                                        text: 'Cancel',
+                                                        //onPress: () => //console.log('Cancel Pressed'),
+                                                        style: 'cancel',
+                                                    },]);
+                                        }}
+                                        style={loginStyle.buttons} full>
+                                        <Text style={loginStyle.buttonText}>Reserve Class</Text>
+                                    </Button>
+                                </ImageBackground>
+                                : null}
                         </View>
-                            : null}
-                        {selectedDate != '' && selectedStudent != '' && selectedStudent != null ?
-                            <ImageBackground
-                                style={[
-                                    globalStyle.Btn,
-                                    {
-                                        width: "100%",
-                                        marginBottom: 30
-                                    },
-                                ]}
-                                source={require("./../../../../assets/Oval.png")}
-                                resizeMode={"stretch"}
-                            >
-                                <Button
-                                    onPress={() => {
-                                        slot > 0 ?
-                                            reserveClass() :
-                                            Alert.alert(" Alert",
-                                                "There are no slots available for this class. You will be added to the waitlist. Are you sure you would like to reserve a slot for the waitlist?",
-                                                [{
-                                                    text: 'OK',
-                                                    onPress: () => reserveClass()
-                                                }, {
-                                                    text: 'Cancel',
-                                                    //onPress: () => //console.log('Cancel Pressed'),
-                                                    style: 'cancel',
-                                                },]);
-                                    }}
-                                    style={loginStyle.buttons} full>
-                                    <Text style={loginStyle.buttonText}>Reserve Class</Text>
-                                </Button>
-                            </ImageBackground>
-                            : null}
-                    </View>
+                        :
+                        <View style={{marginTop: 20}}>
+                            <View style={globalStyle.eventsListingWrapper}>
+                                <Text style={{ textAlign: "center", fontSize: 18, fontWeight: "normal", color: "#555" }}>No  Class  Available </Text>
+                            </View>
+                        </View>
                 )}
             </Content>
         </Container>

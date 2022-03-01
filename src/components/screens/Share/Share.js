@@ -37,7 +37,7 @@ const Share = (props) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
+               // console.log(data)
                 if (data) {
                     setSchoolInfo(data.value);
                     setloader(false);
@@ -73,30 +73,30 @@ const Share = (props) => {
                                             <TouchableOpacity onPress={() => openLink(school.Address)}>
                                                 <View style={{ paddingRight: 10, display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                                                     <View style={{ justifyContent: "center", alignItems: "center", paddingRight: 10, display: "flex", flexDirection: "row" }}>
-                                                        {school.ExternalLinkType == 'Facebook' ? school.LinkIcon == null ? <Image source={require("./../../../../assets/facebook-icon.png")} style={{ height: 40, width: 40 }} />
+                                                        {school.ExternalLinkType == 'Facebook' ? school.LinkIconBase64 == null ? <Image source={require("./../../../../assets/facebook-icon.png")} style={{ height: 40, width: 40 }} />
                                                             : <Image source={{
-                                                                uri: "data:image/png;base64," + school.LinkIcon,
+                                                                uri: "data:image/png;base64," + school.LinkIconBase64,
                                                             }}
-                                                                style={{ height: 110, width: 130 }}
+                                                            style={{ height: 40, width: 40 }}
                                                             />
                                                             : null}
-                                                        {school.ExternalLinkType == 'Twitter' ? school.LinkIcon == null ? <Image source={require("./../../../../assets/twitter-icon.png")} style={{ height: 40, width: 40 }} />
+                                                        {school.ExternalLinkType == 'Twitter' ? school.LinkIconBase64 == null ? <Image source={require("./../../../../assets/twitter-icon.png")} style={{ height: 40, width: 40 }} />
                                                             : <Image source={{
-                                                                uri: "data:image/png;base64," + school.LinkIcon,
+                                                                uri: "data:image/png;base64," + school.LinkIconBase64,
                                                             }}
-                                                                style={{ height: 110, width: 130 }}
+                                                            style={{ height: 40, width: 40 }}
                                                             /> : null}
-                                                        {school.ExternalLinkType == 'Instagram' ? school.LinkIcon == null ? <Image source={require("./../../../../assets/instagram.png")} style={{ height: 40, width: 40 }} />
+                                                        {school.ExternalLinkType == 'Instagram' ? school.LinkIconBase64 == null ? <Image source={require("./../../../../assets/instagram.png")} style={{ height: 40, width: 40 }} />
                                                             : <Image source={{
-                                                                uri: "data:image/png;base64," + school.LinkIcon,
+                                                                uri: "data:image/png;base64," + school.LinkIconBase64,
                                                             }}
-                                                                style={{ height: 110, width: 130 }}
+                                                            style={{ height: 40, width: 40 }}
                                                             /> : null}
-                                                        {school.ExternalLinkType == 'Web' ? school.LinkIcon == null ? <Image source={require("./../../../../assets/web.png")} style={{ height: 40, width: 40 }} />
+                                                        {school.ExternalLinkType == 'Web' ? school.LinkIconBase64 == null ? <Image source={require("./../../../../assets/web.png")} style={{ height: 40, width: 40 }} />
                                                             : <Image source={{
-                                                                uri: "data:image/png;base64," + school.LinkIcon,
+                                                                uri: "data:image/png;base64," + school.LinkIconBase64,
                                                             }}
-                                                                style={{ height: 110, width: 130 }}
+                                                            style={{ height: 40, width: 40 }}
                                                             /> : null}
                                                         <Text style={{ paddingLeft: 10, fontSize: 18, }}>{school.Name}</Text>
                                                     </View>

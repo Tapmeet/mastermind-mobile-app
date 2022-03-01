@@ -225,7 +225,7 @@ const StudentClasses = (props) => {
                                                             {event.Title}
                                                         </Text> */}
                                                         <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
-                                                            {event.StudentName} {event.AttendanceReservationId}
+                                                            {event.StudentName} 
                                                         </Text>
                                                         <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
                                                             {event.StudentEmail}

@@ -183,7 +183,7 @@ const ActiveClasses = (props) => {
 
             }}
         >
-            <SideBarMenu title={"Reserved Classes"} navigation={props.navigation} />
+            <SideBarMenu title={"Class Check In"} navigation={props.navigation} />
             <View
                 style={[
                     globalStyle.flexStandard,
