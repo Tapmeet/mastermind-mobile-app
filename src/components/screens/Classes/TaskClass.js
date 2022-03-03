@@ -15,6 +15,7 @@ import { CalendarList, Calendar } from 'react-native-calendars';
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import { useFocusEffect } from '@react-navigation/native';
 import { textAlign } from "styled-system";
+import { cos } from "react-native-reanimated";
 const apiUrl = API_URL.trim();
 var uniqueStudent = [];
 var datesArray = {};
@@ -121,9 +122,12 @@ const TaskClass = (props) => {
 
                         }
                         var str = event.RecurrenceRule;
+
                         if (str != null) {
+                            //if (str != null) {
                             // console.log(str)
                             var chars = str.split(';');
+
                             var str1, chars1;
                             if (chars.length == 4) {
                                 str1 = chars[3];
@@ -142,59 +146,75 @@ const TaskClass = (props) => {
                                 chars2 = chars1[1].split(',');
 
                             }
-
-                            weekDays.map(function (rules, index) {
-                                chars2.map(function (weekday, index) {
-                                    if (weekday == rules.name) {
-                                        weekdays.push(rules.value)
-                                    }
+                            var j = 0;
+                            var untill = false;
+                            let dateIsAfter = false;
+                            while (j < chars.length) {
+                                var strcheck = chars[j];
+                                var strcheckchars1 = strcheck.split('=');
+                                if (strcheckchars1[0] == 'UNTIL') {
+                                    untill = true
+                                }
+                                j++;
+                            }
+                            if (untill) {
+                                dateIsAfter = moment(event.EndDate).isAfter(moment(date));
+                            } else {
+                                dateIsAfter = true
+                            }
+                            if (dateIsAfter) {
+                                weekDays.map(function (rules, index) {
+                                    chars2.map(function (weekday, index) {
+                                        if (weekday == rules.name) {
+                                            weekdays.push(rules.value)
+                                        }
+                                    })
                                 })
-                            })
-
+                            }
                             var maxAttendance = '';
                             var confirmedRegistration = '';
                             var availableRegistartion = '';
                             var startDates = moment();
                             let classDate = moment(event.EndDate).format("YYYY-MM-DD");
-                            
+                            var endDate = moment(startDates, "YYYY-MM-DD").add(threshold, 'days');
                             maxAttendance = event.MaxAttendance;
+
                             const date = moment().toDate();
-                            const dateIsAfter = moment(event.EndDate).isAfter(moment(date));
-                            console.log(dateIsAfter)
-                            if (event.MaxAttendance != null && dateIsAfter ) {
+
+                            if (dateIsAfter) {
+                                console.log(str)
+                                console.log(dateIsAfter)
+                                console.log('dateIsAfter')
                                 setCheckClasses(false)
                                 confirmedRegistration = event.ConfirmedReservations.length;
                                 //  availableRegistartion = parseFloat(event.MaxAttendance) - parseFloat(confirmedRegistration);
-                                availableRegistartion = parseFloat(event.MaxAttendance);
+                                availableRegistartion = event.MaxAttendance;
 
                                 let starttime = '';
                                 let starttimeUnformated = '';
                                 starttime = moment(event.StartDate).format("hh:mm a ");
                                 starttimeUnformated = moment(event.StartDate).format("HH:mm:ss");
-                                // console.log(starttime)
-                                // console.log('starttime')
                                 setTimeout(function () {
                                     setloader(false);
-                                }, 2000);
-                                if (index == 0) {
-                                    // setDatesClasses([])
-                                    // datesCleassesArray = [];
-
-                                    getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 0, event.ConfirmedReservations);
-                                }
-                                else {
-                                    getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 1, event.ConfirmedReservations);
-                                }
-                                if (index + 1 == data.length) {
-                                    setTimeout(function () {
-                                        setloader(false);
-                                    }, 2000);
-                                }
+                                }, 3000);
+                                getDates(startDates, endDate, threshold, availableRegistartion, starttime, event.Title, event.Id, starttimeUnformated, 1, event.ConfirmedReservations);
                             }
+                            // else{
+                            //     setCheckClasses(true)
+
+                            //     setloader(false);
+                            // }
                         }
                     })
                     if (checkClasses == true) {
-                        setloader(false)
+                        setTimeout(function () {
+                            setloader(false);
+                        }, 3000);
+                    }
+                    else {
+                        setTimeout(function () {
+                            setloader(false);
+                        }, 3000);
                     }
                 });
         } catch (e) { }
@@ -208,6 +228,7 @@ const TaskClass = (props) => {
         datesCleassesArray = [];
         const complete = { key: 'complete', color: 'green' };
         while (i < parseInt(threshold) && startDate <= endDate) {
+
             //console.log(weekdays);
             weekdays.map(function (rules, index) {
                 if (startDate.day() == rules) {
@@ -224,12 +245,13 @@ const TaskClass = (props) => {
                     })
                     var dats;
                     var slotsavailable = availableRegistartion;
+
                     confirmedReservations.map(function (reserved, index) {
                         if (datesCheck == reserved.CheckInTime) {
-                            if (availableRegistartion != 0) {
+                            if (availableRegistartion != 0 && availableRegistartion != null) {
                                 slotsavailable = availableRegistartion - reserved.Count
                             } else {
-                                slotsavailable = 0
+                                slotsavailable = availableRegistartion
                             }
 
                         }
@@ -245,6 +267,7 @@ const TaskClass = (props) => {
                         "taskId": taskId,
                         "starttimeUnformated": starttimeUnformated
                     }
+                    
                     setDatesClasses((prevStates) => [...prevStates, dats]);
                 }
             })
@@ -349,7 +372,7 @@ const TaskClass = (props) => {
 
         setTimeout(function () {
             setloader(false);
-        }, 2000);
+        }, 3000);
     };
     const reserveClass = () => {
         if (selectedTaskDate == '') {
@@ -385,16 +408,6 @@ const TaskClass = (props) => {
         })
         setLoaderMessage(true)
 
-        // console.log(selecteDate + ' ' + selectedTaskTime)
-
-        // console.log(selectedStudent)
-        // console.log('selectedStudent')
-        // console.log(studentName)
-        // console.log('studentName')
-        // console.log(studentEmail)
-        // console.log('studentEmail')
-        // console.log(classId)
-        // console.log(selectedTaskId)
         fetch(`${apiUrl}public/ClassReservation`, {
             method: "post",
             headers: {
@@ -439,32 +452,9 @@ const TaskClass = (props) => {
                     }, 3000);
                 }
             });
-        // .then((response) => {
-        //     console.log("response")
-        //     let jsonData = JSON.stringify(response);
-        //     console.log(jsonData)
-        //     let jsonDataPrase = JSON.parse(jsonData);
-        //     setLoaderMessage(false)
-        //     // console.log(jsonDataPrase.status)
-        //     if (jsonDataPrase.status != 200) {
-        //         setLoaderMessage(false)
-        //         setErrorMessage("An error has occurred.");
-        //     } else {
-        //         setSuccessMessage("Successfully Submitted.");
-        //         setTimeout(function () {
-        //             setSelectedDate('')
-        //             setSelectedStudent('')
-        //             setSuccessMessage('')
-        //             setErrorMessage('')
-        //             setSelectedTaskId('')
-        //             setselectedTaskTime('')
-        //             setSelectedTaskDate('')
-        //             clearCalander()
-        //         }, 3000);
-        //     }
-        // });
     }
     const clearData = async () => {
+        setCheckClasses(true)
         setDatesClasses([])
         setLoaderCheck(true)
         setStartDate('')
@@ -486,13 +476,17 @@ const TaskClass = (props) => {
         datesCleassesArray = [];
     }
     const selectClass = (id, time, date, slots) => {
-        console.log(id)
+       
         setSelectedTaskId(id)
         setselectedTaskTime(time)
         setSelectedTaskDate(date)
         if (slots > 0) {
             setSetSlot(slots)
-        } else {
+        }
+        else if (slots == null) {
+            setSetSlot(null)
+        }
+        else {
             setSetSlot('0')
         }
     }
@@ -591,8 +585,8 @@ const TaskClass = (props) => {
                                                                     <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Date: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{moment(selectedDate).format("MMMM Do, YYYY")}</Text></Text>
                                                                 </View>
                                                                 <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Start Time: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.starttime}</Text></Text>
-                                                                <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Available Slots: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.availableRegistartion > 0 ? classes.availableRegistartion : 0}</Text></Text>
-                                                                {/* {classes.availableRegistartion > 0 ? */}
+                                                                {classes.availableRegistartion != null ? <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Available Slots: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.availableRegistartion > 0 ? classes.availableRegistartion : 0}</Text></Text>
+                                                                    : null}
                                                                 <Button
                                                                     onPress={() => selectClass(classes.taskId, classes.starttimeUnformated, classes.classdate, classes.availableRegistartion)}
                                                                     style={classes.taskId == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ? { width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { width: '48%', backgroundColor: "#aaa", borderRadius: 6 }}
@@ -602,8 +596,6 @@ const TaskClass = (props) => {
                                                                             "Selected" : "Select"}
                                                                     </Text>
                                                                 </Button>
-                                                                {/* // : null} */}
-
                                                             </View>
                                                         </View>
                                                     </View>
@@ -683,7 +675,7 @@ const TaskClass = (props) => {
                                 >
                                     <Button
                                         onPress={() => {
-                                            slot > 0 ?
+                                            slot > 0 || slot == null ?
                                                 reserveClass() :
                                                 Alert.alert(" Alert",
                                                     "There are no slots available for this class. You will be added to the waitlist. Are you sure you would like to reserve a slot for the waitlist?",
@@ -703,7 +695,7 @@ const TaskClass = (props) => {
                                 : null}
                         </View>
                         :
-                        <View style={{marginTop: 20}}>
+                        <View style={{ marginTop: 20 }}>
                             <View style={globalStyle.eventsListingWrapper}>
                                 <Text style={{ textAlign: "center", fontSize: 18, fontWeight: "normal", color: "#555" }}>No  Class  Available </Text>
                             </View>
