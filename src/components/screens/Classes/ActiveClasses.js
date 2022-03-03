@@ -110,6 +110,8 @@ const ActiveClasses = (props) => {
             });
     }
     const checkinActiveClass = () => {
+        setSuccessMessage('')
+        setErrorMessage('')
         if (selectedStudent == '') {
             setErrorMessage('Please Select Student')
             return false
@@ -141,19 +143,21 @@ const ActiveClasses = (props) => {
         }).then((response) => response.json())
             .then((response) => {
                 console.log('response')
-                //  console.log(response.odata.error)
+                / console.log(response)
                 setLoaderMessage(false)
-                if (response["odata.error"]) {
-                    console.log('responses')
-                    console.log(response["odata.error"].message.value)
-                    setErrorMessage(response["odata.error"].message.value)
-                }
-                else {
+                if (!response["odata.error"]) {
                     setSuccessMessage(studentName + " has successfully checked In")
                     setTimeout(function () {
                         fetchClasses()
                         setTogglePopup(false)
-                    }, 2000);
+                    }, 3000);
+                   
+                }
+                else {
+                    console.log('responses')
+                    console.log(response["odata.error"].message.value)
+                    setErrorMessage(response["odata.error"].message.value)
+                  //setSuccessMessage(studentName + " has successfully checked In")
                 }
 
 
@@ -326,13 +330,15 @@ const ActiveClasses = (props) => {
                                 <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Close</Text>
                             </Button>
                         </View>
-                        {loaderMessage ? (
-                            <View style={[styles.container, styles.horizontal]}>
-                                <ActivityIndicator size="large" color="#29ABE2" />
-                            </View>
-                        ) : null}
-                        {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
-                        {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
+                        <View style={{padding: 15}}>
+                            {loaderMessage ? (
+                                <View style={[styles.container, styles.horizontal]}>
+                                    <ActivityIndicator size="large" color="#29ABE2" />
+                                </View>
+                            ) : null}
+                            {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
+                            {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
+                        </View>
                     </View>
                 </View>
                 : null}
