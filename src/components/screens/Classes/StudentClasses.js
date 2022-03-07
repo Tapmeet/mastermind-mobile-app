@@ -36,10 +36,11 @@ const StudentClasses = (props) => {
     const [errorMessage, setErrorMessage] = React.useState("");
     const [selectedTaskName, setSelectedTaskName] = React.useState('');
     const [checkinActive, setCheckinActive] = React.useState(false);
+    const [checkedInArray, setCheckedInArray] = React.useState([]);
     useFocusEffect(
         React.useCallback(() => {
+            setloader(true);
             fetchClasses()
-
         }, [])
     );
     const fetchClasses = () => {
@@ -59,6 +60,10 @@ const StudentClasses = (props) => {
                     var dataCount = data.value.length;
                     setEventListing(data.value);
                     //  setClassListings([])
+                    var newArray = data.value.filter(function (el) {
+                        return el.isAlreadyCheckedIn 
+                      });
+                      setCheckedInArray(newArray)
                     setloader(false);
                 } else {
                     setloader(false);
@@ -80,8 +85,10 @@ const StudentClasses = (props) => {
         );
     }
     function cancelClass(attendanceReservationId) {
-        console.log(attendanceReservationId)
-        console.log('AttendanceReservationId')
+        setCheckinActive(true)
+        setLoaderMessage(true)
+        setSuccessMessage('')
+        setErrorMessage("")
         fetch(`${apiUrl}public/CancelReservation`, {
             method: "POST",
             headers: {
@@ -95,11 +102,14 @@ const StudentClasses = (props) => {
         })
             .then(response => response.text())
             .then(result => {
-                console.log(result)
+                setLoaderMessage(false)
+                 console.log(result)
+                // setloader(true)
+                setSuccessMessage("Class Cancelled");
                 setloader(true)
                 setTimeout(function () {
                     fetchClasses()
-                }, 3000);
+                }, 1000);
             })
             .catch((response) => {
                 setloader(true)
@@ -112,7 +122,7 @@ const StudentClasses = (props) => {
         setLoaderMessage(true)
         setSuccessMessage('')
         setErrorMessage("")
-        console.log(TaskId)
+      //  console.log(TaskId)
         fetch(`${apiUrl}/odata/StudentAttendance`, {
             method: "post",
             headers: {
@@ -170,21 +180,111 @@ const StudentClasses = (props) => {
                 style={[
                     globalStyle.flexStandard,
                     {
-                        paddingTop: 15,
-                        paddingBottom: 15,
+                        padding: 15,
                     },
                 ]}
             >
                 <Text
-                    style={{
+                    onPress={() => setToggle(false)}
+                    style={!toggle ? {
+                        paddingTop: 15,
+                        paddingBottom: 15,
+                        fontSize: 16,
                         fontWeight: "bold",
-                        fontSize: 24,
-                        paddingLeft: 15,
-                        backgroundColor: "white",
+                        borderBottomLeftRadius: 20,
+                        borderTopLeftRadius: 20,
+                        backgroundColor: "#52cbff",
                         flex: 1,
-                    }}
+                        color: '#fff',
+                        width: "50%",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        shadowColor: "#CCC",
+                        shadowOffset: {
+                            width: 0,
+                            height: 5,
+                        },
+                        shadowOpacity: 0.54,
+                        shadowRadius: 3.84,
+                        elevation: 7,
+
+                    }
+                        : {
+                            borderBottomLeftRadius: 20,
+                            borderTopLeftRadius: 20,
+                            paddingTop: 15,
+                            paddingBottom: 15,
+                            fontSize: 16,
+                            fontWeight: "bold",
+                            backgroundColor: "#fff",
+                            flex: 1,
+                            color: '#777',
+                            width: "50%",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            shadowColor: "#CCC",
+                            shadowOffset: {
+                                width: 0,
+                                height: 5,
+                            },
+                            shadowOpacity: 0.54,
+                            shadowRadius: 3.84,
+                            elevation: 7,
+
+                        }}
                 >
-                    Reserved Classes
+                    Waitlist Reservations 
+                </Text>
+                <Text
+                    onPress={() => setToggle(true)}
+                    style={toggle ? {
+                        paddingTop: 15,
+                        paddingBottom: 15,
+                        fontSize: 16,
+                        fontWeight: "bold",
+                        borderBottomRightRadius: 20,
+                        borderTopRightRadius: 20,
+                        backgroundColor: "#52cbff",
+                        flex: 1,
+                        color: '#fff',
+                        width: "50%",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        shadowColor: "#CCC",
+                        shadowOffset: {
+                            width: 0,
+                            height: 5,
+                        },
+                        shadowOpacity: 0.54,
+                        shadowRadius: 3.84,
+                        elevation: 7,
+
+                    }
+                        : {
+                            paddingTop: 15,
+                            paddingBottom: 15,
+                            fontSize: 16,
+                            fontWeight: "bold",
+                            borderBottomRightRadius: 20,
+                            borderTopRightRadius: 20,
+                            backgroundColor: "#fff",
+                            flex: 1,
+                            color: '#777',
+                            width: "50%",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            shadowColor: "#CCC",
+                            shadowOffset: {
+                                width: 0,
+                                height: 5,
+                            },
+                            shadowOpacity: 0.54,
+                            shadowRadius: 3.84,
+                            elevation: 7,
+
+                        }}
+                >
+                    Confirmed Reservations
                 </Text>
             </View>
             <Content padder>
@@ -193,28 +293,25 @@ const StudentClasses = (props) => {
                         <ActivityIndicator size="large" color="#29ABE2" />
                     </View>
                 ) :
-
-                    typeof eventListing !== "undefined" && eventListing.length > 0 ? (
-                        eventListing.map(function (event, index) {
-                            const date = moment().toDate();
-                            const dateIsAfter = moment(event.CheckInTime).isAfter(moment(date));
-                          
-                          //  console.log(dateIsAfter);
-                            let starttime = moment(event.CheckInTime).format("MM-DD-YYYY, hh:mm a ");
-                            let classDate = moment(event.CheckInTime).format("YYYY-MM-DD");
-                            var GivenDate = classDate;
-                            var CurrentDate = new Date();
-                            CurrentDate.setHours(0, 0, 0, 0)
-                            GivenDate = new Date(GivenDate);
-                            //  console.log(GivenDate)
-                            return (
-                                dateIsAfter ?
-                                    <View style={{ marginBottom: 10 }} key={index}>
-                                        <View >
-                                            <View style={globalStyle.eventsListingWrapper}>
-                                                <View style={globalStyle.eventsListingTopWrapper}>
-                                                    <View style={{ paddingLeft: 0, paddingRight: 10 }}>
-                                                        {/* <Text
+                    !toggle ?
+                        typeof eventListing !== "undefined" && eventListing.length > 0 ? (
+                            eventListing.sort((a, b) => a.AttendanceReservationId < b.AttendanceReservationId ? 1:-1).map(function (event, index) {
+                                const date = moment().toDate();
+                                const dateIsAfter = moment(event.CheckInTime).isAfter(moment(date));
+                                let starttime = moment(event.CheckInTime).format("MM-DD-YYYY, hh:mm a ");
+                                let classDate = moment(event.CheckInTime).format("YYYY-MM-DD");
+                                var GivenDate = classDate;
+                                var CurrentDate = new Date();
+                                CurrentDate.setHours(0, 0, 0, 0)
+                                GivenDate = new Date(GivenDate);
+                                return (
+                                    dateIsAfter && !event.isAlreadyCheckedIn ?
+                                        <View style={{ marginBottom: 10 }} key={index}>
+                                            <View >
+                                                <View style={globalStyle.eventsListingWrapper}>
+                                                    <View style={globalStyle.eventsListingTopWrapper}>
+                                                        <View style={{ paddingLeft: 0, paddingRight: 10 }}>
+                                                            {/* <Text
                                                             style={{
                                                                 fontSize: 18,
                                                                 fontWeight: "bold",
@@ -224,56 +321,138 @@ const StudentClasses = (props) => {
                                                         >
                                                             {event.Title}
                                                         </Text> */}
-                                                        <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
-                                                            {event.StudentName} 
-                                                        </Text>
-                                                        <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
-                                                            {event.StudentEmail}
-                                                        </Text>
-                                                        <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
-                                                            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
-                                                            {starttime}
-                                                        </Text>
-                                                        {event.isAlreadyCheckedIn ?
-                                                            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>
-                                                                Checked In
+                                                            <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                                                                {event.StudentName} {event.AttendanceReservationId}
                                                             </Text>
-                                                            :
-                                                            <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
+                                                            <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                                                                {event.StudentEmail}
+                                                            </Text>
+                                                            <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
+                                                                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
+                                                                {starttime}
+                                                            </Text>
+                                                            {event.isAlreadyCheckedIn ?
+                                                                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>
+                                                                    Checked In
+                                                                </Text>
+                                                                :
+                                                                <View style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
 
-                                                                <Button disabled={event.isReadyForCheckIn ? false : true}
+                                                                    {/* <Button disabled={event.isReadyForCheckIn ? false : true}
                                                                     style={event.isReadyForCheckIn ? { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#ccc", borderRadius: 6 }}
                                                                     onPress={() => checkinClass(event.StudentId, event.StudentName, event.StudentEmail, event.TaskId, event.CheckInTime)
                                                                     }
                                                                 //onPress={() => activeCheckin(event.CheckInTime, event.TaskId)}
                                                                 >
                                                                     <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
-                                                                </Button>
+                                                                </Button> */}
 
-                                                                <Button
-                                                                    style={[{ alignSelf: "center", width: '48%', justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 18 }]}
-                                                                    onPress={() =>
-                                                                        alertCancel(event.AttendanceReservationId)}
-                                                                >
-                                                                    <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
-                                                                </Button>
-                                                            </View>
-                                                        }
+                                                                    <Button
+                                                                        style={[{ alignSelf: "center", width: 200, justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 0 }]}
+                                                                        onPress={() =>
+                                                                            alertCancel(event.AttendanceReservationId)}
+                                                                    >
+                                                                        <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
+                                                                    </Button>
+                                                                </View>
+                                                            }
+                                                        </View>
+
                                                     </View>
-
                                                 </View>
                                             </View>
                                         </View>
-                                    </View>
-                                    : null
+                                        : null
 
-                            );
-                        })
-                    ) : (
-                        <View style={globalStyle.tableList}>
-                            <Text>No Classes Available </Text>
-                        </View>
-                    )
+                                );
+                            })
+                        ) : (
+                            <View style={globalStyle.tableList}>
+                                <Text>No Classes Available </Text>
+                            </View>
+                        )
+                        :
+                        typeof checkedInArray !== "undefined" && checkedInArray.length > 0 ? (
+                            
+                            checkedInArray.sort((a, b) => a.AttendanceReservationId < b.AttendanceReservationId ? 1:-1).map(function (event, index) {
+                                const date = moment().toDate();
+                                const dateIsAfter = moment(event.CheckInTime).isAfter(moment(date));
+
+                                //  console.log(dateIsAfter);
+                                let starttime = moment(event.CheckInTime).format("MM-DD-YYYY, hh:mm a ");
+                                let classDate = moment(event.CheckInTime).format("YYYY-MM-DD");
+                                var GivenDate = classDate;
+                                var CurrentDate = new Date();
+                                CurrentDate.setHours(0, 0, 0, 0)
+                                GivenDate = new Date(GivenDate);
+                                //  console.log(GivenDate)
+                                return (
+                                    dateIsAfter && event.isAlreadyCheckedIn?
+                                        <View style={{ marginBottom: 10 }} key={index}>
+                                            <View >
+                                                <View style={globalStyle.eventsListingWrapper}>
+                                                    <View style={globalStyle.eventsListingTopWrapper}>
+                                                        <View style={{ paddingLeft: 0, paddingRight: 10 }}>
+                                                            {/* <Text
+                                                            style={{
+                                                                fontSize: 18,
+                                                                fontWeight: "bold",
+                                                                color: "#16161D",
+                                                                paddingBottom: 10,
+                                                            }}
+                                                        >
+                                                            {event.Title}
+                                                        </Text> */}
+                                                            <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                                                                {event.StudentName}
+                                                            </Text>
+                                                            <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                                                                {event.StudentEmail}
+                                                            </Text>
+                                                            <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
+                                                                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
+                                                                {starttime}
+                                                            </Text>
+                                                            {event.isAlreadyCheckedIn ?
+                                                                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>
+                                                                    Checked In
+                                                                </Text>
+                                                                :
+                                                                <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
+
+                                                                    {/* <Button disabled={event.isReadyForCheckIn ? false : true}
+                                                                    style={event.isReadyForCheckIn ? { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#ccc", borderRadius: 6 }}
+                                                                    onPress={() => checkinClass(event.StudentId, event.StudentName, event.StudentEmail, event.TaskId, event.CheckInTime)
+                                                                    }
+                                                                //onPress={() => activeCheckin(event.CheckInTime, event.TaskId)}
+                                                                >
+                                                                    <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
+                                                                </Button> */}
+
+                                                                    {/* <Button
+                                                                        style={[{ alignSelf: "center", width: '48%', justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 18 }]}
+                                                                        onPress={() =>
+                                                                            alertCancel(event.AttendanceReservationId)}
+                                                                    >
+                                                                        <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
+                                                                    </Button> */}
+                                                                </View>
+                                                            }
+                                                        </View>
+
+                                                    </View>
+                                                </View>
+                                            </View>
+                                        </View>
+                                        : null
+
+                                );
+                            })
+                        ) : (
+                            <View style={globalStyle.tableList}>
+                                <Text>No Confirmed Reservations </Text>
+                            </View>
+                        )
                 }
             </Content>
             {checkinActive ?
