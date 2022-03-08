@@ -311,7 +311,7 @@ const StudentClasses = (props) => {
                                                 <View style={globalStyle.eventsListingWrapper}>
                                                     <View style={globalStyle.eventsListingTopWrapper}>
                                                         <View style={{ paddingLeft: 0, paddingRight: 10 }}>
-                                                            {/* <Text
+                                                            <Text
                                                             style={{
                                                                 fontSize: 18,
                                                                 fontWeight: "bold",
@@ -319,10 +319,10 @@ const StudentClasses = (props) => {
                                                                 paddingBottom: 10,
                                                             }}
                                                         >
-                                                            {event.Title}
-                                                        </Text> */}
+                                                            {event.ClassName}
+                                                        </Text>
                                                             <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
-                                                                {event.StudentName} {event.AttendanceReservationId}
+                                                                {event.StudentName}
                                                             </Text>
                                                             <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
                                                                 {event.StudentEmail}
