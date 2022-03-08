@@ -61,7 +61,7 @@ const StudentClasses = (props) => {
                     setEventListing(data.value);
                     //  setClassListings([])
                     var newArray = data.value.filter(function (el) {
-                        return el.isAlreadyCheckedIn 
+                        return el.WaitingList 
                       });
                       setCheckedInArray(newArray)
                     setloader(false);
@@ -233,7 +233,7 @@ const StudentClasses = (props) => {
 
                         }}
                 >
-                    Waitlist Reservations 
+                   Confirmed Reservations 
                 </Text>
                 <Text
                     onPress={() => setToggle(true)}
@@ -284,7 +284,7 @@ const StudentClasses = (props) => {
 
                         }}
                 >
-                    Confirmed Reservations
+                     Waitlist Reservations  
                 </Text>
             </View>
             <Content padder>
@@ -305,7 +305,7 @@ const StudentClasses = (props) => {
                                 CurrentDate.setHours(0, 0, 0, 0)
                                 GivenDate = new Date(GivenDate);
                                 return (
-                                    dateIsAfter && !event.isAlreadyCheckedIn ?
+                                    dateIsAfter && !event.WaitingList && event.Confirmed ?
                                         <View style={{ marginBottom: 10 }} key={index}>
                                             <View >
                                                 <View style={globalStyle.eventsListingWrapper}>
@@ -336,7 +336,7 @@ const StudentClasses = (props) => {
                                                                     Checked In
                                                                 </Text>
                                                                 :
-                                                                <View style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
+                                                                <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
 
                                                                     {/* <Button disabled={event.isReadyForCheckIn ? false : true}
                                                                     style={event.isReadyForCheckIn ? { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#ccc", borderRadius: 6 }}
@@ -345,10 +345,10 @@ const StudentClasses = (props) => {
                                                                 //onPress={() => activeCheckin(event.CheckInTime, event.TaskId)}
                                                                 >
                                                                     <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
-                                                                </Button> */}
+                                                                </Button>  */}
 
-                                                                    <Button
-                                                                        style={[{ alignSelf: "center", width: 200, justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 0 }]}
+                                                                     <Button
+                                                                        style={[{ alignSelf: "center", width: 200, justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6,  }]}
                                                                         onPress={() =>
                                                                             alertCancel(event.AttendanceReservationId)}
                                                                     >
@@ -387,13 +387,13 @@ const StudentClasses = (props) => {
                                 GivenDate = new Date(GivenDate);
                                 //  console.log(GivenDate)
                                 return (
-                                    dateIsAfter && event.isAlreadyCheckedIn?
+                                    dateIsAfter && event.WaitingList ?
                                         <View style={{ marginBottom: 10 }} key={index}>
                                             <View >
                                                 <View style={globalStyle.eventsListingWrapper}>
                                                     <View style={globalStyle.eventsListingTopWrapper}>
                                                         <View style={{ paddingLeft: 0, paddingRight: 10 }}>
-                                                            {/* <Text
+                                                            <Text
                                                             style={{
                                                                 fontSize: 18,
                                                                 fontWeight: "bold",
@@ -401,8 +401,8 @@ const StudentClasses = (props) => {
                                                                 paddingBottom: 10,
                                                             }}
                                                         >
-                                                            {event.Title}
-                                                        </Text> */}
+                                                            {event.ClassName}
+                                                        </Text>
                                                             <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
                                                                 {event.StudentName}
                                                             </Text>
@@ -427,15 +427,15 @@ const StudentClasses = (props) => {
                                                                 //onPress={() => activeCheckin(event.CheckInTime, event.TaskId)}
                                                                 >
                                                                     <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
-                                                                </Button> */}
+                                                                </Button>  */}
 
-                                                                    {/* <Button
-                                                                        style={[{ alignSelf: "center", width: '48%', justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 18 }]}
+                                                                     <Button
+                                                                        style={[{ alignSelf: "center", width: 200, justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, }]}
                                                                         onPress={() =>
                                                                             alertCancel(event.AttendanceReservationId)}
                                                                     >
                                                                         <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
-                                                                    </Button> */}
+                                                                    </Button>
                                                                 </View>
                                                             }
                                                         </View>

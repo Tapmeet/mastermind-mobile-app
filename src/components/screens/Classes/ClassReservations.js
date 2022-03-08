@@ -514,7 +514,7 @@ const ClassReservations = (props) => {
                             </View>
                             {selectedDate ?
                                 <View style={globalStyle.eventsListingWrapper}>
-                                    <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Check In</Text>
+                                    <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Class Time: </Text>
                                     <Text style={{ fontWeight: "normal", marginBottom: 10 }}>{selectedDate + ' ' + moment(startDateUnformatted).format("hh:mm:ss a")}</Text>
                                 </View>
                                 : null}
