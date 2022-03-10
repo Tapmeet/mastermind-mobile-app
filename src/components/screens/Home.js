@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 import { API_URL } from "./../Utility/AppConst";
 import { useFocusEffect } from '@react-navigation/native';
+import * as WebBrowser from 'expo-web-browser';
 const apiUrl = API_URL.trim();
 const Home = (props) => {
   const isCarousel = React.useRef(null);
@@ -19,10 +20,11 @@ const Home = (props) => {
   const [classListing, setClassListing] = React.useState([]);
   const [retailListing, setRetailListing] = React.useState([]);
   const [threshold, setThreshold] = React.useState('');
-
+  const [studentGuid, setStudentGuid] = React.useState('');
   useFocusEffect(
     //navigation.addListener("focus", () => {
     React.useCallback(() => {
+      
       fetch(`${apiUrl}/odata/OrganizationEvent`, {
         method: "get",
         headers: {
@@ -86,10 +88,18 @@ const Home = (props) => {
             setloader(false);
           }
         });
+        getData()
       //   });
       // });
     }, [])
   );
+  async function getData() {
+    try {
+      const value = await AsyncStorage.getItem("studentGuid");
+      setStudentGuid(value)
+    } catch (e) { }
+
+  }
   const storeData = async (value, title) => {
     //console.log(value);
     let eventId = JSON.stringify(value);
@@ -133,6 +143,9 @@ const Home = (props) => {
       text: "05 Months",
     },
   ];
+  const openLink = async (url) => {
+    let result = await WebBrowser.openBrowserAsync(url);
+};
   const { navigation } = props;
   const SLIDER_WIDTH = Dimensions.get("window").width + 60;
   const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
@@ -210,84 +223,6 @@ const Home = (props) => {
             </Text>
             <TouchableOpacity onPress={() => props.navigation.navigate("Events")}><Text>View all > </Text></TouchableOpacity>
           </View>
-          {/* <View style={{ marginBottom: 30 }}>
-          <View style={globalStyle.homeEvents}>
-            <View style={{ borderRadius: 25, overflow: "hidden" }}>
-              <Image source={require("./../../../assets/img1.png")} style={{ height: 110, width: 130 }} />
-            </View>
-            <View style={{ paddingLeft: 15, paddingRight: 10 }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: "bold",
-                  color: "#16161D",
-                  paddingBottom: 10,
-                }}
-              >
-                Kids Karate Workshop
-              </Text>
-              <Text style={{ fontSize: 16, color: "#555" }}>May 12, 2021</Text>
-              <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>05:00 - 07:00 PM</Text>
-            </View>
-          </View>
-          <View style={globalStyle.homeEvents}>
-            <View style={{ borderRadius: 25, overflow: "hidden" }}>
-              <Image source={require("./../../../assets/img2.png")} style={{ height: 110, width: 130 }} />
-            </View>
-            <View style={{ paddingLeft: 15, paddingRight: 10 }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: "bold",
-                  color: "#16161D",
-                  paddingBottom: 10,
-                }}
-              >
-                Kids Karate Workshop
-              </Text>
-              <Text style={{ fontSize: 16, color: "#555" }}>May 12, 2021</Text>
-              <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>05:00 - 07:00 PM</Text>
-            </View>
-          </View>
-          <View style={globalStyle.homeEvents}>
-            <View style={{ borderRadius: 25, overflow: "hidden" }}>
-              <Image source={require("./../../../assets/img3.png")} style={{ height: 110, width: 130 }} />
-            </View>
-            <View style={{ paddingLeft: 15, paddingRight: 10 }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: "bold",
-                  color: "#16161D",
-                  paddingBottom: 10,
-                }}
-              >
-                Kids Karate Workshop
-              </Text>
-              <Text style={{ fontSize: 16, color: "#555" }}>May 12, 2021</Text>
-              <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>05:00 - 07:00 PM</Text>
-            </View>
-          </View>
-          <View style={globalStyle.homeEvents}>
-            <View style={{ borderRadius: 25, overflow: "hidden" }}>
-              <Image source={require("./../../../assets/img1.png")} style={{ height: 110, width: 130 }} />
-            </View>
-            <View style={{ paddingLeft: 15, paddingRight: 10 }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: "bold",
-                  color: "#16161D",
-                  paddingBottom: 10,
-                }}
-              >
-                Kids Karate Workshop
-              </Text>
-              <Text style={{ fontSize: 16, color: "#555" }}>May 12, 2021</Text>
-              <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>05:00 - 07:00 PM</Text>
-            </View>
-          </View>
-        </View> */}
           {typeof eventListing !== "undefined" && eventListing.length > 0 ? (
             eventListing.map(function (event, index) {
               let startDate = moment(event.EventStartDateTime).format("MMMM Do, YYYY");
@@ -296,7 +231,10 @@ const Home = (props) => {
               return (
                 index <= 4
                   ? <View style={{ marginBottom: 10 }} key={index}>
-                    <TouchableOpacity onPress={() => storeData(event.PosItemId, event.Title)}>
+                    <TouchableOpacity 
+                     onPress={() => openLink('https://mmasmastermind.azurewebsites.net/Public/EventDetails/'+ event.OrganizationEventGuid+'?StudentAccountGuid='+ studentGuid)}
+                   // onPress={() => storeData(event.PosItemId, event.Title)}
+                    >
                       <View style={globalStyle.eventsListingWrapper}>
                         <View style={globalStyle.eventsListingTopWrapper}>
                           <View style={{ borderRadius: 25, overflow: "hidden" }}>
@@ -311,7 +249,7 @@ const Home = (props) => {
                                 paddingBottom: 10,
                               }}
                             >
-                              {event.Title}
+                              {event.EventTitle}
                             </Text>
 
                             <Text style={{ fontSize: 16, color: "#555" }}>{startDate} </Text>

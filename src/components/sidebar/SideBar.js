@@ -124,13 +124,18 @@ const pickImage = async () => {
         },
       })
         .then((response) => response.json())
-        .then((data) => {
+        .then(async (data) => {
         //  console.log(data)
           if (data.StudentIds.length > 0) {
             setStudentIds(data.StudentIds);
             setFirstName(data.FirstName);
             setLastName(data.LastName);
             setGuid(data.StudentAccountGuid);
+            try {
+              await AsyncStorage.setItem("studentGuid", data.StudentAccountGuid);
+            } catch (e) {
+              // saving error
+            } 
             setloader(false);
             getprofilePic(data.StudentAccountGuid)
           } else {

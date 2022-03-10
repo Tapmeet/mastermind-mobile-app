@@ -14,6 +14,7 @@ import { API_URL } from "./../../Utility/AppConst";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import { useFocusEffect } from '@react-navigation/native';
 import { flex } from "styled-system";
+import * as WebBrowser from 'expo-web-browser';
 const apiUrl = API_URL.trim();
 const EventListing = (props) => {
   const [loader, setloader] = React.useState(true);
@@ -23,6 +24,7 @@ const EventListing = (props) => {
   const [eventsList, setEventList] = React.useState([]);
   const [categoryList, setCategoryList] = React.useState([]);
   const [selectedCategory, setSelectedCategory] = React.useState([]);
+  const [studentGuid, setStudentGuid] = React.useState('');
   const filterList = [
     { label: "Recently Added", value: "recently" },
     { label: "Price High - Low", value: "high" },
@@ -34,9 +36,23 @@ const EventListing = (props) => {
       return index == arr.indexOf(el);
     });
   }
-  useFocusEffect(
-    //navigation.addListener("focus", () => {
+  const openLink = async (url) => {
+    let result = await WebBrowser.openBrowserAsync(url);
+};
+async function getData() {
+  try {
+    const value = await AsyncStorage.getItem("studentGuid");
+    setStudentGuid(value)
+  } catch (e) { }
+
+}
+  useFocusEffect( 
     React.useCallback(() => {
+      setCategoryList([])
+      setEventList([])
+      setFilter([])
+      setSelectedCategory([])
+      setloader(true)
       fetch(`${apiUrl}/odata/OrganizationEvent`, {
         method: "get",
         headers: {
@@ -53,7 +69,10 @@ const EventListing = (props) => {
             setEventList(data.events)
             var category = [];
             data.events.map(function (event, index) {
-              category.push(event.Category)
+              if(event.Category != '' && event.Category  != null){
+                
+                category.push(event.Category)
+              }
             })
             const uniqueArray = unique(category);
             var categorylist = [];
@@ -67,8 +86,7 @@ const EventListing = (props) => {
             setloader(false);
           }
         });
-      //   });
-      // });
+      getData()
     }, [])
   );
 
@@ -85,8 +103,8 @@ const EventListing = (props) => {
     }
   };
   const setcategory = (value) => {
-    //  console.log('heress')
-    if (value != '' && value != undefined) {
+  
+    if ( value != undefined) {
       setSelectedCategory(value)
       var newArray = eventsList.filter(function (el) {
         return el.Category == value;
@@ -96,10 +114,11 @@ const EventListing = (props) => {
         setEventListing(newArray);
       }
     } else {
-      setEventListing(eventListing);
+      setEventListing(eventsList);
     }
   }
   const setfilter = (value) => {
+    console.log(value)
     setFilter(value);
     setEventListing(eventsList);
     if (value == 'low') {
@@ -277,7 +296,8 @@ const EventListing = (props) => {
             let endtime = moment(event.EventEndDateTime).format("hh:mm a ");
             return (
               <View style={{ marginBottom: 10 }} key={index}>
-                <TouchableOpacity onPress={() => storeData(event.PosItemId, event.Title)}>
+                {/* <TouchableOpacity onPress={() => storeData(event.PosItemId, event.Title)}> */}
+                <TouchableOpacity  onPress={() => openLink('https://mmasmastermind.azurewebsites.net/Public/EventDetails/'+ event.OrganizationEventGuid+'?StudentAccountGuid='+ studentGuid)} >
                   <View style={globalStyle.eventsListingWrapper}>
                     <View style={globalStyle.eventsListingTopWrapper}>
                       <View style={{ borderRadius: 25, overflow: "hidden" }}>
@@ -292,7 +312,7 @@ const EventListing = (props) => {
                             paddingBottom: 10,
                           }}
                         >
-                          {event.Title}
+                          {event.EventTitle}
                         </Text>
 
                         <Text style={{ fontSize: 16, color: "#555" }}>{startDate} </Text>
