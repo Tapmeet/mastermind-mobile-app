@@ -210,7 +210,7 @@ async function getData() {
             flex: 1,
           }}
         >
-          {eventListing.length} Events
+          Events
         </Text>
         <View style={{ display: "flex", justifyContent: "space-between", flexDirection: "row" }}>
           <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>

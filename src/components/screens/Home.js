@@ -164,10 +164,10 @@ const Home = (props) => {
         resizeMode={"stretch"}
       >
         <TouchableOpacity onPress={() => storeDataClass(item.ClassId, item.Name)}>
-          <View style={globalStyle.sliderWrapper}>
+          {/* <View style={globalStyle.sliderWrapper}>
             <Text style={{ fontSize: 18, color: "#333", marginRight: 5 }}>4.8</Text>
             <Image source={require("./../../../assets/star.png")} style={{ height: 20, width: 20 }} />
-          </View>
+          </View> */}
           <Text
             style={{
               fontSize: 22,
@@ -178,7 +178,7 @@ const Home = (props) => {
           >
             {item.Name}
           </Text>
-          <Text style={{ fontSize: 18, color: "#fff" }}>{Math.floor(threshold / 7)} Weeks </Text>
+          {/* <Text style={{ fontSize: 18, color: "#fff" }}>{Math.floor(threshold / 7)} Weeks </Text> */}
         </TouchableOpacity>
       </ImageBackground>
     );
