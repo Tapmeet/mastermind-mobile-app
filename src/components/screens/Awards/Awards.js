@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "./../../Utility/AppConst";
 import loginStyle from "../../../style/login/loginStyle";
 import { useFocusEffect } from '@react-navigation/native';
+import moment from "moment";
 const apiUrl = API_URL.trim();
 const Awards = (props) => {
     const [loader, setloader] = React.useState(true);
@@ -78,6 +79,7 @@ const Awards = (props) => {
                     </View>
                 ) : typeof awardsListing !== "undefined" && awardsListing.length > 0 ? (
                     awardsListing.map(function (awards, index) {
+                        let startDate = moment(awards.AwardedDate).format("MMMM Do, YYYY");
                         return (
                             <View style={{ marginBottom: 10 }} key={index}>
                                 <View style={globalStyle.eventsListingWrapper}>
@@ -106,6 +108,7 @@ const Awards = (props) => {
                                             >
                                                 {awards.StudentName}
                                             </Text>
+                                            <Text style={{ fontSize: 16, color: "#555" }}>{startDate} </Text>
                                         </View>
 
                                     </View>

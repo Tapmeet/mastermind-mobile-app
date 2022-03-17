@@ -319,7 +319,7 @@ async function getData() {
                         <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>
                           {starttime} -{endtime}
                         </Text>
-                        <Text
+                        {/* <Text
                           style={{
                             fontSize: 15,
                             color: "#44454A",
@@ -334,7 +334,7 @@ async function getData() {
                           }}
                         >
                           Online
-                        </Text>
+                        </Text> */}
                       </View>
                     </View>
                     <View style={globalStyle.eventsListingBottomWrapper}>

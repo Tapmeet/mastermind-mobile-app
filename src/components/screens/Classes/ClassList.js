@@ -16,9 +16,9 @@ const ClassList = (props) => {
     const [eventListing, setEventListing] = React.useState([]);
     const [threshold, setThreshold] = React.useState('');
     useFocusEffect(
-//navigation.addListener("focus", () => {
-    React.useCallback(() => {
-            
+        //navigation.addListener("focus", () => {
+        React.useCallback(() => {
+
             fetch(`${apiUrl}/odata/OrganizationClass`, {
                 method: "get",
                 headers: {
@@ -38,11 +38,11 @@ const ClassList = (props) => {
                         setloader(false);
                     }
                 });
-       // });
-    }, [])
+            // });
+        }, [])
     );
 
-    const storeData = async (value, title) => {
+    const storeData = async (value, title, img) => {
         console.log(value);
         let eventId = JSON.stringify(value);
         // console.log(eventId);
@@ -50,6 +50,12 @@ const ClassList = (props) => {
 
             let thresholdString = threshold.toString()
             await AsyncStorage.setItem("eventId", eventId);
+            if (img != null) {
+                await AsyncStorage.setItem("classThumb", img);
+              }
+              else{
+                await AsyncStorage.setItem("classThumb", '');
+              }
             await AsyncStorage.setItem("eventTitle", title);
             await AsyncStorage.setItem("threshold", thresholdString);
             props.navigation.navigate("Class Tasks");
@@ -84,7 +90,7 @@ const ClassList = (props) => {
                         flex: 1,
                     }}
                 >
-                     Classes
+                    Classes
                 </Text>
             </View>
             <Content padder>
@@ -101,12 +107,12 @@ const ClassList = (props) => {
                                         <View style={globalStyle.eventsListingTopWrapper}>
                                             <View style={{ borderRadius: 25, overflow: "hidden" }}>
                                                 {event.ImagePhotoPath == null ?
-                                                      <Image source={require("./../../../../assets/img-dummy.jpg")} style={{ height: 110, width: 130 }} />
+                                                    <Image source={require("./../../../../assets/img-dummy.jpg")} style={{ height: 110, width: 130 }} />
                                                     :
                                                     <Image source={{
                                                         uri: "data:image/png;base64," + event.ImagePhotoPath,
                                                     }}
-                                                        style={{ height: 110, width: 130 }} />
+                                                        style={{ resizeMode: 'contain', height: 110, width: 130 }} />
                                                 }
                                             </View>
                                             <View style={{ paddingLeft: 15, paddingRight: 10 }}>
@@ -131,10 +137,10 @@ const ClassList = (props) => {
 
                                                     </View>
                                                     : null} */}
-                                                <Button onPress={() => storeData(event.ClassId, event.Name)}
+                                                <Button onPress={() => storeData(event.ClassId, event.Name, event.ImagePhotoPath)}
                                                     style={{ marginTop: 10, justifyContent: "center", width: '80%', backgroundColor: "#4585ff", borderRadius: 6 }}
                                                 >
-                                                    <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>View Detail</Text>
+                                                    <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>View Details</Text>
                                                 </Button>
                                             </View>
                                         </View>
@@ -150,7 +156,7 @@ const ClassList = (props) => {
                     </View>
                 )}
             </Content>
-             <FooterTabs navigation={props.navigation}  />
+            <FooterTabs navigation={props.navigation} />
 
         </Container>
     );

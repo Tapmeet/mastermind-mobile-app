@@ -24,7 +24,7 @@ const Home = (props) => {
   useFocusEffect(
     //navigation.addListener("focus", () => {
     React.useCallback(() => {
-      
+
       fetch(`${apiUrl}/odata/OrganizationEvent`, {
         method: "get",
         headers: {
@@ -88,7 +88,7 @@ const Home = (props) => {
             setloader(false);
           }
         });
-        getData()
+      getData()
       //   });
       // });
     }, [])
@@ -112,14 +112,20 @@ const Home = (props) => {
       // saving error
     }
   };
-  const storeDataClass = async (value, title) => {
-    console.log(value);
+  const storeDataClass = async (value, title, img) => {
+
     let eventId = JSON.stringify(value);
     // console.log(eventId);
     try {
       let thresholdString = threshold.toString()
       await AsyncStorage.setItem("eventId", eventId);
       await AsyncStorage.setItem("eventTitle", title);
+      if (img != null) {
+        await AsyncStorage.setItem("classThumb", img);
+      }
+      else{
+        await AsyncStorage.setItem("classThumb", '');
+      }
       await AsyncStorage.setItem("threshold", thresholdString);
       props.navigation.navigate("Class Tasks");
     } catch (e) {
@@ -145,7 +151,7 @@ const Home = (props) => {
   ];
   const openLink = async (url) => {
     let result = await WebBrowser.openBrowserAsync(url);
-};
+  };
   const { navigation } = props;
   const SLIDER_WIDTH = Dimensions.get("window").width + 60;
   const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
@@ -163,22 +169,24 @@ const Home = (props) => {
         source={require("./../../../assets/sliderbg.png")}
         resizeMode={"stretch"}
       >
-        <TouchableOpacity onPress={() => storeDataClass(item.ClassId, item.Name)}>
-          {/* <View style={globalStyle.sliderWrapper}>
-            <Text style={{ fontSize: 18, color: "#333", marginRight: 5 }}>4.8</Text>
-            <Image source={require("./../../../assets/star.png")} style={{ height: 20, width: 20 }} />
-          </View> */}
-          <Text
-            style={{
-              fontSize: 22,
-              fontWeight: "bold",
-              color: "#fff",
-              paddingBottom: 10,
-            }}
-          >
-            {item.Name}
-          </Text>
-          {/* <Text style={{ fontSize: 18, color: "#fff" }}>{Math.floor(threshold / 7)} Weeks </Text> */}
+        <TouchableOpacity onPress={() => storeDataClass(item.ClassId, item.Name, item.ImagePhotoPath)}>
+          <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+            <Image source={require("./../../../assets/karate.png")} style={{ height: 60, width: 60, marginRight: 15 }} />
+            <View>
+              <Text
+                style={{
+                  fontSize: 22,
+                  fontWeight: "bold",
+                  color: "#fff",
+                  paddingBottom: 10,
+                }}
+              >
+                {item.Name}
+              </Text>
+              <Text style={{ fontSize: 18, color: "#fff" }}>View Details > </Text>
+              {/* <Text style={{ fontSize: 18, color: "#fff" }}>{Math.floor(threshold / 7)} Weeks </Text> */}
+            </View>
+          </View>
         </TouchableOpacity>
       </ImageBackground>
     );
@@ -231,9 +239,9 @@ const Home = (props) => {
               return (
                 index <= 4
                   ? <View style={{ marginBottom: 10 }} key={index}>
-                    <TouchableOpacity 
-                     onPress={() => openLink('https://mmasmastermind.azurewebsites.net/Public/EventDetails/'+ event.OrganizationEventGuid+'?StudentAccountGuid='+ studentGuid)}
-                   // onPress={() => storeData(event.PosItemId, event.Title)}
+                    <TouchableOpacity
+                      onPress={() => openLink('https://mmasmastermind.azurewebsites.net/Public/EventDetails/' + event.OrganizationEventGuid + '?StudentAccountGuid=' + studentGuid)}
+                    // onPress={() => storeData(event.PosItemId, event.Title)}
                     >
                       <View style={globalStyle.eventsListingWrapper}>
                         <View style={globalStyle.eventsListingTopWrapper}>
@@ -256,7 +264,7 @@ const Home = (props) => {
                             <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>
                               {starttime} -{endtime}
                             </Text>
-                            <Text
+                            {/* <Text
                               style={{
                                 fontSize: 15,
                                 color: "#44454A",
@@ -271,7 +279,7 @@ const Home = (props) => {
                               }}
                             >
                               Online
-                            </Text>
+                            </Text> */}
                           </View>
                         </View>
                         <View style={globalStyle.eventsListingBottomWrapper}>
@@ -383,7 +391,7 @@ const Home = (props) => {
           )}
         </Content>
       }
-  <FooterTabs navigation={props.navigation}  />
+      <FooterTabs navigation={props.navigation} />
     </Container>
   );
 };

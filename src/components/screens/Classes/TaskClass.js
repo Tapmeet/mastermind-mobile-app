@@ -70,7 +70,7 @@ const TaskClass = (props) => {
     const [selectedTaskTime, setselectedTaskTime] = React.useState('');
     const [selectedTaskDate, setSelectedTaskDate] = React.useState('');
     const [slot, setSetSlot] = React.useState('');
-
+    const [classImg, setClassImg] = React.useState('');
     const toggleExpanded = () => {
         setCollapsed(!collapsed);
     };
@@ -96,7 +96,16 @@ const TaskClass = (props) => {
         try {
             const value = await AsyncStorage.getItem("eventId");
             const title = await AsyncStorage.getItem("eventTitle");
+            const classThumb = await AsyncStorage.getItem("classThumb");
             const threshold = await AsyncStorage.getItem("threshold");
+
+            if (classThumb != null) {
+                setClassImg(classThumb)
+            }
+            else {
+                setClassImg('')
+            }
+
             // console.log(value);
             //  console.log('value')
             setThreshold(threshold)
@@ -182,9 +191,7 @@ const TaskClass = (props) => {
                             const date = moment().toDate();
 
                             if (dateIsAfter) {
-                                console.log(str)
-                                console.log(dateIsAfter)
-                                console.log('dateIsAfter')
+                             
                                 setCheckClasses(false)
                                 confirmedRegistration = event.ConfirmedReservations.length;
                                 //  availableRegistartion = parseFloat(event.MaxAttendance) - parseFloat(confirmedRegistration);
@@ -267,7 +274,7 @@ const TaskClass = (props) => {
                         "taskId": taskId,
                         "starttimeUnformated": starttimeUnformated
                     }
-                    
+
                     setDatesClasses((prevStates) => [...prevStates, dats]);
                 }
             })
@@ -425,7 +432,7 @@ const TaskClass = (props) => {
         })
             .then((response) => response.text())
             .then((data) => {
-                console.log(data)
+              //  console.log(data)
                 if (data != "FAILURE:You are already signed up for this class") {
                     setLoaderMessage(false)
                     setSuccessMessage("Successfully Submitted.");
@@ -476,7 +483,7 @@ const TaskClass = (props) => {
         datesCleassesArray = [];
     }
     const selectClass = (id, time, date, slots) => {
-       
+
         setSelectedTaskId(id)
         setselectedTaskTime(time)
         setSelectedTaskDate(date)
@@ -529,7 +536,15 @@ const TaskClass = (props) => {
                             {typeof eventListing !== "undefined" &&
                                 eventListing.length > 0 ?
                                 <View>
-                                    <Title style={{ justifyContent: "flex-start", textAlign: "left", marginLeft: 5, marginBottom: 10, fontSize: 26, color: "#222", fontWeight: "bold", paddingBottom: 20, }}>  {eventListing['0'].Title}</Title>
+                                    <Title style={{ justifyContent: "flex-start", textAlign: "left", marginLeft: 5, marginBottom: 10, fontSize: 26, color: "#222", fontWeight: "bold", paddingBottom: 20, }}>
+                                        {classImg != '' ?
+
+                                            <Image source={{
+                                                uri: "data:image/png;base64," + classImg,
+                                            }}
+                                                style={{ resizeMode: 'contain', height: 50, width: 60, marginRight: 10, paddingRight: 10 }} />
+                                            : null}
+                                          &nbsp; {eventListing['0'].Title} </Title>
                                 </View>
                                 : null}
                             <View style={globalStyle.eventsListingWrapper}>

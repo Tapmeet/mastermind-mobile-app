@@ -10,6 +10,7 @@ class OtpInputs extends React.Component {
 
   componentDidMount() {
     this.otpTextInput[0]._root.focus();
+    
   }
 
   renderInputs() {

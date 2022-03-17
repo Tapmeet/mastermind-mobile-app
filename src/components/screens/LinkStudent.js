@@ -58,6 +58,7 @@ const LinkStudent = (props) => {
   };
   //Form Submission
   const submitForm = () => {
+    
     if (firstName == "") {
       setCheckFirstname(true);
       return false;
