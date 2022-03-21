@@ -201,19 +201,8 @@ async function getData() {
           },
         ]}
       >
-        <Text
-          style={{
-            fontWeight: "bold",
-            fontSize: 24,
-            paddingLeft: 15,
-            backgroundColor: "white",
-            flex: 1,
-          }}
-        >
-          Events
-        </Text>
-        <View style={{ display: "flex", justifyContent: "space-between", flexDirection: "row" }}>
-          <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
+        <View style={{ display: "flex", justifyContent: "center", flexDirection: "row" }}>
+          <View style={{ borderColor: "#ccc", width:' 45%', borderWidth: 1, marginRight: 10, borderRadius: 5, marginLeft: 10 }}>
             <RNPickerSelect
               value={selectedCategory}
               items={categoryList}
@@ -248,7 +237,7 @@ async function getData() {
               }}
             />
           </View>
-          <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5, }}>
+          <View style={{ borderColor: "#ccc",  width:' 45%', borderWidth: 1, marginRight: 10, borderRadius: 5, }}>
             <RNPickerSelect
               value={filter}
               items={filterList}
@@ -360,7 +349,8 @@ async function getData() {
 export default EventListing;
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    fontSize: 18,
+    fontSize: 12,
+    fontWeight: "bold",
     minWidth: 115,
     paddingVertical: 10,
     paddingHorizontal: 10,
@@ -368,10 +358,13 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: "#fff",
     borderRadius: 0,
     color: "#8a898e",
+   width: "50%",
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
-    fontSize: 18,
+    fontSize: 12,
+    width: "50%",
+    fontWeight: "bold",
     minWidth: 100,
     paddingHorizontal: 10,
     paddingVertical: 20,

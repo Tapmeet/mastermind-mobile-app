@@ -8,6 +8,8 @@ import {
   ActivityIndicator
 } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
+import * as ImagePicker from 'expo-image-picker'; 
+import * as FileSystem from 'expo-file-system';
 import {
   Container,
   Content,
@@ -39,6 +41,16 @@ const Login = (props) => {
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
   };
+  React.useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
 
   //Form Submission
   const submitForm = () => {

@@ -41,7 +41,7 @@ const SideBarMenu = (props) => {
             : null
           }
         </Left>
-        <Body style={[globalStyle.titleBody,{paddingLeft: 40}]}>
+        <Body style={[globalStyle.titleBody]}> 
           <Title>
             <Text style={globalStyle.titleStyling}>{props.title}</Text>
           </Title>

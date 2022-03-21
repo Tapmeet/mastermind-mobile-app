@@ -72,14 +72,14 @@ const ClassList = (props) => {
             }}
         >
             <SideBarMenu title={"Classes"} navigation={props.navigation} backLink="Home" />
-            <View
+            {/* <View
                 style={[
                     globalStyle.flexStandard,
                     {
                         paddingTop: 15,
                         paddingBottom: 15,
                     },
-                ]}
+                ]} 
             >
                 <Text
                     style={{
@@ -92,7 +92,7 @@ const ClassList = (props) => {
                 >
                     Classes
                 </Text>
-            </View>
+            </View> */}
             <Content padder>
                 {loader ? (
                     <View style={[styles.container, styles.horizontal]}>
