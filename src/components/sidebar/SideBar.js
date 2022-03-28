@@ -10,9 +10,9 @@ import LOGGED_OUT_USER from "./../../redux/User";
 import EMPTY_CART from "./../../redux/Retail";
 import EMPTY_EVENT from "./../../redux/Event";
 import { EventDetails } from "../screens";
-import * as ImagePicker from 'expo-image-picker'; 
+import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-const routes = ["Home", "Link Student", "Inquiry", "Memberships", "Awards", "Events", "Retail", "Class Reservation","Reserved Classes","Class Check In", "Payment Methods", "Purchase History"];
+const routes = ["Home", "Link Student", "Inquiry", "Memberships", "Awards", "Events", "Retail", "Class Reservation", "Reserved Classes", "Class Check In", "Payment Methods", "Purchase History"];
 
 const SideBar = (props) => {
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ const SideBar = (props) => {
     })
       .then((response) => response.text())
       .then((data) => {
-     //    console.log(data); 
+        //    console.log(data); 
         setImg(data)
         // if (data.StudentIds.length > 0) {
         //   setPhotoPath(data.PhotoPath);
@@ -57,54 +57,54 @@ const SideBar = (props) => {
         // }
       });
   }
- 
-const pickImage = async () => {
-  let result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.All,
-    allowsEditing: true,
-    aspect: [4, 3],
-    quality: 1,
-  });
-  //console.log(result);
-  if (!result.cancelled) {
-    let localUri = result.uri;
-    let filename = localUri.split('/').pop();
-    const base64 = await FileSystem.readAsStringAsync(result.uri, {
-      encoding: 'base64'
-    });
-    //console.log(base64);
-    // Infer the type of the image
-    let match = /\.(\w+)$/.exec(filename);
-    let type = match ? `${match[1]}` : `image`;
 
-    // // Upload the image using the fetch and FormData APIs
-    let formData = new FormData();
-    // // Assume "photo" is the name of the form field the server expects
-     formData.append('base64', base64);
-     formData.append('fileType', type);
-    setImg(base64);
-    console.log(base64);
-
-    fetch(`${apiUrl}/odata/StudentAccount`, {
-      method: "post",
-      headers: {
-        Accept: "*/*",
-        'Content-Type': 'multipart/form-data; ',
-        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-      },
-      body: formData
-    })
-    .then((response) => {
-      let jsonData = JSON.stringify(response);
-      let jsonDataPrase = JSON.parse(jsonData);
-      //console.log(jsonDataPrase)
-      
-    })
-    .catch((response) => {
-      console.log(response)
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
-  }
-};
+    //console.log(result);
+    if (!result.cancelled) {
+      let localUri = result.uri;
+      let filename = localUri.split('/').pop();
+      const base64 = await FileSystem.readAsStringAsync(result.uri, {
+        encoding: 'base64'
+      });
+      //console.log(base64);
+      // Infer the type of the image
+      let match = /\.(\w+)$/.exec(filename);
+      let type = match ? `${match[1]}` : `image`;
+
+      // // Upload the image using the fetch and FormData APIs
+      let formData = new FormData();
+      // // Assume "photo" is the name of the form field the server expects
+      formData.append('base64', base64);
+      formData.append('fileType', type);
+      setImg(base64);
+      console.log(base64);
+
+      fetch(`${apiUrl}/odata/StudentAccount`, {
+        method: "post",
+        headers: {
+          Accept: "*/*",
+          'Content-Type': 'multipart/form-data; ',
+          Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+        },
+        body: formData
+      })
+        .then((response) => {
+          let jsonData = JSON.stringify(response);
+          let jsonDataPrase = JSON.parse(jsonData);
+          //console.log(jsonDataPrase)
+
+        })
+        .catch((response) => {
+          console.log(response)
+        });
+    }
+  };
   React.useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
@@ -125,17 +125,21 @@ const pickImage = async () => {
       })
         .then((response) => response.json())
         .then(async (data) => {
-        //  console.log(data)
+          //  console.log(data)
           if (data.StudentIds.length > 0) {
             setStudentIds(data.StudentIds);
             setFirstName(data.FirstName);
             setLastName(data.LastName);
             setGuid(data.StudentAccountGuid);
+            let thresholdString = data.OrganizationGuid.toString()
+            console.log(thresholdString)
             try {
               await AsyncStorage.setItem("studentGuid", data.StudentAccountGuid);
+              await AsyncStorage.setItem("organizationGuid", thresholdString);
+
             } catch (e) {
               // saving error
-            } 
+            }
             setloader(false);
             getprofilePic(data.StudentAccountGuid)
           } else {
@@ -180,8 +184,8 @@ const pickImage = async () => {
             {firstName ? firstName + " " + lastName : "Michael Jordan"}
           </Text>
         </View>
-        <Container style={{ backgroundColor: "transparent", paddingTop: 30}}>
-          <List style={{ backgroundColor: "transparent"}}>
+        <Container style={{ backgroundColor: "transparent", paddingTop: 30 }}>
+          <List style={{ backgroundColor: "transparent" }}>
             {routes.map((item, index) => {
               return (
                 <ListItem key={index} button underlayColor="transparent" onPress={() => props.navigation.navigate(item)}>

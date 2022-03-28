@@ -676,7 +676,7 @@ const TaskClass = (props) => {
                                 </Text>
                             </View>
                                 : null}
-                            {selectedDate != '' && selectedStudent != '' && selectedStudent != null ?
+                            {selectedDate != '' && selectedStudent != '' && selectedStudent != null &&  !loaderMessage?  
                                 <ImageBackground
                                     style={[
                                         globalStyle.Btn,

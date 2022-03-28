@@ -38,15 +38,15 @@ const EventListing = (props) => {
   }
   const openLink = async (url) => {
     let result = await WebBrowser.openBrowserAsync(url);
-};
-async function getData() {
-  try {
-    const value = await AsyncStorage.getItem("studentGuid");
-    setStudentGuid(value)
-  } catch (e) { }
+  };
+  async function getData() {
+    try {
+      const value = await AsyncStorage.getItem("studentGuid");
+      setStudentGuid(value)
+    } catch (e) { }
 
-}
-  useFocusEffect( 
+  }
+  useFocusEffect(
     React.useCallback(() => {
       setCategoryList([])
       setEventList([])
@@ -69,8 +69,8 @@ async function getData() {
             setEventList(data.events)
             var category = [];
             data.events.map(function (event, index) {
-              if(event.Category != '' && event.Category  != null){
-                
+              if (event.Category != '' && event.Category != null) {
+
                 category.push(event.Category)
               }
             })
@@ -103,8 +103,8 @@ async function getData() {
     }
   };
   const setcategory = (value) => {
-  
-    if ( value != undefined) {
+
+    if (value != undefined) {
       setSelectedCategory(value)
       var newArray = eventsList.filter(function (el) {
         return el.Category == value;
@@ -202,7 +202,7 @@ async function getData() {
         ]}
       >
         <View style={{ display: "flex", justifyContent: "center", flexDirection: "row" }}>
-          <View style={{ borderColor: "#ccc", width:' 45%', borderWidth: 1, marginRight: 10, borderRadius: 5, marginLeft: 10 }}>
+          <View style={{ borderColor: "#ccc", width: ' 45%', borderWidth: 1, marginRight: 10, borderRadius: 5, marginLeft: 10 }}>
             <RNPickerSelect
               value={selectedCategory}
               items={categoryList}
@@ -237,7 +237,7 @@ async function getData() {
               }}
             />
           </View>
-          <View style={{ borderColor: "#ccc",  width:' 45%', borderWidth: 1, marginRight: 10, borderRadius: 5, }}>
+          <View style={{ borderColor: "#ccc", width: ' 45%', borderWidth: 1, marginRight: 10, borderRadius: 5, }}>
             <RNPickerSelect
               value={filter}
               items={filterList}
@@ -286,11 +286,22 @@ async function getData() {
             return (
               <View style={{ marginBottom: 10 }} key={index}>
                 {/* <TouchableOpacity onPress={() => storeData(event.PosItemId, event.Title)}> */}
-                <TouchableOpacity  onPress={() => openLink('https://mmasmastermind.azurewebsites.net/Public/EventDetails/'+ event.OrganizationEventGuid+'?StudentAccountGuid='+ studentGuid)} >
+                <TouchableOpacity onPress={() => openLink('https://mmasmastermind.azurewebsites.net/Public/EventDetails/' + event.OrganizationEventGuid + '?StudentAccountGuid=' + studentGuid)} >
                   <View style={globalStyle.eventsListingWrapper}>
                     <View style={globalStyle.eventsListingTopWrapper}>
                       <View style={{ borderRadius: 25, overflow: "hidden" }}>
-                        <Image source={require("./../../../../assets/img1.png")} style={{ height: 110, width: 130 }} />
+                        {event.ThumbnailImageBase64 != null ?
+                          <Image
+                            source={{
+                              uri: "data:image/png;base64," + event.ThumbnailImageBase64,
+                            }}
+                            //source={require("./../../../../assets/img1.png")}
+                            style={{ height: 110, width: 130 }} />
+                          :
+                          <Image
+                            source={require("./../../../../assets/img1.png")}
+                            style={{ height: 110, width: 130 }} />
+                        }
                       </View>
                       <View style={{ paddingLeft: 15, paddingRight: 10 }}>
                         <Text
@@ -358,7 +369,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: "#fff",
     borderRadius: 0,
     color: "#8a898e",
-   width: "50%",
+    width: "50%",
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {

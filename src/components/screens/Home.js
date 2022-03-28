@@ -21,6 +21,7 @@ const Home = (props) => {
   const [retailListing, setRetailListing] = React.useState([]);
   const [threshold, setThreshold] = React.useState('');
   const [studentGuid, setStudentGuid] = React.useState('');
+  const [organizationLogo, setOrganizationLogo] = React.useState('');
   useFocusEffect(
     //navigation.addListener("focus", () => {
     React.useCallback(() => {
@@ -37,11 +38,6 @@ const Home = (props) => {
         .then((data) => {
           if (data.events) {
             setEventListing(data.events);
-            //   console.log(data.events)
-            // setEventList(data.events)
-            // setloader(false);
-          } else {
-            // setloader(false);
           }
         });
       fetch(`${apiUrl}/odata/OrganizationClass`, {
@@ -64,9 +60,6 @@ const Home = (props) => {
               }
             })
             setClassListing(classes);
-            // setloader(false);
-          } else {
-            // setloader(false);
           }
         });
       fetch(`${apiUrl}/odata/OrganizationRetail`, {
@@ -88,6 +81,21 @@ const Home = (props) => {
             setloader(false);
           }
         });
+      fetch(`${apiUrl}/odata/StudentAccount`, {
+        method: "get",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+        },
+      })
+        .then((response) => response.json())
+        .then(async (data) => {
+          //  console.log(data)
+          if (data.StudentIds.length > 0) {
+            getOrganisationLogo(data.OrganizationGuid)
+          }
+        });
       getData()
       //   });
       // });
@@ -100,6 +108,23 @@ const Home = (props) => {
     } catch (e) { }
 
   }
+  const getOrganisationLogo = (organizationGuids) => {
+    fetch(`${apiUrl}/public/OrganizationLogo?guid=${organizationGuids}`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.text())
+      .then((data) => {
+
+        if (data !== '') {
+          setOrganizationLogo(data)
+        }
+      });
+  }
   const storeData = async (value, title) => {
     //console.log(value);
     let eventId = JSON.stringify(value);
@@ -107,7 +132,7 @@ const Home = (props) => {
     try {
       await AsyncStorage.setItem("eventId", eventId);
       await AsyncStorage.setItem("eventTitle", title);
-      props.navigation.navigate("Event Detail");
+      props.navigation.navigate("Product Details");
     } catch (e) {
       // saving error
     }
@@ -123,7 +148,7 @@ const Home = (props) => {
       if (img != null) {
         await AsyncStorage.setItem("classThumb", img);
       }
-      else{
+      else {
         await AsyncStorage.setItem("classThumb", '');
       }
       await AsyncStorage.setItem("threshold", thresholdString);
@@ -201,7 +226,15 @@ const Home = (props) => {
         </View>
       ) :
         <Content padder>
-          <Text style={{ marginTop: 20, fontWeight: "bold", fontSize: 24 }}>Classes</Text>
+          <View style={{display:"flex", padding: 5, marginTop: 10, flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
+            <Text style={{  fontWeight: "bold", fontSize: 24 }}>Classes</Text>
+            <Image
+              source={{
+                uri: "data:image/png;base64," + organizationLogo,
+              }}
+              //source={require("./../../../../assets/img1.png")}
+              style={{ height:80, width: 80 ,resizeMode: 'contain' }} />
+          </View>
           <View
             style={{
               marginLeft: -70,
@@ -246,7 +279,18 @@ const Home = (props) => {
                       <View style={globalStyle.eventsListingWrapper}>
                         <View style={globalStyle.eventsListingTopWrapper}>
                           <View style={{ borderRadius: 25, overflow: "hidden" }}>
-                            <Image source={require("./../../../assets/img1.png")} style={{ height: 110, width: 130 }} />
+                            {event.ThumbnailImageBase64 != null ?
+                              <Image
+                                source={{
+                                  uri: "data:image/png;base64," + event.ThumbnailImageBase64,
+                                }}
+                                //source={require("./../../../../assets/img1.png")}
+                                style={{ height: 110, width: 130 }} />
+                              :
+                              <Image
+                                source={require("./../../../assets/img1.png")}
+                                style={{ height: 110, width: 130 }} />
+                            }
                           </View>
                           <View style={{ paddingLeft: 15, paddingRight: 10 }}>
                             <Text
