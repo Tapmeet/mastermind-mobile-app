@@ -22,10 +22,11 @@ const Home = (props) => {
   const [threshold, setThreshold] = React.useState('');
   const [studentGuid, setStudentGuid] = React.useState('');
   const [organizationLogo, setOrganizationLogo] = React.useState('');
+  const [school, setSchoolInfo] = React.useState([])
   useFocusEffect(
     //navigation.addListener("focus", () => {
     React.useCallback(() => {
-
+      getSchoolData()
       fetch(`${apiUrl}/odata/OrganizationEvent`, {
         method: "get",
         headers: {
@@ -107,6 +108,27 @@ const Home = (props) => {
       setStudentGuid(value)
     } catch (e) { }
 
+  }
+
+  function getSchoolData() {
+    fetch(`${apiUrl}/odata/ExternalLinks`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+       // console.log(data)
+        if (data) {
+          setSchoolInfo(data.value);
+          setloader(false);
+        } else {
+          setloader(false);
+        }
+      });
   }
   const getOrganisationLogo = (organizationGuids) => {
     fetch(`${apiUrl}/public/OrganizationLogo?guid=${organizationGuids}`, {
@@ -226,14 +248,14 @@ const Home = (props) => {
         </View>
       ) :
         <Content padder>
-          <View style={{display:"flex", padding: 5, marginTop: 10, flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
-            <Text style={{  fontWeight: "bold", fontSize: 24 }}>Classes</Text>
+          <View style={{ display: "flex", padding: 5, marginTop: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <Text style={{ fontWeight: "bold", fontSize: 24 }}>Classes</Text>
             <Image
               source={{
                 uri: "data:image/png;base64," + organizationLogo,
               }}
               //source={require("./../../../../assets/img1.png")}
-              style={{ height:80, width: 80 ,resizeMode: 'contain' }} />
+              style={{ height: 80, width: 80, resizeMode: 'contain' }} />
           </View>
           <View
             style={{
@@ -433,8 +455,22 @@ const Home = (props) => {
               <Text>No Products Available </Text>
             </View>
           )}
+
         </Content>
       }
+      {typeof school !== "undefined" && school.length > 0 ? (
+        school.map(function (school, index) {
+          return (
+            school.ExternalLinkType == 'ReferAFriend' ?
+              <View key={index} style={[{ "flexDirection": "row", justifyContent: "flex-end", right: 20, position: "absolute", bottom: 80 }]}>
+                <TouchableOpacity onPress={() => openLink(school.Address)}>
+                  <Text style={{ fontSize: 16, backgroundColor: "#4585ff", borderRadius: 5, color: "#fff", padding: 10, alignSelf: "flex-end", justifyContent: "flex-end" }}> Refer a friend</Text>
+                </TouchableOpacity>
+              </View>
+              : null
+          )
+        })
+      ) : null}
       <FooterTabs navigation={props.navigation} />
     </Container>
   );
