@@ -12,6 +12,11 @@ import { API_URL } from "./../Utility/AppConst";
 import { useFocusEffect } from '@react-navigation/native';
 import * as WebBrowser from 'expo-web-browser';
 const apiUrl = API_URL.trim();
+const key = 'value';
+var uniqueStudent = [];
+const placeholderStudent = {
+    label: "Select Student",
+};
 const Home = (props) => {
   const isCarousel = React.useRef(null);
   const [loader, setloader] = React.useState(true);
@@ -23,10 +28,27 @@ const Home = (props) => {
   const [studentGuid, setStudentGuid] = React.useState('');
   const [organizationLogo, setOrganizationLogo] = React.useState('');
   const [school, setSchoolInfo] = React.useState([])
+
+
+  const [classListings, setClassListings] = React.useState([]);
+  const [studentIds, setStudentIds] = React.useState([]);
+  const [selectedStudent, setSelectedStudent] = React.useState([]);
+  const [studentData, setStudentData] = React.useState([]);
+  const [totalStudent, setTotalStudent] = React.useState([]);
+  const [personId, setPersonId] = React.useState('');
+  const [selectedTaskId, setSelectedTaskId] = React.useState('');
+  const [selectedCheckinTime, setSelectedCheckinTime] = React.useState('');
+  const [togglePopup, setTogglePopup] = React.useState(false);
+  const [loaderMessage, setLoaderMessage] = React.useState(false);
+  const [SuccessMessage, setSuccessMessage] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [selectedTaskName, setSelectedTaskName] = React.useState('');
   useFocusEffect(
     //navigation.addListener("focus", () => {
     React.useCallback(() => {
       getSchoolData()
+      fetchClasses()
+      getStudents()
       fetch(`${apiUrl}/odata/OrganizationEvent`, {
         method: "get",
         headers: {
@@ -121,7 +143,7 @@ const Home = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-       // console.log(data)
+        // console.log(data)
         if (data) {
           setSchoolInfo(data.value);
           setloader(false);
@@ -199,6 +221,146 @@ const Home = (props) => {
   const openLink = async (url) => {
     let result = await WebBrowser.openBrowserAsync(url);
   };
+
+  const fetchClasses = () => {
+
+    fetch(`${apiUrl}odata/ActiveClass`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data)
+        // console.log('data')
+        if (data.value) {
+          setloader(false);
+          setClassListings(data.value);
+        } else {
+          setloader(false);
+        }
+      });
+  }
+  function getStudents() {
+    fetch(`${apiUrl}/odata/StudentAccount`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setPersonId(data.PersonId)
+        setStudentIds([]);
+        if (data.StudentIds.length > 0) {
+          var students = data.StudentIds.length;
+          setTotalStudent(data.StudentIds.length)
+          setStudentIds([]);
+          data.StudentIds.map((id, index) => {
+            fetch(`${apiUrl}/odata/StudentData(${id})`, {
+              method: "get",
+              headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                //console.log(data)
+                // setStudentData(data)
+                if (studentIds.length <= students) {
+                  let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
+                  setStudentData((prevState) => [...prevState, data]);
+                  //setStudentIds((prevState) => [...prevState, dataArray]);
+                  uniqueStudent.push(dataArray)
+                  let uniquestudentList = [...new Map(uniqueStudent.map(item =>
+                    [item[key], item])).values()];
+                  setStudentIds(uniquestudentList);
+
+                }
+              });
+          });
+        }
+      });
+  }
+  const checkinActiveClass = () => {
+    setSuccessMessage('')
+    setErrorMessage('')
+    if (selectedStudent == '') {
+      setErrorMessage('Please Select Student')
+      return false
+    }
+    let studentName = '';
+    let studentEmail = '';
+    studentData.map(function (student, index) {
+      if (selectedStudent == student.StudentId) {
+        studentName = student.FirstName + ' ' + student.LastName
+        studentEmail = student.Email
+      }
+
+    })
+    setLoaderMessage(true)
+    fetch(`${apiUrl}/odata/StudentAttendance`, {
+      method: "post",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+      body: JSON.stringify({
+        "StudentId": selectedStudent,
+        "StudentName": studentName,
+        "StudentEmail": studentEmail,
+        "TaskId": selectedTaskId,
+        "CheckInTime": selectedCheckinTime
+      }),
+    }).then((response) => response.json())
+      .then((response) => {
+        console.log('response')
+          / console.log(response)
+        setLoaderMessage(false)
+        if (!response["odata.error"]) {
+          setSuccessMessage(studentName + " has successfully checked In")
+          setTimeout(function () {
+            fetchClasses()
+            setTogglePopup(false)
+          }, 3000);
+
+        }
+        else {
+          console.log('responses')
+          console.log(response["odata.error"].message.value)
+          setErrorMessage(response["odata.error"].message.value)
+          //setSuccessMessage(studentName + " has successfully checked In")
+        }
+
+
+      })
+      .catch((response) => {
+        setLoaderMessage(false)
+        setTimeout(function () {
+          fetchClasses()
+          setTogglePopup(false)
+        }, 2000);
+      });
+  }
+  const activeCheckin = (selectedCheckintime, selectetaskIn, className) => {
+    setSelectedStudent([])
+    setTogglePopup(true);
+    setSelectedCheckinTime(selectedCheckintime)
+    setSelectedTaskId(selectetaskIn);
+    setSelectedTaskName(className)
+    setErrorMessage('')
+    setSuccessMessage('')
+  }
+
+
   const { navigation } = props;
   const SLIDER_WIDTH = Dimensions.get("window").width + 60;
   const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
@@ -238,6 +400,46 @@ const Home = (props) => {
       </ImageBackground>
     );
   };
+
+  const CarouselCardItemActiveClass = ({ item, index }) => {
+    let starttime = moment(item.ClassStartTime).format("MM-DD-YYYY, hh:mm a ");
+    let classDate = moment(item.ClassStartTime).format("YYYY-MM-DD");
+    var GivenDate = classDate;
+    var CurrentDate = new Date();
+    CurrentDate.setHours(0, 0, 0, 0)
+    GivenDate = new Date(GivenDate);
+    return (
+      
+      <View style={{ marginBottom: 10 }} key={index}>
+        <View >
+          <View style={globalStyle.eventsListingWrapper}>
+            <View style={globalStyle.eventsListingTopWrapper}>
+              <View style={{ paddingLeft: 0, paddingRight: 10 }}>
+                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                  {item.ClassName}
+                </Text>
+
+                <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
+                  <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
+                  {starttime}
+                </Text>
+                <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
+
+                  <Button
+                    style={{ alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 }}
+                    onPress={() => activeCheckin(item.ClassStartTime, item.TaskId, item.ClassName)
+                    }
+                  >
+                    <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
+                  </Button>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  };
   return (
     <Container>
       <SideBarMenu title={"Home"} navigation={props.navigation} />
@@ -264,14 +466,24 @@ const Home = (props) => {
               marginBottom: 20,
             }}
           >
-            <Carousel
-              ref={isCarousel}
-              data={classListing}
-              renderItem={CarouselCardItem}
-              sliderWidth={SLIDER_WIDTH}
-              itemWidth={ITEM_WIDTH}
-              useScrollView={false}
-            />
+            {typeof classListings !== "undefined" && classListings.length > 0 ?
+              <Carousel
+                ref={isCarousel}
+                data={classListings}
+                renderItem={CarouselCardItemActiveClass}
+                sliderWidth={SLIDER_WIDTH}
+                itemWidth={ITEM_WIDTH}
+                useScrollView={false}
+              /> :
+              <Carousel
+                ref={isCarousel}
+                data={classListing}
+                renderItem={CarouselCardItem}
+                sliderWidth={SLIDER_WIDTH}
+                itemWidth={ITEM_WIDTH}
+                useScrollView={false}
+              />
+            }
           </View>
           <View style={{ display: "flex", paddingLeft: 5, paddingRight: 5, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <Text
@@ -471,6 +683,82 @@ const Home = (props) => {
           )
         })
       ) : null}
+      {togglePopup ?
+        <View style={globalStyle.popup}>
+          <View style={globalStyle.eventsListingWrapper}>
+            <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+              {selectedTaskName}
+            </Text>
+            <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Check In time:
+              <Text style={{ fontSize: 18, fontWeight: "normal", color: "#555", paddingLeft: 10, lineHeight: 26, marginBottom: 10 }}>
+                {moment(selectedCheckinTime).format("MM-DD-YYYY, hh:mm a ")}
+              </Text> </Text>
+            <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Student</Text>
+            <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
+              {studentIds.length > 0 && studentIds.length != undefined ?
+                <RNPickerSelect
+                  value={selectedStudent}
+                  items={studentIds}
+                  placeholder={placeholderStudent}
+                  onValueChange={(value) => { setSelectedStudent(value), setErrorMessage('') }}
+                  style={{
+                    ...pickerSelectStyles,
+                    iconContainer: {
+                      top: Platform.OS === "android" ? 20 : 30,
+                      right: 10,
+                    },
+                    placeholder: {
+                      color: "#8a898e",
+                      fontSize: 12,
+                      fontWeight: "bold",
+                    },
+                  }}
+                  Icon={() => {
+                    return (
+                      <Image
+                        style={{
+                          width: 12,
+                          position: "absolute",
+                          top: Platform.OS === "android" ? -15 : -28,
+                          right: 5,
+                        }}
+                        source={require("../../../assets/arrow-down.png")}
+                        resizeMode={"contain"}
+                      />
+                    );
+                  }}
+                />
+                : null}
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
+
+              <Button
+                style={{ alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 }}
+                onPress={() => checkinActiveClass()
+                } >
+                <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
+              </Button>
+
+              <Button
+                style={[{ alignSelf: "center", width: '48%', justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 18 }]}
+                onPress={() => setTogglePopup(false)}
+              >
+                <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Close</Text>
+              </Button>
+            </View>
+            <View style={{ padding: 15 }}>
+              {loaderMessage ? (
+                <View style={[styles.container, styles.horizontal]}>
+                  <ActivityIndicator size="large" color="#29ABE2" />
+                </View>
+              ) : null}
+              {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
+              {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
+            </View>
+          </View>
+        </View>
+        : null}
+
       <FooterTabs navigation={props.navigation} />
     </Container>
   );
