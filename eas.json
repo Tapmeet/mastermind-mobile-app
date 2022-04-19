@@ -1,13 +1,17 @@
 {
-  "builds": {
-    "android": {
-      "release": {
-        "workflow": "managed"
-      }
-    },
-    "ios": {
-      "release": {
-        "workflow": "managed"
+  "cli": {
+    "version": ">= 0.34.0"
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "../path/to/api-xxx-yyy-zzz.json",
+        "track": "internal"
+      },
+      "ios": {
+        "appleId": "tapmeet@gmail.com",
+        "ascAppId": "1571620928",
+        "appleTeamId": "SFLCJ3ZF4N"
       }
     }
   }
