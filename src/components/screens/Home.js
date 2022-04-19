@@ -11,6 +11,7 @@ import moment from "moment";
 import { API_URL } from "./../Utility/AppConst";
 import { useFocusEffect } from '@react-navigation/native';
 import * as WebBrowser from 'expo-web-browser';
+import loginStyle from "../../style/login/loginStyle";
 const apiUrl = API_URL.trim();
 const key = 'value';
 var uniqueStudent = [];
@@ -430,7 +431,7 @@ const Home = (props) => {
                     onPress={() => activeCheckin(item.ClassStartTime, item.TaskId, item.ClassName)
                     }
                   >
-                    <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
+                    <Text style={loginStyle.buttonText, { textAlign: "center", color: "#fff" }}>Check In</Text>
                   </Button>
                 </View>
               </View>
