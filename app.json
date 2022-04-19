@@ -28,7 +28,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.martialartsschool.mastermind"
+      "bundleIdentifier": "com.martialartsschool.mastermind",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
