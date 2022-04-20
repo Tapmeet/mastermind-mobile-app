@@ -15,9 +15,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "plugins": [
       [
         "expo-image-picker",
@@ -41,7 +39,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "Best Martial Arts School in Your Town",
-    "sdkVersion": "42.0.0"
+    "description": "Best Martial Arts School in Your Town"
   }
 }
