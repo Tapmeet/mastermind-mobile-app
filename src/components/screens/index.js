@@ -38,3 +38,4 @@ export { default as StudentClasses } from './Classes/StudentClasses';
 export { default as ActiveClasses } from './Classes/ActiveClasses';
 export { default as Awards } from './Awards/Awards';
 export { default as Share } from './Share/Share';
+export { default as WelcomeScreen } from './Welcome';

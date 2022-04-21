@@ -13,7 +13,8 @@ import {
   AccountSuccessScreen,
   ForgetPasswordScreen,
   VerificationLinkStudentSignupScreen,
-  VerificationSignupsScreen
+  VerificationSignupsScreen,
+  WelcomeScreen
 } from "./src/components/screens";
 import { Drawer } from "./src/components/sidebar";
 import { Logs } from "expo";
@@ -41,6 +42,7 @@ const Main = (props) => {
             headerShown: false,
           }}
         >
+          <AuthStack.Screen name="Welcome" component={WelcomeScreen} />
           <AuthStack.Screen name="Login" component={LoginScreen} />
           <AuthStack.Screen name="SignUp" component={SignUpScreen} />
           <AuthStack.Screen name="Verification" component={VerificationScreen} />

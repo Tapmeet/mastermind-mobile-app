@@ -218,4 +218,16 @@ export default StyleSheet.create({
     left: 15,
     top: -10,
   },
+  welcomeLogo: {
+    height: 380,
+    resizeMode: "contain",
+    width: 480,
+    marginBottom: 20,
+  },
+  welcomeLogoLast: {
+    height: 300,
+    resizeMode: "contain",
+    width: 480,
+    marginBottom: 20,
+  },
 });
