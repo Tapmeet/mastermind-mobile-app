@@ -7,6 +7,7 @@ import globalStyle from "../../style/globalStyle";
 import Carousel from "react-native-snap-carousel";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import moment from "moment";
 import { API_URL } from "./../Utility/AppConst";
 import { useFocusEffect } from '@react-navigation/native';
@@ -18,6 +19,31 @@ var uniqueStudent = [];
 const placeholderStudent = {
     label: "Select Student",
 };
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+      fontSize: 18,
+      minWidth: 115,
+      paddingVertical: 10,
+      paddingHorizontal: 10,
+      borderWidth: 0,
+      borderColor: "#fff",
+      borderRadius: 0,
+      color: "#8a898e",
+      paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+      fontSize: 18,
+      minWidth: 100,
+      paddingHorizontal: 10,
+      paddingVertical: 20,
+      borderWidth: 0,
+      borderColor: "#fff",
+      borderRadius: 0,
+      color: "#8a898e",
+      marginRight: 15,
+      paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});
 const Home = (props) => {
   const isCarousel = React.useRef(null);
   const [loader, setloader] = React.useState(true);

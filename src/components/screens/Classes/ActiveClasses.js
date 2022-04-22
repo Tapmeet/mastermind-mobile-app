@@ -143,10 +143,11 @@ const ActiveClasses = (props) => {
         }).then((response) => response.json())
             .then((response) => {
                 console.log('response')
-                / console.log(response)
+                console.log(response)
                 setLoaderMessage(false)
                 if (!response["odata.error"]) {
                     setSuccessMessage(studentName + " has successfully checked In")
+                    console.log(SuccessMessage)
                     setTimeout(function () {
                         fetchClasses()
                         setTogglePopup(false)
