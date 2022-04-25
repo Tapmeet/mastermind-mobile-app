@@ -13,7 +13,7 @@ import { InAppBrowser } from 'react-native-inappbrowser-reborn'
 import * as WebBrowser from 'expo-web-browser';
 
 const apiUrl = API_URL.trim();
-const Share = (props) => {
+const Curriculum = (props) => {
     const [loader, setloader] = React.useState(true);
     const [schoolId, setSchoolId] = React.useState(true);
     const userId = useSelector((state) => state);
@@ -37,7 +37,7 @@ const Share = (props) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data)
+               //  console.log(data)
                 if (data) {
                     setSchoolInfo(data.value);
                     setloader(false);
@@ -56,7 +56,7 @@ const Share = (props) => {
                 backgroundColor: "#f1f1f1",
             }}
         >
-            <SideBarMenu title={"Follow Us"} navigation={props.navigation} backLink="Home" />
+            <SideBarMenu title={"Curriculum"} navigation={props.navigation} backLink="Home" />
             <Content padder>
                 {loader ? (
                     <View style={[styles.container, styles.horizontal]}>
@@ -67,7 +67,7 @@ const Share = (props) => {
                         {typeof school !== "undefined" && school.length > 0 ? (
                             school.map(function (school, index) {
                                 return (
-                                    school.ExternalLinkType == 'Facebook' || school.ExternalLinkType == 'Twitter' || school.ExternalLinkType == 'Instagram' || school.ExternalLinkType == 'Web' ?
+                                    school.ExternalLinkType != 'Facebook' && school.ExternalLinkType != 'Twitter' && school.ExternalLinkType != 'Instagram' && school.ExternalLinkType != 'Web' &&   school.ExternalLinkType != 'ReferAFriend' ?
                                         <View key={index}>
                                             <View style={globalStyle.eventsListingWrapper}>
                                                 <TouchableOpacity onPress={() => openLink(school.Address)}>
@@ -121,7 +121,7 @@ const Share = (props) => {
         </Container>
     );
 };
-export default Share;
+export default Curriculum;
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
         fontSize: 18,

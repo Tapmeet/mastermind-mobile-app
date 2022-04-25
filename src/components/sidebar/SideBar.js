@@ -12,7 +12,7 @@ import EMPTY_EVENT from "./../../redux/Event";
 import { EventDetails } from "../screens";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-const routes = ["Home", "Link Student", "Inquiry", "Memberships", "Awards", "Events", "Retail", "Class Reservation", "Reserved Classes", "Class Check In", "Payment Methods", "Purchase History"];
+const routes = ["Home", "Link Student","Curriculum", "Inquiry", "Memberships", "Awards", "Events", "Retail", "Class Reservation", "Reserved Classes", "Class Check In", "Payment Methods", "Purchase History"];
 
 const SideBar = (props) => {
   const dispatch = useDispatch();

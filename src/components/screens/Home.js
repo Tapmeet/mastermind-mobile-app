@@ -73,7 +73,7 @@ const Home = (props) => {
   useFocusEffect(
     //navigation.addListener("focus", () => {
     React.useCallback(() => {
-      getSchoolData()
+     
       fetchClasses()
       getStudents()
       fetch(`${apiUrl}/odata/OrganizationEvent`, {
@@ -159,26 +159,6 @@ const Home = (props) => {
 
   }
 
-  function getSchoolData() {
-    fetch(`${apiUrl}/odata/ExternalLinks`, {
-      method: "get",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data)
-        if (data) {
-          setSchoolInfo(data.value);
-          setloader(false);
-        } else {
-          setloader(false);
-        }
-      });
-  }
   const getOrganisationLogo = (organizationGuids) => {
     fetch(`${apiUrl}/public/OrganizationLogo?guid=${organizationGuids}`, {
       method: "get",
@@ -697,19 +677,6 @@ const Home = (props) => {
 
         </Content>
       }
-      {typeof school !== "undefined" && school.length > 0 ? (
-        school.map(function (school, index) {
-          return (
-            school.ExternalLinkType == 'ReferAFriend' ?
-              <View key={index} style={[{ "flexDirection": "row", justifyContent: "flex-end", right: 20, position: "absolute", bottom: 80 }]}>
-                <TouchableOpacity onPress={() => openLink(school.Address)}>
-                  <Text style={{ fontSize: 16, backgroundColor: "#4585ff", borderRadius: 5, color: "#fff", padding: 10, alignSelf: "flex-end", justifyContent: "flex-end" }}> Refer a friend</Text>
-                </TouchableOpacity>
-              </View>
-              : null
-          )
-        })
-      ) : null}
       {togglePopup ?
         <View style={globalStyle.popup}>
           <View style={globalStyle.eventsListingWrapper}>

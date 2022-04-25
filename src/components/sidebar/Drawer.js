@@ -29,7 +29,8 @@ import {
   StudentClasses,
   ActiveClasses,
   Awards,
-  Share
+  Share,
+  Curriculum
 } from "../screens";
 import { SideBar } from ".";
 import { FlatList } from "react-native";
@@ -79,6 +80,7 @@ const Drawer = (props) => {
       <HomeDrawer.Screen name="Class Check In" component={ActiveClasses} />
       <HomeDrawer.Screen name="Awards" component={Awards} />
       <HomeDrawer.Screen name="Share" component={Share} />
+      <HomeDrawer.Screen name="Curriculum" component={Curriculum} />
     </HomeDrawer.Navigator>
   );
 };

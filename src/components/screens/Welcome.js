@@ -29,9 +29,13 @@ const Welcome = (props) => {
     await AsyncStorage.setItem("accessCheck", '1');
     if (permissionResult.granted === false) {
       alert("You've refused to allow this appp to access your photos!");
+      setStep3(true); 
+      setStep2(false);
       return;
     }
     else {
+      setStep3(true); 
+      setStep2(false);
       return false
     }
 
@@ -182,7 +186,7 @@ const Welcome = (props) => {
                   color: "#777",
                   padding: 20,
                 }}
-                  onPress={() => { setStep3(true); setStep2(false); step3Function() }}
+                  onPress={() => {  step3Function() }}
                 >
                   Next
                 </Text>
