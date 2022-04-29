@@ -398,7 +398,7 @@ const UserProfileMultiple = (props) => {
       <Content style={loginStyle.spacing}>
         <View style={[loginStyle.contentContainer]}>
           <Body>
-            <H2 style={globalStyle.h3}>Student Profile!</H2>
+            <H2 style={globalStyle.h3}>Student Profile</H2>
           </Body>
         </View>
         {loader ? (

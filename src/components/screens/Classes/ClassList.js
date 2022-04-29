@@ -140,7 +140,7 @@ const ClassList = (props) => {
                                                 <Button onPress={() => storeData(event.ClassId, event.Name, event.ImagePhotoPath)}
                                                     style={{ marginTop: 10, justifyContent: "center", width: '80%', backgroundColor: "#4585ff", borderRadius: 6 }}
                                                 >
-                                                    <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>View Details</Text>
+                                                    <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>View Schedule</Text>
                                                 </Button>
                                             </View>
                                         </View>

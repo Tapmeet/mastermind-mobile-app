@@ -57,7 +57,7 @@ const FooterTabs = (props) => {
           <Button onPress={() => props.navigation.navigate("Home")}>
             <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/home.png")} />
           </Button>
-          <Button onPress={() => props.navigation.navigate("Class Reservation")}>
+          <Button onPress={() => props.navigation.navigate("Reserved Classes")}>
             <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/calendar.png")} />
           </Button>
           <Button onPress={() => props.navigation.navigate("Profile")}>
