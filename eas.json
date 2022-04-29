@@ -1,18 +1,14 @@
 {
   "cli": {
-    "version": ">= 0.51.0"
-  },
-  "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
-    "preview": {
-      "distribution": "internal"
-    },
-    "production": {}
+    "version": ">= 0.34.0"
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "tapmeet@gmail.com",
+        "ascAppId": "1571620928",
+        "appleTeamId": "SFLCJ3ZF4N"
+      }
+    }
   }
 }
