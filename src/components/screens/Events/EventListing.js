@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Image, RefreshControl, SafeAreaView,FlatList, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import React from "react";
 import CartWidget from "./Cartwidget"
 import FooterTabs from "../../footer/Footer";
@@ -25,6 +25,14 @@ const EventListing = (props) => {
   const [categoryList, setCategoryList] = React.useState([]);
   const [selectedCategory, setSelectedCategory] = React.useState([]);
   const [studentGuid, setStudentGuid] = React.useState('');
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    //console.log("herer")
+    setRefreshing(true);
+    getListings()
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
   const filterList = [
     { label: "Recently Added", value: "recently" },
     { label: "Price High - Low", value: "high" },
@@ -53,42 +61,46 @@ const EventListing = (props) => {
       setFilter([])
       setSelectedCategory([])
       setloader(true)
-      fetch(`${apiUrl}/odata/OrganizationEvent`, {
-        method: "get",
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.events) {
-            setEventListing(data.events);
-            // console.log(data.events)
-            setEventList(data.events)
-            var category = [];
-            data.events.map(function (event, index) {
-              if (event.Category != '' && event.Category != null) {
 
-                category.push(event.Category)
-              }
-            })
-            const uniqueArray = unique(category);
-            var categorylist = [];
-            uniqueArray.map(function (event, index) {
-              categorylist.push({ label: event, value: event },)
-            })
-            setCategoryList(categorylist);
-            setloader(false);
-
-          } else {
-            setloader(false);
-          }
-        });
       getData()
+      getListings()
     }, [])
   );
+  const getListings = () => {
+    fetch(`${apiUrl}/odata/OrganizationEvent`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.events) {
+          setEventListing(data.events);
+          // console.log(data.events)
+          setEventList(data.events)
+          var category = [];
+          data.events.map(function (event, index) {
+            if (event.Category != '' && event.Category != null) {
+
+              category.push(event.Category)
+            }
+          })
+          const uniqueArray = unique(category);
+          var categorylist = [];
+          uniqueArray.map(function (event, index) {
+            categorylist.push({ label: event, value: event },)
+          })
+          setCategoryList(categorylist);
+          setloader(false);
+
+        } else {
+          setloader(false);
+        }
+      });
+  }
 
   const storeData = async (value, title) => {
     //console.log(value);
@@ -279,47 +291,50 @@ const EventListing = (props) => {
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
         ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
-          eventListing.map(function (event, index) {
-            let startDate = moment(event.EventStartDateTime).format("MMMM Do, YYYY");
-            let starttime = moment(event.EventStartDateTime).format("hh:mm a ");
-            let endtime = moment(event.EventEndDateTime).format("hh:mm a ");
-            return (
-              <View style={{ marginBottom: 10 }} key={index}>
-                {/* <TouchableOpacity onPress={() => storeData(event.PosItemId, event.Title)}> */}
-                <TouchableOpacity onPress={() => openLink('https://mmasmastermind.azurewebsites.net/Public/EventDetails/' + event.OrganizationEventGuid + '?StudentAccountGuid=' + studentGuid)} >
-                  <View style={globalStyle.eventsListingWrapper}>
-                    <View style={globalStyle.eventsListingTopWrapper}>
-                      <View style={{ borderRadius: 25, overflow: "hidden" }}>
-                        {event.ThumbnailImageBase64 != null ?
-                          <Image
-                            source={{
-                              uri: "data:image/png;base64," + event.ThumbnailImageBase64,
+          // let startDate = moment(event.EventStartDateTime).format("MMMM Do, YYYY");
+          // let starttime = moment(event.EventStartDateTime).format("hh:mm a ");
+          // let endtime = moment(event.EventEndDateTime).format("hh:mm a ");
+          <SafeAreaView >
+            <FlatList
+              data={eventListing}
+              refreshControl={<RefreshControl  enabled={true} refreshing={refreshing} onRefresh={onRefresh} />}
+              renderItem={({ item, index, separators }) => (
+                <View style={{ marginBottom: 10 }} key={index}>
+                  {/* <TouchableOpacity onPress={() => storeData(event.PosItemId, event.Title)}> */}
+                  <TouchableOpacity onPress={() => openLink('https://mmasmastermind.azurewebsites.net/Public/EventDetails/' + item.OrganizationEventGuid + '?StudentAccountGuid=' + studentGuid)} >
+                    <View style={globalStyle.eventsListingWrapper}>
+                      <View style={globalStyle.eventsListingTopWrapper}>
+                        <View style={{ borderRadius: 25, overflow: "hidden" }}>
+                          {typeof item.ThumbnailImageBase64 != null ?
+                            <Image
+                              source={{
+                                uri: "data:image/png;base64," + item.ThumbnailImageBase64,
+                              }}
+                              //source={require("./../../../../assets/img1.png")}
+                              style={{ height: 110, width: 130 }} />
+                            :
+                            <Image
+                              source={require("./../../../../assets/img1.png")}
+                              style={{ height: 110, width: 130 }} />
+                          }
+                        </View>
+                        <View style={{ paddingLeft: 15, paddingRight: 10 }}>
+                          <Text
+                            style={{
+                              fontSize: 18,
+                              fontWeight: "bold",
+                              color: "#16161D",
+                              paddingBottom: 10,
                             }}
-                            //source={require("./../../../../assets/img1.png")}
-                            style={{ height: 110, width: 130 }} />
-                          :
-                          <Image
-                            source={require("./../../../../assets/img1.png")}
-                            style={{ height: 110, width: 130 }} />
-                        }
-                      </View>
-                      <View style={{ paddingLeft: 15, paddingRight: 10 }}>
-                        <Text
-                          style={{
-                            fontSize: 18,
-                            fontWeight: "bold",
-                            color: "#16161D",
-                            paddingBottom: 10,
-                          }}
-                        >
-                          {event.EventTitle}
-                        </Text>
+                          >
+                            {item.EventTitle}
+                          </Text>
 
-                        <Text style={{ fontSize: 16, color: "#555" }}>{startDate} </Text>
-                        <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>
-                          {starttime} -{endtime}
-                        </Text>
-                        {/* <Text
+                          <Text style={{ fontSize: 16, color: "#555" }}>{moment(item.EventStartDateTime).format("MMMM Do, YYYY")} </Text>
+                          <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>
+                            {moment(item.EventStartDateTime).format("hh:mm a ")} -{moment(item.EventEndDateTime).format("hh:mm a ")}
+                          </Text>
+                          {/* <Text
                           style={{
                             fontSize: 15,
                             color: "#44454A",
@@ -335,17 +350,18 @@ const EventListing = (props) => {
                         >
                           Online
                         </Text> */}
+                        </View>
+                      </View>
+                      <View style={globalStyle.eventsListingBottomWrapper}>
+                        {/* <Text style={{ fontSize: 12, color: "#46454B", flex: 1 }}>61 People Purchased</Text> */}
+                        <Text style={{ fontSize: 12, color: "#46454B", justifyContent: "flex-end" }}> ${item.Price}</Text>
                       </View>
                     </View>
-                    <View style={globalStyle.eventsListingBottomWrapper}>
-                      {/* <Text style={{ fontSize: 12, color: "#46454B", flex: 1 }}>61 People Purchased</Text> */}
-                      <Text style={{ fontSize: 12, color: "#46454B", justifyContent: "flex-end" }}> ${event.Price}</Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            );
-          })
+                  </TouchableOpacity>
+                </View>
+              )}
+            />
+          </SafeAreaView>
         ) : (
           <View style={globalStyle.tableList}>
             <Text>No Events Available </Text>

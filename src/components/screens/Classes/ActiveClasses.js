@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
+import { Image, ImageBackground,FlatList, RefreshControl,SafeAreaView, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -33,7 +33,14 @@ const ActiveClasses = (props) => {
     const [SuccessMessage, setSuccessMessage] = React.useState("");
     const [errorMessage, setErrorMessage] = React.useState("");
     const [selectedTaskName, setSelectedTaskName] = React.useState('');
+    const [refreshing, setRefreshing] = React.useState(false);
 
+    const onRefresh = React.useCallback(() => {
+        console.log("herer")
+        setRefreshing(true);
+        fetchClasses()
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
     useFocusEffect(
         React.useCallback(() => {
             // if (eventListing == '') {
@@ -216,36 +223,38 @@ const ActiveClasses = (props) => {
                         <ActivityIndicator size="large" color="#29ABE2" />
                     </View>
                 ) : typeof classListings !== "undefined" && classListings.length > 0 ? (
-                    classListings.map(function (event, index) {
                         // console.log(event)
                         // console.log('event')
-                        let starttime = moment(event.ClassStartTime).format("MM-DD-YYYY, hh:mm a ");
-                        let classDate = moment(event.ClassStartTime).format("YYYY-MM-DD");
-                        var GivenDate = classDate;
-                        var CurrentDate = new Date();
-                        CurrentDate.setHours(0, 0, 0, 0)
-                        GivenDate = new Date(GivenDate);
+                        // let starttime = moment(event.ClassStartTime).format("MM-DD-YYYY, hh:mm a ");
+                        // let classDate = moment(event.ClassStartTime).format("YYYY-MM-DD");
+                        // var GivenDate = classDate;
+                        // var CurrentDate = new Date();
+                        // CurrentDate.setHours(0, 0, 0, 0)
+                        // GivenDate = new Date(GivenDate);
                         //  console.log(GivenDate)
-                        return (
-
+                        <SafeAreaView  nestedScrollEnabled={true}>
+                        <FlatList
+                            data={classListings}
+                            refreshControl={<RefreshControl  enabled={true}  refreshing={refreshing} onRefresh={onRefresh} />}
+                            renderItem={({ item, index, separators }) => (
                             <View style={{ marginBottom: 10 }} key={index}>
                                 <View >
                                     <View style={globalStyle.eventsListingWrapper}>
                                         <View style={globalStyle.eventsListingTopWrapper}>
                                             <View style={{ paddingLeft: 0, paddingRight: 10 }}>
                                                 <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26, marginBottom: 10 }}>
-                                                    {event.ClassName}
+                                                    {item.ClassName}
                                                 </Text>
 
                                                 <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
                                                     <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
-                                                    {starttime}
+                                                    { moment(item.ClassStartTime).format("MM-DD-YYYY, hh:mm a ")}
                                                 </Text>
                                                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
 
                                                     <Button
                                                         style={{ alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 }}
-                                                        onPress={() => activeCheckin(event.ClassStartTime, event.TaskId, event.ClassName)
+                                                        onPress={() => activeCheckin(item.ClassStartTime, item.TaskId, item.ClassName)
                                                         }
                                                     >
                                                         <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
@@ -259,8 +268,9 @@ const ActiveClasses = (props) => {
                                     </View>
                                 </View>
                             </View>
-                        );
-                    })
+                        )}
+                        />
+                    </SafeAreaView>
                 ) : (
                     <View style={globalStyle.tableList}>
                         <Text>No Active Classes Available </Text>

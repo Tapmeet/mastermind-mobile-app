@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Image, ImageBackground, RefreshControl, SafeAreaView, Dimensions,FlatList, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -25,33 +25,42 @@ const ProductListing = (props) => {
     { label: "Price High - Low", value: "high" },
     { label: "Price Low - High", value: "low" },
   ];
+  const [refreshing, setRefreshing] = React.useState(false);
 
-
+  const onRefresh = React.useCallback(() => {
+    console.log("herer")
+    setRefreshing(true);
+    getData();
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+  const getData = () => {
+    fetch(`${apiUrl}/odata/OrganizationRetail`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data)
+        if (data.retails) {
+          setEventListing(data.retails);
+          setloader(false);
+        } else {
+          setloader(false);
+        }
+      });
+  }
   useFocusEffect(
     //navigation.addListener("focus", () => {
-        React.useCallback(() => {
-      fetch(`${apiUrl}/odata/OrganizationRetail`, {
-        method: "get",
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-         // console.log(data)
-          if (data.retails) {
-            setEventListing(data.retails);
-            setloader(false);
-          } else {
-            setloader(false);
-          }
-        });
-  //   });
-  // });
-}, [])
-);
+    React.useCallback(() => {
+      getData()
+      //   });
+      // });
+    }, [])
+  );
   const placeholderFiler = {
     label: "Filter",
   };
@@ -184,7 +193,7 @@ const ProductListing = (props) => {
 
                           {event.Colors.map(function (colors, index) {
                             return (
-                              <Text  key={index} style={{ fontSize: 16, color: "#555", fontWeight: "normal" }}> {colors}
+                              <Text key={index} style={{ fontSize: 16, color: "#555", fontWeight: "normal" }}> {colors}
                                 {index < event.Colors.length - 1 ? ',' : null
                                 } </Text>
                             )

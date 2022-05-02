@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Image, RefreshControl,SafeAreaView, ImageBackground, Dimensions, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -15,33 +15,43 @@ const ClassList = (props) => {
     const userId = useSelector((state) => state);
     const [eventListing, setEventListing] = React.useState([]);
     const [threshold, setThreshold] = React.useState('');
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        console.log("herer")
+        setRefreshing(true);
+        getData();
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
     useFocusEffect(
         //navigation.addListener("focus", () => {
         React.useCallback(() => {
-
-            fetch(`${apiUrl}/odata/OrganizationClass`, {
-                method: "get",
-                headers: {
-                    Accept: "*/*",
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
-                },
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    // console.log(data)
-                    setThreshold(data.threshold)
-                    if (data.classes) {
-                        setEventListing(data.classes);
-                        setloader(false);
-                    } else {
-                        setloader(false);
-                    }
-                });
+            getData();
             // });
         }, [])
     );
-
+    const getData = () => {
+        setloader(true)
+        fetch(`${apiUrl}/odata/OrganizationClass`, {
+            method: "get",
+            headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                // console.log(data)
+                setThreshold(data.threshold)
+                if (data.classes) {
+                    setEventListing(data.classes);
+                    setloader(false);
+                } else {
+                    setloader(false);
+                }
+            });
+    }
     const storeData = async (value, title, img) => {
         console.log(value);
         let eventId = JSON.stringify(value);
@@ -52,10 +62,10 @@ const ClassList = (props) => {
             await AsyncStorage.setItem("eventId", eventId);
             if (img != null) {
                 await AsyncStorage.setItem("classThumb", img);
-              }
-              else{
+            }
+            else {
                 await AsyncStorage.setItem("classThumb", '');
-              }
+            }
             await AsyncStorage.setItem("eventTitle", title);
             await AsyncStorage.setItem("threshold", thresholdString);
             props.navigation.navigate("Class Tasks");
@@ -66,6 +76,7 @@ const ClassList = (props) => {
 
     const { navigation } = props;
     return (
+
         <Container
             style={{
                 backgroundColor: "#f1f1f1",
@@ -94,40 +105,45 @@ const ClassList = (props) => {
                 </Text>
             </View> */}
             <Content padder>
+
                 {loader ? (
                     <View style={[styles.container, styles.horizontal]}>
                         <ActivityIndicator size="large" color="#29ABE2" />
                     </View>
                 ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
-                    eventListing.map(function (event, index) {
-                        return (
-                            <View style={{ marginBottom: 10 }} key={index}>
-                                <TouchableOpacity onPress={() => storeData(event.ClassId, event.Name)}>
-                                    <View style={globalStyle.eventsListingWrapper}>
-                                        <View style={globalStyle.eventsListingTopWrapper}>
-                                            <View style={{ borderRadius: 25, overflow: "hidden" }}>
-                                                {event.ImagePhotoPath == null ?
-                                                    <Image source={require("./../../../../assets/img-dummy.jpg")} style={{ height: 110, width: 130 }} />
-                                                    :
-                                                    <Image source={{
-                                                        uri: "data:image/png;base64," + event.ImagePhotoPath,
-                                                    }}
-                                                        style={{ resizeMode: 'contain', height: 110, width: 130 }} />
-                                                }
-                                            </View>
-                                            <View style={{ paddingLeft: 15, paddingRight: 10 }}>
-                                                <Text
-                                                    style={{
-                                                        fontSize: 18,
-                                                        fontWeight: "bold",
-                                                        color: "#16161D",
-                                                        paddingBottom: 10,
+                    <SafeAreaView  nestedScrollEnabled={true}>
+                        <FlatList
+                        
+                            data={eventListing}
+                            refreshControl={<RefreshControl  enabled={true} refreshing={refreshing} onRefresh={onRefresh} />}
+                            renderItem={({ item, index, separators }) => (
+                                <View style={{ marginBottom: 10 }} key={index}>
+                                    <TouchableOpacity onPress={() => storeData(item.ClassId, item.Name)}>
+                                        <View style={globalStyle.eventsListingWrapper}>
+                                            <View style={globalStyle.eventsListingTopWrapper}>
+                                                <View style={{ borderRadius: 25, overflow: "hidden" }}>
+                                                    {item.ImagePhotoPath == null ?
+                                                        <Image source={require("./../../../../assets/img-dummy.jpg")} style={{ height: 110, width: 130 }} />
+                                                        :
+                                                        <Image source={{
+                                                            uri: "data:image/png;base64," + item.ImagePhotoPath,
+                                                        }}
+                                                            style={{ resizeMode: 'contain', height: 110, width: 130 }} />
+                                                    }
+                                                </View>
+                                                <View style={{ paddingLeft: 15, paddingRight: 10 }}>
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 18,
+                                                            fontWeight: "bold",
+                                                            color: "#16161D",
+                                                            paddingBottom: 10,
 
-                                                    }}
-                                                >
-                                                    {event.Name}
-                                                </Text>
-                                                {/* {event.OnlineClass ?
+                                                        }}
+                                                    >
+                                                        {item.Name}
+                                                    </Text>
+                                                    {/* {event.OnlineClass ?
                                                     <View style={[globalStyle.eventsListingBottomWrapper, { borderTopWidth: 0 }]}>
 
                                                         <Text
@@ -137,19 +153,20 @@ const ClassList = (props) => {
 
                                                     </View>
                                                     : null} */}
-                                                <Button onPress={() => storeData(event.ClassId, event.Name, event.ImagePhotoPath)}
-                                                    style={{ marginTop: 10, justifyContent: "center", width: '80%', backgroundColor: "#4585ff", borderRadius: 6 }}
-                                                >
-                                                    <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>View Schedule</Text>
-                                                </Button>
+                                                    <Button onPress={() => storeData(item.ClassId, item.Name, item.ImagePhotoPath)}
+                                                        style={{ marginTop: 10, justifyContent: "center", width: '80%', backgroundColor: "#4585ff", borderRadius: 6 }}
+                                                    >
+                                                        <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>View Schedule</Text>
+                                                    </Button>
+                                                </View>
                                             </View>
-                                        </View>
 
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                        );
-                    })
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            )}
+                        />
+                    </SafeAreaView>
                 ) : (
                     <View style={globalStyle.tableList}>
                         <Text>No Classes Available </Text>

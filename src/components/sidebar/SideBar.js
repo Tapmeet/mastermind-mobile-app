@@ -152,9 +152,9 @@ const SideBar = (props) => {
   }, [data]);
 
   return (
-    <ScrollView >
+    <ScrollView   >
       <ImageBackground
-        style={{ padding: 15, paddingTop: 50, height: win.height }}
+        style={{ padding: 15, paddingTop: 50, }}
         source={require("./../../../assets/menu.png")}
         resizeMode={"stretch"}
       >
