@@ -650,8 +650,8 @@ const TaskClass = (props) => {
                                                             style={{
                                                                 width: 12,
                                                                 position: "absolute",
-                                                                top: Platform.OS === "android" ? -15 : -28,
-                                                                right: 5,
+                                                                top: Platform.OS === "android" ? -10 : -28,
+                                                                right: Platform.OS === "android" ? 7 : 5,
                                                             }}
                                                             source={require("../../../../assets/arrow-down.png")}
                                                             resizeMode={"contain"}

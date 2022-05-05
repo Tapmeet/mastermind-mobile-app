@@ -42,7 +42,7 @@ const ClassList = (props) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data)
+               // console.log(data)
                 setThreshold(data.threshold)
                 if (data.classes) {
                     setEventListing(data.classes);
@@ -156,7 +156,7 @@ const ClassList = (props) => {
                                                     <Button onPress={() => storeData(item.ClassId, item.Name, item.ImagePhotoPath)}
                                                         style={{ marginTop: 10, justifyContent: "center", width: '80%', backgroundColor: "#4585ff", borderRadius: 6 }}
                                                     >
-                                                        <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>View Schedule</Text>
+                                                        <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Reserve Class</Text>
                                                     </Button>
                                                 </View>
                                             </View>

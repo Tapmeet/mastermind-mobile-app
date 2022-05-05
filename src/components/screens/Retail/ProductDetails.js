@@ -199,7 +199,7 @@ const ProductDetails = (props) => {
       return false
     }
     // let eventId = JSON.stringify(value);
-     let eventPrice = JSON.stringify(price);
+    let eventPrice = JSON.stringify(price);
 
     console.log(productTitle)
     let retails = retail.cartItemsReducer;
@@ -299,7 +299,7 @@ const ProductDetails = (props) => {
         backgroundColor: "#FFFFFF",
       }}
     >
-      <SideBarMenu title={"Product Detail"} navigation={props.navigation} />
+      <SideBarMenu title={"Product Details"} navigation={props.navigation} />
       {loader ? (
         <Content>
           <View style={[styles.container, styles.horizontal]}>
@@ -393,8 +393,8 @@ const ProductDetails = (props) => {
                               style={{
                                 width: 12,
                                 position: "absolute",
-                                top: Platform.OS === "android" ? -15 : -28,
-                                right: 5,
+                                top: Platform.OS === "android" ? -8 : -28,
+                                right: 7,
                               }}
                               source={require("../../../../assets/arrow-down.png")}
                               resizeMode={"contain"}
@@ -430,8 +430,8 @@ const ProductDetails = (props) => {
                                   style={{
                                     width: 12,
                                     position: "absolute",
-                                    top: Platform.OS === "android" ? -15 : -28,
-                                    right: 5,
+                                    top: Platform.OS === "android" ? -8 : -28,
+                                    right: 7,
                                   }}
                                   source={require("../../../../assets/arrow-down.png")}
                                   resizeMode={"contain"}
@@ -469,8 +469,8 @@ const ProductDetails = (props) => {
                                   style={{
                                     width: 12,
                                     position: "absolute",
-                                    top: Platform.OS === "android" ? -15 : -28,
-                                    right: 5,
+                                    top: Platform.OS === "android" ? -8 : -28,
+                                    right: 7,
                                   }}
                                   source={require("../../../../assets/arrow-down.png")}
                                   resizeMode={"contain"}
@@ -507,8 +507,8 @@ const ProductDetails = (props) => {
                               style={{
                                 width: 12,
                                 position: "absolute",
-                                top: Platform.OS === "android" ? -15 : -28,
-                                right: 5,
+                                top: Platform.OS === "android" ? -8 : -28,
+                                right: 7,
                               }}
                               source={require("../../../../assets/arrow-down.png")}
                               resizeMode={"contain"}

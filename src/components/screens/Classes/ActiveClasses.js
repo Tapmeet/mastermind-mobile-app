@@ -156,9 +156,11 @@ const ActiveClasses = (props) => {
                     setSuccessMessage(studentName + " has successfully checked In")
                     console.log(SuccessMessage)
                     setTimeout(function () {
-                        fetchClasses()
-                        setTogglePopup(false)
-                    }, 3000);
+                        // fetchClasses()
+                        // setTogglePopup(false)
+                        setSelectedStudent([])
+                        setSuccessMessage('')
+                    }, 2000);
                    
                 }
                 else {

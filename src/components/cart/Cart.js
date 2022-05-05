@@ -31,14 +31,14 @@ const Cart = (props) => {
             if (loader == true) {
                 getStudents()
             }
-           
+
 
         });
         total = 0;
         if (retail.cartItemsReducer.length > 0) {
             setRetailProducts(retail.cartItemsReducer);
         }
-     
+
     }, []);
     function getStudents() {
         fetch(`${apiUrl}/odata/StudentAccount`, {
@@ -75,7 +75,7 @@ const Cart = (props) => {
                                 }
                             });
                     });
-                    
+
                 }
             });
     }
@@ -85,7 +85,7 @@ const Cart = (props) => {
     }
     const setproductsQuantities = (productindex, value) => {
         if (value != '' && value != undefined) {
-          //  console.log(retailProducts)
+            //  console.log(retailProducts)
             let retails = retail.cartItemsReducer;
             let newArr = [...retails];
 
@@ -106,11 +106,11 @@ const Cart = (props) => {
     const deleteProduct = (productindex) => {
         if (productindex != '' || productindex != undefined) {
             let retails = retail.cartItemsReducer;
-          //  console.log(retails[productindex].id)
+            //  console.log(retails[productindex].id)
             let newRetails = retails.filter(function (product, index) {
                 return index != productindex
             });
-          //  console.log(newRetails)
+            //  console.log(newRetails)
 
             total = 0;
             updateRetail(newRetails);
@@ -279,8 +279,8 @@ const Cart = (props) => {
                                                                         style={{
                                                                             width: 12,
                                                                             position: "absolute",
-                                                                            top: Platform.OS === "android" ? -15 : -28,
-                                                                            right: 5,
+                                                                            top: Platform.OS === "android" ? -10 : -28,
+                                                                            right: Platform.OS === "android" ? 7 : 5,
                                                                         }}
                                                                         source={require("../../../assets/arrow-down.png")}
                                                                         resizeMode={"contain"}

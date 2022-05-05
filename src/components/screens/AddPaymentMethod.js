@@ -258,8 +258,8 @@ const AddPaymentMethod = (props) => {
                             style={{
                               width: 12,
                               position: "absolute",
-                              top: -15,
-                              right: 0,
+                               top: Platform.OS === "android" ? -10 : -15,
+                              right:  Platform.OS === "android" ? 8 : 0,
                             }}
                             source={require("../../../assets/arrow-down.png")}
                             resizeMode={"contain"}
@@ -291,8 +291,8 @@ const AddPaymentMethod = (props) => {
                             style={{
                               width: 12,
                               position: "absolute",
-                              top: -15,
-                              right: 0,
+                              top: Platform.OS === "android" ? -10 : -15,
+                              right:  Platform.OS === "android" ? 8 : 0,
                             }}
                             source={require("../../../assets/arrow-down.png")}
                             resizeMode={"contain"}

@@ -121,7 +121,7 @@ const LinkStudent = (props) => {
                 value={firstName}
                 onChangeText={(text) => setfirstName(text)}
                 style={globalStyle.formControls}
-                placeholder="Enter student first name"
+                placeholder="Enter Student first name"
               />
             </View>
             {checkFirstname ? <Text style={globalStyle.error}>Enter First Name</Text> : null}
@@ -131,7 +131,7 @@ const LinkStudent = (props) => {
                 value={lastName}
                 onChangeText={(text) => setlasttName(text)}
                 style={globalStyle.formControls}
-                placeholder="Enter student last name"
+                placeholder="Enter Student last name"
               />
             </View>
             {checklastName ? <Text style={globalStyle.error}>Enter Last Name </Text> : null}
@@ -142,7 +142,7 @@ const LinkStudent = (props) => {
                 onChangeText={(text) => setemail(text)}
                 autoCapitalize="none"
                 style={globalStyle.formControls}
-                placeholder="Enter  email address "
+                placeholder="Enter Student e-mail address "
               />
             </View>
             {checkEmail ? <Text style={globalStyle.error}>Enter Valid Email</Text> : null}

@@ -335,9 +335,11 @@ const Home = (props) => {
         if (!response["odata.error"]) {
           setSuccessMessage(studentName + " has successfully checked In")
           setTimeout(function () {
-            fetchClasses()
-            setTogglePopup(false)
-          }, 3000);
+            // fetchClasses()
+            // setTogglePopup(false)
+            setSelectedStudent([])
+            setSuccessMessage('')
+          }, 2000);
 
         }
         else {
@@ -399,7 +401,7 @@ const Home = (props) => {
               >
                 {item.Name}
               </Text>
-              <Text style={{ fontSize: 18, color: "#fff" }}>View Details > </Text>
+              <Text style={{ fontSize: 18, color: "#fff" }}>Reserve Class > </Text>
               {/* <Text style={{ fontSize: 18, color: "#fff" }}>{Math.floor(threshold / 7)} Weeks </Text> */}
             </View>
           </View>
