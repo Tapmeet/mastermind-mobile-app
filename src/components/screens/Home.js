@@ -17,31 +17,31 @@ const apiUrl = API_URL.trim();
 const key = 'value';
 var uniqueStudent = [];
 const placeholderStudent = {
-    label: "Select Student",
+  label: "Select Student",
 };
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-      fontSize: 18,
-      minWidth: 115,
-      paddingVertical: 10,
-      paddingHorizontal: 10,
-      borderWidth: 0,
-      borderColor: "#fff",
-      borderRadius: 0,
-      color: "#8a898e",
-      paddingRight: 30, // to ensure the text is never behind the icon
+    fontSize: 18,
+    minWidth: 115,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderWidth: 0,
+    borderColor: "#fff",
+    borderRadius: 0,
+    color: "#8a898e",
+    paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
-      fontSize: 18,
-      minWidth: 100,
-      paddingHorizontal: 10,
-      paddingVertical: 20,
-      borderWidth: 0,
-      borderColor: "#fff",
-      borderRadius: 0,
-      color: "#8a898e",
-      marginRight: 15,
-      paddingRight: 30, // to ensure the text is never behind the icon
+    fontSize: 18,
+    minWidth: 100,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    borderWidth: 0,
+    borderColor: "#fff",
+    borderRadius: 0,
+    color: "#8a898e",
+    marginRight: 15,
+    paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
 const Home = (props) => {
@@ -73,7 +73,7 @@ const Home = (props) => {
   useFocusEffect(
     //navigation.addListener("focus", () => {
     React.useCallback(() => {
-     
+
       fetchClasses()
       getStudents()
       fetch(`${apiUrl}/odata/OrganizationEvent`, {
@@ -418,7 +418,7 @@ const Home = (props) => {
     CurrentDate.setHours(0, 0, 0, 0)
     GivenDate = new Date(GivenDate);
     return (
-      
+
       <View style={{ marginBottom: 10 }} key={index}>
         <View >
           <View style={globalStyle.eventsListingWrapper}>
@@ -516,7 +516,7 @@ const Home = (props) => {
                 index <= 4
                   ? <View style={{ marginBottom: 10 }} key={index}>
                     <TouchableOpacity
-                      onPress={() => openLink('https://mmasmastermind.azurewebsites.net/Public/EventDetails/' + event.OrganizationEventGuid + '?StudentAccountGuid=' + studentGuid)}
+                      onPress={() => openLink(apiUrl + '/Public/EventDetails/' + event.OrganizationEventGuid + '?StudentAccountGuid=' + studentGuid)}
                     // onPress={() => storeData(event.PosItemId, event.Title)}
                     >
                       <View style={globalStyle.eventsListingWrapper}>

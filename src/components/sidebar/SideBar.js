@@ -75,7 +75,7 @@ const SideBar = (props) => {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0,
     });
     //console.log(result);
     if (!result.cancelled) {
@@ -83,19 +83,20 @@ const SideBar = (props) => {
       let filename = localUri.split("/").pop();
       const base64 = await FileSystem.readAsStringAsync(result.uri, {
         encoding: "base64",
+        encoding: FileSystem.EncodingType.Base64
       });
-      //console.log(base64);
+     // console.log(base64);
       // Infer the type of the image
       let match = /\.(\w+)$/.exec(filename);
-      let type = match ? `${match[1]}` : `image`;
+      let type = match ? `${match[1]}` : `png`;
 
       // // Upload the image using the fetch and FormData APIs
       let formData = new FormData();
       // // Assume "photo" is the name of the form field the server expects
       formData.append("base64", base64);
-      formData.append("fileType", type);
-      setImg(base64);
-      console.log(base64);
+      formData.append("fileType", "png");
+      //console.log(base64)
+
 
       fetch(`${apiUrl}/odata/StudentAccount`, {
         method: "post",
@@ -106,7 +107,12 @@ const SideBar = (props) => {
         },
         body: formData,
       })
+        // .then(response => response.text())
+        // .then(result => console.log(result))
+        // .catch(error => console.log('error', error))
         .then((response) => {
+          setImg(base64);
+          console.log(response);
           let jsonData = JSON.stringify(response);
           let jsonDataPrase = JSON.parse(jsonData);
           console.log("yo");
@@ -165,7 +171,8 @@ const SideBar = (props) => {
   return (
     <ScrollView>
       <ImageBackground
-        style={{ padding: 15, paddingTop: 50, height: win.height }}
+       style={{ padding: 15, paddingTop: 50, height: win.height }}
+       // style={{ padding: 15, paddingTop: 50, }}
         source={require("./../../../assets/menu.png")}
         resizeMode={"stretch"}
       >
@@ -207,7 +214,8 @@ const SideBar = (props) => {
             style={{
               backgroundColor: "transparent",
               paddingLeft: 15,
-              paddingTop: 15
+              paddingTop: 15,
+
             }}
             button
             onPress={logout}
