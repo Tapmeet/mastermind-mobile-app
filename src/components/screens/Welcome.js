@@ -29,7 +29,7 @@ const Welcome = (props) => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     await AsyncStorage.setItem("accessCheck", '1');
     if (permissionResult.granted === false) {
-      alert("You've refused to allow this appp to access your photos!");
+      alert("You've refused to allow this app to access your photos!");
       setStep3(true);
       setStep2(false);
       return;

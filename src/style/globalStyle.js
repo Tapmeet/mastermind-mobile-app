@@ -399,7 +399,7 @@ export default StyleSheet.create({
   eventsListingTopWrapper: {
     backgroundColor: "#fff",
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "row"
   },
   eventsListingBottomWrapper: {
     backgroundColor: "#fff",

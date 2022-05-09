@@ -38,7 +38,6 @@ const ActiveClasses = (props) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
     }
     const onRefresh = React.useCallback(() => {
-        console.log("herer")
         setRefreshing(true);
         fetchClasses()
         wait(2000).then(() => setRefreshing(false));
@@ -52,8 +51,7 @@ const ActiveClasses = (props) => {
         }, [])
     );
     const fetchClasses = () => {
-
-        fetch(`${apiUrl}odata/ActiveClass`, {
+        fetch(`${apiUrl}/odata/ActiveClass`, {
             method: "get",
             headers: {
                 Accept: "*/*",
@@ -194,7 +192,7 @@ const ActiveClasses = (props) => {
         <Container
             style={{
                 backgroundColor: "#f1f1f1",
-
+                flex: 1,
             }}
         >
             <SideBarMenu title={"Class Check In"} navigation={props.navigation} />
@@ -212,8 +210,7 @@ const ActiveClasses = (props) => {
                         fontWeight: "bold",
                         fontSize: 24,
                         paddingLeft: 15,
-                        backgroundColor: "white",
-                        flex: 1,
+                        backgroundColor: "white"
                     }}
                 >
                     Class Check In
@@ -225,22 +222,13 @@ const ActiveClasses = (props) => {
                         <ActivityIndicator size="large" color="#29ABE2" />
                     </View>
                 ) : typeof classListings !== "undefined" && classListings.length > 0 ? (
-                    // console.log(event)
-                    // console.log('event')
-                    // let starttime = moment(event.ClassStartTime).format("MM-DD-YYYY, hh:mm a ");
-                    // let classDate = moment(event.ClassStartTime).format("YYYY-MM-DD");
-                    // var GivenDate = classDate;
-                    // var CurrentDate = new Date();
-                    // CurrentDate.setHours(0, 0, 0, 0)
-                    // GivenDate = new Date(GivenDate);
-                    //  console.log(GivenDate)
-
                     <FlatList
                         data={classListings}
                         refreshControl={<RefreshControl enabled={true} refreshing={refreshing} onRefresh={onRefresh} />}
+                        contentContainerStyle={{ paddingBottom: 200 }}
                         renderItem={({ item, index, separators }) => (
-                            <View style={{ margin: 10, marginBottom: 0 }} key={index}>
-                                <View >
+                            <View style={{ margin: 10 }} key={index}>
+                                <View>
                                     <View style={globalStyle.eventsListingWrapper}>
                                         <View style={globalStyle.eventsListingTopWrapper}>
                                             <View style={{ paddingLeft: 0, paddingRight: 10 }}>
@@ -261,24 +249,19 @@ const ActiveClasses = (props) => {
                                                     >
                                                         <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
                                                     </Button>
-
-
                                                 </View>
                                             </View>
-
                                         </View>
                                     </View>
                                 </View>
                             </View>
                         )}
                     />
-
                 ) : (
                     <View style={globalStyle.tableList}>
                         <Text>No Active Classes Available </Text>
                     </View>
-                )
-                }
+                )}
             </SafeAreaView>
             {togglePopup ?
                 <View style={globalStyle.popup}>

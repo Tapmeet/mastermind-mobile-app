@@ -193,7 +193,7 @@ const SideBar = (props) => {
             ) : (
               <Thumbnail
                 source={{
-                  uri: "https://pickaface.net/gallery/avatar/20121015_175346_216_karatekid.png",
+                  uri: "https://www.unitedway.ca/wp-content/uploads/2017/06/TempProfile.jpg",
                 }}
               />
             )}
