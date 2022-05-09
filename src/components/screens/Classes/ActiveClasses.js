@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground,FlatList, RefreshControl,SafeAreaView, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
+import { Image, ImageBackground, FlatList, RefreshControl, SafeAreaView, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -161,13 +161,13 @@ const ActiveClasses = (props) => {
                         setSelectedStudent([])
                         setSuccessMessage('')
                     }, 2000);
-                   
+
                 }
                 else {
                     console.log('responses')
                     console.log(response["odata.error"].message.value)
                     setErrorMessage(response["odata.error"].message.value)
-                  //setSuccessMessage(studentName + " has successfully checked In")
+                    //setSuccessMessage(studentName + " has successfully checked In")
                 }
 
 
@@ -219,27 +219,27 @@ const ActiveClasses = (props) => {
                     Class Check In
                 </Text>
             </View>
-            <Content padder>
+            <SafeAreaView nestedScrollEnabled={true}>
                 {loader ? (
                     <View style={[styles.container, styles.horizontal]}>
                         <ActivityIndicator size="large" color="#29ABE2" />
                     </View>
                 ) : typeof classListings !== "undefined" && classListings.length > 0 ? (
-                        // console.log(event)
-                        // console.log('event')
-                        // let starttime = moment(event.ClassStartTime).format("MM-DD-YYYY, hh:mm a ");
-                        // let classDate = moment(event.ClassStartTime).format("YYYY-MM-DD");
-                        // var GivenDate = classDate;
-                        // var CurrentDate = new Date();
-                        // CurrentDate.setHours(0, 0, 0, 0)
-                        // GivenDate = new Date(GivenDate);
-                        //  console.log(GivenDate)
-                        <SafeAreaView  nestedScrollEnabled={true}>
-                        <FlatList
-                            data={classListings}
-                            refreshControl={<RefreshControl  enabled={true}  refreshing={refreshing} onRefresh={onRefresh} />}
-                            renderItem={({ item, index, separators }) => (
-                            <View style={{ marginBottom: 10 }} key={index}>
+                    // console.log(event)
+                    // console.log('event')
+                    // let starttime = moment(event.ClassStartTime).format("MM-DD-YYYY, hh:mm a ");
+                    // let classDate = moment(event.ClassStartTime).format("YYYY-MM-DD");
+                    // var GivenDate = classDate;
+                    // var CurrentDate = new Date();
+                    // CurrentDate.setHours(0, 0, 0, 0)
+                    // GivenDate = new Date(GivenDate);
+                    //  console.log(GivenDate)
+
+                    <FlatList
+                        data={classListings}
+                        refreshControl={<RefreshControl enabled={true} refreshing={refreshing} onRefresh={onRefresh} />}
+                        renderItem={({ item, index, separators }) => (
+                            <View style={{ margin: 10, marginBottom: 0 }} key={index}>
                                 <View >
                                     <View style={globalStyle.eventsListingWrapper}>
                                         <View style={globalStyle.eventsListingTopWrapper}>
@@ -250,7 +250,7 @@ const ActiveClasses = (props) => {
 
                                                 <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
                                                     <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
-                                                    { moment(item.ClassStartTime).format("MM-DD-YYYY, hh:mm a ")}
+                                                    {moment(item.ClassStartTime).format("MM-DD-YYYY, hh:mm a ")}
                                                 </Text>
                                                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
 
@@ -271,15 +271,15 @@ const ActiveClasses = (props) => {
                                 </View>
                             </View>
                         )}
-                        />
-                    </SafeAreaView>
+                    />
+
                 ) : (
                     <View style={globalStyle.tableList}>
                         <Text>No Active Classes Available </Text>
                     </View>
                 )
                 }
-            </Content>
+            </SafeAreaView>
             {togglePopup ?
                 <View style={globalStyle.popup}>
                     <View style={globalStyle.eventsListingWrapper}>
@@ -343,7 +343,7 @@ const ActiveClasses = (props) => {
                                 <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Close</Text>
                             </Button>
                         </View>
-                        <View style={{padding: 15}}>
+                        <View style={{ padding: 15 }}>
                             {loaderMessage ? (
                                 <View style={[styles.container, styles.horizontal]}>
                                     <ActivityIndicator size="large" color="#29ABE2" />
@@ -355,9 +355,9 @@ const ActiveClasses = (props) => {
                     </View>
                 </View>
                 : null}
-
-            <FooterTabs navigation={props.navigation} />
-
+            <View style={{ zIndex: 999, position: "absolute", width: "100%", left: 0, right: 0, bottom: 0 }}>
+                <FooterTabs navigation={props.navigation} />
+            </View>
         </Container>
     );
 };

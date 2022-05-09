@@ -26,7 +26,9 @@ const EventListing = (props) => {
   const [selectedCategory, setSelectedCategory] = React.useState([]);
   const [studentGuid, setStudentGuid] = React.useState('');
   const [refreshing, setRefreshing] = React.useState(false);
-
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
   const onRefresh = React.useCallback(() => {
     //console.log("herer")
     setRefreshing(true);
@@ -61,7 +63,7 @@ const EventListing = (props) => {
       setFilter([])
       setSelectedCategory([])
       setloader(true)
-
+      setRefreshing(false)
       getData()
       getListings()
     }, [])
@@ -239,8 +241,8 @@ const EventListing = (props) => {
                     style={{
                       width: 12,
                       position: "absolute",
-                      top: Platform.OS === "android" ? -15 : -28,
-                      right: 5,
+                       top: Platform.OS === "android" ? -10 : -28,
+                      right: Platform.OS === "android" ? 15 : 5,
                     }}
                     source={require("../../../../assets/arrow-down.png")}
                     resizeMode={"contain"}
@@ -273,8 +275,8 @@ const EventListing = (props) => {
                     style={{
                       width: 12,
                       position: "absolute",
-                      top: Platform.OS === "android" ? -15 : -28,
-                      right: 5,
+                      top: Platform.OS === "android" ? -10 : -28,
+                      right: Platform.OS === "android" ? 15 : 5,
                     }}
                     source={require("../../../../assets/arrow-down.png")}
                     resizeMode={"contain"}
@@ -392,7 +394,7 @@ const pickerSelectStyles = StyleSheet.create({
     fontSize: 12,
     width: "50%",
     fontWeight: "bold",
-    minWidth: 100,
+    minWidth: 170,
     paddingHorizontal: 10,
     paddingVertical: 20,
     borderWidth: 0,

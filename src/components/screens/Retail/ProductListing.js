@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, RefreshControl, SafeAreaView, Dimensions,FlatList, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Image, ImageBackground, RefreshControl, SafeAreaView, Dimensions, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -16,6 +16,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { flex } from "styled-system";
 const apiUrl = API_URL.trim();
 const ProductListing = (props) => {
+
   const [loader, setloader] = React.useState(true);
   const userId = useSelector((state) => state);
   const [eventListing, setEventListing] = React.useState([]);
@@ -26,7 +27,9 @@ const ProductListing = (props) => {
     { label: "Price Low - High", value: "low" },
   ];
   const [refreshing, setRefreshing] = React.useState(false);
-
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
   const onRefresh = React.useCallback(() => {
     console.log("herer")
     setRefreshing(true);
@@ -140,8 +143,8 @@ const ProductListing = (props) => {
                   style={{
                     width: 12,
                     position: "absolute",
-                    top: Platform.OS === "android" ? -15 : -28,
-                    right: 5,
+                    top: Platform.OS === "android" ? -10 : -28,
+                    right: Platform.OS === "android" ? 8 : 5,
                   }}
                   source={require("../../../../assets/arrow-down.png")}
                   resizeMode={"contain"}
@@ -151,16 +154,19 @@ const ProductListing = (props) => {
           />
         </View>
       </View>
-      <Content padder>
+      <SafeAreaView >
         {loader ? (
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
         ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
-          eventListing.map(function (event, index) {
-            return (
-              <View style={{ marginBottom: 10 }} key={index}>
-                <TouchableOpacity onPress={() => storeData(event.PosItemId, event.Title)}>
+
+          <FlatList
+            data={eventListing}
+            refreshControl={<RefreshControl enabled={true} refreshing={refreshing} onRefresh={onRefresh} />}
+            renderItem={({ item, index, separators }) => (
+              <View style={{ margin: 10, marginBottom: 0 }} key={index}>
+                <TouchableOpacity onPress={() => storeData(item.PosItemId, item.Title)}>
                   <View style={globalStyle.eventsListingWrapper}>
                     <View style={globalStyle.eventsListingTopWrapper}>
                       <View style={{ borderRadius: 25, overflow: "hidden" }}>
@@ -175,15 +181,15 @@ const ProductListing = (props) => {
                             paddingBottom: 10,
                           }}
                         >
-                          {event.Title}
+                          {item.Title}
                         </Text>
 
                         <Text style={{ fontSize: 16, color: "#555", fontWeight: "bold" }}>Sizes:
 
-                          {event.Sizes.map(function (size, index) {
+                          {item.Sizes.map(function (size, index) {
                             return (
                               <Text key={index} style={{ fontSize: 16, color: "#555", fontWeight: "normal" }}> {size}
-                                {index < event.Sizes.length - 1 ? ',' : null
+                                {index < item.Sizes.length - 1 ? ',' : null
                                 } </Text>
                             )
                           })}
@@ -191,10 +197,10 @@ const ProductListing = (props) => {
                         </Text>
                         <Text style={{ fontSize: 16, color: "#555", fontWeight: "bold" }}>Colors:
 
-                          {event.Colors.map(function (colors, index) {
+                          {item.Colors.map(function (colors, index) {
                             return (
                               <Text key={index} style={{ fontSize: 16, color: "#555", fontWeight: "normal" }}> {colors}
-                                {index < event.Colors.length - 1 ? ',' : null
+                                {index < item.Colors.length - 1 ? ',' : null
                                 } </Text>
                             )
                           })}
@@ -214,26 +220,29 @@ const ProductListing = (props) => {
                             borderRadius: 15,
                           }}
                         >
-                          {event.IsAvailable ?
+                          {item.IsAvailable ?
                             'Available' : " Out of stock"}
                         </Text>
                       </View>
                     </View>
                     <View style={[globalStyle.eventsListingBottomWrapper, { "flexDirection": "row", justifyContent: "flex-end" }]}>
-                      <Text style={{ fontSize: 12, color: "#46454B", alignSelf: "flex-end", justifyContent: "flex-end" }}> ${event.Price}</Text>
+                      <Text style={{ fontSize: 12, color: "#46454B", alignSelf: "flex-end", justifyContent: "flex-end" }}> ${item.Price}</Text>
                     </View>
                   </View>
                 </TouchableOpacity>
               </View>
-            );
-          })
+            )}
+          />
+
         ) : (
           <View style={globalStyle.tableList}>
             <Text>No Events Available </Text>
           </View>
         )}
-      </Content>
-      <CartWidget navigation={props.navigation} />
+      </SafeAreaView>
+      <View style={{ zIndex: 999, position: "absolute", width: "100%", left: 0, right: 0, bottom: 0 }}>
+        <CartWidget navigation={props.navigation} />
+      </View>
     </Container>
   );
 };

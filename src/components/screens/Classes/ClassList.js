@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, RefreshControl,SafeAreaView, ImageBackground, Dimensions, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Image, RefreshControl, SafeAreaView, Dimensions, ScrollView, ImageBackground, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -16,18 +16,22 @@ const ClassList = (props) => {
     const [eventListing, setEventListing] = React.useState([]);
     const [threshold, setThreshold] = React.useState('');
     const [refreshing, setRefreshing] = React.useState(false);
-
+    const win = Dimensions.get("window");
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
     const onRefresh = React.useCallback(() => {
         console.log("herer")
         setRefreshing(true);
         getData();
-        wait(2000).then(() => setRefreshing(false));
+        //wait(2000).then(() => setRefreshing(false));
     }, []);
     useFocusEffect(
         //navigation.addListener("focus", () => {
         React.useCallback(() => {
             getData();
             // });
+            setRefreshing(false)
         }, [])
     );
     const getData = () => {
@@ -42,8 +46,9 @@ const ClassList = (props) => {
         })
             .then((response) => response.json())
             .then((data) => {
-               // console.log(data)
+                // console.log(data)
                 setThreshold(data.threshold)
+                setRefreshing(false)
                 if (data.classes) {
                     setEventListing(data.classes);
                     setloader(false);
@@ -104,20 +109,19 @@ const ClassList = (props) => {
                     Classes
                 </Text>
             </View> */}
-            <Content padder>
+            <View style={{ marginBottom: 120 }}>
+                <SafeAreaView >
+                    {loader ? (
+                        <View style={[styles.container, styles.horizontal]}>
+                            <ActivityIndicator size="large" color="#29ABE2" />
+                        </View>
+                    ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
 
-                {loader ? (
-                    <View style={[styles.container, styles.horizontal]}>
-                        <ActivityIndicator size="large" color="#29ABE2" />
-                    </View>
-                ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
-                    <SafeAreaView  nestedScrollEnabled={true}>
                         <FlatList
-                        
                             data={eventListing}
-                            refreshControl={<RefreshControl  enabled={true} refreshing={refreshing} onRefresh={onRefresh} />}
+                            refreshControl={<RefreshControl enabled={true} refreshing={refreshing} onRefresh={onRefresh} />}
                             renderItem={({ item, index, separators }) => (
-                                <View style={{ marginBottom: 10 }} key={index}>
+                                <View style={{ margin: 10, marginBottom:0 }} key={index}>
                                     <TouchableOpacity onPress={() => storeData(item.ClassId, item.Name)}>
                                         <View style={globalStyle.eventsListingWrapper}>
                                             <View style={globalStyle.eventsListingTopWrapper}>
@@ -166,15 +170,17 @@ const ClassList = (props) => {
                                 </View>
                             )}
                         />
-                    </SafeAreaView>
-                ) : (
-                    <View style={globalStyle.tableList}>
-                        <Text>No Classes Available </Text>
-                    </View>
-                )}
-            </Content>
-            <FooterTabs navigation={props.navigation} />
 
+                    ) : (
+                        <View style={globalStyle.tableList}>
+                            <Text>No Classes Available </Text>
+                        </View>
+                    )}
+                </SafeAreaView>
+            </View>
+            <View style={{ zIndex: 999, position:"absolute", width:"100%", left:0, right:0, bottom:0 }}>
+                <FooterTabs navigation={props.navigation} />
+            </View>
         </Container>
     );
 };
@@ -208,6 +214,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
+        marginTop:10
     },
     horizontal: {
         flexDirection: "row",
