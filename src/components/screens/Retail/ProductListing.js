@@ -170,7 +170,7 @@ const ProductListing = (props) => {
                   <View style={globalStyle.eventsListingWrapper}>
                     <View style={globalStyle.eventsListingTopWrapper}>
                       <View style={{ borderRadius: 25, overflow: "hidden" }}>
-                        <Image source={require("./../../../../assets/retails.jpg")} style={{ height: 110, width: 130 }} />
+                        <Image source={require("./../../../../assets/retails.jpg")} style={{ height: 110, width: 130, resizeMode: "contain" }} />
                       </View>
                       <View style={{ paddingLeft: 15, paddingRight: 10 }}>
                         <Text

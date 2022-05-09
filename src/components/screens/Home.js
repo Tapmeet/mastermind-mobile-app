@@ -527,8 +527,7 @@ const Home = (props) => {
                                 source={{
                                   uri: "data:image/png;base64," + event.ThumbnailImageBase64,
                                 }}
-                                //source={require("./../../../../assets/img1.png")}
-                                style={{ height: 110, width: 130 }} />
+                                style={{ height: 110, width: 130, resizeMode: 'contain' }} />
                               :
                               <Image
                                 source={require("./../../../assets/img1.png")}
@@ -551,26 +550,9 @@ const Home = (props) => {
                             <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>
                               {starttime} -{endtime}
                             </Text>
-                            {/* <Text
-                              style={{
-                                fontSize: 15,
-                                color: "#44454A",
-                                marginTop: 8,
-                                paddingTop: 2,
-                                paddingLeft: 8,
-                                paddingRight: 8,
-                                paddingBottom: 2,
-                                backgroundColor: "#E9ECF1",
-                                alignSelf: "flex-start",
-                                borderRadius: 15,
-                              }}
-                            >
-                              Online
-                            </Text> */}
                           </View>
                         </View>
                         <View style={globalStyle.eventsListingBottomWrapper}>
-                          {/* <Text style={{ fontSize: 12, color: "#46454B", flex: 1 }}>61 People Purchased</Text> */}
                           <Text style={{ fontSize: 12, color: "#46454B", justifyContent: "flex-end" }}> ${event.Price}</Text>
                         </View>
                       </View>
@@ -607,7 +589,7 @@ const Home = (props) => {
                       <View style={globalStyle.eventsListingWrapper}>
                         <View style={globalStyle.eventsListingTopWrapper}>
                           <View style={{ borderRadius: 25, overflow: "hidden" }}>
-                            <Image source={require("./../../../assets/retails.jpg")} style={{ height: 110, width: 130 }} />
+                            <Image source={require("./../../../assets/retails.jpg")} style={{ height: 110, width: 130, resizeMode: 'contain' }} />
                           </View>
                           <View style={{ paddingLeft: 15, paddingRight: 10 }}>
                             <Text

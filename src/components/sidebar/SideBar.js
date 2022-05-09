@@ -97,7 +97,8 @@ const SideBar = (props) => {
         .then((response) => {
           let jsonData = JSON.stringify(response);
           let jsonDataPrase = JSON.parse(jsonData);
-          //console.log(jsonDataPrase)
+          console.log("yo")
+          console.log(jsonDataPrase)
 
         })
         .catch((response) => {
@@ -152,9 +153,9 @@ const SideBar = (props) => {
   }, [data]);
 
   return (
-    <ScrollView   >
+    <ScrollView>
       <ImageBackground
-        style={{ padding: 15, paddingTop: 50, }}
+        style={{ padding: 15, paddingTop: 50, height: win.height }}
         source={require("./../../../assets/menu.png")}
         resizeMode={"stretch"}
       >
@@ -181,7 +182,7 @@ const SideBar = (props) => {
             )}
           </TouchableOpacity>
           <Text style={[sideBar.name, { color: "#333", marginLeft: 15, fontWeight: "bold" }]}>
-            {firstName ? firstName + " " + lastName : "Michael Jordan"}
+            {firstName ? firstName + " " + lastName : ""}
           </Text>
         </View>
         <Container style={{ backgroundColor: "transparent", paddingTop: 30 }}>

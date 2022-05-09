@@ -334,7 +334,7 @@ const PurchaseEvent = (props) => {
             <View style={[globalStyle.sliderWrapper, { justifyContent: "flex-end", alignSelf: "flex-end", marginTop: 10, marginRight: 20 }]}>
               <Text style={{ fontSize: 18, color: "#333", marginRight: 5 }}>  {item.PaymentTypeId != 2 ? "Card" : "Account"}</Text>
               {item.PaymentTypeId != 2 ?
-                <Image source={require("./../../../../assets/credit-card.png")} style={{ height: 20, width: 20 }} />
+                <Image source={require("./../../../../assets/credit-card.png")} style={{ height: 20, width: 20}} />
                 : <Image source={require("./../../../../assets/museum.png")} style={{ height: 20, width: 20 }} />}
             </View>
           </ImageBackground>

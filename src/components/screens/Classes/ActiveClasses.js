@@ -34,7 +34,9 @@ const ActiveClasses = (props) => {
     const [errorMessage, setErrorMessage] = React.useState("");
     const [selectedTaskName, setSelectedTaskName] = React.useState('');
     const [refreshing, setRefreshing] = React.useState(false);
-
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
     const onRefresh = React.useCallback(() => {
         console.log("herer")
         setRefreshing(true);
@@ -61,8 +63,6 @@ const ActiveClasses = (props) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data)
-                // console.log('data')
                 if (data.value) {
                     setloader(false);
                     setClassListings(data.value);

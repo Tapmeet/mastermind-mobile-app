@@ -8,7 +8,6 @@ export { default as ResetPasswordScreen } from './ResetPassword';
 export { default as AccountSuccessScreen } from './AccountSuccess';
 export { default as ResetSuccessScreen } from './ResetSuccess';
 export { default as HomeScreen } from './Home';
-export { default as AttendanceScreen } from './Attendance';
 export { default as LinkStudentScreen } from './LinkStudent';
 export { default as UserProfileScreen } from './UserProfile';
 export { default as UserProfileMultipleScreen } from './UserProfileMultiple';

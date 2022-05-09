@@ -293,9 +293,6 @@ const EventListing = (props) => {
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
         ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
-          // let startDate = moment(event.EventStartDateTime).format("MMMM Do, YYYY");
-          // let starttime = moment(event.EventStartDateTime).format("hh:mm a ");
-          // let endtime = moment(event.EventEndDateTime).format("hh:mm a ");
           <SafeAreaView >
             <FlatList
               data={eventListing}
@@ -312,8 +309,7 @@ const EventListing = (props) => {
                               source={{
                                 uri: "data:image/png;base64," + item.ThumbnailImageBase64,
                               }}
-                              //source={require("./../../../../assets/img1.png")}
-                              style={{ height: 110, width: 130 }} />
+                              style={{ height: 110, width: 130, resizeMode: "contain"}} />
                             :
                             <Image
                               source={require("./../../../../assets/img1.png")}
@@ -336,26 +332,9 @@ const EventListing = (props) => {
                           <Text style={{ fontSize: 16, color: "#555", marginTop: 5 }}>
                             {moment(item.EventStartDateTime).format("hh:mm a ")} -{moment(item.EventEndDateTime).format("hh:mm a ")}
                           </Text>
-                          {/* <Text
-                          style={{
-                            fontSize: 15,
-                            color: "#44454A",
-                            marginTop: 8,
-                            paddingTop: 2,
-                            paddingLeft: 8,
-                            paddingRight: 8,
-                            paddingBottom: 2,
-                            backgroundColor: "#E9ECF1",
-                            alignSelf: "flex-start",
-                            borderRadius: 15,
-                          }}
-                        >
-                          Online
-                        </Text> */}
                         </View>
                       </View>
                       <View style={globalStyle.eventsListingBottomWrapper}>
-                        {/* <Text style={{ fontSize: 12, color: "#46454B", flex: 1 }}>61 People Purchased</Text> */}
                         <Text style={{ fontSize: 12, color: "#46454B", justifyContent: "flex-end" }}> ${item.Price}</Text>
                       </View>
                     </View>
@@ -370,7 +349,6 @@ const EventListing = (props) => {
           </View>
         )}
       </Content>
-      {/*<FooterTabs navigation={props.navigation}  /> */}
       <CartWidget navigation={props.navigation} />
     </Container>
   );
