@@ -10,17 +10,29 @@ import LOGGED_OUT_USER from "./../../redux/User";
 import EMPTY_CART from "./../../redux/Retail";
 import EMPTY_EVENT from "./../../redux/Event";
 import { EventDetails } from "../screens";
-import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system';
-const routes = ["Home", "Link Student", "Inquiry", "Memberships",  "Payment Methods",  "Purchase History", "Awards", "Events", "Retail", "Class Reservation", "Reserved Classes", "Class Check In","Curriculum"];
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
+const routes = [
+  "Home",
+  "Link Student",
+  "Inquiry",
+  "Memberships",
+  "Payment Methods",
+  "Purchase History",
+  "Awards",
+  "Events",
+  "Retail",
+  "Class Reservation",
+  "Reserved Classes",
+  "Class Check In",
+  "Curriculum",
+];
 
 const SideBar = (props) => {
   const dispatch = useDispatch();
   const userData = (userInfo) => dispatch({ type: "LOGGED_OUT_USER", payload: userInfo });
-  const updateRetail = (updateRetail) =>
-    dispatch({ type: "EMPTY_CART", payload: updateRetail });
-  const updateEvent = (updateEvent) =>
-    dispatch({ type: "EMPTY_EVENT", payload: updateEvent });
+  const updateRetail = (updateRetail) => dispatch({ type: "EMPTY_CART", payload: updateRetail });
+  const updateEvent = (updateEvent) => dispatch({ type: "EMPTY_EVENT", payload: updateEvent });
   const userId = useSelector((state) => state);
   const [data, setData] = React.useState("");
   const [firstName, setFirstName] = React.useState("");
@@ -35,7 +47,7 @@ const SideBar = (props) => {
   const apiUrl = API_URL.trim();
   const logout = () => {
     updateRetail([]);
-    updateEvent([])
+    updateEvent([]);
     userData(userId.userDataReducer[0].id);
   };
   const getprofilePic = (guids) => {
@@ -49,14 +61,14 @@ const SideBar = (props) => {
     })
       .then((response) => response.text())
       .then((data) => {
-        //    console.log(data); 
-        setImg(data)
+        //    console.log(data);
+        setImg(data);
         // if (data.StudentIds.length > 0) {
         //   setPhotoPath(data.PhotoPath);
         // } else {
         // }
       });
-  }
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -68,9 +80,9 @@ const SideBar = (props) => {
     //console.log(result);
     if (!result.cancelled) {
       let localUri = result.uri;
-      let filename = localUri.split('/').pop();
+      let filename = localUri.split("/").pop();
       const base64 = await FileSystem.readAsStringAsync(result.uri, {
-        encoding: 'base64'
+        encoding: "base64",
       });
       //console.log(base64);
       // Infer the type of the image
@@ -80,8 +92,8 @@ const SideBar = (props) => {
       // // Upload the image using the fetch and FormData APIs
       let formData = new FormData();
       // // Assume "photo" is the name of the form field the server expects
-      formData.append('base64', base64);
-      formData.append('fileType', type);
+      formData.append("base64", base64);
+      formData.append("fileType", type);
       setImg(base64);
       console.log(base64);
 
@@ -89,29 +101,28 @@ const SideBar = (props) => {
         method: "post",
         headers: {
           Accept: "*/*",
-          'Content-Type': 'multipart/form-data; ',
+          "Content-Type": "multipart/form-data; ",
           Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
         },
-        body: formData
+        body: formData,
       })
         .then((response) => {
           let jsonData = JSON.stringify(response);
           let jsonDataPrase = JSON.parse(jsonData);
-          console.log("yo")
-          console.log(jsonDataPrase)
-
+          console.log("yo");
+          console.log(jsonDataPrase);
         })
         .catch((response) => {
-          console.log(response)
+          console.log(response);
         });
     }
   };
   React.useEffect(() => {
     (async () => {
-      if (Platform.OS !== 'web') {
+      if (Platform.OS !== "web") {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
+        if (status !== "granted") {
+          alert("Sorry, we need camera roll permissions to make this work!");
         }
       }
     })();
@@ -132,17 +143,16 @@ const SideBar = (props) => {
             setFirstName(data.FirstName);
             setLastName(data.LastName);
             setGuid(data.StudentAccountGuid);
-            let thresholdString = data.OrganizationGuid.toString()
-            console.log(thresholdString)
+            let thresholdString = data.OrganizationGuid.toString();
+            console.log(thresholdString);
             try {
               await AsyncStorage.setItem("studentGuid", data.StudentAccountGuid);
               await AsyncStorage.setItem("organizationGuid", thresholdString);
-
             } catch (e) {
               // saving error
             }
             setloader(false);
-            getprofilePic(data.StudentAccountGuid)
+            getprofilePic(data.StudentAccountGuid);
           } else {
             setFirstName(data.FirstName);
             setLastName(data.LastName);
@@ -163,10 +173,10 @@ const SideBar = (props) => {
           style={{
             display: "flex",
             flexDirection: "row",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
-          <TouchableOpacity onPress={pickImage} >
+          <TouchableOpacity onPress={pickImage}>
             {img ? (
               <Thumbnail
                 source={{
@@ -181,9 +191,7 @@ const SideBar = (props) => {
               />
             )}
           </TouchableOpacity>
-          <Text style={[sideBar.name, { color: "#333", marginLeft: 15, fontWeight: "bold" }]}>
-            {firstName ? firstName + " " + lastName : ""}
-          </Text>
+          <Text style={[sideBar.name, { color: "#333", marginLeft: 15, fontWeight: "bold" }]}>{firstName ? firstName + " " + lastName : ""}</Text>
         </View>
         <Container style={{ backgroundColor: "transparent", paddingTop: 30 }}>
           <List style={{ backgroundColor: "transparent" }}>
@@ -195,17 +203,18 @@ const SideBar = (props) => {
               );
             })}
           </List>
+          <TouchableOpacity
+            style={{
+              backgroundColor: "transparent",
+              paddingLeft: 15,
+              paddingTop: 15
+            }}
+            button
+            onPress={logout}
+          >
+            <Text style={{ color: "#fff", fontWeight: "bold" }}>Logout</Text>
+          </TouchableOpacity>
         </Container>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "transparent",
-            paddingLeft: 15
-          }}
-          button
-          onPress={logout}
-        >
-          <Text style={{ color: "#fff", fontWeight: "bold" }}>Logout</Text>
-        </TouchableOpacity>
       </ImageBackground>
     </ScrollView>
   );
