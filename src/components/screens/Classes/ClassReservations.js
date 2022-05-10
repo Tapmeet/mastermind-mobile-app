@@ -89,7 +89,7 @@ const ClassReservations = (props) => {
 
     const fetchdata = (value, taskId) => {
 
-        fetch(`${apiUrl}public/GetClassOccurrences?classId=${value}`, {
+        fetch(`${apiUrl}/public/GetClassOccurrences?classId=${value}`, {
             method: "get",
             headers: {
                 Accept: "*/*",

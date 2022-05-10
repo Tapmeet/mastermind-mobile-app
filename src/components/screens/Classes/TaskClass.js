@@ -111,7 +111,7 @@ const TaskClass = (props) => {
             setThreshold(threshold)
             setClassId(value)
             setTaskTitle(title)
-            fetch(`${apiUrl}public/GetClassOccurrences?classId=${value}`, {
+            fetch(`${apiUrl}/public/GetClassOccurrences?classId=${value}`, {
                 method: "get",
                 headers: {
                     Accept: "*/*",

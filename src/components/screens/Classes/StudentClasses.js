@@ -89,7 +89,7 @@ const StudentClasses = (props) => {
         setLoaderMessage(true)
         setSuccessMessage('')
         setErrorMessage("")
-        fetch(`${apiUrl}public/CancelReservation`, {
+        fetch(`${apiUrl}/public/CancelReservation`, {
             method: "POST",
             headers: {
                 Accept: "*/*",
