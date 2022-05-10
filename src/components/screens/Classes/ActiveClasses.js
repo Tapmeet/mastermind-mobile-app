@@ -47,6 +47,7 @@ const ActiveClasses = (props) => {
             // if (eventListing == '') {
             fetchClasses()
             getStudents()
+            setloader(true)
             // }
         }, [])
     );
@@ -54,7 +55,7 @@ const ActiveClasses = (props) => {
         fetch(`${apiUrl}/odata/ActiveClass`, {
             method: "get",
             headers: {
-                Accept: "*/*",
+                Accept: "*/*", 
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
             },
@@ -374,6 +375,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
+        marginTop:20
     },
     horizontal: {
         flexDirection: "row",

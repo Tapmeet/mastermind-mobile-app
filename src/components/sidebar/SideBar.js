@@ -15,17 +15,17 @@ import * as FileSystem from "expo-file-system";
 const routes = [
   "Home",
   "Link Student",
-  "Inquiry",
   "Memberships",
   "Payment Methods",
   "Purchase History",
-  "Awards",
   "Events",
   "Retail",
   "Class Reservation",
   "Reserved Classes",
   "Class Check In",
   "Curriculum",
+  "Awards",
+  "Inquiry",
 ];
 
 const SideBar = (props) => {
@@ -143,8 +143,8 @@ const SideBar = (props) => {
       })
         .then((response) => response.json())
         .then(async (data) => {
-          //  console.log(data)
-          if (data.StudentIds.length > 0) {
+            console.log(data)
+          if (data.StudentIds.length > 0 && data.StudentIds != undefined) {
             setStudentIds(data.StudentIds);
             setFirstName(data.FirstName);
             setLastName(data.LastName);

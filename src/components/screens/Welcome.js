@@ -46,14 +46,18 @@ const Welcome = (props) => {
     props.navigation.navigate("Login");
   }
   async function getData() {
+    setloader(true)
     try {
       const value = await AsyncStorage.getItem("accessCheck");
       console.log(value)
       if (value == 1) {
-        setloader(false)
         props.navigation.navigate("Login");
+        setTimeout(function () { setloader(false) }, 2000);
       }
-      setloader(false)
+      else{
+        setTimeout(function () { setloader(false) }, 1000);
+      }
+      
     } catch (e) { }
 
   }

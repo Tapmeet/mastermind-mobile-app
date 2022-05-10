@@ -414,7 +414,7 @@ const TaskClass = (props) => {
 
         })
         setLoaderMessage(true)
-
+        console.log(apiUrl)
         fetch(`${apiUrl}public/ClassReservation`, {
             method: "post",
             headers: {
@@ -432,7 +432,8 @@ const TaskClass = (props) => {
         })
             .then((response) => response.text())
             .then((data) => {
-              //  console.log(data)
+                console.log('data')
+                console.log(data)
                 if (data != "FAILURE:You are already signed up for this class") {
                     setLoaderMessage(false)
                     setSuccessMessage("Successfully Submitted.");
@@ -624,7 +625,7 @@ const TaskClass = (props) => {
                             </View>
                             {selectedDate != '' ?
                                 <View style={globalStyle.eventsListingWrapper}>
-                                    <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Student</Text>
+                                    <Text style={{ fontWeight: "bold", marginBottom: 10 }}>{studentIds.length > 0 && studentIds.length != undefined ? 'Select Student': "No students linked"}</Text>
                                     <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
                                         {studentIds.length > 0 && studentIds.length != undefined ?
                                             <RNPickerSelect

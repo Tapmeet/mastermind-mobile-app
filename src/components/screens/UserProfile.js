@@ -14,6 +14,7 @@ import { SideBarMenu } from "../sidebar";
 import { set } from "react-native-reanimated";
 import FooterTabs from "../footer/Footer";
 import moment from "moment";
+import { useFocusEffect } from '@react-navigation/native';
 const UserProfile = (props) => {
   const [adult, setAdult] = React.useState("");
   const [open, setOpen] = React.useState(false);
@@ -293,8 +294,9 @@ const UserProfile = (props) => {
       setTimeout(() => setErrorMessage(""), 3000);
     }
   }, [SuccessMessage]);
-  React.useEffect(() => {
-    navigation.addListener("focus", () => {
+  useFocusEffect(
+    //navigation.addListener("focus", () => {
+    React.useCallback(() => {
       setloader(true);
       clearData();
       setStudentIds([]);
@@ -310,7 +312,11 @@ const UserProfile = (props) => {
         })
           .then((response) => response.json())
           .then((data) => {
-            if (data.StudentIds.length > 0) {
+         
+            if (data["odata.error"]) {
+              setloader(false);
+            }
+            if (data.StudentIds.length > 0 && data.StudentIds != undefined) {
               var students = data.StudentIds.length;
               setStudentIds([]);
               data.StudentIds.map((id, index) => {
@@ -408,8 +414,8 @@ const UserProfile = (props) => {
             setBeltSizeList(belts);
           });
       }
-    });
-  }, [data]);
+    }, [])
+  );
   const storeData = async (value) => {
     let profileId = JSON.stringify(value);
     try {

@@ -23,19 +23,24 @@ const ClassList = (props) => {
     const onRefresh = React.useCallback(() => {
         console.log("herer")
         setRefreshing(true);
-        getData();
+        getData(false);
         //wait(2000).then(() => setRefreshing(false));
     }, []);
     useFocusEffect(
         //navigation.addListener("focus", () => {
         React.useCallback(() => {
-            getData();
+            getData(true);
             // });
             setRefreshing(false)
         }, [])
     );
-    const getData = () => {
-        setloader(true)
+    const getData = (check) => {
+        if(check==false){
+            setloader(false)
+        }else{
+            setloader(true)
+        }
+       
         fetch(`${apiUrl}/odata/OrganizationClass`, {
             method: "get",
             headers: {

@@ -12,6 +12,7 @@ import moment from "moment";
 import { API_URL } from "../../Utility/AppConst";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import { flex, marginBottom } from "styled-system";
+import { useFocusEffect } from '@react-navigation/native';
 import _ from "lodash";
 const apiUrl = API_URL.trim();
 var eventsList = [];
@@ -83,8 +84,9 @@ const EventOrdersListing = (props) => {
         });
     }
   }
-  React.useEffect(() => {
-    navigation.addListener("focus", () => {
+  useFocusEffect(
+    //navigation.addListener("focus", () => {
+    React.useCallback(() => {
       setloader(true);
       setStudentIds([]);
       setEventListing([]);
@@ -93,8 +95,8 @@ const EventOrdersListing = (props) => {
       if (eventListing.length <= 0) {
         getEvents();
       }
-    });
-  });
+    }, [])
+  );
   function getEvents() {
     fetch(`${apiUrl}/odata/PurchaseOfSale`, {
       method: "get",
@@ -249,6 +251,7 @@ const EventOrdersListing = (props) => {
           setfilterLoader(false);
         }, 300);
       } else {
+        console.log("here")
         const newArray = eventsList.filter((item) => {
           return item.LinkedStudentIds.indexOf(value) >= 0;
         });
@@ -257,6 +260,9 @@ const EventOrdersListing = (props) => {
           setTimeout(function () {
             setfilterLoader(false);
           }, 300);
+        }
+        else {
+          setfilterLoader(false);
         }
       }
     } else {
@@ -277,7 +283,7 @@ const EventOrdersListing = (props) => {
       <SideBarMenu title={" Purchase History"} navigation={props.navigation} />
       <View style={[globalStyle.flexStandard, { padding: 10, display: "flex", alignItems: "center", justifyContent: "center" }]}>
         <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-          {loader== false && studentIds.length > 0 ? (
+          {loader == false && studentIds.length > 0 ? (
             <RNPickerSelect
               value={filter}
               items={filterList}
@@ -302,7 +308,7 @@ const EventOrdersListing = (props) => {
                       width: 12,
                       position: "absolute",
                       top: Platform.OS === "android" ? -10 : -28,
-                      right:  Platform.OS === "android" ? 8 : 5,
+                      right: Platform.OS === "android" ? 8 : 5,
                     }}
                     source={require("../../../../assets/arrow-down.png")}
                     resizeMode={"contain"}
@@ -487,7 +493,7 @@ const EventOrdersListing = (props) => {
           </View>
         )}
       </Content>
-     <FooterTabs navigation={props.navigation}  />
+      <FooterTabs navigation={props.navigation} />
     </Container>
   );
 };
