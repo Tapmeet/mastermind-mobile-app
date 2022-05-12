@@ -254,7 +254,7 @@ const EventDetails = (props) => {
         backgroundColor: "#FFFFFF",
       }}
     >
-      <SideBarMenu title={"Event Detail"} navigation={props.navigation} />
+      <SideBarMenu title={"Event Details"} navigation={props.navigation} />
       {loader ? (
         <Content>
           <View style={[styles.container, styles.horizontal]}>

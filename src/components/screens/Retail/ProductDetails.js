@@ -528,9 +528,11 @@ const ProductDetails = (props) => {
                         paddingBottom: 20
                       }}>
                         <Text style={{ color: "#1873e8", fontSize: 24, fontWeight: "bold" }}>${event.Price}  </Text>
+                        {studentIds.length > 0 && studentIds.length != undefined ?
                         <TouchableOpacity style={globalStyle.purchaseBtn} onPress={() => storeData(event.PosItemId, event.Price)} >
                           <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, paddingBottom: 15, paddingLeft: 30, paddingRight: 30, paddingTop: 15, fontSize: 22, fontWeight: "bold", borderRadius: 15 }}>Add to cart</Text>
                         </TouchableOpacity>
+                        : <Text>No students linked</Text> }
                       </View>
                       : null
                     }

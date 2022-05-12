@@ -324,11 +324,11 @@ const StudentClasses = (props) => {
                                                             <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
                                                                 {event.StudentName}
                                                             </Text>
-                                                            <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                                                            {/* <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
                                                                 {event.StudentEmail}
-                                                            </Text>
+                                                            </Text> */}
                                                             <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
-                                                                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
+                                                                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>Class Time: </Text>
                                                                 {starttime}
                                                             </Text>
                                                             {event.isAlreadyCheckedIn ?
@@ -410,7 +410,7 @@ const StudentClasses = (props) => {
                                                                 {event.StudentEmail}
                                                             </Text>
                                                             <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
-                                                                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
+                                                                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>Class Time: </Text>
                                                                 {starttime}
                                                             </Text>
                                                             {event.isAlreadyCheckedIn ?

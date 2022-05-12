@@ -278,7 +278,7 @@ const UserProfile = (props) => {
         let jsonDataPrase = JSON.parse(jsonData);
         // console.log(jsonDataPrase.status);
         if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
-          setSuccessMessage("Update Successfully");
+          setSuccessMessage("Successfully Updated");
         } else {
           setErrorMessage("An error has occurred.");
         }

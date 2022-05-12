@@ -270,7 +270,7 @@ const ActiveClasses = (props) => {
                         <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
                             {selectedTaskName}
                         </Text>
-                        <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Check In time:
+                        <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Class Start Time:
                             <Text style={{ fontSize: 18, fontWeight: "normal", color: "#555", paddingLeft: 10, lineHeight: 26, marginBottom: 10 }}>
                                 {moment(selectedCheckinTime).format("MM-DD-YYYY, hh:mm a ")}
                             </Text> </Text>

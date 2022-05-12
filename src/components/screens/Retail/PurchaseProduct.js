@@ -204,7 +204,7 @@ const PurchaseProduct = (props) => {
       retail.cartItemsReducer.map(function (product, index) {
         console.log('productproductproductproductproductproduct')
         console.log(product)
-    
+
         fetch(`${apiUrl}/odata/PurchaseOfSale`, {
           method: "post",
           headers: {
@@ -225,8 +225,8 @@ const PurchaseProduct = (props) => {
           .then((response) => response.json())
           .then((response) => {
             setProcessing(false)
-             console.log('response');
-             console.log(response);
+            console.log('response');
+            console.log(response);
             // setLoaderMessage(false);
             if (response["order"]) {
               setSuccessMessage("Product Purchased  Successfully");
@@ -260,9 +260,9 @@ const PurchaseProduct = (props) => {
           });
       })
       : null
-      setTimeout(function () {
-        updateRetail([]);
-      }, 5000);
+    setTimeout(function () {
+      updateRetail([]);
+    }, 5000);
     // .then((response) => {
     //   console.log(response);
     //   setLoaderMessage(false);
@@ -426,39 +426,66 @@ const PurchaseProduct = (props) => {
             ) : (
               <View>
                 <View>
-                  <View>
-                    <Text
+
+                  {loader == false && paymentMethod.length > 0 && paymentMethod != undefined ?
+                    <View>
+                      <Text
+                        style={{
+                          color: "#000",
+                          fontSize: 18,
+                          fontWeight: "bold",
+                          lineHeight: 26,
+                          marginBottom: 10,
+                          marginTop: 20,
+                        }}
+                      >
+                        Select Payment Method:
+                      </Text>
+
+                      <View
+                        style={{
+                          marginLeft: -70,
+                          marginTop: 20,
+                          marginBottom: 20,
+                        }}
+                      >
+
+                        <Carousel
+                          ref={isCarousel}
+                          data={paymentMethod}
+                          renderItem={CarouselCardItem}
+                          sliderWidth={SLIDER_WIDTH}
+                          itemWidth={ITEM_WIDTH}
+                          useScrollView={false}
+                          currentIndex={activeindex}
+                        />
+                      </View>
+                    </View>
+                    :
+                    <View
                       style={{
-                        color: "#000",
-                        fontSize: 18,
-                        fontWeight: "bold",
-                        lineHeight: 26,
-                        marginBottom: 10,
+                        marginLeft: 0,
                         marginTop: 20,
+                        marginBottom: 20,
                       }}
                     >
-                      Select Payment Method:
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      marginLeft: -70,
-                      marginTop: 20,
-                      marginBottom: 20,
-                    }}
-                  >
-                    {loader == false ?
-                      <Carousel
-                        ref={isCarousel}
-                        data={paymentMethod}
-                        renderItem={CarouselCardItem}
-                        sliderWidth={SLIDER_WIDTH}
-                        itemWidth={ITEM_WIDTH}
-                        useScrollView={false}
-                        currentIndex={activeindex}
-                      />
-                      : null}
-                  </View>
+                      <ImageBackground
+                        style={[
+                          globalStyle.Btn,
+                          {
+                            width: "100%",
+                          },
+                        ]}
+                        source={require("./../../../../assets/Oval.png")}
+                        resizeMode={"stretch"}
+                      >
+                        <Button onPress={() => props.navigation.navigate("Payment Methods")} style={loginStyle.buttons} full>
+                          <Text style={loginStyle.buttonText}>Add Payment Method</Text>
+                        </Button>
+                      </ImageBackground>
+                    </View>
+                  }
+
                   {errorMessage != "" ? (
                     <Text style={globalStyle.errorText}>{errorMessage}</Text>
                   ) : null}
@@ -468,7 +495,7 @@ const PurchaseProduct = (props) => {
                     </Text>
                   ) : null}
                   <Content style={loginStyle.formContainer}>
-                    {!purchaseStatus ?
+                    {!purchaseStatus && paymentMethod.length > 0 && paymentMethod != undefined ?
                       <ImageBackground
                         style={[
                           globalStyle.Btn,

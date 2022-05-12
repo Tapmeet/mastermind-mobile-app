@@ -523,7 +523,7 @@ const TaskClass = (props) => {
                 backgroundColor: "#FFFFFF",
             }}
         >
-            <SideBarMenu title={"Class Schedule"} backLink="Class Reservation" navigation={props.navigation} />
+            <SideBarMenu title={"Class Reservation"} backLink="Class Reservation" navigation={props.navigation} />
             <Content padder>
                 {loader ? (
                     <Content>

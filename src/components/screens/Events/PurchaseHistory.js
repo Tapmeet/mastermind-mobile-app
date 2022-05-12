@@ -92,9 +92,9 @@ const EventOrdersListing = (props) => {
       setEventListing([]);
       setEventList([]);
       setSelectedStudent("");
-      if (eventListing.length <= 0) {
-        getEvents();
-      }
+      // if (eventListing.length <= 0) {
+      getEvents();
+      //}
     }, [])
   );
   function getEvents() {
@@ -110,10 +110,12 @@ const EventOrdersListing = (props) => {
       .then((data) => {
         if (data.orders) {
           setEventListing(data.orders);
+
+          console.log(data.orders)
           setEventList(data.orders);
-          if (loader == true) {
-            getStudents();
-          }
+          // if (loader == true) {
+          getStudents();
+          // }
           setloader(false);
         } else {
           setloader(false);
@@ -134,12 +136,8 @@ const EventOrdersListing = (props) => {
       if (value == "30") {
         var toDate = new Date();
         var fromDate = new Date();
-        fromDate.setDate(fromDate.getDate() - 30);
-        console.log(fromDate);
-        console.log(toDate);
-        // var fromDate = new Date(date.getFullYear(), date.getMonth() - 20, 1);
-        toDate.setDate(fromDate.getDate());
-        //console.log(toDate)
+        toDate.setDate(toDate.getDate() + 1);
+        fromDate.setDate(fromDate.getDate() - 31);
         const eventlisting = eventsList.filter((item) => {
           return new Date(item.DateCreated).getTime() >= fromDate.getTime() && new Date(item.DateCreated).getTime() <= toDate.getTime();
         });
@@ -157,11 +155,12 @@ const EventOrdersListing = (props) => {
       } else if (value == "60") {
         var toDate = new Date();
         var fromDate = new Date();
+       
         fromDate.setDate(fromDate.getDate() - 60);
         console.log(fromDate);
         // var fromDate = new Date(date.getFullYear(), date.getMonth() - 20, 1);
-        toDate.setDate(fromDate.getDate());
-        console.log(toDate);
+        toDate.setDate(toDate.getDate() + 1);
+
         const eventlisting = eventsList.filter((item) => {
           return new Date(item.DateCreated).getTime() >= fromDate.getTime() && new Date(item.DateCreated).getTime() <= toDate.getTime();
         });
@@ -179,10 +178,11 @@ const EventOrdersListing = (props) => {
       } else if (value == "90") {
         var toDate = new Date();
         var fromDate = new Date();
+        toDate.setDate(toDate.getDate() + 1);
         fromDate.setDate(fromDate.getDate() - 90);
         console.log(fromDate);
         // var fromDate = new Date(date.getFullYear(), date.getMonth() - 20, 1);
-        toDate.setDate(fromDate.getDate());
+        // toDate.setDate(fromDate.getDate());
         console.log(toDate);
         const eventlisting = eventsList.filter((item) => {
           return new Date(item.DateCreated).getTime() >= fromDate.getTime() && new Date(item.DateCreated).getTime() <= toDate.getTime();
@@ -197,14 +197,14 @@ const EventOrdersListing = (props) => {
         }
         setTimeout(function () {
           setfilterLoader(false);
-        }, 300);
+        }, 300); 
       } else if (value == "180") {
         var toDate = new Date();
         var fromDate = new Date();
         fromDate.setDate(fromDate.getDate() - 180);
         console.log(fromDate);
         // var fromDate = new Date(date.getFullYear(), date.getMonth() - 20, 1);
-        toDate.setDate(fromDate.getDate());
+        toDate.setDate(toDate.getDate() + 1);
         console.log(toDate);
         const eventlisting = eventsList.filter((item) => {
           return new Date(item.DateCreated).getTime() >= fromDate.getTime() && new Date(item.DateCreated).getTime() <= toDate.getTime();
@@ -255,6 +255,7 @@ const EventOrdersListing = (props) => {
         const newArray = eventsList.filter((item) => {
           return item.LinkedStudentIds.indexOf(value) >= 0;
         });
+        console.log(newArray) 
         if (newArray.length > 0) {
           setEventListing(newArray);
           setTimeout(function () {
@@ -262,6 +263,7 @@ const EventOrdersListing = (props) => {
           }, 300);
         }
         else {
+          setEventListing(newArray);
           setfilterLoader(false);
         }
       }
@@ -283,40 +285,40 @@ const EventOrdersListing = (props) => {
       <SideBarMenu title={" Purchase History"} navigation={props.navigation} />
       <View style={[globalStyle.flexStandard, { padding: 10, display: "flex", alignItems: "center", justifyContent: "center" }]}>
         <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-          {loader == false && studentIds.length > 0 ? (
-            <RNPickerSelect
-              value={filter}
-              items={filterList}
-              placeholder={placeholderFiler}
-              onValueChange={(value) => setfilter(value)}
-              style={{
-                ...pickerSelectStyles,
-                iconContainer: {
-                  top: Platform.OS === "android" ? 20 : 30,
-                  right: 10,
-                },
-                placeholder: {
-                  color: "#8a898e",
-                  fontSize: 12,
-                  fontWeight: "bold",
-                },
-              }}
-              Icon={() => {
-                return (
-                  <Image
-                    style={{
-                      width: 12,
-                      position: "absolute",
-                      top: Platform.OS === "android" ? -10 : -28,
-                      right: Platform.OS === "android" ? 8 : 5,
-                    }}
-                    source={require("../../../../assets/arrow-down.png")}
-                    resizeMode={"contain"}
-                  />
-                );
-              }}
-            />
-          ) : null}
+
+          <RNPickerSelect
+            value={filter}
+            items={filterList}
+            placeholder={placeholderFiler}
+            onValueChange={(value) => setfilter(value)}
+            style={{
+              ...pickerSelectStyles,
+              iconContainer: {
+                top: Platform.OS === "android" ? 20 : 30,
+                right: 10,
+              },
+              placeholder: {
+                color: "#8a898e",
+                fontSize: 12,
+                fontWeight: "bold",
+              },
+            }}
+            Icon={() => {
+              return (
+                <Image
+                  style={{
+                    width: 12,
+                    position: "absolute",
+                    top: Platform.OS === "android" ? -10 : -28,
+                    right: Platform.OS === "android" ? 8 : 5,
+                  }}
+                  source={require("../../../../assets/arrow-down.png")}
+                  resizeMode={"contain"}
+                />
+              );
+            }}
+          />
+
         </View>
       </View>
       <Content padder style={{ marginTop: 10 }}>
@@ -470,7 +472,7 @@ const EventOrdersListing = (props) => {
                           Size: {event.Size}
                         </Text>
                       ) : null}
-                      {event.Colors ? (
+                      {event.Color ? (
                         <Text
                           style={{
                             fontSize: 16,
@@ -478,7 +480,7 @@ const EventOrdersListing = (props) => {
                             color: "#333",
                           }}
                         >
-                          Color: {event.Colors}
+                          Color: {event.Color}
                         </Text>
                       ) : null}
                     </View>
