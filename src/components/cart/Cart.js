@@ -253,7 +253,7 @@ const Cart = (props) => {
                                                         fontSize: 16,
                                                         fontWeight: "600",
                                                         color: "#898989",
-                                                    }}>Quanity:
+                                                    }}>Quantity:
                                                     </Text>
                                                     <View style={{ position: "absolute", right: -15, top: -5 }}>
                                                         <RNPickerSelect

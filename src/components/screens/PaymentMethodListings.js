@@ -206,7 +206,7 @@ const PaymentMethodListings = (props) => {
                             style={defaultId == payment.PersonPaymentMethodId ? [{ alignSelf: "center", justifyContent: "center", backgroundColor: "#4585ff", borderRadius: 6 }] : [{ alignSelf: "center", justifyContent: "center", backgroundColor: "#fff", borderRadius: 6 }]}
                             onPress={() => setDefault(payment.PersonPaymentMethodId)}
                           >
-                            <Text style={defaultId == payment.PersonPaymentMethodId ? [loginStyle.buttonText, { textAlign: "center", color: "#fff" }] : [loginStyle.buttonText, { textAlign: "center", color: "#000" }]}>Set Default</Text>
+                            <Text style={defaultId == payment.PersonPaymentMethodId ? [loginStyle.buttonText, { textAlign: "center", color: "#fff" }] : [loginStyle.buttonText, { textAlign: "center", color: "#000" }]}>Set as Default</Text>
                           </Button>
                           <Button
                             style={[{ alignSelf: "center", justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6 }]}

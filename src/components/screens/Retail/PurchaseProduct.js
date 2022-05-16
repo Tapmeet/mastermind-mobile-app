@@ -407,7 +407,7 @@ const PurchaseProduct = (props) => {
                     ${total}
                   </Text>
                 </View>
-                <Text
+                {/* <Text
                   style={{
                     color: "#555",
                     fontSize: 20,
@@ -416,7 +416,7 @@ const PurchaseProduct = (props) => {
                   }}
                 >
                   Please provide the details below
-                </Text>
+                </Text> */}
               </View>
             </View>
             {loader ? (
