@@ -2,7 +2,8 @@ import React from "react";
 import { StyleSheet, LogBox } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useFocusEffect } from '@react-navigation/native';
 import {
   LoginScreen,
   SignUpScreen,
@@ -18,7 +19,8 @@ import {
 } from "./src/components/screens";
 import { Drawer } from "./src/components/sidebar";
 import { Logs } from "expo";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import LOGGED_IN_USER from "./src/redux/User";
 if (__DEV__) {
   const isRemoteDebuggingEnabled = typeof atob !== "undefined";
   if (isRemoteDebuggingEnabled) {
@@ -28,8 +30,35 @@ if (__DEV__) {
   }
 }
 LogBox.ignoreAllLogs();
+
 const Main = (props) => {
+  const dispatch = useDispatch();
+  const userData = (userInfo) =>
+    dispatch({ type: "LOGGED_IN_USER", payload: userInfo });
   const userId = useSelector((state) => state);
+  async function getData() {
+    try {
+      const value = await AsyncStorage.getItem("tokenCheck");
+      console.log('here');
+      console.log(value)
+      console.log(userId.userDataReducer.length);
+      console.log('userId');
+      if (value != '' && value != null && typeof userId !== "undefined" && userId.userDataReducer.length == 0) {
+        userData({ id: 1, access_Token: value });
+      }
+      else {
+        console.log('valuess')
+      }
+    } catch (e) { }
+
+  }
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     getData()
+  //   }, [])
+  // );
+  getData()
+
   // console.log(userId)
   const AuthStack = createStackNavigator();
   return (

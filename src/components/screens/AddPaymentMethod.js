@@ -10,6 +10,7 @@ import { SideBarMenu } from "../sidebar";
 import DatePicker from "react-native-datepicker";
 import FooterTabs from "../footer/Footer";
 import moment from "moment";
+import { useFocusEffect } from '@react-navigation/native';
 const apiUrl = API_URL.trim();
 const AddPaymentMethod = (props) => {
   const [loader, setloader] = React.useState(false);
@@ -56,11 +57,11 @@ const AddPaymentMethod = (props) => {
     { label: "11", value: "11" },
     { label: "12", value: "12" },
   ];
-  React.useEffect(() => {
-    navigation.addListener("focus", () => {
+  useFocusEffect(
+    React.useCallback(() => {
       clearData();
-    });
-  });
+    }, [])
+  );
   const clearData = () => {
     setNickname("");
     setCardNumber("");
@@ -125,7 +126,7 @@ const AddPaymentMethod = (props) => {
       return false;
     } else {
       setCheckCardExpirationDate(false);
-    } 
+    }
     setLoaderMessage(true);
     console.log(CardCode);
     console.log(cardexpiration);
@@ -258,8 +259,8 @@ const AddPaymentMethod = (props) => {
                             style={{
                               width: 12,
                               position: "absolute",
-                               top: Platform.OS === "android" ? -10 : -15,
-                              right:  Platform.OS === "android" ? 8 : 0,
+                              top: Platform.OS === "android" ? -10 : -15,
+                              right: Platform.OS === "android" ? 8 : 0,
                             }}
                             source={require("../../../assets/arrow-down.png")}
                             resizeMode={"contain"}
@@ -292,7 +293,7 @@ const AddPaymentMethod = (props) => {
                               width: 12,
                               position: "absolute",
                               top: Platform.OS === "android" ? -10 : -15,
-                              right:  Platform.OS === "android" ? 8 : 0,
+                              right: Platform.OS === "android" ? 8 : 0,
                             }}
                             source={require("../../../assets/arrow-down.png")}
                             resizeMode={"contain"}

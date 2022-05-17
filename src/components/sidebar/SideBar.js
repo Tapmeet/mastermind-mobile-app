@@ -12,20 +12,21 @@ import EMPTY_EVENT from "./../../redux/Event";
 import { EventDetails } from "../screens";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const routes = [
   "Home",
   "Link Student",
   "Memberships",
   "Payment Methods",
   "Purchase History",
-  "Events",
-  "Retail",
-  "Class Reservation",
-  "Reserved Classes",
-  "Class Check In",
-  "Curriculum",
-  "Awards",
-  "Inquiry",
+  // "Events",
+  // "Retail",
+  // "Class Reservation",
+  // "Reserved Classes",
+  // "Class Check In",
+  // "Curriculum",
+  // "Awards",
+  // "Inquiry",
 ];
 
 const SideBar = (props) => {
@@ -45,10 +46,13 @@ const SideBar = (props) => {
   const win = Dimensions.get("window");
   const [image, setImage] = React.useState(null);
   const apiUrl = API_URL.trim();
-  const logout = () => {
+  const logout = async () => {
+    await AsyncStorage.setItem("tokenCheck", '');
+    console.log('here')
     updateRetail([]);
     updateEvent([]);
     userData(userId.userDataReducer[0].id);
+    
   };
   const getprofilePic = (guids) => {
     fetch(`${apiUrl}/Public/GetProfilePicture?guid=${guids}`, {

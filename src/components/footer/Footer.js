@@ -113,7 +113,7 @@ const FooterTabs = (props) => {
             school.map(function (school, index) {
               return (
                 school.ExternalLinkType == 'ReferAFriend' ?
-                  <Button onPress={() => openLink(school.Address)}>
+                  <Button key={index} onPress={() => openLink(school.Address)}>
                     <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/people.png")} />
                   </Button>
                   : null

@@ -10,6 +10,7 @@ import {
 import { API_URL } from "./../Utility/AppConst";
 import * as ImagePicker from 'expo-image-picker'; 
 import * as FileSystem from 'expo-file-system';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Container,
   Content,
@@ -91,11 +92,14 @@ const Login = (props) => {
       body: formBody,
     })
       .then((response) => response.json())
-      .then((response) => {
+      .then(async (response) => {
         //console.log(response);
         setLoaderMessage(false)
         if (response["access_token"]) {
+          const token =response["access_token"].toString()
+          await AsyncStorage.setItem("tokenCheck", token);
           userData({ id: 1, access_Token: response["access_token"] });
+        
         } else {
           setErrorMessage(response["error_description"]);
         }

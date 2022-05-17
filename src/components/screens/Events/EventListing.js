@@ -128,6 +128,7 @@ const EventListing = (props) => {
         setEventListing(newArray);
       }
     } else {
+      setSelectedCategory('')
       setEventListing(eventsList);
     }
   }

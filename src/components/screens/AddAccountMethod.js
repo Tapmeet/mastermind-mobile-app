@@ -9,6 +9,7 @@ import { SideBarMenu } from "../sidebar";
 import DatePicker from "react-native-datepicker";
 import FooterTabs from "../footer/Footer";
 import moment from "moment";
+import { useFocusEffect } from '@react-navigation/native';
 const apiUrl = API_URL.trim();
 const AddAccountMethod = (props) => {
   const [loader, setloader] = React.useState(false);
@@ -25,11 +26,11 @@ const AddAccountMethod = (props) => {
   const [errorMessage, setErrorMessage] = React.useState("");
   const userId = useSelector((state) => state);
   const [date, setDate] = React.useState("");
-  React.useEffect(() => {
-    navigation.addListener("focus", () => {
+  useFocusEffect(
+    React.useCallback(() => {
       clearData();
-    });
-  });
+    }, [])
+  );
   const clearData = () => {
     setNickname("");
     setAccountNumber("");
@@ -195,7 +196,7 @@ const AddAccountMethod = (props) => {
           )}
         </View>
       </Content>
-    <FooterTabs navigation={props.navigation}  />
+      <FooterTabs navigation={props.navigation} />
     </Container>
   );
 };
