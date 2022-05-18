@@ -19,14 +19,14 @@ const routes = [
   "Memberships",
   "Payment Methods",
   "Purchase History",
-  // "Events",
-  // "Retail",
-  // "Class Reservation",
-  // "Reserved Classes",
-  // "Class Check In",
-  // "Curriculum",
-  // "Awards",
-  // "Inquiry",
+  "Events",
+  "Retail",
+  "Class Reservation",
+  "Reserved Classes",
+  "Class Check In",
+  "Curriculum",
+  "Awards",
+  "Inquiry",
 ];
 
 const SideBar = (props) => {

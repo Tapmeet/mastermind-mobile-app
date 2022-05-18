@@ -29,6 +29,7 @@ const Welcome = (props) => {
   const [step3, setStep3] = React.useState(false);
   const [loader, setloader] = React.useState(true);
   const step3Function = async () => {
+
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     await AsyncStorage.setItem("accessCheck", '1');
     if (permissionResult.granted === false) {
@@ -79,7 +80,7 @@ const Welcome = (props) => {
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
         ) :
-          <ScrollView style={{ padding: 15, height: win.height + 10 }} >
+          <ScrollView style={{ paddingBottom: 20, height: win.height }} >
             <Body style={loginStyle.bodyContainer} padder>
               <View style={{ display: "flex", zIndex: 99, position: "absolute", top: 40, right: 60, flexDirection: "row", justifyContent: "flex-end" }}>
                 <Text style={{

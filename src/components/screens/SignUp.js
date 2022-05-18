@@ -158,7 +158,7 @@ const SignUp = (props) => {
       setCheckConfirmpassword(true);
       return false;
     }
-    else{
+    else {
       setCheckConfirmpassword(false);
     }
     if (mobile == "") {
@@ -406,8 +406,17 @@ const SignUp = (props) => {
               placeholder="Password "
             />
           </Item>
+          {password.length > 1 && password.length <= 5 ?
+            <View style={{ paddingTop: 20, paddingLeft: 10 }}>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must be atleast 5 charaters!</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must contain atleast 1 number!</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must  contain atleast 1 charater in capital case!</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must  contain atleast 1 charater in lower case!</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must  contain atleast 1 Special  charater </Text>
+            </View>
+            : null}
           {checkPassword ? (
-            <Text style={globalStyle.error}>Confirm Password</Text>
+            <Text style={globalStyle.error}>Enter Password</Text>
           ) : null}
           <Item style={globalStyle.formGroup} floatingLabel>
             <Input

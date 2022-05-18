@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, ActivityIndicator } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
@@ -7,7 +7,9 @@ import globalStyle from "../../style/globalStyle";
 import { useSelector } from "react-redux";
 import { SideBarMenu } from "../sidebar";
 import FooterTabs from "../footer/Footer";
+import { useFocusEffect } from '@react-navigation/native';
 const LinkStudent = (props) => {
+  const [loader, setloader] = React.useState(false);
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -15,11 +17,12 @@ const LinkStudent = (props) => {
   const [checklastName, setChecklastName] = React.useState(false);
   const [checkEmail, setCheckEmail] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
-  React.useEffect(() => {
-    navigation.addListener("focus", () => {
+  useFocusEffect(
+    //navigation.addListener("focus", () => {
+    React.useCallback(() => {
       clearData();
-    });
-  });
+    }, [])
+  );
   const clearData = () => {
     setFirstName("");
     setCheckFirstname(false);
@@ -58,7 +61,6 @@ const LinkStudent = (props) => {
   };
   //Form Submission
   const submitForm = () => {
-    
     if (firstName == "") {
       setCheckFirstname(true);
       return false;
@@ -71,6 +73,7 @@ const LinkStudent = (props) => {
       setCheckEmail(true);
       return false;
     }
+    setloader(true)
 
     const apiUrl = API_URL.trim();
     fetch(`${apiUrl}/odata/StudentLink`, {
@@ -88,6 +91,7 @@ const LinkStudent = (props) => {
     })
       .then((response) => response.json())
       .then((response) => {
+        setloader(false)
         if (response["odata.error"]) {
           console.log(response["odata.error"].message.value);
           setErrorMessage(response["odata.error"].message.value);
@@ -102,6 +106,7 @@ const LinkStudent = (props) => {
         }
       })
       .catch((response) => {
+        setloader(false)
         setErrorMessage("An error has occurred. Please check all the fields");
       });
   };
@@ -148,26 +153,44 @@ const LinkStudent = (props) => {
             {checkEmail ? <Text style={globalStyle.error}>Enter Valid Email</Text> : null}
             {errorMessage != "" ? <Text style={[globalStyle.errorText, { marginTop: 15 }]}>{errorMessage}</Text> : null}
             <Content style={loginStyle.formContainer}>
-              <ImageBackground
-                style={[
-                  globalStyle.Btn,
-                  {
-                    width: "100%",
-                  },
-                ]}
-                source={require("./../../../assets/Oval.png")}
-                resizeMode={"stretch"}
-              >
-                <Button onPress={submitForm} style={loginStyle.buttons} full>
-                  <Text style={loginStyle.buttonText}>Link Student</Text>
-                </Button>
-              </ImageBackground>
+              {loader ? (
+                <View style={[styles.container, styles.horizontal]}>
+                  <ActivityIndicator size="large" color="#29ABE2" />
+                </View>
+              ) :
+                <ImageBackground
+                  style={[
+                    globalStyle.Btn,
+                    {
+                      width: "100%",
+                    },
+                  ]}
+                  source={require("./../../../assets/Oval.png")}
+                  resizeMode={"stretch"}
+                >
+                  <Button onPress={submitForm} style={loginStyle.buttons} full>
+                    <Text style={loginStyle.buttonText}>Link Student</Text>
+                  </Button>
+                </ImageBackground>
+              }
             </Content>
           </Form>
         </View>
       </Content>
-      <FooterTabs navigation={props.navigation}  />
+      <FooterTabs navigation={props.navigation} />
     </Container>
   );
 };
 export default LinkStudent;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
+  },
+});
+

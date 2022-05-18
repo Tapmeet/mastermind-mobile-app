@@ -9,12 +9,12 @@ export default StyleSheet.create({
     fontWeight: "bold",
     fontSize: 40,
     lineHeight: 48,
-    fontFamily: "HKGrotesk",
+    fontFamily: "PoppinsBold",
   },
   p: {
     fontSize: 19,
     lineHeight: 32,
-    fontFamily: "HKGrotesk",
+    fontFamily: "Poppins",
     fontWeight: "600"
   },
   h3: {

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator, Alert } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
 import { API_URL } from "../Utility/AppConst"
 import {
   Container,
@@ -98,7 +98,7 @@ const PaymentMethodListings = (props) => {
   function alertDelete(methodId) {
     Alert.alert(
       "Confirm",
-      `Are you sure you want to delete this payment method ?`,  
+      `Are you sure you want to delete this payment method ?`,
       [
         {
           text: "Cancel",
@@ -139,7 +139,7 @@ const PaymentMethodListings = (props) => {
             paymentMethod.length > 0 ?
               paymentMethod.map(function (payment, index) {
                 const Expiry = new Date(payment.Expiration).toISOString().slice(0, 10);
-              //  console.log(payment)
+                //  console.log(payment)
                 return (
                   <View key={index} style={[globalStyle.Boxshadow, { padding: 15 }]}>
                     <Text style={{ textAlign: "center", fontSize: 25, fontWeight: "bold", marginBottom: 10 }}>{payment.PaymentTypeId == 2 ? "Bank Details " : "Credit card "}</Text>
@@ -201,16 +201,32 @@ const PaymentMethodListings = (props) => {
                             />
                           </View>
                         </View>
-                        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                          <Button
+                        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                          {/* <Button
                             style={defaultId == payment.PersonPaymentMethodId ? [{ alignSelf: "center", justifyContent: "center", backgroundColor: "#4585ff", borderRadius: 6 }] : [{ alignSelf: "center", justifyContent: "center", backgroundColor: "#fff", borderRadius: 6 }]}
                             onPress={() => setDefault(payment.PersonPaymentMethodId)}
                           >
                             <Text style={defaultId == payment.PersonPaymentMethodId ? [loginStyle.buttonText, { textAlign: "center", color: "#fff" }] : [loginStyle.buttonText, { textAlign: "center", color: "#000" }]}>Set as Default</Text>
-                          </Button>
+                          </Button> */}
+                          <View style={[loginStyle.radioSection, { marginTop: 0 }]}>
+                            <TouchableOpacity
+                              style={{ borderColor: "#ddd", borderRadius: 5, borderWidth: 2, height: 25, width: 28, marginRight: 10 }}
+                              // value={terms}
+                              onPress={() => setDefault(payment.PersonPaymentMethodId)}
+                            >
+                              {defaultId == payment.PersonPaymentMethodId ? <Image
+                                style={{ height: 15, marginRight: 0, marginTop: 2 }}
+                                source={require("../../../assets/checkTick.png")}
+                                resizeMode={'contain'}
+                              /> : null}
+                            </TouchableOpacity>
+                            <Text style={loginStyle.text}>
+                              Set as Default
+                            </Text>
+                          </View>
                           <Button
                             style={[{ alignSelf: "center", justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6 }]}
-                            onPress={() => 
+                            onPress={() =>
                               alertDelete(payment.PersonPaymentMethodId)}
                           >
                             <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Delete Card</Text>
@@ -246,18 +262,35 @@ const PaymentMethodListings = (props) => {
                           </View>
                         </View>
                         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                          <Button
+
+                          <View style={[loginStyle.radioSection, { marginTop: 0 }]}>
+                            <TouchableOpacity
+                              style={{ borderColor: "#ddd", borderRadius: 5, borderWidth: 2, height: 25, width: 28, marginRight: 10 }}
+                              // value={terms}
+                              onPress={() => setDefault(payment.PersonPaymentMethodId)}
+                            >
+                              {defaultId == payment.PersonPaymentMethodId ? <Image
+                                style={{ height: 15, marginRight: 0, marginTop: 2 }}
+                                source={require("../../../assets/checkTick.png")}
+                                resizeMode={'contain'}
+                              /> : null}
+                            </TouchableOpacity>
+                            <Text style={loginStyle.text}>
+                              Set as Default
+                            </Text>
+                          </View>
+                          {/* <Button
                             style={defaultId == payment.PersonPaymentMethodId ? [{ alignSelf: "center", justifyContent: "center", backgroundColor: "#4585ff", borderRadius: 6 }] : [{ alignSelf: "center", justifyContent: "center", backgroundColor: "#fff", borderRadius: 6 }]}
                             onPress={() => setDefault(payment.PersonPaymentMethodId)}
                           >
                             <Text style={defaultId == payment.PersonPaymentMethodId ? [loginStyle.buttonText, { textAlign: "center", color: "#fff" }] : [loginStyle.buttonText, { textAlign: "center", color: "#000" }]}>Set Default</Text>
-                          </Button>
+                          </Button> */}
                           <Button
                             style={[{ alignSelf: "center", justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6 }]}
-                            onPress={() => 
+                            onPress={() =>
                               alertDelete(payment.PersonPaymentMethodId)}
                           >
-                            <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Delete Account</Text>
+                            <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Delete </Text>
                           </Button>
                         </View>
                       </View>
