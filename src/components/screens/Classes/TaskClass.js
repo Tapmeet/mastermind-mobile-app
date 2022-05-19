@@ -382,6 +382,8 @@ const TaskClass = (props) => {
         }, 3000);
     };
     const reserveClass = () => {
+        setErrorMessage('');
+        setSuccessMessage('')
         if (selectedTaskDate == '') {
             Alert.alert(" Alert",
                 "Please select class slot",
@@ -415,6 +417,7 @@ const TaskClass = (props) => {
         })
         setLoaderMessage(true)
         console.log(apiUrl)
+        
         fetch(`${apiUrl}public/ClassReservation`, {
             method: "post",
             headers: {
@@ -434,7 +437,7 @@ const TaskClass = (props) => {
             .then((data) => {
                 console.log('data')
                 console.log(data)
-                if (data != "FAILURE:You are already signed up for this class") {
+                if (data != "FAILURE:You are already signed up for this class" && data != "FAILURE:Failed to record class reservation") {
                     setLoaderMessage(false)
                     setSuccessMessage("Successfully Submitted.");
                     setTimeout(function () {
@@ -457,7 +460,7 @@ const TaskClass = (props) => {
                     setErrorMessage(data);
                     setTimeout(function () {
                         setErrorMessage('');
-                    }, 3000);
+                    }, 6000);
                 }
             });
     }

@@ -429,7 +429,7 @@ const Home = (props) => {
                 </Text>
 
                 <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
-                  <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>CheckIn Time: </Text>
+                  <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>Class Start Time: </Text>
                   {starttime}
                 </Text>
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>

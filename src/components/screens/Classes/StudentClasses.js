@@ -55,7 +55,7 @@ const StudentClasses = (props) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data.value)
+               // console.log(data.value)
                 if (data.value) {
                     var dataCount = data.value.length;
                     setEventListing(data.value);

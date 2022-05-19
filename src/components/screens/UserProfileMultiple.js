@@ -63,7 +63,24 @@ const UserProfileMultiple = (props) => {
   const [data, setData] = React.useState("");
   const userId = useSelector((state) => state);
   const [SuccessMessage, setSuccessMessage] = React.useState("");
+  const onChangePhone = (text ,setVariable) => {
+    let formatedNo = formatMobileNumber(text);
+  //  console.log(formatedNo)
+    setVariable(formatedNo);
+  };
 
+  const formatMobileNumber = (text) => {
+    var cleaned = ("" + text).replace(/\D/g, "");
+    var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      var intlCode = match[1] ? "+1 " : "",
+        number = [intlCode, "(", match[2], ") ", match[3], "-", match[4]].join(
+          ""
+        );
+      return number;
+    }
+    return text;
+  }
   const setschoolName = (event) => {
     setSchoolName(event);
   };
@@ -385,7 +402,7 @@ const UserProfileMultiple = (props) => {
                   setBeltSizeList(belts);
                 });
             }
-          } catch (e) {}
+          } catch (e) { }
         }
         getData();
       }
@@ -757,7 +774,7 @@ const UserProfileMultiple = (props) => {
                 <View style={checkPhone1 ? globalStyle.formFieldError : globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Phone1</Text>
                   <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                    <Input value={phone1} onChangeText={(text) => setphone1(text)} style={globalStyle.formControls} placeholder="Phone1" />
+                    <Input value={phone1} onChangeText={(text) => onChangePhone(text, setPhone1)} style={globalStyle.formControls} placeholder="Phone1" />
                   </Item>
                 </View>
                 {checkPhone1 ? <Text style={globalStyle.error}>Enter Phone Number </Text> : null}
@@ -765,7 +782,7 @@ const UserProfileMultiple = (props) => {
                 <View style={[globalStyle.formField]}>
                   <Text style={globalStyle.formLabel}>Phone2</Text>
                   <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                    <Input value={phone2} onChangeText={(text) => setphone2(text)} style={globalStyle.formControls} placeholder="Phone2" />
+                    <Input value={phone2} onChangeText={(text) =>  onChangePhone(text, setPhone2)} style={globalStyle.formControls} placeholder="Phone2" />
                   </Item>
                 </View>
                 <View style={[globalStyle.formField]}>
@@ -773,7 +790,7 @@ const UserProfileMultiple = (props) => {
                   <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                     <Input
                       value={EmergencyContact}
-                      onChangeText={(text) => setEmergencyContact(text)}
+                      onChangeText={(text) => onChangePhone(text, setEmergencyContact)}
                       style={globalStyle.formControls}
                       placeholder="Emergency Contact"
                     />
