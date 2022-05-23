@@ -150,7 +150,13 @@ const UserProfile = (props) => {
     if (event == "") {
       setCheckZipCode(true);
     } else {
-      setCheckZipCode(false);
+      const check =isValidZip(event); console.log(check)
+      if(!check){
+        setCheckZipCode(true);
+      }else{
+        setCheckZipCode(false);
+      }
+      
     }
   };
   const toggleExpanded = () => {
@@ -216,6 +222,9 @@ const UserProfile = (props) => {
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
   };
+  const isValidZip = (zip) => {
+    return /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zip);
+  }
   // Setting data to variables and validations
   const setfirstName = (event) => {
     setFirstName(event);
@@ -257,7 +266,7 @@ const UserProfile = (props) => {
       setCheckEmail(true);
       return false;
     }
-
+    
     const apiUrl = API_URL.trim();
     fetch(`${apiUrl}/odata/StudentData(${studentIds[0].StudentId})`, {
       method: "patch",
@@ -794,7 +803,7 @@ const UserProfile = (props) => {
                       <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={zipCode}
-                          onChangeText={(text) => setzipCode(text)}
+                          onChangeText={(text) => { setzipCode(text) }}
                           style={[globalStyle.formControls, { color: "#999" }]}
                           placeholder="Postal Code"
                         />

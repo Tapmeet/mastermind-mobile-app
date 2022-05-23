@@ -127,7 +127,13 @@ const UserProfileMultiple = (props) => {
     if (event == "") {
       setCheckZipCode(true);
     } else {
-      setCheckZipCode(false);
+      const check =isValidZip(event); console.log(check)
+      if(!check){
+        setCheckZipCode(true);
+      }else{
+        setCheckZipCode(false);
+      }
+      
     }
   };
   const toggleExpanded = () => {
@@ -138,6 +144,9 @@ const UserProfileMultiple = (props) => {
     setCollapsed2(!collapsed2);
     setCollapsed(true);
   };
+  const isValidZip = (zip) => {
+    return /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zip);
+  }
   const stateList = [
     { label: "Arizona", value: "AZ" },
     { label: "Alabama", value: "AL" },
@@ -766,10 +775,10 @@ const UserProfileMultiple = (props) => {
                 <View style={[globalStyle.formField]}>
                   <Text style={globalStyle.formLabel}>Postal Code</Text>
                   <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                    <Input value={zipCode} onChangeText={(text) => setzipCode(text)} style={[globalStyle.formControls]} placeholder="Postal Code" />
+                    <Input value={zipCode} onChangeText={(text) => { setzipCode(text) }} style={[globalStyle.formControls]} placeholder="Postal Code" />
                   </Item>
                 </View>
-                {checkZipCode ? <Text style={globalStyle.error}>Enter Postal Code</Text> : null}
+                {checkZipCode ? <Text style={globalStyle.error}>Enter Valid Postal Code</Text> : null}
 
                 <View style={checkPhone1 ? globalStyle.formFieldError : globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Phone1</Text>
