@@ -406,13 +406,13 @@ const SignUp = (props) => {
               placeholder="Password "
             />
           </Item>
-          {password.length > 1 && password.length <= 5 ?
+          {password.length > 0 && password.length <= 4 ?
             <View style={{ paddingTop: 20, paddingLeft: 10 }}>
-              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must be atleast 5 charaters!</Text>
-              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must contain atleast 1 number!</Text>
-              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must  contain atleast 1 charater in capital case!</Text>
-              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must  contain atleast 1 charater in lower case!</Text>
-              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must  contain atleast 1 Special  charater </Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must be at least 5 character</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must contain at least 1 number</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must contain at least 1 character in capital case</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must contain at least 1 character in lower case</Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must contain at least 1 special character </Text>
             </View>
             : null}
           {checkPassword ? (

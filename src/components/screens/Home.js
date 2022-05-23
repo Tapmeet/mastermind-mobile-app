@@ -13,6 +13,7 @@ import { API_URL } from "./../Utility/AppConst";
 import { useFocusEffect } from '@react-navigation/native';
 import * as WebBrowser from 'expo-web-browser';
 import loginStyle from "../../style/login/loginStyle";
+
 const apiUrl = API_URL.trim();
 const key = 'value';
 var uniqueStudent = [];
@@ -70,6 +71,7 @@ const Home = (props) => {
   const [SuccessMessage, setSuccessMessage] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
   const [selectedTaskName, setSelectedTaskName] = React.useState('');
+  const [announcements, setAnnouncements] = React.useState('');
   useFocusEffect(
     //navigation.addListener("focus", () => {
     React.useCallback(() => {
@@ -142,7 +144,9 @@ const Home = (props) => {
         .then((response) => response.json())
         .then(async (data) => {
           //  console.log(data)
+          getSchoolData(data.SchoolId)
           if (data.StudentIds.length > 0) {
+
             getOrganisationLogo(data.OrganizationGuid)
           }
         });
@@ -151,6 +155,23 @@ const Home = (props) => {
       // });
     }, [])
   );
+
+  function getSchoolData(SchoolId) {
+    fetch(`${apiUrl}/odata/SchoolData(${SchoolId})`, {
+      method: "get",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('data')
+        setAnnouncements(data.MobileAnnouncement)
+        // console.log(data.MobileAnnouncement) 
+      });
+  }
   async function getData() {
     try {
       const value = await AsyncStorage.getItem("studentGuid");
@@ -452,13 +473,16 @@ const Home = (props) => {
   return (
     <Container>
       <SideBarMenu title={"Home"} navigation={props.navigation} />
-
+      {announcements != '' ?
+        <Text style={{ fontFamily: 'Poppins', fontSize: 14, color: "#777", backgroundColor: "#eee", padding: 5 }}><Text style={{ fontFamily: 'PoppinsBold', fontSize: 16, color: "#333" }}> Announcements :</Text>  {announcements}</Text>
+        : null}
       {loader ? (
         <View style={[styles.container, styles.horizontal]}>
           <ActivityIndicator size="large" color="#29ABE2" />
         </View>
       ) :
         <Content padder>
+
           <View style={{ display: "flex", padding: 5, marginTop: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <Text style={{ fontWeight: "bold", fontSize: 24 }}>Classes</Text>
             <Image
