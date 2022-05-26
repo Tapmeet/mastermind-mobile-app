@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator,useWindowDimensions } from "react-native";
 import React from "react";
 import FooterTabs from "../footer/Footer";
 import { SideBarMenu } from "../sidebar";
@@ -13,7 +13,7 @@ import { API_URL } from "./../Utility/AppConst";
 import { useFocusEffect } from '@react-navigation/native';
 import * as WebBrowser from 'expo-web-browser';
 import loginStyle from "../../style/login/loginStyle";
-
+import HTML from "react-native-render-html";
 const apiUrl = API_URL.trim();
 const key = 'value';
 var uniqueStudent = [];
@@ -56,7 +56,7 @@ const Home = (props) => {
   const [studentGuid, setStudentGuid] = React.useState('');
   const [organizationLogo, setOrganizationLogo] = React.useState('');
   const [school, setSchoolInfo] = React.useState([])
-
+  const contentWidth = useWindowDimensions().width;
 
   const [classListings, setClassListings] = React.useState([]);
   const [studentIds, setStudentIds] = React.useState([]);
@@ -474,7 +474,7 @@ const Home = (props) => {
     <Container>
       <SideBarMenu title={"Home"} navigation={props.navigation} />
       {announcements != '' ?
-        <Text style={{ fontFamily: 'Poppins', fontSize: 14, color: "#777", backgroundColor: "#eee", padding: 5 }}><Text style={{ fontFamily: 'PoppinsBold', fontSize: 16, color: "#333" }}> Announcements :</Text>  {announcements}</Text>
+        <View style={{ fontFamily: 'Poppins', display:"flex", fontSize: 14, color: "#777", textAlign:"center", justifyContent:"center", backgroundColor: "#eee", padding: 5 }}><HTML source={{ html:announcements }} style={{textAlign:"center"}} contentWidth={contentWidth} /></View>
         : null}
       {loader ? (
         <View style={[styles.container, styles.horizontal]}>
@@ -543,6 +543,7 @@ const Home = (props) => {
                       onPress={() => openLink(apiUrl + '/Public/EventDetails/' + event.OrganizationEventGuid + '?StudentAccountGuid=' + studentGuid)}
                     // onPress={() => storeData(event.PosItemId, event.Title)}
                     >
+                     {/* <Text> {apiUrl + '/Public/EventDetails/' + event.OrganizationEventGuid + '?StudentAccountGuid=' + studentGuid}</Text> */}
                       <View style={globalStyle.eventsListingWrapper}>
                         <View style={globalStyle.eventsListingTopWrapper}>
                           <View style={{ borderRadius: 25, overflow: "hidden" }}>
@@ -553,7 +554,7 @@ const Home = (props) => {
                                 }}
                                 style={{ height: 110, width: 130, resizeMode: 'contain' }} />
                               :
-                              <Image
+                              <Image 
                                 source={require("./../../../assets/img1.png")}
                                 style={{ height: 110, width: 130 }} />
                             }

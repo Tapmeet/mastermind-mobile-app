@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet,ImageBackground } from "react-native";
+import { View, Image, StyleSheet, ImageBackground } from "react-native";
 import {
   Container,
   //CheckBox,
@@ -56,7 +56,7 @@ const ResetPassword = (props) => {
       setCheckConfirmPassword(false);
       return false;
     }
-    const apiUrl =API_URL.trim();
+    const apiUrl = API_URL.trim();
     fetch(`${apiUrl}/odata/ResetPassword`, {
       method: "post",
       headers: {
@@ -90,7 +90,7 @@ const ResetPassword = (props) => {
   return (
     <Container style={loginStyle.container}>
       <Content style={loginStyle.spacing} >
-      <ImageBackground
+        <ImageBackground
           style={{
             width: "100%",
             height: 200,
@@ -98,25 +98,25 @@ const ResetPassword = (props) => {
           source={require('./../../../assets/bg.png')}
           resizeMode={'stretch'}
         >
-        <View style={loginStyle.backWrapper}>
-          <Text
-            onPress={() => props.navigation.navigate("VerificationCode")}
-            style={loginStyle.backButtonStyle}
-          >
-            <Image
-              style={loginStyle.backButton}
-              source={require("../../../assets/BackButton.png")}
-            />
-          </Text>
-        </View>
-        <View style={{
+          <View style={loginStyle.backWrapper}>
+            <Text
+              onPress={() => props.navigation.navigate("VerificationCode")}
+              style={loginStyle.backButtonStyle}
+            >
+              <Image
+                style={loginStyle.backButton}
+                source={require("../../../assets/BackButton.png")}
+              />
+            </Text>
+          </View>
+          <View style={{
             alignSelf: "center",
             paddingTop: 60
           }}>
             <Image
               style={loginStyle.logo}
               source={require("../../../assets/Logo.png")}
-            /> 
+            />
           </View>
         </ImageBackground>
         <Body style={loginStyle.bodyContainer}>
@@ -146,6 +146,15 @@ const ResetPassword = (props) => {
                 placeholder="New Password "
               />
             </Item>
+            {password.length > 0 && password.length <= 4 ?
+              <View style={{ paddingTop: 20, paddingLeft: 10 }}>
+                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must be at least 5 character</Text>
+                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 number</Text>
+                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 character in capital case</Text>
+                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 character in lower case</Text>
+                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 special character </Text>
+              </View>
+              : null}
             {checkPassword ? (
               <Text style={globalStyle.error}>Enter Password</Text>
             ) : null}
@@ -164,6 +173,7 @@ const ResetPassword = (props) => {
                 placeholder="Confirm  Password "
               />
             </Item>
+            
             {checkConfirmPassword ? (
               <Text style={globalStyle.error}>Check confirm password</Text>
             ) : null}

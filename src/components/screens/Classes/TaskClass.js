@@ -457,7 +457,10 @@ const TaskClass = (props) => {
                 }
                 else {
                     setLoaderMessage(false)
-                    setErrorMessage(data);
+                  ;
+                    let cleanStr = data.replace(/FAILURE:/g, "");
+                    console.log(cleanStr)
+                    setErrorMessage(cleanStr);
                     setTimeout(function () {
                         setErrorMessage('');
                     }, 6000);

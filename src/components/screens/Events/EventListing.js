@@ -207,29 +207,65 @@ const EventListing = (props) => {
       }}
     >
       <SideBarMenu title={"Events"} navigation={props.navigation} />
-      <View
-        style={[
-          globalStyle.flexStandard,
-          {
-            paddingTop: 15,
-            paddingBottom: 15,
-          },
-        ]}
-      >
-        <View style={{ display: "flex", justifyContent: "center", flexDirection: "row", width:"100%" }}>
-          {typeof categoryList !== "undefined" &&
-            categoryList.length > 0 ?
-            <View style={{ borderColor: "#ccc", width: ' 45%', borderWidth: 1, marginRight: 10, borderRadius: 5, marginLeft: 10 }}>
+      {eventListing.length > 1 ?
+        <View
+          style={[
+            globalStyle.flexStandard,
+            {
+              paddingTop: 15,
+              paddingBottom: 15,
+            },
+          ]}
+        >
+          <View style={{ display: "flex", justifyContent: "center", flexDirection: "row", width: "100%" }}>
+            {typeof categoryList !== "undefined" &&
+              categoryList.length > 0 ?
+              <View style={{ borderColor: "#ccc", width: ' 45%', borderWidth: 1, marginRight: 10, borderRadius: 5, marginLeft: 10 }}>
+                <RNPickerSelect
+                  value={selectedCategory}
+                  items={categoryList}
+                  placeholder={placeholderCategory}
+                  onValueChange={(value) => setcategory(value)}
+                  style={{
+                    ...pickerSelectStyles,
+
+                    iconContainer: {
+                      top: Platform.OS === "android" ? 20 : 30,
+                      right: 10,
+                    },
+                    placeholder: {
+                      color: "#8a898e",
+                      fontSize: 12,
+                      fontWeight: "bold",
+                    },
+                  }}
+                  Icon={() => {
+                    return (
+                      <Image
+                        style={{
+                          width: 12,
+                          position: "absolute",
+                          top: Platform.OS === "android" ? -10 : -28,
+                          right: Platform.OS === "android" ? 22 : 5,
+                        }}
+                        source={require("../../../../assets/arrow-down.png")}
+                        resizeMode={"contain"}
+                      />
+                    );
+                  }}
+                />
+              </View>
+              : null}
+            <View style={{ borderColor: "#ccc", width: ' 45%', borderWidth: 1, marginRight: 10, borderRadius: 5, }}>
               <RNPickerSelect
-                value={selectedCategory}
-                items={categoryList}
-                placeholder={placeholderCategory}
-                onValueChange={(value) => setcategory(value)}
+                value={filter}
+                items={filterList}
+                placeholder={placeholderFiler}
+                onValueChange={(value) => setfilter(value)}
                 style={{
                   ...pickerSelectStyles,
-
                   iconContainer: {
-                    top: Platform.OS === "android" ? 20 : 30,
+                    top: Platform.OS === "android" ? 22 : 30,
                     right: 10,
                   },
                   placeholder: {
@@ -245,7 +281,7 @@ const EventListing = (props) => {
                         width: 12,
                         position: "absolute",
                         top: Platform.OS === "android" ? -10 : -28,
-                        right: Platform.OS === "android" ? 22 : 5,
+                        right: Platform.OS === "android" ? 20 : 5,
                       }}
                       source={require("../../../../assets/arrow-down.png")}
                       resizeMode={"contain"}
@@ -254,43 +290,9 @@ const EventListing = (props) => {
                 }}
               />
             </View>
-            : null}
-          <View style={{ borderColor: "#ccc", width: ' 45%', borderWidth: 1, marginRight: 10, borderRadius: 5, }}>
-            <RNPickerSelect
-              value={filter}
-              items={filterList}
-              placeholder={placeholderFiler}
-              onValueChange={(value) => setfilter(value)}
-              style={{
-                ...pickerSelectStyles,
-                iconContainer: {
-                  top: Platform.OS === "android" ? 22 : 30,
-                  right: 10,
-                },
-                placeholder: {
-                  color: "#8a898e",
-                  fontSize: 12,
-                  fontWeight: "bold",
-                },
-              }}
-              Icon={() => {
-                return (
-                  <Image
-                    style={{
-                      width: 12,
-                      position: "absolute",
-                      top: Platform.OS === "android" ? -10 : -28,
-                      right: Platform.OS === "android" ? 20 : 5,
-                    }}
-                    source={require("../../../../assets/arrow-down.png")}
-                    resizeMode={"contain"}
-                  />
-                );
-              }}
-            />
           </View>
         </View>
-      </View>
+        : null}
       <Content padder>
         {loader ? (
           <View style={[styles.container, styles.horizontal]}>

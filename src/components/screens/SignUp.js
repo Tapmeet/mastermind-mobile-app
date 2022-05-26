@@ -44,7 +44,24 @@ const SignUp = (props) => {
   const ValidateEmail = (mail) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
   };
+  const onChangePhone = (text, setVariable) => {
+    let formatedNo = formatMobileNumber(text);
 
+    setVariable(formatedNo);
+  };
+
+  const formatMobileNumber = (text) => {
+    var cleaned = ("" + text).replace(/\D/g, "");
+    var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      var intlCode = match[1] ? "+1 " : "",
+        number = [intlCode, "(", match[2], ") ", match[3], "-", match[4]].join(
+          ""
+        );
+      return number;
+    }
+    return text;
+  }
   // Setting data to variables and validations
   const setfirstName = (event) => {
     setFirstName(event);
@@ -239,7 +256,8 @@ const SignUp = (props) => {
         });
     }
     setLoaderMessage(true)
-    fetch(`${API_URL}/odata/Register`, {
+
+    fetch(`${API_URL}odata/Register`, {
       method: "post",
       headers: {
         Accept: "*/*",
@@ -258,10 +276,9 @@ const SignUp = (props) => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         setLoaderMessage(false)
         if (response["odata.error"]) {
-          console.log(response["odata.error"].message.value);
+          //console.log(response["odata.error"].message.value);
           setErrorMessage(response["odata.error"].message.value);
         } else {
 
@@ -438,7 +455,8 @@ const SignUp = (props) => {
           <Item style={globalStyle.formGroup} floatingLabel>
             <Input
               value={mobile}
-              onChangeText={(text) => setmobile(text)}
+             // onChangeText={(text) => setmobile(text)}
+              onChangeText={(text) => onChangePhone(text, setmobile)}
               placeholderTextColor='#ccc'
               style={
                 checkmobile

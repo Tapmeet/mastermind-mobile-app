@@ -21,6 +21,7 @@ import { SideBarMenu } from "../sidebar";
 import HTML from "react-native-render-html";
 import FooterTabs from "../footer/Footer";
 import { SignatureView } from 'react-native-signature-capture-view';
+import { useFocusEffect } from '@react-navigation/native';
 //import AddPaymentMethod from './AddPaymentMethod';
 const apiUrl = API_URL.trim();
 var dateSolds, dateStart, endDate
@@ -31,37 +32,41 @@ const SignedContract = (props) => {
   const userId = useSelector(state => state);
   const [personData, setPersonData] = React.useState([])
   const [counter, setCounter] = React.useState(1)
-
+  const contentWidth = useWindowDimensions().width;
+  const [viewTerm, setViewTerm] = React.useState(false);
   const increment = () => {
     setCounter(parseInt(counter) + 1);
   }
   const decrement = () => {
     setCounter(parseInt(counter) - 1);
   }
-  React.useEffect(() => {
-    setContract(props.route.params.contractData)
-    dateSolds = new Date(props.route.params.contractData.DateSold).toISOString().slice(0, 10);
-    dateStart = new Date(props.route.params.contractData.StartDate).toISOString().slice(0, 10);
-    endDate = new Date(props.route.params.contractData.EndDate).toISOString().slice(0, 10);
+  useFocusEffect(
+    //navigation.addListener("focus", () => {
+    React.useCallback(() => {
+      setContract(props.route.params.contractData)
+      dateSolds = new Date(props.route.params.contractData.DateSold).toISOString().slice(0, 10);
+      dateStart = new Date(props.route.params.contractData.StartDate).toISOString().slice(0, 10);
+      endDate = new Date(props.route.params.contractData.EndDate).toISOString().slice(0, 10);
 
-    if (loader) {
-      fetch(`${apiUrl}/odata/StudentProgramContractInfo(${props.route.params.contractData.ContractId})`, {
-        method: "get",
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
-        },
-      })
-        .then(response => response.json())
-        .then(response => {
-          setPersonData(response.value)
-          setloader(false)
-        });
-    }
+      if (loader) {
+        fetch(`${apiUrl}/odata/StudentProgramContractInfo(${props.route.params.contractData.ContractId})`, {
+          method: "get",
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
+          },
+        })
+          .then(response => response.json())
+          .then(response => {
+            setPersonData(response.value)
+            setloader(false)
+          });
+      }
 
+    }, [])
+  );
 
-  })
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
@@ -75,8 +80,8 @@ const SignedContract = (props) => {
             <View style={{
               marginTop: 0,
               padding: 15,
-              paddingBottom: 30,
-              marginBottom: 50
+              paddingBottom: 0,
+              marginBottom: 0
             }}>
               <View style={globalStyle.dflex}>
                 <View style={[globalStyle.TopSection, { justifyContent: "flex-start" }]}>
@@ -362,12 +367,34 @@ const SignedContract = (props) => {
                     <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
                   </Button>
                   : null}
+
               </View>
             </View>
           }
+
+          <View style={{ padding: 15 }}>
+            {viewTerm ?
+              <View style={{ padding: 15 }}>
+                <HTML source={{ html: contract.ContractLegalTerms }} contentWidth={contentWidth} />
+              </View>
+              : null}
+            {!viewTerm ?
+              <Button
+                style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
+                onPress={() => setViewTerm(true)} >
+                <Text style={[loginStyle.buttonText, { color: "#333" }]}>View terms</Text>
+              </Button>
+              :
+              <Button
+                style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
+                onPress={() => setViewTerm(false)} >
+                <Text style={[loginStyle.buttonText, { color: "#333" }]}>Hide terms</Text>
+              </Button>
+            }
+          </View>
         </View>
       </Content>
-     <FooterTabs navigation={props.navigation}  />
+      <FooterTabs navigation={props.navigation} />
     </Container>
   );
 };
