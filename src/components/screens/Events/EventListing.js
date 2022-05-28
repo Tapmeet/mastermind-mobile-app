@@ -193,7 +193,7 @@ const EventListing = (props) => {
     }
   }
   const placeholderFiler = {
-    label: "Filter",
+    label: "Sort by",
   };
   const placeholderCategory = {
     label: "Category",
@@ -207,7 +207,7 @@ const EventListing = (props) => {
       }}
     >
       <SideBarMenu title={"Events"} navigation={props.navigation} />
-      {eventListing.length > 1 ?
+      {eventsList.length > 1 ?
         <View
           style={[
             globalStyle.flexStandard,

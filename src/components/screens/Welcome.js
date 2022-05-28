@@ -81,214 +81,216 @@ const Welcome = (props) => {
           </View>
         ) :
           <ScrollView style={{ paddingBottom: 20, height: win.height }} >
-            <Body style={loginStyle.bodyContainer} padder>
-              <View style={{ display: "flex", zIndex: 99, position: "absolute", top: 40, right: 60, flexDirection: "row", justifyContent: "flex-end" }}>
-                <Text style={{
-                  fontFamily: 'Poppins',
-                  textAlign: "center",
-                  fontSize: 18,
-                  color: "#777",
-                }}
-                  onPress={() => setData()}
-                >Skip</Text>
-              </View>
-              {step1 ?
-                <View
-                  style={{
-                    alignSelf: "center",
-                    paddingTop: 40,
-                  }}
-                >
-                  <Image
-                    style={loginStyle.welcomeLogo}
-                    resizeMode={"contain"}
-                    source={require("../../../assets/welcome/vector1.jpg")}
-                  />
-
+            <View style={{ paddingBottom: 50 }}>
+              <Body style={loginStyle.bodyContainer} padder>
+                <View style={{ display: "flex", zIndex: 99, position: "absolute", top: 40, right: 60, flexDirection: "row", justifyContent: "flex-end" }}>
                   <Text style={{
                     fontFamily: 'Poppins',
                     textAlign: "center",
-                    fontSize: 22,
-                    color: "#29ABE2",
-                    fontWeight: 'bold',
-                  }}>Welcome to  Mastermind</Text>
-                  <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                    <Text style={{
-                      fontFamily: 'Poppins',
-                      textAlign: "center",
-                      fontSize: 17,
-                      color: "#333",
-                      padding: 20,
-                      width: 420,
-                      margin: "auto",
-
-                    }}>
-                      This platform will allow you to share and receive information with
-                      your martial arts school. Good luck with your training.
-                    </Text>
-                  </View>
-                  <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                    <View style={{ backgroundColor: '#0575f8', height: 12, width: 25, borderRadius: 10 }}></View>
-                    <View style={{ backgroundColor: '#ccc', marginLeft: 8, marginRight: 8, height: 12, width: 12, borderRadius: 12 }}></View>
-                    <View style={{ backgroundColor: '#ccc', height: 12, width: 12, borderRadius: 12 }}></View>
-                  </View>
-                  <View style={{ display: "flex", paddingRight: 50, flexDirection: "row", justifyContent: "flex-end" }}>
-                    <Text style={{
-                      fontFamily: 'Poppins',
-                      textAlign: "center",
-                      fontSize: 20,
-                      color: "#777",
-                      padding: 20,
-                    }}
-                      onPress={() => { setStep2(true); setStep1(false) }}
-                    >
-                      Next
-                    </Text>
-                  </View>
-                </View>
-                : null}
-              {step2 ?
-                <View
-                  style={{
-                    alignSelf: "center",
-                    paddingTop: 40,
+                    fontSize: 18,
+                    color: "#777",
                   }}
-                >
-                  <Image
-                    style={loginStyle.welcomeLogo}
-                    resizeMode={"contain"}
-                    source={require("../../../assets/welcome/vector2.jpg")}
-                  />
-
-                  <Text style={{
-                    fontFamily: 'Poppins',
-                    textAlign: "center",
-                    fontSize: 22,
-                    color: "#29ABE2",
-                    fontWeight: 'bold',
-                  }}>Permissions and settings</Text>
-                  <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                    <Text style={{
-                      fontFamily: 'Poppins',
-                      textAlign: "center",
-                      fontSize: 17,
-                      color: "#333",
-                      padding: 20,
-                      width: 420,
-                      margin: "auto",
-
-                    }}>
-                      Please provide us access to your media, so you can upload any media files
-                    </Text>
-                  </View>
-                  <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                    <View style={{ backgroundColor: '#ccc', height: 12, width: 12, borderRadius: 10 }}></View>
-                    <View style={{ backgroundColor: '#0575f8', marginLeft: 8, marginRight: 8, height: 12, width: 25, borderRadius: 12 }}></View>
-                    <View style={{ backgroundColor: '#ccc', height: 12, width: 12, borderRadius: 12 }}></View>
-                  </View>
-                  <View style={{ display: "flex", paddingLeft: 50, paddingRight: 50, flexDirection: "row", justifyContent: "space-between" }}>
-                    <Text style={{
-                      fontFamily: 'Poppins',
-                      textAlign: "center",
-                      fontSize: 20,
-                      color: "#777",
-                      padding: 20,
-                    }}
-                      onPress={() => { setStep1(true); setStep2(false) }}
-                    >
-                      Prev
-                    </Text>
-                    <Text style={{
-                      fontFamily: 'Poppins',
-                      textAlign: "center",
-                      fontSize: 20,
-                      color: "#777",
-                      padding: 20,
-                    }}
-                      onPress={() => { step3Function() }}
-                    >
-                      Next
-                    </Text>
-                  </View>
+                    onPress={() => setData()}
+                  >Skip</Text>
                 </View>
-                : null}
-              {step3 ?
-                <View
-                  style={{
-                    alignSelf: "center",
-                    paddingTop: 40,
-                  }}
-                >
-                  <Image
-                    style={loginStyle.welcomeLogoLast}
-                    resizeMode={"contain"}
-                    source={require("../../../assets/welcome/vector4.jpg")}
-                  />
-
-                  <Text style={{
-                    fontFamily: 'Poppins',
-                    textAlign: "center",
-                    fontSize: 22,
-                    color: "#29ABE2",
-                    fontWeight: 'bold',
-                  }}>Create Your Account </Text>
-                  <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                    <Text style={{
-                      fontFamily: 'Poppins',
-                      textAlign: "center",
-                      fontSize: 17,
-                      color: "#333",
-                      padding: 20,
-                      width: 420,
-                      margin: "auto",
-
-                    }}>
-                      By creating your account, you will be able to access and manage
-                      you and your family’s student memberships and progress
-                      information, check in to class, plus utilize event registration and
-                      our pro shop, view curriculum resources, and much more.
-                    </Text>
-                  </View>
-                  <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                    <View style={{ backgroundColor: '#ccc', height: 12, width: 12, borderRadius: 10 }}></View>
-                    <View style={{ backgroundColor: '#ccc', marginLeft: 8, marginRight: 8, height: 12, width: 12, borderRadius: 12 }}></View>
-                    <View style={{ backgroundColor: '#0575f8', height: 12, width: 25, borderRadius: 12 }}></View>
-                  </View>
-                  <View style={{ display: "flex", marginLeft: 50, flexDirection: "row", justifyContent: "flex-start" }}>
-                    <Text style={{
-                      fontFamily: 'Poppins',
-                      textAlign: "center",
-                      fontSize: 20,
-                      color: "#777",
-                      padding: 20,
+                {step1 ?
+                  <View
+                    style={{
+                      alignSelf: "center",
+                      paddingTop: 40,
                     }}
-                      onPress={() => { setStep2(true); setStep3(false) }}
-                    >
-                      Prev
-                    </Text>
+                  >
+                    <Image
+                      style={loginStyle.welcomeLogo}
+                      resizeMode={"contain"}
+                      source={require("../../../assets/welcome/vector1.jpg")}
+                    />
 
+                    <Text style={{
+                      fontFamily: 'Poppins',
+                      textAlign: "center",
+                      fontSize: 22,
+                      color: "#29ABE2",
+                      fontWeight: 'bold',
+                    }}>Welcome to  Mastermind</Text>
+                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                      <Text style={{
+                        fontFamily: 'Poppins',
+                        textAlign: "center",
+                        fontSize: 17,
+                        color: "#333",
+                        padding: 20,
+                        width: 420,
+                        margin: "auto",
+
+                      }}>
+                        This platform will allow you to share and receive information with
+                        your martial arts school. Good luck with your training.
+                      </Text>
+                    </View>
+                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                      <View style={{ backgroundColor: '#0575f8', height: 12, width: 25, borderRadius: 10 }}></View>
+                      <View style={{ backgroundColor: '#ccc', marginLeft: 8, marginRight: 8, height: 12, width: 12, borderRadius: 12 }}></View>
+                      <View style={{ backgroundColor: '#ccc', height: 12, width: 12, borderRadius: 12 }}></View>
+                    </View>
+                    <View style={{ display: "flex", paddingRight: 50, flexDirection: "row", justifyContent: "flex-end" }}>
+                      <Text style={{
+                        fontFamily: 'Poppins',
+                        textAlign: "center",
+                        fontSize: 20,
+                        color: "#777",
+                        padding: 20,
+                      }}
+                        onPress={() => { setStep2(true); setStep1(false) }}
+                      >
+                        Next
+                      </Text>
+                    </View>
                   </View>
-                  <View style={{ display: "flex", paddingLeft: 50, paddingRight: 50, marginTop: -20, flexDirection: "row", justifyContent: "flex-end" }}>
-                    <ImageBackground
-                      style={[
-                        globalStyle.Btn,
-                        {
-                          width: "100%",
-                        },
-                      ]}
-                      source={require("./../../../assets/Oval.png")}
-                      resizeMode={"stretch"}
-                    >
-                      <Button onPress={() => setData()} style={loginStyle.buttons} full>
-                        <Text style={loginStyle.buttonText}>Get Started</Text>
-                      </Button>
-                    </ImageBackground>
+                  : null}
+                {step2 ?
+                  <View
+                    style={{
+                      alignSelf: "center",
+                      paddingTop: 40,
+                    }}
+                  >
+                    <Image
+                      style={loginStyle.welcomeLogo}
+                      resizeMode={"contain"}
+                      source={require("../../../assets/welcome/vector2.jpg")}
+                    />
+
+                    <Text style={{
+                      fontFamily: 'Poppins',
+                      textAlign: "center",
+                      fontSize: 22,
+                      color: "#29ABE2",
+                      fontWeight: 'bold',
+                    }}>Permissions and settings</Text>
+                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                      <Text style={{
+                        fontFamily: 'Poppins',
+                        textAlign: "center",
+                        fontSize: 17,
+                        color: "#333",
+                        padding: 20,
+                        width: 420,
+                        margin: "auto",
+
+                      }}>
+                        Please provide us access to your media, so you can upload any media files
+                      </Text>
+                    </View>
+                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                      <View style={{ backgroundColor: '#ccc', height: 12, width: 12, borderRadius: 10 }}></View>
+                      <View style={{ backgroundColor: '#0575f8', marginLeft: 8, marginRight: 8, height: 12, width: 25, borderRadius: 12 }}></View>
+                      <View style={{ backgroundColor: '#ccc', height: 12, width: 12, borderRadius: 12 }}></View>
+                    </View>
+                    <View style={{ display: "flex", paddingLeft: 50, paddingRight: 50, flexDirection: "row", justifyContent: "space-between" }}>
+                      <Text style={{
+                        fontFamily: 'Poppins',
+                        textAlign: "center",
+                        fontSize: 20,
+                        color: "#777",
+                        padding: 20,
+                      }}
+                        onPress={() => { setStep1(true); setStep2(false) }}
+                      >
+                        Prev
+                      </Text>
+                      <Text style={{
+                        fontFamily: 'Poppins',
+                        textAlign: "center",
+                        fontSize: 20,
+                        color: "#777",
+                        padding: 20,
+                      }}
+                        onPress={() => { step3Function() }}
+                      >
+                        Next
+                      </Text>
+                    </View>
                   </View>
-                </View>
-                : null}
+                  : null}
+                {step3 ?
+                  <View
+                    style={{
+                      alignSelf: "center",
+                      paddingTop: 40,
+                    }}
+                  >
+                    <Image
+                      style={loginStyle.welcomeLogoLast}
+                      resizeMode={"contain"}
+                      source={require("../../../assets/welcome/vector4.jpg")}
+                    />
+
+                    <Text style={{
+                      fontFamily: 'Poppins',
+                      textAlign: "center",
+                      fontSize: 22,
+                      color: "#29ABE2",
+                      fontWeight: 'bold',
+                    }}>Create Your Account </Text>
+                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                      <Text style={{
+                        fontFamily: 'Poppins',
+                        textAlign: "center",
+                        fontSize: 17,
+                        color: "#333",
+                        padding: 20,
+                        width: 420,
+                        margin: "auto",
+
+                      }}>
+                        By creating your account, you will be able to access and manage
+                        you and your family’s student memberships and progress
+                        information, check in to class, plus utilize event registration and
+                        our pro shop, view curriculum resources, and much more.
+                      </Text>
+                    </View>
+                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                      <View style={{ backgroundColor: '#ccc', height: 12, width: 12, borderRadius: 10 }}></View>
+                      <View style={{ backgroundColor: '#ccc', marginLeft: 8, marginRight: 8, height: 12, width: 12, borderRadius: 12 }}></View>
+                      <View style={{ backgroundColor: '#0575f8', height: 12, width: 25, borderRadius: 12 }}></View>
+                    </View>
+                    <View style={{ display: "flex", marginLeft: 50, flexDirection: "row", justifyContent: "flex-start" }}>
+                      <Text style={{
+                        fontFamily: 'Poppins',
+                        textAlign: "center",
+                        fontSize: 20,
+                        color: "#777",
+                        padding: 20,
+                      }}
+                        onPress={() => { setStep2(true); setStep3(false) }}
+                      >
+                        Prev
+                      </Text>
+
+                    </View>
+                    <View style={{ display: "flex", paddingLeft: 50, paddingRight: 50, marginTop: -20, flexDirection: "row", justifyContent: "flex-end" }}>
+                      <ImageBackground
+                        style={[
+                          globalStyle.Btn,
+                          {
+                            width: "100%",
+                          },
+                        ]}
+                        source={require("./../../../assets/Oval.png")}
+                        resizeMode={"stretch"}
+                      >
+                        <Button onPress={() => setData()} style={loginStyle.buttons} full>
+                          <Text style={loginStyle.buttonText}>Get Started</Text>
+                        </Button>
+                      </ImageBackground>
+                    </View>
+                  </View>
+                  : null}
 
 
-            </Body>
+              </Body>
+            </View>
           </ScrollView >
         }
       </Content>

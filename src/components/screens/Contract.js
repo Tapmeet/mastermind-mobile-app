@@ -49,7 +49,7 @@ const Contract = (props) => {
   const [step1, setStep1] = React.useState(true)
   const [step2, setStep2] = React.useState(false)
   const [step3, setStep3] = React.useState(false)
-
+  const [viewTerm, setViewTerm] = React.useState(false);
   const [dateSold, setDateSold] = React.useState("");
   const [userPaymentSelected, setUserPaymentSelected] = React.useState('');
   const [paymentMethod, setPaymentMethod] = React.useState([])
@@ -165,7 +165,7 @@ const Contract = (props) => {
         let methods = []
         data.value.map((method) => {
           methods.push({ label: method.Nickname, value: method.PersonPaymentMethodId });
-          if(method.IsDefault){
+          if (method.IsDefault) {
             setUserPaymentSelected(method.PersonPaymentMethodId)
           }
         })
@@ -792,6 +792,16 @@ const Contract = (props) => {
                     </View>
                   </View>
           }
+          <Text style={{
+            fontFamily: 'Poppins',
+            marginTop: 10,
+            fontSize: 18,
+            color: "#29ABE2",
+            marginBottom: -20,
+            textDecorationColor: "#29ABE2",
+            textDecorationLine: "underline",
+            marginLeft: 2
+          }} onPress={() => setViewTerm(true)} > Terms & conditions</Text>
         </View>
         {step3 == true ?
           showSignature2 == false ?
@@ -822,8 +832,32 @@ const Contract = (props) => {
             </View>
             : null
           : null}
+
       </Content>
-     <FooterTabs navigation={props.navigation}  />
+      {viewTerm ?
+        contractData.length > 0 ?
+          contractData.map(function (contact, index) {
+            return (
+              contact.ContractId == contractId ?
+                <View key={index} style={[globalStyle.popup, { paddingTop: 80 }]}>
+                  <ScrollView style={[globalStyle.eventsListingWrapper, { height: win.height + 100, paddingBottom: 180 }]}>
+                    <HTML source={{ html: contact.ContractLegalTerms }} contentWidth={contentWidth} />
+                    <View style={{ paddingBottom: 80 }}>
+                      <Button
+                        style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
+                        onPress={() => setViewTerm(false)} >
+                        <Text style={[loginStyle.buttonText, { color: "#333" }]}>Close</Text>
+                      </Button>
+                    </View>
+                  </ScrollView>
+                </View>
+                : null
+            );
+          })
+          : null
+
+        : null}
+      <FooterTabs navigation={props.navigation} />
     </Container>
   );
 };

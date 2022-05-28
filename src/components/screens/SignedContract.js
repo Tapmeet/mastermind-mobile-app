@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator, TouchableOpacity } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator, ScrollView, Dimensions } from "react-native";
 import { API_URL } from "../Utility/AppConst"
 import {
   Container,
@@ -26,6 +26,7 @@ import { useFocusEffect } from '@react-navigation/native';
 const apiUrl = API_URL.trim();
 var dateSolds, dateStart, endDate
 const SignedContract = (props) => {
+  const win = Dimensions.get("window");
   const [loader, setloader] = React.useState(true);
   const [contractId, setContractId] = React.useState('')
   const [contract, setContract] = React.useState('')
@@ -342,6 +343,16 @@ const SignedContract = (props) => {
 
                   </View>
                   : null}
+                <Text style={{
+                  fontFamily: 'Poppins',
+                  marginTop: 10,
+                  fontSize: 18,
+                  color: "#29ABE2",
+                  marginBottom: -20,
+                  textDecorationColor: "#29ABE2",
+                  textDecorationLine:"underline",
+                  marginLeft:2
+                }} onPress={() => setViewTerm(true)} > Terms & conditions</Text>
               </View>
               <View style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 50, paddingLeft: 0, paddingRight: 0, marginTop: 20 }}>
                 {counter < 4 ?
@@ -371,29 +382,23 @@ const SignedContract = (props) => {
               </View>
             </View>
           }
-
-          <View style={{ padding: 15 }}>
-            {viewTerm ?
-              <View style={{ padding: 15 }}>
-                <HTML source={{ html: contract.ContractLegalTerms }} contentWidth={contentWidth} />
-              </View>
-              : null}
-            {!viewTerm ?
-              <Button
-                style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
-                onPress={() => setViewTerm(true)} >
-                <Text style={[loginStyle.buttonText, { color: "#333" }]}>View terms</Text>
-              </Button>
-              :
+        </View>
+      </Content>
+      {viewTerm ?
+        <View style={[globalStyle.popup, { paddingTop: 80 }]}>
+          <ScrollView style={[globalStyle.eventsListingWrapper, { height: win.height + 100, paddingBottom: 180 }]}>
+            <HTML source={{ html: contract.ContractLegalTerms }} contentWidth={contentWidth} />
+            <View style={{ paddingBottom: 80 }}>
               <Button
                 style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
                 onPress={() => setViewTerm(false)} >
-                <Text style={[loginStyle.buttonText, { color: "#333" }]}>Hide terms</Text>
+                <Text style={[loginStyle.buttonText, { color: "#333" }]}>Close</Text>
               </Button>
-            }
-          </View>
+            </View>
+          </ScrollView>
         </View>
-      </Content>
+
+        : null}
       <FooterTabs navigation={props.navigation} />
     </Container>
   );

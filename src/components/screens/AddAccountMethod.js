@@ -35,6 +35,9 @@ const AddAccountMethod = (props) => {
     setNickname("");
     setAccountNumber("");
     setRouting("");
+    setCheckAccountNumber(false)
+    setCheckNickname(false)
+    setSuccessMessage(false)
   };
   const setnickname = (event) => {
     setNickname(event);

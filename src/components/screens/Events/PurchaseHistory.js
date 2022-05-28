@@ -483,6 +483,17 @@ const EventOrdersListing = (props) => {
                           Color: {event.Color}
                         </Text>
                       ) : null}
+                      {event.Voided ? (
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            fontWeight: "600",
+                            color: "#333",
+                          }}
+                        >
+                          Purchase: Voided
+                        </Text>
+                      ) : null}
                     </View>
                   </View>
                 </View>

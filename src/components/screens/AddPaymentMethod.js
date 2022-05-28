@@ -69,6 +69,8 @@ const AddPaymentMethod = (props) => {
     setCardExpiration("");
     setErrorMessage("");
     setCheckCardExpirationDate(false);
+    setYear("")
+    setMonth("")
   };
   const setnickname = (event) => {
     setNickname(event);

@@ -65,7 +65,7 @@ const ProductListing = (props) => {
     }, [])
   );
   const placeholderFiler = {
-    label: "Filter",
+    label: "Sort by",
   };
   const storeData = async (value, title) => {
     console.log(value);

@@ -202,8 +202,6 @@ const PurchaseProduct = (props) => {
     // let uniqueArray = unique(selectedStudentArray);
     retail.cartItemsReducer.length > 0 ?
       retail.cartItemsReducer.map(function (product, index) {
-        console.log('productproductproductproductproductproduct')
-        console.log(product)
 
         fetch(`${apiUrl}/odata/PurchaseOfSale`, {
           method: "post",
@@ -225,11 +223,10 @@ const PurchaseProduct = (props) => {
           .then((response) => response.json())
           .then((response) => {
             setProcessing(false)
-            console.log('response');
-            console.log(response);
+  
             // setLoaderMessage(false);
             if (response["order"]) {
-              setSuccessMessage("Product Purchased  Successfully");
+              setSuccessMessage("Order Successfully Placed");
               setPurchaseStatus(true)
               // setTimeout(function () {
               //   props.navigation.navigate("Purchase History");

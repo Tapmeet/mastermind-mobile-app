@@ -57,6 +57,7 @@ const UserProfile = (props) => {
   const [checkSchoolName, setCheckSchoolName] = React.useState(false);
   const [checkAddress1, setCheckAddress1] = React.useState(false);
   const [checkPhone1, setCheckPhone1] = React.useState(false);
+  const [checkPhone2, setCheckPhone2] = React.useState(false);
   const [checkEmployer, setCheckEmployer] = React.useState(false);
   const [checkOccupation, setCheckOccupation] = React.useState(false);
 
@@ -67,8 +68,9 @@ const UserProfile = (props) => {
   const [SuccessMessage, setSuccessMessage] = React.useState("");
   const onChangePhone = (text, setVariable) => {
     let formatedNo = formatMobileNumber(text);
-
-    setVariable(formatedNo);
+    if (formatedNo.length <= 14) {
+      setVariable(formatedNo);
+    }
   };
 
   const formatMobileNumber = (text) => {
@@ -101,6 +103,8 @@ const UserProfile = (props) => {
     setAddress2("");
     setPhone1("");
     setPhone2("");
+    setCheckPhone1(false);
+    setCheckPhone2(false);
     //getdata()
     setSuccessMessage("");
   };
@@ -266,7 +270,24 @@ const UserProfile = (props) => {
       setCheckEmail(true);
       return false;
     }
-    
+    if(phone1 != ''){
+      if(phone1.length <10){
+        setCheckPhone1(true)
+        return false
+      }
+      else{
+        setCheckPhone1(false)
+      }
+    }
+    if(phone2 != ''){
+      if(phone2.length <10){
+        setCheckPhone2(true)
+        return false
+      }
+      else{
+        setCheckPhone2(false)
+      }
+    }
     const apiUrl = API_URL.trim();
     fetch(`${apiUrl}/odata/StudentData(${studentIds[0].StudentId})`, {
       method: "patch",
@@ -831,6 +852,7 @@ const UserProfile = (props) => {
                         <Input value={phone2} onChangeText={(text) => onChangePhone(text, setPhone2)} style={globalStyle.formControls} placeholder="Phone2" />
                       </Item>
                     </View>
+                    {checkPhone2 ? <Text style={globalStyle.error}>Enter Phone Number </Text> : null}
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Emergency Contact</Text>
                       <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>

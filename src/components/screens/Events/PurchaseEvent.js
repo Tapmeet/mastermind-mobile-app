@@ -231,7 +231,7 @@ const PurchaseEvent = (props) => {
              console.log(response);
             // setLoaderMessage(false);
             if (response["order"]) {
-              setSuccessMessage("Event Purchased  Successfully");
+              setSuccessMessage("Order Successfully Placed");
               setPurchaseStatus(true)
               // setTimeout(function () {
               //   props.navigation.navigate("Purchase History");

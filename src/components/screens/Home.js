@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator,useWindowDimensions } from "react-native";
+import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, useWindowDimensions } from "react-native";
 import React from "react";
 import FooterTabs from "../footer/Footer";
 import { SideBarMenu } from "../sidebar";
@@ -14,6 +14,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import * as WebBrowser from 'expo-web-browser';
 import loginStyle from "../../style/login/loginStyle";
 import HTML from "react-native-render-html";
+import TextTicker from 'react-native-text-ticker'
 const apiUrl = API_URL.trim();
 const key = 'value';
 var uniqueStudent = [];
@@ -474,7 +475,17 @@ const Home = (props) => {
     <Container>
       <SideBarMenu title={"Home"} navigation={props.navigation} />
       {announcements != '' ?
-        <View style={{ fontFamily: 'Poppins', display:"flex", fontSize: 14, color: "#777", textAlign:"center", justifyContent:"center", backgroundColor: "#eee", padding: 5 }}><HTML source={{ html:announcements }} style={{textAlign:"center"}} contentWidth={contentWidth} /></View>
+        <View style={{ fontFamily: 'Poppins', display: "flex", fontSize: 14, color: "#777", textAlign: "center", justifyContent: "center", backgroundColor: "#eee", padding: 5 }}>
+          <TextTicker
+            style={{ fontSize: 24 }}
+            duration={3000}
+            loop
+            bounce
+            repeatSpacer={50}
+          >
+           <HTML source={{ html: announcements }} style={{ textAlign: "center" }} contentWidth={contentWidth} />
+          </TextTicker>
+        </View>
         : null}
       {loader ? (
         <View style={[styles.container, styles.horizontal]}>
@@ -543,7 +554,7 @@ const Home = (props) => {
                       onPress={() => openLink(apiUrl + '/Public/EventDetails/' + event.OrganizationEventGuid + '?StudentAccountGuid=' + studentGuid)}
                     // onPress={() => storeData(event.PosItemId, event.Title)}
                     >
-                     {/* <Text> {apiUrl + '/Public/EventDetails/' + event.OrganizationEventGuid + '?StudentAccountGuid=' + studentGuid}</Text> */}
+                      {/* <Text> {apiUrl + '/Public/EventDetails/' + event.OrganizationEventGuid + '?StudentAccountGuid=' + studentGuid}</Text> */}
                       <View style={globalStyle.eventsListingWrapper}>
                         <View style={globalStyle.eventsListingTopWrapper}>
                           <View style={{ borderRadius: 25, overflow: "hidden" }}>
@@ -554,7 +565,7 @@ const Home = (props) => {
                                 }}
                                 style={{ height: 110, width: 130, resizeMode: 'contain' }} />
                               :
-                              <Image 
+                              <Image
                                 source={require("./../../../assets/img1.png")}
                                 style={{ height: 110, width: 130 }} />
                             }

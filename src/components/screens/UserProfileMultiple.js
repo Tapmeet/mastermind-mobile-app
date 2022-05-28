@@ -55,6 +55,7 @@ const UserProfileMultiple = (props) => {
   const [checkSchoolName, setCheckSchoolName] = React.useState(false);
   const [checkAddress1, setCheckAddress1] = React.useState(false);
   const [checkPhone1, setCheckPhone1] = React.useState(false);
+  const [checkPhone2, setCheckPhone2] = React.useState(false);
   const [checkEmployer, setCheckEmployer] = React.useState(false);
   const [checkOccupation, setCheckOccupation] = React.useState(false);
 
@@ -63,10 +64,13 @@ const UserProfileMultiple = (props) => {
   const [data, setData] = React.useState("");
   const userId = useSelector((state) => state);
   const [SuccessMessage, setSuccessMessage] = React.useState("");
-  const onChangePhone = (text ,setVariable) => {
+  const onChangePhone = (text, setVariable) => {
     let formatedNo = formatMobileNumber(text);
-  //  console.log(formatedNo)
-    setVariable(formatedNo);
+    //  console.log(formatedNo)
+    if (formatedNo.length <= 14) {
+      setVariable(formatedNo);
+    }
+
   };
 
   const formatMobileNumber = (text) => {
@@ -127,13 +131,13 @@ const UserProfileMultiple = (props) => {
     if (event == "") {
       setCheckZipCode(true);
     } else {
-      const check =isValidZip(event); console.log(check)
-      if(!check){
+      const check = isValidZip(event); console.log(check)
+      if (!check) {
         setCheckZipCode(true);
-      }else{
+      } else {
         setCheckZipCode(false);
       }
-      
+
     }
   };
   const toggleExpanded = () => {
@@ -244,6 +248,27 @@ const UserProfileMultiple = (props) => {
       setCheckEmail(true);
       return false;
     }
+    if(phone1 != ''){
+      if(phone1.length <10){
+        setCheckPhone1(true)
+        return false
+      }
+      else{
+        setCheckPhone1(false)
+      }
+    }
+    if(phone2 != ''){
+      if(phone2.length <10){
+        setCheckPhone2(true)
+        return false
+      }
+      else{
+        setCheckPhone2(false)
+      }
+    }
+    if(checkZipCode){
+      return false
+    }
     const apiUrl = API_URL.trim();
     fetch(`${apiUrl}/odata/StudentData(${profileId})`, {
       method: "patch",
@@ -316,6 +341,8 @@ const UserProfileMultiple = (props) => {
     setAddress2("");
     setPhone1("");
     setPhone2("");
+    setCheckPhone1(false);
+    setCheckPhone2(false);
     setData("");
     setSuccessMessage("");
   };
@@ -786,14 +813,15 @@ const UserProfileMultiple = (props) => {
                     <Input value={phone1} onChangeText={(text) => onChangePhone(text, setPhone1)} style={globalStyle.formControls} placeholder="Phone1" />
                   </Item>
                 </View>
-                {checkPhone1 ? <Text style={globalStyle.error}>Enter Phone Number </Text> : null}
+                {checkPhone1 ? <Text style={globalStyle.error}>Enter Valid Phone Number </Text> : null}
 
                 <View style={[globalStyle.formField]}>
                   <Text style={globalStyle.formLabel}>Phone2</Text>
                   <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                    <Input value={phone2} onChangeText={(text) =>  onChangePhone(text, setPhone2)} style={globalStyle.formControls} placeholder="Phone2" />
+                    <Input value={phone2} onChangeText={(text) => onChangePhone(text, setPhone2)} style={globalStyle.formControls} placeholder="Phone2" />
                   </Item>
                 </View>
+                {checkPhone2 ? <Text style={globalStyle.error}>Enter Valid Phone Number </Text> : null}
                 <View style={[globalStyle.formField]}>
                   <Text style={globalStyle.formLabel}>Emergency Contact</Text>
                   <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
