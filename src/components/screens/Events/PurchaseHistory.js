@@ -21,9 +21,9 @@ var filterList = [
   { label: "Last 60 days", value: "60" },
   { label: "Last 90 days", value: "90" },
   { label: "Last 180 days", value: "180" },
+  { label: "Voided", value: "Voided" },
   { label: "Purchase Type - Event", value: "Event" },
   { label: "Purchase Type - Retail", value: "Retail" },
-  { label: "Voided", value: "Voided" },
 ];
 var uniqueStudent = [];
 const key = "value";
