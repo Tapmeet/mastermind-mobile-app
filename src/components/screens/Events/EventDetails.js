@@ -79,7 +79,6 @@ const EventDetails = (props) => {
             const title = await AsyncStorage.getItem("eventTitle");
             setEventid(value)
             setProductTitle(title)
-            //  console.log(value)
           } catch (e) { }
         }
         getData();
@@ -94,9 +93,7 @@ const EventDetails = (props) => {
         })
           .then((response) => response.json())
           .then((data) => {
-            //  console.log(data.events)
             if (data.events) {
-              //console.log(data.events)
               setEventListing(data.events)
               setloader(false);
             } else {
@@ -152,15 +149,11 @@ const EventDetails = (props) => {
         "Please select student",
         [{
           text: 'Ok',
-          //onPress: () => //console.log('Cancel Pressed'),
           style: 'cancel',
         },]);
       return false
     }
-    // let eventId = JSON.stringify(value);
     let eventPrice = JSON.stringify(price);
-
-    console.log(productTitle)
     let retails = retail.eventReducer;
     if (retails.length > 0) {
       var productindex = '';
@@ -200,21 +193,9 @@ const EventDetails = (props) => {
         })
         setselectedStudentName(studentName)
         setSelectedMessage(true);
-        // console.log("here1")
-        // let newArr = [...retails]; // copying the old datas array
-        // newArr[productindex] = {
-        //   id: eventid,
-        //   studentIds: [selectedStudent],
-        //   eventPrice: eventPrice,
-        //   productTitle: productTitle,
-        // };
-        // updateRetail(newArr);
-        // setRetailProducts(newArr);
-
       }
 
     } else {
-      console.log("addNew")
       setRetailProducts([{
         id: eventid,
         studentIds: [selectedStudent],
@@ -229,20 +210,6 @@ const EventDetails = (props) => {
       });
       setSelectedStudent([])
     }
-
-
-    //console.log(eventId)
-    // try {
-    //   await AsyncStorage.setItem("eventId", eventId);
-    //   await AsyncStorage.setItem("eventPrice", eventPrice);
-    //   await AsyncStorage.setItem("productTitle", productTitle);
-    //   await AsyncStorage.setItem("size", size);
-    //   await AsyncStorage.setItem("colors", colors);
-    //   await AsyncStorage.setItem("quantity", quantity);
-    //   props.navigation.navigate("Purchase Product");
-    // } catch (e) {
-    //   // saving error
-    // }
   };
   const placeholderStudent = {
     label: "Select Student",

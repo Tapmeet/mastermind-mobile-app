@@ -69,9 +69,6 @@ const ClassReservations = (props) => {
                         const value = await AsyncStorage.getItem("eventId");
                         const taskId = await AsyncStorage.getItem("taskId");
                         const title = await AsyncStorage.getItem("eventTitle");
-                        // console.log(taskId)
-                        // console.log(value)
-                        // console.log(title)
                         setClassId(value)
                         setTaskTitle(title)
                         setTaskId(taskId)
@@ -102,7 +99,6 @@ const ClassReservations = (props) => {
                 setEventListing(data);
 
                 data.map(function (event, index) {
-                    // console.log('event')
                     if (event.Id == taskId) {
                         let startDate = moment(event.StartDate).format("MMMM Do, YYYY");
                         let starttime = moment(event.StartDate).format("hh:mm a ");
@@ -112,8 +108,6 @@ const ClassReservations = (props) => {
                         setStartTime(starttime);
                         setEndDate(enddate);
                         setDescription(event.Description)
-                        // const rule = new RRule()
-                        //var options = RRule.fromString(event.RecurrenceRule)
                         var options = RRule.fromString('FREQ=WEEKLY;UNTIL=20220528T235959Z;BYDAY=SU;WKST=SU')
                         const rrule = options.all();
                         var str = event.RecurrenceRule;
@@ -144,38 +138,10 @@ const ClassReservations = (props) => {
                                 }
                             })
                         })
-                        console.log(weekdays)
-                        console.log('weekdays')
                         var startDates = moment()
                         var endDate = moment(startDates, "DD-MM-YYYY").add(14, 'days');
-                        // console.log(startDates)
-                        // console.log('startDate')
-                        // console.log(endDate)
-                        // console.log('endDate')
                         getDates(startDates, endDate);
-                        // var datesArray = {};
-                        // const complete = { key: 'complete', color: 'green' };
-                        // if (rrule.length > 0) {
-                        //     rrule.map(function (rules, index) {
-                        //         let dates = moment(rules).format('YYYY-MM-DD');
-                        //         Object.assign(datesArray, {
-                        //             [dates]: {
-                        //                 selected: true,
-                        //                 selectedColor: '#4895FF',
-                        //                 disabled: false,
-                        //                 disableTouchEvent: false,
-                        //                 marked: true
-                        //             },
-                        //         })
-                        //     })
-                        // }
                         setRecurrenceText(options.toText())
-                        //setRecurrenceRule(datesArray)
-                        //options.toText()
-                        // console.log(options.toText())
-                        // console.log('optionsss')
-
-                        //   console.log(options.all())
                     }
                 })
             });
@@ -207,8 +173,6 @@ const ClassReservations = (props) => {
             startDate.add(1, "day");
             i++;
         }
-        console.log(datesArray)
-        console.log('datesArray')
         setRecurrenceRule(datesArray)
         setloader(false)
     }
@@ -241,12 +205,9 @@ const ClassReservations = (props) => {
                         })
                             .then((response) => response.json())
                             .then((data) => {
-                                //console.log(data)
-                                // setStudentData(data)
                                 if (studentIds.length <= students) {
                                     let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
                                     setStudentData((prevState) => [...prevState, data]);
-                                    //setStudentIds((prevState) => [...prevState, dataArray]);
                                     uniqueStudent.push(dataArray)
                                     let uniquestudentList = [...new Map(uniqueStudent.map(item =>
                                         [item[key], item])).values()];
@@ -259,18 +220,12 @@ const ClassReservations = (props) => {
             });
     }
     const getSelectedDayEvents = date => {
-       
-        //console.log(startDate)
-
         let starttime = moment(startDateUnformatted).format("HH:mm:ss");
         let startDate = moment(date).format("MM/DD/YYYY");
         let datesCheck = new Date(date + ' ' + starttime);
-        console.log(datesCheck)
-        console.log(startDate + ' ' + starttime)
         setSelectedDate(startDate)
         let markedDates = {};
         Object.entries(recurrenceRule).forEach(([key, value]) => {
-            console.log(key)
            if(key == date){
             Object.assign(markedDates, {
                 [key]: {
@@ -293,11 +248,7 @@ const ClassReservations = (props) => {
             })
            }
           });
-
-        console.log("here")
-        console.log(markedDates)
         setRecurrenceRule(markedDates)
-
     };
     const reserveClass = () => {
 
@@ -306,7 +257,6 @@ const ClassReservations = (props) => {
                 "Please select student",
                 [{
                     text: 'Ok',
-                    //onPress: () => //console.log('Cancel Pressed'),
                     style: 'cancel',
                 },]);
             return false
@@ -316,7 +266,6 @@ const ClassReservations = (props) => {
                 "Please select date",
                 [{
                     text: 'Ok',
-                    //onPress: () => //console.log('Cancel Pressed'),
                     style: 'cancel',
                 },]);
             return false
@@ -331,8 +280,6 @@ const ClassReservations = (props) => {
             }
 
         })
-        console.log(studentName)
-        console.log(studentEmail)
         setLoaderMessage(false)
         fetch(`${apiUrl}public/ClassReservation`, {
             method: "post",
@@ -350,11 +297,8 @@ const ClassReservations = (props) => {
             }),
         })
             .then((response) => {
-                console.log("response")
                 let jsonData = JSON.stringify(response);
-                console.log(jsonData)
                 let jsonDataPrase = JSON.parse(jsonData);
-                // console.log(jsonDataPrase.status)
                 if (jsonDataPrase.status != 200) {
                     setLoaderMessage(false)
                     setErrorMessage("An error has occurred.");

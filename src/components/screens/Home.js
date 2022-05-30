@@ -15,6 +15,7 @@ import * as WebBrowser from 'expo-web-browser';
 import loginStyle from "../../style/login/loginStyle";
 import HTML from "react-native-render-html";
 import TextTicker from 'react-native-text-ticker'
+import { wrap } from "lodash";
 const apiUrl = API_URL.trim();
 const key = 'value';
 var uniqueStudent = [];
@@ -74,7 +75,6 @@ const Home = (props) => {
   const [selectedTaskName, setSelectedTaskName] = React.useState('');
   const [announcements, setAnnouncements] = React.useState('');
   useFocusEffect(
-    //navigation.addListener("focus", () => {
     React.useCallback(() => {
 
       fetchClasses()
@@ -103,7 +103,6 @@ const Home = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // console.log(data)
           setThreshold(data.threshold)
           if (data.classes) {
             var classes = [];
@@ -125,7 +124,6 @@ const Home = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // console.log(data)
           setloader(false);
           if (data.retails) {
             setRetailListing(data.retails);
@@ -144,7 +142,6 @@ const Home = (props) => {
       })
         .then((response) => response.json())
         .then(async (data) => {
-          //  console.log(data)
           getSchoolData(data.SchoolId)
           if (data.StudentIds.length > 0) {
 
@@ -152,8 +149,6 @@ const Home = (props) => {
           }
         });
       getData()
-      //   });
-      // });
     }, [])
   );
 
@@ -168,9 +163,7 @@ const Home = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('data')
         setAnnouncements(data.MobileAnnouncement)
-        // console.log(data.MobileAnnouncement) 
       });
   }
   async function getData() {
@@ -199,21 +192,17 @@ const Home = (props) => {
       });
   }
   const storeData = async (value, title) => {
-    //console.log(value);
     let eventId = JSON.stringify(value);
-    // console.log(eventId);
     try {
       await AsyncStorage.setItem("eventId", eventId);
       await AsyncStorage.setItem("eventTitle", title);
       props.navigation.navigate("Product Details");
     } catch (e) {
-      // saving error
     }
   };
   const storeDataClass = async (value, title, img) => {
 
     let eventId = JSON.stringify(value);
-    // console.log(eventId);
     try {
       let thresholdString = threshold.toString()
       await AsyncStorage.setItem("eventId", eventId);
@@ -227,7 +216,6 @@ const Home = (props) => {
       await AsyncStorage.setItem("threshold", thresholdString);
       props.navigation.navigate("Class Tasks");
     } catch (e) {
-      // saving error
     }
   };
   const data = [
@@ -263,8 +251,6 @@ const Home = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data)
-        // console.log('data')
         if (data.value) {
           setloader(false);
           setClassListings(data.value);
@@ -301,12 +287,9 @@ const Home = (props) => {
             })
               .then((response) => response.json())
               .then((data) => {
-                //console.log(data)
-                // setStudentData(data)
                 if (studentIds.length <= students) {
                   let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
                   setStudentData((prevState) => [...prevState, data]);
-                  //setStudentIds((prevState) => [...prevState, dataArray]);
                   uniqueStudent.push(dataArray)
                   let uniquestudentList = [...new Map(uniqueStudent.map(item =>
                     [item[key], item])).values()];
@@ -351,24 +334,17 @@ const Home = (props) => {
       }),
     }).then((response) => response.json())
       .then((response) => {
-        console.log('response')
-          / console.log(response)
         setLoaderMessage(false)
         if (!response["odata.error"]) {
           setSuccessMessage(studentName + " has successfully checked In")
           setTimeout(function () {
-            // fetchClasses()
-            // setTogglePopup(false)
             setSelectedStudent([])
             setSuccessMessage('')
           }, 2000);
 
         }
         else {
-          console.log('responses')
-          console.log(response["odata.error"].message.value)
           setErrorMessage(response["odata.error"].message.value)
-          //setSuccessMessage(studentName + " has successfully checked In")
         }
 
 
@@ -424,7 +400,6 @@ const Home = (props) => {
                 {item.Name}
               </Text>
               <Text style={{ fontSize: 18, color: "#fff" }}>Reserve Class > </Text>
-              {/* <Text style={{ fontSize: 18, color: "#fff" }}>{Math.floor(threshold / 7)} Weeks </Text> */}
             </View>
           </View>
         </TouchableOpacity>
@@ -446,7 +421,7 @@ const Home = (props) => {
           <View style={globalStyle.eventsListingWrapper}>
             <View style={globalStyle.eventsListingTopWrapper}>
               <View style={{ paddingLeft: 0, paddingRight: 10 }}>
-                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                <Text style={{ fontSize: 22, fontWeight: "bold", color: "#555", lineHeight: 26, marginBottom: 10 }}>
                   {item.ClassName}
                 </Text>
 
@@ -627,13 +602,14 @@ const Home = (props) => {
                           <View style={{ borderRadius: 25, overflow: "hidden" }}>
                             <Image source={require("./../../../assets/retails.jpg")} style={{ height: 110, width: 130, resizeMode: 'contain' }} />
                           </View>
-                          <View style={{ paddingLeft: 15, paddingRight: 10 }}>
+                          <View style={{ paddingLeft: 15, paddingRight: 10, flexShrink: 1 }}>
                             <Text
                               style={{
                                 fontSize: 18,
                                 fontWeight: "bold",
                                 color: "#16161D",
                                 paddingBottom: 10,
+                                flexShrink: 1
                               }}
                             >
                               {event.Title}

@@ -82,7 +82,6 @@ const Login = (props) => {
     }
     formBody = formBody.join("&");
     const apiUrl = API_URL.trim();
-    console.log(apiUrl);
     setLoaderMessage(true)
     fetch(`${apiUrl}/token`, {
       method: "POST",
@@ -93,7 +92,6 @@ const Login = (props) => {
     })
       .then((response) => response.json())
       .then(async (response) => {
-        //console.log(response);
         setLoaderMessage(false)
         if (response["access_token"]) {
           const token =response["access_token"].toString()

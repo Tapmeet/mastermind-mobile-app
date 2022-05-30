@@ -39,27 +39,12 @@ const Main = (props) => {
   async function getData() {
     try {
       const value = await AsyncStorage.getItem("tokenCheck");
-      console.log('here');
-      console.log(value)
-      console.log(userId.userDataReducer.length);
-      console.log('userId');
       if (value != '' && value != null && typeof userId !== "undefined" && userId.userDataReducer.length == 0) {
         userData({ id: 1, access_Token: value });
       }
-      else {
-        console.log('valuess')
-      }
     } catch (e) { }
-
   }
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     getData()
-  //   }, [])
-  // );
   getData()
-
-  // console.log(userId)
   const AuthStack = createStackNavigator();
   return (
     <NavigationContainer>

@@ -37,7 +37,6 @@ const FooterTabs = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data)
         if (data) {
           setSchoolInfo(data.value);
           setloader(false);
@@ -55,7 +54,6 @@ const FooterTabs = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data)
         setPdfUrl(data.classSchedulePDFAvailable)
         if (data.classSchedulePDFAvailable) {
           getClassId()

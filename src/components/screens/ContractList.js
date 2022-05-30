@@ -76,8 +76,6 @@ const ContractList = (props) => {
         } else {
           setloader(false);
         }
-        //  console.log('here')
-        // console.log(data)
       });
   }
   function getPersonContractPending() {
@@ -91,7 +89,6 @@ const ContractList = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data)
         if (data.value) {
           setloader(false);
           setContractDataPending(data.value);
@@ -105,17 +102,6 @@ const ContractList = (props) => {
     <Container style={loginStyle.container}>
       <SideBarMenu title={"Contracts"} navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
-        {/* <ImageBackground
-          style={{
-            width: "100%",
-            height: 150,
-            position: "absolute"
-          }}
-          source={require('./../../../assets/bg3.png')}
-          resizeMode={'stretch'}
-        >
-        </ImageBackground> */}
-
         <View style={{ marginTop: 10 }}>
           {loader ? (
             <View style={[styles.container, styles.horizontal]}>

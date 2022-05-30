@@ -74,7 +74,6 @@ const ResetPassword = (props) => {
       .then((response) => {
         let jsonData = JSON.stringify(response);
         let jsonDataPrase = JSON.parse(jsonData);
-        //console.log(jsonDataPrase.status)
         if (jsonDataPrase.status != 200) {
           setErrorMessage("An error has occurred.");
         } else {

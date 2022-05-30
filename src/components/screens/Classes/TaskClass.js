@@ -105,9 +105,6 @@ const TaskClass = (props) => {
             else {
                 setClassImg('')
             }
-
-            // console.log(value);
-            //  console.log('value')
             setThreshold(threshold)
             setClassId(value)
             setTaskTitle(title)
@@ -133,8 +130,6 @@ const TaskClass = (props) => {
                         var str = event.RecurrenceRule;
 
                         if (str != null) {
-                            //if (str != null) {
-                            // console.log(str)
                             var chars = str.split(';');
 
                             var str1, chars1;
@@ -235,8 +230,6 @@ const TaskClass = (props) => {
         datesCleassesArray = [];
         const complete = { key: 'complete', color: 'green' };
         while (i < parseInt(threshold) && startDate <= endDate) {
-
-            //console.log(weekdays);
             weekdays.map(function (rules, index) {
                 if (startDate.day() == rules) {
                     let dates = moment(startDate).format('YYYY-MM-DD');
@@ -282,12 +275,8 @@ const TaskClass = (props) => {
             startDate.add(1, "day");
             i++;
         }
-        // console.log(datesCleassesArray);
-        // console.log('weekdays array');
         weekdays = [];
         setRecurrenceRule(datesArray)
-
-        //setDatesClasses(datesCleassesArray)
         datesCleassesArray = [];
     }
 
@@ -319,12 +308,9 @@ const TaskClass = (props) => {
                         })
                             .then((response) => response.json())
                             .then((data) => {
-                                //console.log(data)
-                                // setStudentData(data)
                                 if (studentIds.length <= students) {
                                     let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
                                     setStudentData((prevState) => [...prevState, data]);
-                                    //setStudentIds((prevState) => [...prevState, dataArray]);
                                     uniqueStudent.push(dataArray)
                                     let uniquestudentList = [...new Map(uniqueStudent.map(item =>
                                         [item[key], item])).values()];
@@ -338,9 +324,6 @@ const TaskClass = (props) => {
     }
 
     const getSelectedDayEvents = date => {
-
-        //console.log(startDate)
-
         let starttime = moment(startDateUnformatted).format("HH:mm:ss");
         let startDate = moment(date).format("MM/DD/YYYY");
         let datesCheck = new Date(date + ' ' + starttime);
@@ -372,9 +355,6 @@ const TaskClass = (props) => {
             setselectedTaskTime('')
             setSelectedTaskDate('')
         });
-
-        // console.log("here")
-        // console.log(markedDates)
         setRecurrenceRule(markedDates)
 
         setTimeout(function () {
@@ -389,7 +369,6 @@ const TaskClass = (props) => {
                 "Please select class slot",
                 [{
                     text: 'Ok',
-                    //onPress: () => //console.log('Cancel Pressed'),
                     style: 'cancel',
                 },]);
             return false
@@ -399,7 +378,6 @@ const TaskClass = (props) => {
                 "Please select student",
                 [{
                     text: 'Ok',
-                    //onPress: () => //console.log('Cancel Pressed'),
                     style: 'cancel',
                 },]);
             return false
@@ -416,8 +394,6 @@ const TaskClass = (props) => {
 
         })
         setLoaderMessage(true)
-        console.log(apiUrl)
-        
         fetch(`${apiUrl}public/ClassReservation`, {
             method: "post",
             headers: {
@@ -435,8 +411,6 @@ const TaskClass = (props) => {
         })
             .then((response) => response.text())
             .then((data) => {
-                console.log('data')
-                console.log(data)
                 if (data != "FAILURE:You are already signed up for this class" && data != "FAILURE:Failed to record class reservation") {
                     setLoaderMessage(false)
                     setSuccessMessage("Successfully Submitted.");
@@ -459,7 +433,6 @@ const TaskClass = (props) => {
                     setLoaderMessage(false)
                   ;
                     let cleanStr = data.replace(/FAILURE:/g, "");
-                    console.log(cleanStr)
                     setErrorMessage(cleanStr);
                     setTimeout(function () {
                         setErrorMessage('');
@@ -585,8 +558,6 @@ const TaskClass = (props) => {
                                         horizontal={true}
                                         pagingEnabled={true}
                                         current={todayDate}
-                                        // onVisibleMonthsChange={months => this.onMonthChange(months)}
-                                        // pagingEnabled
                                         style={{ borderBottomWidth: 1, borderBottomColor: ' black' }}
                                     />
                                 </Calendar>
@@ -594,8 +565,6 @@ const TaskClass = (props) => {
                             <View>
                                 {selectedDate != '' ?
                                     datesClasses.map(function (classes, index) {
-                                        // console.log('classes')
-                                        // console.log(classes)
                                         return (
                                             classes.classdate == selectedDate && eventListing['0'].Title == classes.title ?
                                                 <View style={{ marginBottom: 10, marginTop: 10 }} key={index}>
@@ -706,7 +675,6 @@ const TaskClass = (props) => {
                                                         onPress: () => reserveClass()
                                                     }, {
                                                         text: 'Cancel',
-                                                        //onPress: () => //console.log('Cancel Pressed'),
                                                         style: 'cancel',
                                                     },]);
                                         }}

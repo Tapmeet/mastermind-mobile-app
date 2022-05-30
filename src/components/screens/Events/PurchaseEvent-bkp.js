@@ -78,10 +78,8 @@ const PurchaseEvent = (props) => {
     let selectedStudentArray = selectedstudent.map((a) => a.id);
     let price = 0;
     let uniqueArray = unique(selectedStudentArray);
-    // console.log(uniqueArray)
     if (uniqueArray.length > 0) {
       price = parseFloat(eventDefaultPrice) * parseFloat(uniqueArray.length);
-      // console.log(price)
       setEventPrice(price);
     }
     else {
@@ -103,7 +101,6 @@ const PurchaseEvent = (props) => {
       selected = JSON.parse(selectedstudents);
       if (selected.length > 0) {
         let price = parseFloat(eventPrice) * parseFloat(selected.length);
-        console.log(price)
         setSelectedStudents(selected)
         setEventid(value)
         setEventDefaultPrice(eventPrice);
@@ -162,13 +159,11 @@ const PurchaseEvent = (props) => {
                       }
                     })
                     if (checkSelectedid) {
-                      console.log('hrerer')
                       let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: true }
                       setStudentIds((prevState) => [...prevState, dataArray]);
                       setloader(false)
                     }
                     else {
-                      console.log('threrer')
                       let dataArray = { id: data.StudentId, name: data.FirstName + " " + data.LastName, isChecked: false }
                       setStudentIds((prevState) => [...prevState, dataArray]);
                       setloader(false)
@@ -199,18 +194,13 @@ const PurchaseEvent = (props) => {
       .then(response => response.json())
       .then(data => {
         if (data.value) {
-          // setloader(false)
           setPaymentMethod(data.value)
-          // console.log(data.value)
           data.value.length > 0 ?
             data.value.map(function (payment, index) {
               setActiveIndex(index)
               payment.IsDefault ? setDefaultId(payment.PersonPaymentMethodId) : null
             })
             : null
-        }
-        else {
-          //  setloader(false)
         }
       });
   }
@@ -226,10 +216,6 @@ const PurchaseEvent = (props) => {
       (studentIds) => studentIds.isChecked
     );
     let selectedStudentArray = selectedstudent.map((a) => a.id);
-
-    //console.log(selectedStudentArray);
-    // console.log(defaultId);
-    // console.log(eventid)
     if (selectedStudentArray.length <= 0) {
       setErrorMessage("Please Select Student");
       return false
@@ -253,56 +239,20 @@ const PurchaseEvent = (props) => {
       .then((response) => response.json())
       .then(async (response) => {
         setProcessing(false)
-        // console.log(response);
-        // setLoaderMessage(false);
         if (response["order"]) {
           setSuccessMessage("Event Purchased  Successfully");
           await AsyncStorage.removeItem('studentIds')
-          // setTimeout(function () {
-          //   props.navigation.navigate("Events");
-          //   setSuccessMessage("");
-          // }, 3000);
           setPurchaseStatus(true)
         } else {
           setErrorMessage(response["odata.error"].message.value);
-          //  setErrorMessage("An error has occurred.");
           setTimeout(function () {
-            //props.navigation.navigate("Payment Methods");
             setErrorMessage("");
           }, 3000);
         }
       })
       .catch(function (data) {
         setProcessing(false)
-        console.log("Error", data);
       });
-    // .then((response) => {
-    //   console.log(response);
-    //   setLoaderMessage(false);
-    //   let jsonData = JSON.stringify(response);
-    //   console.log(jsonData);
-    //   let jsonDataPrase = JSON.parse(jsonData);
-    //   console.log(jsonDataPrase.status);
-    //   if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
-    //     setSuccessMessage("Event Purchased  Successfully");
-    //     // setTimeout(function () {
-    //     //   props.navigation.navigate("Payment Methods");
-    //     //   setSuccessMessage("");
-    //     // }, 3000);
-    //   } else {
-    //     setErrorMessage("An error has occurred.");
-    //     setTimeout(function () {
-    //       setErrorMessage("");
-    //     }, 3000);
-    //   }
-    // })
-    // .catch((response) => {
-    //   setErrorMessage("An error has occurred.");
-    //   setTimeout(function () {
-    //     setErrorMessage("");
-    //   }, 3000);
-    // });
-
   };
   const { navigation } = props;
   const SLIDER_WIDTH = Dimensions.get("window").width + 60;

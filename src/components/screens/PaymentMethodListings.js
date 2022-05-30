@@ -47,8 +47,6 @@ const PaymentMethodListings = (props) => {
     })
       .then(response => response.json())
       .then(data => {
-        // console.log("here")
-        // console.log(data.PersonId)
         getPaymentMethod(data.PersonId)
         setPersonId(data.PersonId)
       });
@@ -139,7 +137,6 @@ const PaymentMethodListings = (props) => {
             paymentMethod.length > 0 ?
               paymentMethod.map(function (payment, index) {
                 const Expiry = new Date(payment.Expiration).toISOString().slice(0, 10);
-                //  console.log(payment)
                 return (
                   <View key={index} style={[globalStyle.Boxshadow, { padding: 15 }]}>
                     <Text style={{ textAlign: "center", fontSize: 25, fontWeight: "bold", marginBottom: 10 }}>{payment.PaymentTypeId == 2 ? "Bank Details " : "Credit card "}</Text>

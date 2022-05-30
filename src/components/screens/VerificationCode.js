@@ -40,7 +40,6 @@ const VerificationCode = (props) => {
 
   const { navigation } = props;
   const { route } = props;
-  console.log(route)
   return (
     <Container style={loginStyle.container}>
       <Content style={loginStyle.spacing} >
@@ -81,10 +80,6 @@ const VerificationCode = (props) => {
         </Body>
         <Form>
           <Body style={{ padding: 30}}>
-            {/* <Image
-              style={verificationStyle.envelop}
-              source={require("../../../assets/Envelop.png")}
-            /> */}
           </Body>
           <View style={[verificationStyle.spaceBetween,{ paddingLeft: 30, paddingRight:30}]}>
             <OtpInputs getOtp={(otp) => getOtp(otp)} />

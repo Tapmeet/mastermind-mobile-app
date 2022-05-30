@@ -53,7 +53,6 @@ const Welcome = (props) => {
     setloader(true)
     try {
       const value = await AsyncStorage.getItem("accessCheck");
-      console.log(value)
       if (value == 1) {
         props.navigation.navigate("Login");
         setTimeout(function () { setloader(false) }, 2000);

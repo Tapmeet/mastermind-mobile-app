@@ -86,7 +86,6 @@ const ProductDetails = (props) => {
             const title = await AsyncStorage.getItem("eventTitle");
             setEventid(value)
             setProductTitle(title)
-            //  console.log(value)
           } catch (e) { }
         }
         getData();
@@ -101,9 +100,7 @@ const ProductDetails = (props) => {
         })
           .then((response) => response.json())
           .then((data) => {
-            //  console.log(data.events)
             if (data.retails) {
-              //console.log(data.events)
               setEventListing(data.retails)
               setloader(false);
             } else {
@@ -158,7 +155,6 @@ const ProductDetails = (props) => {
         "Please select student",
         [{
           text: 'Ok',
-          //onPress: () => //console.log('Cancel Pressed'),
           style: 'cancel',
         },]);
       return false
@@ -170,7 +166,6 @@ const ProductDetails = (props) => {
           "Please select Size",
           [{
             text: 'Ok',
-            //onPress: () => //console.log('Cancel Pressed'),
             style: 'cancel',
           },]);
         return false
@@ -182,7 +177,6 @@ const ProductDetails = (props) => {
           "Please select color",
           [{
             text: 'Ok',
-            //onPress: () => //console.log('Cancel Pressed'),
             style: 'cancel',
           },]);
         return false
@@ -193,15 +187,11 @@ const ProductDetails = (props) => {
         "Please select quantity",
         [{
           text: 'Ok',
-          //onPress: () => //console.log('Cancel Pressed'),
           style: 'cancel',
         },]);
       return false
     }
-    // let eventId = JSON.stringify(value);
     let eventPrice = JSON.stringify(price);
-
-    console.log(productTitle)
     let retails = retail.cartItemsReducer;
     if (retails.length > 0) {
       var productindex = '';
@@ -212,9 +202,7 @@ const ProductDetails = (props) => {
           productquantity = product.quantity;
         }
       })
-      console.log(productindex)
       if (productindex === '') {
-        console.log("theres")
         let dataArray = {
           id: eventid,
           studentIds: [selectedStudent],
@@ -235,7 +223,6 @@ const ProductDetails = (props) => {
           quantity: quantity,
         });
       } else {
-        console.log("here1")
         let newArr = [...retails]; // copying the old datas array
         newArr[productindex] = {
           id: eventid,
@@ -251,7 +238,6 @@ const ProductDetails = (props) => {
       }
 
     } else {
-      console.log("addNew")
       setRetailProducts([{
         id: eventid,
         studentIds: [selectedStudent],
@@ -271,20 +257,6 @@ const ProductDetails = (props) => {
         quantity: quantity,
       });
     }
-
-
-    //console.log(eventId)
-    // try {
-    //   await AsyncStorage.setItem("eventId", eventId);
-    //   await AsyncStorage.setItem("eventPrice", eventPrice);
-    //   await AsyncStorage.setItem("productTitle", productTitle);
-    //   await AsyncStorage.setItem("size", size);
-    //   await AsyncStorage.setItem("colors", colors);
-    //   await AsyncStorage.setItem("quantity", quantity);
-    //   props.navigation.navigate("Purchase Product");
-    // } catch (e) {
-    //   // saving error
-    // }
   };
   const { navigation } = props;
   const placeholderQuantity = {
@@ -299,7 +271,7 @@ const ProductDetails = (props) => {
         backgroundColor: "#FFFFFF",
       }}
     >
-      <SideBarMenu title={"Product Details"} navigation={props.navigation} />
+      <SideBarMenu title={"Product Details"}  backLink="Retail" navigation={props.navigation} />
       {loader ? (
         <Content>
           <View style={[styles.container, styles.horizontal]}>
@@ -527,7 +499,7 @@ const ProductDetails = (props) => {
                         paddingTop: 40,
                         paddingBottom: 20
                       }}>
-                        <Text style={{ color: "#1873e8", fontSize: 24, fontWeight: "bold" }}>${event.Price}  </Text>
+                        <Text style={{ color: "#1873e8", fontSize: 24, fontWeight: "bold" }}>${event.Price}</Text>
                         {studentIds.length > 0 && studentIds.length != undefined ?
                         <TouchableOpacity style={globalStyle.purchaseBtn} onPress={() => storeData(event.PosItemId, event.Price)} >
                           <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, paddingBottom: 15, paddingLeft: 30, paddingRight: 30, paddingTop: 15, fontSize: 22, fontWeight: "bold", borderRadius: 15 }}>Add to cart</Text>

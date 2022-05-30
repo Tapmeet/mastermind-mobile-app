@@ -23,8 +23,6 @@ const Cart = (props) => {
     React.useEffect(() => {
         props.navigation.addListener("focus", () => {
             total = 0;
-            // console.log('retail here')
-            // console.log(retail)
             if (retail.cartItemsReducer.length > 0) {
                 setRetailProducts(retail.cartItemsReducer);
             }
@@ -85,7 +83,6 @@ const Cart = (props) => {
     }
     const setproductsQuantities = (productindex, value) => {
         if (value != '' && value != undefined) {
-            //  console.log(retailProducts)
             let retails = retail.cartItemsReducer;
             let newArr = [...retails];
 
@@ -106,11 +103,9 @@ const Cart = (props) => {
     const deleteProduct = (productindex) => {
         if (productindex != '' || productindex != undefined) {
             let retails = retail.cartItemsReducer;
-            //  console.log(retails[productindex].id)
             let newRetails = retails.filter(function (product, index) {
                 return index != productindex
             });
-            //  console.log(newRetails)
 
             total = 0;
             updateRetail(newRetails);
@@ -169,11 +164,9 @@ const Cart = (props) => {
                                                                 onPress: () => deleteProduct(index)
                                                             }, {
                                                                 text: 'Cancel',
-                                                                //onPress: () => //console.log('Cancel Pressed'),
                                                                 style: 'cancel',
                                                             },]);
                                                     }}
-                                                //onPress={() => deleteProduct(index)}
                                                 >
                                                     <Image
 

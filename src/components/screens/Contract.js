@@ -67,7 +67,6 @@ const Contract = (props) => {
   React.useEffect(() => {
     navigation.addListener('focus', () => {
       setloader(true)
-      //console.log(props.route.params.contractId);
       if (contractData.length == 0) {
         clearData()
         setContractId(props.route.params.contractId)
@@ -101,7 +100,6 @@ const Contract = (props) => {
     })
       .then(response => response.json())
       .then(data => {
-        //  console.log(data)
         setHasMinor(data.hasMinor)
         setTerms(data.contractTermTemplate)
         setloader(false)
@@ -117,7 +115,6 @@ const Contract = (props) => {
       .then(response => response.json())
       .then(response => {
         setPersonData(response.value)
-        // console.log(response.value);
       });
   }
   const { navigation } = props;
@@ -126,7 +123,6 @@ const Contract = (props) => {
     if (hasMinor) {
       setStep2(true)
     } else {
-      //setStep2(true)
       setStep3(true)
     }
   };
@@ -146,7 +142,6 @@ const Contract = (props) => {
     })
       .then(response => response.json())
       .then(data => {
-        // console.log(data)
         setPersonId(data.PersonId)
         getPaymentMethod(data.PersonId)
       });
@@ -184,10 +179,8 @@ const Contract = (props) => {
     })
       .then(response => response.json())
       .then(data => {
-        // console.log(data)
         setContractData(data.value)
         let dateSolds = new Date(data.value[0].DateSold).toISOString().slice(0, 10);
-        // console.log(dateSolds)
         setDateSold(dateSolds)
       });
   }
@@ -199,8 +192,6 @@ const Contract = (props) => {
       return false
     }
     const apiUrl = API_URL.trim();
-    console.log(userPaymentSelected)
-    //  console.log('heres');
     setProcessing(true)
     fetch(`${apiUrl}/odata/Contract(${props.route.params.contractId})`, {
       method: "patch",
@@ -219,9 +210,7 @@ const Contract = (props) => {
       .then((response) => {
         setProcessing(false)
         let jsonData = JSON.stringify(response);
-        console.log(jsonData)
         let jsonDataPrase = JSON.parse(jsonData);
-        console.log(jsonDataPrase.status)
         if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
           setSuccessMessage("Update Successfully");
         } else {

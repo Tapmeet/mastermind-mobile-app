@@ -93,7 +93,6 @@ const LinkStudent = (props) => {
       .then((response) => {
         setloader(false)
         if (response["odata.error"]) {
-          console.log(response["odata.error"].message.value);
           setErrorMessage(response["odata.error"].message.value);
         } else {
           props.navigation.navigate("Verification", {

@@ -98,12 +98,9 @@ const ActiveClasses = (props) => {
                         })
                             .then((response) => response.json())
                             .then((data) => {
-                                //console.log(data)
-                                // setStudentData(data)
                                 if (studentIds.length <= students) {
                                     let dataArray = { label: data.FirstName + " " + data.LastName, value: data.StudentId }
                                     setStudentData((prevState) => [...prevState, data]);
-                                    //setStudentIds((prevState) => [...prevState, dataArray]);
                                     uniqueStudent.push(dataArray)
                                     let uniquestudentList = [...new Map(uniqueStudent.map(item =>
                                         [item[key], item])).values()];
@@ -148,25 +145,17 @@ const ActiveClasses = (props) => {
             }),
         }).then((response) => response.json())
             .then((response) => {
-                console.log('response')
-                console.log(response)
                 setLoaderMessage(false)
                 if (!response["odata.error"]) {
                     setSuccessMessage(studentName + " has successfully checked In")
-                    console.log(SuccessMessage)
                     setTimeout(function () {
-                        // fetchClasses()
-                        // setTogglePopup(false)
                         setSelectedStudent([])
                         setSuccessMessage('')
                     }, 2000);
 
                 }
                 else {
-                    console.log('responses')
-                    console.log(response["odata.error"].message.value)
                     setErrorMessage(response["odata.error"].message.value)
-                    //setSuccessMessage(studentName + " has successfully checked In")
                 }
 
 

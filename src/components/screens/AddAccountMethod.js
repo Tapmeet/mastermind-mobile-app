@@ -112,7 +112,6 @@ const AddAccountMethod = (props) => {
         }
       })
       .catch((response) => {
-        console.log(response)
         setErrorMessage("An error has occurred.");
         setTimeout(function () {
           setErrorMessage("");

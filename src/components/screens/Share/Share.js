@@ -37,7 +37,6 @@ const Share = (props) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data)
                 if (data) {
                     setSchoolInfo(data.value);
                     setloader(false);

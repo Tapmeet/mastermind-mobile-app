@@ -48,9 +48,7 @@ const VerificationLinkStudentSignup = (props) => {
       })
         .then((response) => {
           let jsonData = JSON.stringify(response);
-          console.log(jsonData)
           let jsonDataPrase = JSON.parse(jsonData);
-          console.log(jsonDataPrase.status)
           if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
             props.navigation.navigate("StudentLinkSuccess");
           } else {

@@ -23,6 +23,7 @@ class OtpInputs extends React.Component {
             onChangeText={(v) => this.focusNext(j, v)}
             onKeyPress={(e) => this.focusPrevious(e.nativeEvent.key, j)}
             ref={(ref) => (this.otpTextInput[j] = ref)}
+            maxLength={1}
           />
         </Item>
       </Col>

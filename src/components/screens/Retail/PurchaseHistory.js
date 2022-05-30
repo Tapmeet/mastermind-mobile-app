@@ -36,7 +36,6 @@ const EventOrdersListing = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data)
           if (data.orders) {
             setEventListing(data.orders);
             setloader(false);
@@ -50,14 +49,11 @@ const EventOrdersListing = (props) => {
     label: "Filter By",
   };
   const storeData = async (value) => {
-    console.log(value);
     let eventId = JSON.stringify(value);
-    console.log(eventId);
     try {
       await AsyncStorage.setItem("eventId", eventId);
       props.navigation.navigate("Event Detail");
     } catch (e) {
-      // saving error
     }
   };
   const { navigation } = props;

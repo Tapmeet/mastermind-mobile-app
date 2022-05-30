@@ -67,7 +67,6 @@ const EventDetails = (props) => {
             await AsyncStorage.removeItem('studentIds')
             const value = await AsyncStorage.getItem("eventId");
             setEventid(value)
-            //  console.log(value)
           } catch (e) { }
         }
         getData();
@@ -84,9 +83,7 @@ const EventDetails = (props) => {
         })
           .then((response) => response.json())
           .then((data) => {
-            //  console.log(data.events)
             if (data.events) {
-              //console.log(data.events)
               setEventListing(data.events)
               setloader(false);
             } else {
@@ -137,19 +134,14 @@ const EventDetails = (props) => {
       });
   }
   const toggle = async (value, price) => {
-    console.log('here')
     if (value != undefined) {
       setShowModal(!showModal)
       let eventId = JSON.stringify(value);
       let eventPrice = JSON.stringify(price);
-
-      //console.log(eventId)
       try {
         await AsyncStorage.setItem("eventId", eventId);
         await AsyncStorage.setItem("eventPrice", eventPrice);
-
       } catch (e) {
-        // saving error
       }
     }
 
@@ -206,7 +198,6 @@ const EventDetails = (props) => {
             let startDate = moment(event.StartDateTime).format("MMMM Do, YYYY");
             let starttime = moment(event.StartDateTime).format("hh:mm a ");
             let endtime = moment(event.EndDateTime).format("hh:mm a ");
-            //console.log(event)
             return (
               event.PosItemId == eventid ?
                 <Content key={index}>

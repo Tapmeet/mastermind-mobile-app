@@ -66,7 +66,6 @@ const UserProfileMultiple = (props) => {
   const [SuccessMessage, setSuccessMessage] = React.useState("");
   const onChangePhone = (text, setVariable) => {
     let formatedNo = formatMobileNumber(text);
-    //  console.log(formatedNo)
     if (formatedNo.length <= 14) {
       setVariable(formatedNo);
     }
@@ -131,7 +130,7 @@ const UserProfileMultiple = (props) => {
     if (event == "") {
       setCheckZipCode(true);
     } else {
-      const check = isValidZip(event); console.log(check)
+      const check = isValidZip(event);
       if (!check) {
         setCheckZipCode(true);
       } else {
@@ -302,9 +301,7 @@ const UserProfileMultiple = (props) => {
     })
       .then((response) => {
         let jsonData = JSON.stringify(response);
-        // console.log(jsonData)
         let jsonDataPrase = JSON.parse(jsonData);
-        // console.log(jsonDataPrase.status)
         if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
           setSuccessMessage("Successfully Updated");
         } else {
@@ -369,8 +366,6 @@ const UserProfileMultiple = (props) => {
                 })
                   .then((response) => response.json())
                   .then((data) => {
-                    // console.log('herer')
-                    // console.log(data)
                     setFirstName(data.FirstName);
                     setLastName(data.LastName);
                     setEmail(data.Email);
@@ -408,7 +403,6 @@ const UserProfileMultiple = (props) => {
               })
                 .then((response) => response.json())
                 .then((data) => {
-                  //console.log(data.value)
                   setUniformSizeList(data.value);
                   let uniforms = [];
                   data.value.map((uniform) => {
@@ -429,8 +423,6 @@ const UserProfileMultiple = (props) => {
               })
                 .then((response) => response.json())
                 .then((data) => {
-                  //console.log(data.value)
-                  //setBeltSizeList(data.value)
                   let belts = [];
                   data.value.map((belt) => {
                     belts.push({ label: belt.Name, value: belt.BeltSizeId });

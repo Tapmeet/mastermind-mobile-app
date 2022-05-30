@@ -30,9 +30,6 @@ const VerificationSignups = (props) => {
     setOtp(otp);
   };
   const submitForm = () => {
-    //props.navigation.navigate("StudentLinkSuccess");
-    // console.log(otp)
-    // console.log("Verifcation " + VerificationToken)
     if (otp.length < 6) {
       setErrorMessage("Wrong verifcation code");
     } else {
@@ -42,7 +39,6 @@ const VerificationSignups = (props) => {
         headers: {
           Accept: "*/*",
           "Content-Type": "application/json",
-         // 'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
         },
         body: JSON.stringify({
           UserEmail: props.route.params.Email,
@@ -51,9 +47,7 @@ const VerificationSignups = (props) => {
       })
         .then((response) => {
           let jsonData = JSON.stringify(response);
-          console.log(jsonData)
           let jsonDataPrase = JSON.parse(jsonData);
-          console.log(jsonDataPrase.status)
           if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
             props.navigation.navigate("AccountSuccess");
           } else {
@@ -71,14 +65,12 @@ const VerificationSignups = (props) => {
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
-        //'Authorization': 'Bearer ' + userId.userDataReducer[0].access_Token
       },
       body: JSON.stringify({
         UserEmail: props.route.params.Email,
       }),
     })
       .then((response) => {
-        console.log(response)
         setSuccessMessage('Successfully Sent')
       })
       .catch((response) => {

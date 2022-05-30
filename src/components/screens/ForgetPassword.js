@@ -46,7 +46,6 @@ const ForgetPassword = (props) => {
       setCheckEmail(!checkEmail);
       return false;
     }
-    console.log("here");
     fetch(`${API_URL}/odata/ForgotPassword`, {
       method: "post",
       headers: {
@@ -59,12 +58,9 @@ const ForgetPassword = (props) => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         if (response["odata.error"]) {
-          // console.log(response["odata.error"].message.value)
           setErrorMessage(response["odata.error"].message.value);
         } else {
-          //this.props.navigation.navigate('AccountSuccess')
           props.navigation.navigate("VerificationCode", {
             code: response["code"],
             verificationKey: response["verificationKey"],

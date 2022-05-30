@@ -118,7 +118,6 @@ const AddPaymentMethod = (props) => {
     let day = 30;
     let cardexpiration = year + "-" + month + "-" + day;
     setCardExpiration(year + "-" + month + "-" + day);
-    console.log(CardExpiration);
     var dates = year + "-" + month + "-" + day;
     var varDate = new Date(dates); //dd-mm-YYYY
     var today = new Date();
@@ -130,8 +129,6 @@ const AddPaymentMethod = (props) => {
       setCheckCardExpirationDate(false);
     }
     setLoaderMessage(true);
-    console.log(CardCode);
-    console.log(cardexpiration);
     fetch(`${apiUrl}/odata/PaymentMethod`, {
       method: "post",
       headers: {
@@ -151,9 +148,7 @@ const AddPaymentMethod = (props) => {
       .then((response) => {
         setLoaderMessage(false);
         let jsonData = JSON.stringify(response);
-        console.log(jsonData);
         let jsonDataPrase = JSON.parse(jsonData);
-        console.log(jsonDataPrase.status);
         if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
           setSuccessMessage("Card Added Successfully");
           setTimeout(function () {

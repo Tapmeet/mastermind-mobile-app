@@ -31,7 +31,6 @@ const Share = (props) => {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data.SchoolId)
                     setSchoolId(data.SchoolId)
                     getSchoolData(data.SchoolId)
                 });
@@ -51,7 +50,6 @@ const Share = (props) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
                 if (data) {
                     setSchoolInfo(data);
                     setloader(false);
@@ -62,53 +60,7 @@ const Share = (props) => {
     }
     const openLink = async (url) => {
         let result = await WebBrowser.openBrowserAsync(url);
-        //setResult(result);
     };
-    // async function openLink(url) {
-    //     console.log(url)
-    //     console.log('url')
-    //     try {
-    //         if (await InAppBrowser.isAvailable()) {
-    //             const result = await InAppBrowser.open(url, {
-    //                 // iOS Properties
-    //                 dismissButtonStyle: 'cancel',
-    //                 preferredBarTintColor: '#453AA4',
-    //                 preferredControlTintColor: 'white',
-    //                 readerMode: false,
-    //                 animated: true,
-    //                 modalPresentationStyle: 'fullScreen',
-    //                 modalTransitionStyle: 'coverVertical',
-    //                 modalEnabled: true,
-    //                 enableBarCollapsing: false,
-    //                 // Android Properties
-    //                 showTitle: true,
-    //                 toolbarColor: '#6200EE',
-    //                 secondaryToolbarColor: 'black',
-    //                 navigationBarColor: 'black',
-    //                 navigationBarDividerColor: 'white',
-    //                 enableUrlBarHiding: true,
-    //                 enableDefaultShare: true,
-    //                 forceCloseOnRedirection: false,
-    //                 // Specify full animation resource identifier(package:anim/name)
-    //                 // or only resource name(in case of animation bundled with app).
-    //                 animations: {
-    //                     startEnter: 'slide_in_right',
-    //                     startExit: 'slide_out_left',
-    //                     endEnter: 'slide_in_left',
-    //                     endExit: 'slide_out_right'
-    //                 },
-    //                 headers: {
-    //                     'my-custom-header': 'my custom header value'
-    //                 }
-    //             })
-    //             Alert.alert("hre"+JSON.stringify(result))
-    //         }
-    //         else Linking.openURL(url)
-    //     } catch (error) {
-    //         Alert.alert("thre"+error.message)
-    //         console.log("thre"+error.message)
-    //     }
-    // }
     const { navigation } = props;
     return (
         <Container
@@ -117,27 +69,6 @@ const Share = (props) => {
             }}
         >
             <SideBarMenu title={"Follow Us"} navigation={props.navigation} backLink="Home" />
-            {/* <View
-                style={[
-                    globalStyle.flexStandard,
-                    {
-                        paddingTop: 15,
-                        paddingBottom: 15,
-                    },
-                ]}
-            >
-                <Text
-                    style={{
-                        fontWeight: "bold",
-                        fontSize: 24,
-                        paddingLeft: 15,
-                        backgroundColor: "white",
-                        flex: 1,
-                    }}
-                >
-                    School Data
-                </Text>
-            </View> */}
             <Content padder>
                 {loader ? (
                     <View style={[styles.container, styles.horizontal]}>

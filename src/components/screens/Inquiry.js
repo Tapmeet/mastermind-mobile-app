@@ -640,12 +640,8 @@ const Inquiry = (props) => {
         SignatureUri: signature,
       }),
     }).then((response) => {
-      console.log("response")
-
       let jsonData = JSON.stringify(response);
-      console.log(jsonData)
       let jsonDataPrase = JSON.parse(jsonData);
-      // console.log(jsonDataPrase.status)
       if (jsonDataPrase.status != 200) {
         setLoaderMessage(false)
         setErrorMessage("An error has occurred.");

@@ -28,7 +28,6 @@ const Awards = (props) => {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    // console.log(data)
                     if (data.value) {
                         setAwardsListing(data.value);
                         setloader(false);

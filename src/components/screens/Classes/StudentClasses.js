@@ -55,11 +55,9 @@ const StudentClasses = (props) => {
         })
             .then((response) => response.json())
             .then((data) => {
-               // console.log(data.value)
                 if (data.value) {
                     var dataCount = data.value.length;
                     setEventListing(data.value);
-                    //  setClassListings([])
                     var newArray = data.value.filter(function (el) {
                         return el.WaitingList 
                       });
@@ -103,8 +101,6 @@ const StudentClasses = (props) => {
             .then(response => response.text())
             .then(result => {
                 setLoaderMessage(false)
-                 console.log(result)
-                // setloader(true)
                 setSuccessMessage("Class Cancelled");
                 setloader(true)
                 setTimeout(function () {
@@ -122,7 +118,6 @@ const StudentClasses = (props) => {
         setLoaderMessage(true)
         setSuccessMessage('')
         setErrorMessage("")
-      //  console.log(TaskId)
         fetch(`${apiUrl}/odata/StudentAttendance`, {
             method: "post",
             headers: {
@@ -141,7 +136,6 @@ const StudentClasses = (props) => {
             .then((response) => {
                 setLoaderMessage(false)
                 if (response["odata.error"]) {
-                    console.log(response["odata.error"].message.value)
                     setErrorMessage(response["odata.error"].message.value)
                     setTimeout(function () {
                         // fetchClasses()
@@ -377,15 +371,12 @@ const StudentClasses = (props) => {
                             checkedInArray.sort((a, b) => a.AttendanceReservationId < b.AttendanceReservationId ? 1:-1).map(function (event, index) {
                                 const date = moment().toDate();
                                 const dateIsAfter = moment(event.CheckInTime).isAfter(moment(date));
-
-                                //  console.log(dateIsAfter);
                                 let starttime = moment(event.CheckInTime).format("MM-DD-YYYY, hh:mm a ");
                                 let classDate = moment(event.CheckInTime).format("YYYY-MM-DD");
                                 var GivenDate = classDate;
                                 var CurrentDate = new Date();
                                 CurrentDate.setHours(0, 0, 0, 0)
                                 GivenDate = new Date(GivenDate);
-                                //  console.log(GivenDate)
                                 return (
                                     dateIsAfter && event.WaitingList ?
                                         <View style={{ marginBottom: 10 }} key={index}>

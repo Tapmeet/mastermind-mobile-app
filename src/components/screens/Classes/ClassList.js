@@ -21,7 +21,6 @@ const ClassList = (props) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
     }
     const onRefresh = React.useCallback(() => {
-        console.log("herer")
         setRefreshing(true);
         getData(false);
         //wait(2000).then(() => setRefreshing(false));
@@ -51,7 +50,6 @@ const ClassList = (props) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data)
                 setThreshold(data.threshold)
                 setRefreshing(false)
                 if (data.classes) {
@@ -63,9 +61,7 @@ const ClassList = (props) => {
             });
     }
     const storeData = async (value, title, img) => {
-        console.log(value);
         let eventId = JSON.stringify(value);
-        // console.log(eventId);
         try {
 
             let thresholdString = threshold.toString()

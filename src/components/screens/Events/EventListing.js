@@ -30,7 +30,6 @@ const EventListing = (props) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
   const onRefresh = React.useCallback(() => {
-    //console.log("herer")
     setRefreshing(true);
     getListings()
     wait(2000).then(() => setRefreshing(false));
@@ -81,7 +80,6 @@ const EventListing = (props) => {
       .then((data) => {
         if (data.events) {
           setEventListing(data.events);
-          // console.log(data.events)
           setEventList(data.events)
           var category = [];
           data.events.map(function (event, index) {
@@ -105,15 +103,12 @@ const EventListing = (props) => {
   }
 
   const storeData = async (value, title) => {
-    //console.log(value);
     let eventId = JSON.stringify(value);
-    // console.log(eventId);
     try {
       await AsyncStorage.setItem("eventId", eventId);
       await AsyncStorage.setItem("eventTitle", title);
       props.navigation.navigate("Event Detail");
     } catch (e) {
-      // saving error
     }
   };
   const setcategory = (value) => {
@@ -133,7 +128,6 @@ const EventListing = (props) => {
     }
   }
   const setfilter = (value) => {
-    console.log(value)
     setFilter(value);
     setEventListing(eventsList);
     if (value == 'low') {
@@ -157,7 +151,6 @@ const EventListing = (props) => {
     }
     else if (value == 'recently') {
       eventListing.sort((a, b) => parseFloat(b.PosItemId) - parseFloat(a.PosItemId));
-      // console.log(selectedCategory);
       if (selectedCategory != '') {
         var newArray = eventListing.filter(function (el) {
           return el.Category == selectedCategory;
@@ -170,18 +163,11 @@ const EventListing = (props) => {
       var fromDate = new Date(date.getFullYear(), date.getMonth(), 0);
       var toDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
       const eventlisting = eventsList.filter((item) => {
-        // console.log(new Date(item.EventStartDateTime).getTime())
-        // console.log('from')
-        // console.log(fromDate.getTime())
-        // console.log('to')
-        // console.log(toDate.getTime())
-        // console.log(item)
         if (new Date(item.EventStartDateTime).getTime() >= fromDate.getTime() &&
           new Date(item.EventStartDateTime).getTime() <= toDate.getTime()) {
           return item
         }
       });
-      //  console.log(eventlisting)
       if (selectedCategory != '') {
         var newArray = eventlisting.filter(function (el) {
           return el.Category == selectedCategory;

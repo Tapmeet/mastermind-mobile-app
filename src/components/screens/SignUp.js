@@ -134,7 +134,6 @@ const SignUp = (props) => {
   //Form Submission 
   const submitForm = () => {
     // props.navigation.navigate("VerificationSignups");
-    //  console.log("here")
     if (firstName == "") {
       setCheckFirstname(true);
       return false;
@@ -210,7 +209,6 @@ const SignUp = (props) => {
       })
         .then((response) => response.json())
         .then((response) => {
-          console.log(response["access_token"]);
           setAccessToken(response["access_token"])
           linkStudent()
         })
@@ -235,10 +233,8 @@ const SignUp = (props) => {
       })
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
           if (response["odata.error"]) {
             props.navigation.navigate("AccountSuccess");
-            console.log(response["odata.error"].message.value);
             setErrorMessage(response["odata.error"].message.value);
           } else {
             props.navigation.navigate("VerificationLinkStudentSignup", {
@@ -278,7 +274,6 @@ const SignUp = (props) => {
       .then((response) => {
         setLoaderMessage(false)
         if (response["odata.error"]) {
-          //console.log(response["odata.error"].message.value);
           setErrorMessage(response["odata.error"].message.value);
         } else {
 
@@ -287,8 +282,6 @@ const SignUp = (props) => {
             FirstName: firstName,
             LastName: lastName,
           });
-          // login();
-          // props.navigation.navigate("Signup/Verification");
         }
       })
       .catch((response) => {

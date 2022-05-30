@@ -87,10 +87,8 @@ const PurchaseProduct = (props) => {
     let selectedStudentArray = selectedstudent.map((a) => a.id);
     let price = 0;
     let uniqueArray = unique(selectedStudentArray);
-    console.log(uniqueArray)
     if (uniqueArray.length > 0) {
       price = parseFloat(eventDefaultPrice) * parseFloat(uniqueArray.length);
-      // console.log(price)
       setEventPrice(price);
     }
     else {
@@ -163,18 +161,13 @@ const PurchaseProduct = (props) => {
       .then(response => response.json())
       .then(data => {
         if (data.value) {
-          // setloader(false)
           setPaymentMethod(data.value)
-          console.log(data.value)
           data.value.length > 0 ?
             data.value.map(function (payment, index) {
               setActiveIndex(index)
               payment.IsDefault ? setDefaultId(payment.PersonPaymentMethodId) : null
             })
             : null
-        }
-        else {
-          //  setloader(false)
         }
       });
   }
@@ -186,20 +179,7 @@ const PurchaseProduct = (props) => {
   const submitForm = () => {
     setErrorMessage("");
     setSuccessMessage("");
-    // let selectedstudent = studentIds.filter(
-    //   (studentIds) => studentIds.isChecked
-    // );
-    // let selectedStudentArray = selectedstudent.map((a) => a.id);
-
-    // console.log(selectedStudentArray);
-    // // console.log(defaultId);
-    // // console.log(eventid)
-    // if (selectedStudentArray.length <= 0) {
-    //   setErrorMessage("Please Select Student");
-    //   return false
-    // }
     setProcessing(true)
-    // let uniqueArray = unique(selectedStudentArray);
     retail.cartItemsReducer.length > 0 ?
       retail.cartItemsReducer.map(function (product, index) {
 
@@ -223,70 +203,24 @@ const PurchaseProduct = (props) => {
           .then((response) => response.json())
           .then((response) => {
             setProcessing(false)
-  
-            // setLoaderMessage(false);
-            if (response["order"]) {
+              if (response["order"]) {
               setSuccessMessage("Order Successfully Placed");
               setPurchaseStatus(true)
-              // setTimeout(function () {
-              //   props.navigation.navigate("Purchase History");
-              // }, 3000);
-              // let retails = retail.cartItemsReducer;
-              // console.log(index)
-              // let newRetails = retails.filter(function (products, productindex) {
-              //     return productindex != index
-              // });
-              // total = 0;
-              // updateRetail(newRetails);
-              // setTimeout(function () {
-              //   props.navigation.navigate("Retail");
-              //   setSuccessMessage("");
-              // }, 3000);
             } else {
               setErrorMessage(response["odata.error"].message.value);
-              //  setErrorMessage("An error has occurred.");
               setTimeout(function () {
-                //props.navigation.navigate("Payment Methods");
                 setErrorMessage("");
               }, 3000);
             }
           })
           .catch(function (data) {
             setProcessing(false)
-            console.log("Error", data);
           });
       })
       : null
     setTimeout(function () {
       updateRetail([]);
     }, 5000);
-    // .then((response) => {
-    //   console.log(response);
-    //   setLoaderMessage(false);
-    //   let jsonData = JSON.stringify(response);
-    //   console.log(jsonData);
-    //   let jsonDataPrase = JSON.parse(jsonData);
-    //   console.log(jsonDataPrase.status);
-    //   if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
-    //     setSuccessMessage("Event Purchased  Successfully");
-    //     // setTimeout(function () {
-    //     //   props.navigation.navigate("Payment Methods");
-    //     //   setSuccessMessage("");
-    //     // }, 3000);
-    //   } else {
-    //     setErrorMessage("An error has occurred.");
-    //     setTimeout(function () {
-    //       setErrorMessage("");
-    //     }, 3000);
-    //   }
-    // })
-    // .catch((response) => {
-    //   setErrorMessage("An error has occurred.");
-    //   setTimeout(function () {
-    //     setErrorMessage("");
-    //   }, 3000);
-    // });
-
   };
   const { navigation } = props;
   const SLIDER_WIDTH = Dimensions.get("window").width + 60;

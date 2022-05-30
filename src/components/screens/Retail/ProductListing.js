@@ -31,7 +31,6 @@ const ProductListing = (props) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
   const onRefresh = React.useCallback(() => {
-    console.log("herer")
     setRefreshing(true);
     getData();
     wait(2000).then(() => setRefreshing(false));
@@ -47,7 +46,6 @@ const ProductListing = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data)
         if (data.retails) {
           setEventListing(data.retails);
           setloader(false);
@@ -57,26 +55,20 @@ const ProductListing = (props) => {
       });
   }
   useFocusEffect(
-    //navigation.addListener("focus", () => {
     React.useCallback(() => {
       getData()
-      //   });
-      // });
     }, [])
   );
   const placeholderFiler = {
     label: "Sort by",
   };
   const storeData = async (value, title) => {
-    console.log(value);
     let eventId = JSON.stringify(value);
-    // console.log(eventId);
     try {
       await AsyncStorage.setItem("eventId", eventId);
       await AsyncStorage.setItem("eventTitle", title);
       props.navigation.navigate("Product Details");
     } catch (e) {
-      // saving error
     }
   };
   const setfilter = (value) => {
@@ -172,13 +164,14 @@ const ProductListing = (props) => {
                       <View style={{ borderRadius: 25, overflow: "hidden" }}>
                         <Image source={require("./../../../../assets/retails.jpg")} style={{ height: 110, width: 130, resizeMode: "contain" }} />
                       </View>
-                      <View style={{ paddingLeft: 15, paddingRight: 10 }}>
+                      <View style={{ paddingLeft: 15, paddingRight: 10, flexShrink: 1 }}>
                         <Text
                           style={{
                             fontSize: 18,
                             fontWeight: "bold",
                             color: "#16161D",
                             paddingBottom: 10,
+                            flexShrink: 1
                           }}
                         >
                           {item.Title}

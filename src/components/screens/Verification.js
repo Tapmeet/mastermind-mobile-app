@@ -38,9 +38,6 @@ const VerificationCode = (props) => {
     }, [])
   );
   const submitForm = () => {
-    //props.navigation.navigate("StudentLinkSuccess");
-    // console.log(otp)
-    // console.log("Verifcation " + VerificationToken)
     if (otp.length < 6) {
       setErrorMessage("Wrong verifcation code");
     } else {
@@ -62,9 +59,7 @@ const VerificationCode = (props) => {
       })
         .then((response) => {
           let jsonData = JSON.stringify(response);
-          console.log(jsonData)
           let jsonDataPrase = JSON.parse(jsonData);
-          console.log(jsonDataPrase.status)
           if (jsonDataPrase.status >= 200 && jsonDataPrase.status < 300) {
             props.navigation.navigate("StudentLinkSuccess");
           } else {

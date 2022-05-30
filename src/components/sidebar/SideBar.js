@@ -48,7 +48,6 @@ const SideBar = (props) => {
   const apiUrl = API_URL.trim();
   const logout = async () => {
     await AsyncStorage.setItem("tokenCheck", '');
-    console.log('here')
     updateRetail([]);
     updateEvent([]);
     userData(userId.userDataReducer[0].id);
@@ -65,12 +64,7 @@ const SideBar = (props) => {
     })
       .then((response) => response.text())
       .then((data) => {
-        //    console.log(data);
         setImg(data);
-        // if (data.StudentIds.length > 0) {
-        //   setPhotoPath(data.PhotoPath);
-        // } else {
-        // }
       });
   };
 
@@ -81,7 +75,6 @@ const SideBar = (props) => {
       aspect: [4, 3],
       quality: 0,
     });
-    //console.log(result);
     if (!result.cancelled) {
       let localUri = result.uri;
       let filename = localUri.split("/").pop();
@@ -89,7 +82,6 @@ const SideBar = (props) => {
         encoding: "base64",
         encoding: FileSystem.EncodingType.Base64
       });
-     // console.log(base64);
       // Infer the type of the image
       let match = /\.(\w+)$/.exec(filename);
       let type = match ? `${match[1]}` : `png`;
@@ -99,9 +91,6 @@ const SideBar = (props) => {
       // // Assume "photo" is the name of the form field the server expects
       formData.append("base64", base64);
       formData.append("fileType", "png");
-      //console.log(base64)
-
-
       fetch(`${apiUrl}/odata/StudentAccount`, {
         method: "post",
         headers: {
@@ -111,19 +100,12 @@ const SideBar = (props) => {
         },
         body: formData,
       })
-        // .then(response => response.text())
-        // .then(result => console.log(result))
-        // .catch(error => console.log('error', error))
         .then((response) => {
           setImg(base64);
-          console.log(response);
           let jsonData = JSON.stringify(response);
           let jsonDataPrase = JSON.parse(jsonData);
-          console.log("yo");
-          console.log(jsonDataPrase);
         })
         .catch((response) => {
-          console.log(response);
         });
     }
   };
@@ -147,14 +129,12 @@ const SideBar = (props) => {
       })
         .then((response) => response.json())
         .then(async (data) => {
-            console.log(data)
           if (data.StudentIds.length > 0 && data.StudentIds != undefined) {
             setStudentIds(data.StudentIds);
             setFirstName(data.FirstName);
             setLastName(data.LastName);
             setGuid(data.StudentAccountGuid);
             let thresholdString = data.OrganizationGuid.toString();
-            console.log(thresholdString);
             try {
               await AsyncStorage.setItem("studentGuid", data.StudentAccountGuid);
               await AsyncStorage.setItem("organizationGuid", thresholdString);
