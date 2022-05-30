@@ -23,6 +23,7 @@ var filterList = [
   { label: "Last 180 days", value: "180" },
   { label: "Purchase Type - Event", value: "Event" },
   { label: "Purchase Type - Retail", value: "Retail" },
+  { label: "Voided", value: "Voided" },
 ];
 var uniqueStudent = [];
 const key = "value";
@@ -250,8 +251,22 @@ const EventOrdersListing = (props) => {
         setTimeout(function () {
           setfilterLoader(false);
         }, 300);
+      } else if (value == "Voided") {
+        const eventlisting = eventsList.filter((item) => {
+          return item.Voided == true;
+        });
+        if (selectedStudent != "") {
+          const newArray = eventlisting.filter((item) => {
+            return item.LinkedStudentIds.indexOf(selectedStudent) >= 0;
+          });
+          setEventListing(newArray);
+        } else {
+          setEventListing(eventlisting);
+        }
+        setTimeout(function () {
+          setfilterLoader(false);
+        }, 300);
       } else {
-        console.log("here")
         const newArray = eventsList.filter((item) => {
           return item.LinkedStudentIds.indexOf(value) >= 0;
         });
