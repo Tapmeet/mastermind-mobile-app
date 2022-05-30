@@ -32,6 +32,7 @@ import { set } from "react-native-reanimated";
 import moment from "moment";
 import Contract from "./Contract";
 import FooterTabs from "../footer/Footer";
+import { useFocusEffect } from '@react-navigation/native';
 const apiUrl = API_URL.trim();
 const ContractList = (props) => {
   const [loader, setloader] = React.useState(true);
@@ -48,14 +49,16 @@ const ContractList = (props) => {
     setCollapsed2(!collapsed2);
     setCollapsed(true);
   };
-  React.useEffect(() => {
-    navigation.addListener("focus", () => {
+  useFocusEffect(
+    //navigation.addListener("focus", () => {
+    React.useCallback(() => {
       if (typeof contractData !== "undefined" && contractData.length == 0) {
         getPersonContract();
         getPersonContractPending();
       }
-    });
-  });
+    }, [])
+  );
+
   function getPersonContract() {
     fetch(`${apiUrl}/odata/Contract?$filter=ContractStatus eq 'Signed'`, {
       method: "get",
@@ -178,7 +181,7 @@ const ContractList = (props) => {
                     </View>
 
                     {typeof contractData !== "undefined" &&
-                    contractData.length ? (
+                      contractData.length ? (
                       contractData.map(function (contact, index) {
                         return (
                           <View
@@ -192,19 +195,19 @@ const ContractList = (props) => {
                             <View style={{ flex: 1, alignSelf: "stretch" }}>
                               {contact.StudentFullNames.length > 0
                                 ? contact.StudentFullNames.map(function (
-                                    student,
-                                    index
-                                  ) {
-                                    return (
-                                      <View key={index}>
-                                        <Text
-                                          style={{ paddingTop: 10, flex: 1 }}
-                                        >
-                                          {student}
-                                        </Text>
-                                      </View>
-                                    );
-                                  })
+                                  student,
+                                  index
+                                ) {
+                                  return (
+                                    <View key={index}>
+                                      <Text
+                                        style={{ paddingTop: 10, flex: 1 }}
+                                      >
+                                         {student}
+                                      </Text>
+                                    </View>
+                                  );
+                                })
                                 : null}
                             </View>
                             <View style={{ width: "20%" }}>
@@ -287,7 +290,7 @@ const ContractList = (props) => {
                       </View>
                     </View>
                     {typeof contractDataPending !== "undefined" &&
-                    contractDataPending.length ? (
+                      contractDataPending.length ? (
                       contractDataPending.map(function (contact, index) {
                         return (
                           <View
@@ -301,19 +304,19 @@ const ContractList = (props) => {
                             <View style={{ flex: 1, alignSelf: "stretch" }}>
                               {contact.StudentFullNames.length > 0
                                 ? contact.StudentFullNames.map(function (
-                                    student,
-                                    index
-                                  ) {
-                                    return (
-                                      <View key={index}>
-                                        <Text
-                                          style={{ paddingBottom: 10, flex: 1 }}
-                                        >
-                                          {student}
-                                        </Text>
-                                      </View>
-                                    );
-                                  })
+                                  student,
+                                  index
+                                ) {
+                                  return (
+                                    <View key={index}>
+                                      <Text
+                                        style={{ paddingBottom: 10, flex: 1 }}
+                                      >
+                                        {student}
+                                      </Text>
+                                    </View>
+                                  );
+                                })
                                 : null}
                             </View>
                             <View style={{ width: "20%" }}>
@@ -349,7 +352,7 @@ const ContractList = (props) => {
           )}
         </View>
       </Content>
-     <FooterTabs navigation={props.navigation}  />
+      <FooterTabs navigation={props.navigation} />
     </Container>
   );
 };

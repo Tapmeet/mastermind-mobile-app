@@ -260,7 +260,7 @@ export default StyleSheet.create({
     margin: 10,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
-    overflow: "hidden",
+  
   },
   tableBoxshadowContract: {
     shadowColor: "#000",
@@ -276,7 +276,7 @@ export default StyleSheet.create({
     backgroundColor: "#fff",
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
-    overflow: "hidden",
+    marginBottom:20,
     borderWidth: 1,
     borderColor: "#efefef",
   },
@@ -290,7 +290,7 @@ export default StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 7,
     borderRadius: 20,
-    height: 180,
+    height: 160,
     overflow: "hidden",
     marginTop: 10,
     borderColor: "#efefef",

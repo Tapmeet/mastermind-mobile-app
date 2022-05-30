@@ -142,12 +142,12 @@ const VerificationCode = (props) => {
                 <Text style={globalStyle.errorText}>{errorMessage}</Text>
               ) : null}
 
-              <Body style={[verificationStyle.resendSection, { marginTop: 20 }]}>
+              {/* <Body style={[verificationStyle.resendSection, { marginTop: 20 }]}>
                 <Text style={{ fontSize: 18 }}>
                   Didn't recieve code?{" "}
                   <Text style={globalStyle.hyperlink}>Resend</Text>
                 </Text>
-              </Body>
+              </Body> */}
             </Content>
           </Form>
         </Content>

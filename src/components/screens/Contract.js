@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator, TouchableOpacity } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator, ScrollView, Dimensions, TouchableOpacity } from "react-native";
 import { API_URL } from "../Utility/AppConst"
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import {
@@ -24,6 +24,7 @@ import { SignatureView } from 'react-native-signature-capture-view';
 import FooterTabs from "../footer/Footer";
 const apiUrl = API_URL.trim();
 const Contract = (props) => {
+  const win = Dimensions.get("window");
   const signatureRef = React.useRef(null);
   const [processing, setProcessing] = React.useState(false);
   const signatureRef2 = React.useRef(null);
@@ -326,7 +327,7 @@ const Contract = (props) => {
                     fontSize: 24,
                     paddingLeft: 10,
                     fontWeight: "bold",
-                    paddingBottom: 10
+                    paddingBottom: 0
                   }}>Signature </Text>
                   <SignatureView
                     style={[globalStyle.signatureField]}
@@ -792,43 +793,50 @@ const Contract = (props) => {
                     </View>
                   </View>
           }
-          <Text style={{
-            fontFamily: 'Poppins',
-            marginTop: 10,
-            fontSize: 18,
-            color: "#29ABE2",
-            marginBottom: -20,
-            textDecorationColor: "#29ABE2",
-            textDecorationLine: "underline",
-            marginLeft: 2
-          }} onPress={() => setViewTerm(true)} > Terms & conditions</Text>
+
         </View>
         {step3 == true ?
           showSignature2 == false ?
-            <View style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 0, paddingLeft: 40, paddingRight: 40, marginTop: 0 }}>
-              {counter < 4 ?
-                <ImageBackground
-                  style={counter == 1 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '100%' }]
-                  }
-                  source={require('./../../../assets/Oval.png')}
-                  resizeMode={'stretch'}
-                >
-                  <Button
-                    style={[loginStyle.buttonSave, { alignSelf: "center" }]}
-                    onPress={increment}
-                    full
+            <View >
+              <Text style={{
+                fontFamily: 'Poppins',
+                marginTop: 10,
+                fontSize: 18,
+                color: "#29ABE2",
+                marginBottom: -20,
+                textDecorationColor: "#29ABE2",
+                textDecorationLine: "underline",
+                marginLeft: 2,
+                marginLeft: 45,
+                marginBottom:10
+              }} onPress={() => setViewTerm(true)} > Terms & conditions</Text>
+
+              <View style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 0, paddingLeft: 40, paddingRight: 40, marginTop: 0 }}>
+
+                {counter < 4 ?
+                  <ImageBackground
+                    style={counter == 1 ? globalStyle.BtnFull : [globalStyle.BtnHalf, { width: '100%' }]
+                    }
+                    source={require('./../../../assets/Oval.png')}
+                    resizeMode={'stretch'}
                   >
-                    <Text style={loginStyle.buttonText}>Next</Text>
+                    <Button
+                      style={[loginStyle.buttonSave, { alignSelf: "center" }]}
+                      onPress={increment}
+                      full
+                    >
+                      <Text style={loginStyle.buttonText}>Next</Text>
+                    </Button>
+                  </ImageBackground>
+                  : null}
+                {counter > 1 ?
+                  <Button
+                    style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 0, borderRadius: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
+                    onPress={decrement} >
+                    <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
                   </Button>
-                </ImageBackground>
-                : null}
-              {counter > 1 ?
-                <Button
-                  style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 0, borderRadius: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
-                  onPress={decrement} >
-                  <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
-                </Button>
-                : null}
+                  : null}
+              </View>
             </View>
             : null
           : null}
