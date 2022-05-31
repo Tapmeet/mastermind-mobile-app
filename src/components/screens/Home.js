@@ -107,7 +107,7 @@ const Home = (props) => {
           if (data.classes) {
             var classes = [];
             data.classes.map(function (event, index) {
-              if (index <= 5) {
+              if (index <= 50) {
                 classes.push(event)
               }
             })

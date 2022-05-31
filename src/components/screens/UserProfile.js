@@ -270,7 +270,7 @@ const UserProfile = (props) => {
       setCheckEmail(true);
       return false;
     }
-    if(phone1 != ''){
+    if(phone1 != '' && phone1 != null){
       if(phone1.length <10){
         setCheckPhone1(true)
         return false
@@ -279,7 +279,7 @@ const UserProfile = (props) => {
         setCheckPhone1(false)
       }
     }
-    if(phone2 != ''){
+    if(phone2 != '' && phone2 != null){
       if(phone2.length <10){
         setCheckPhone2(true)
         return false

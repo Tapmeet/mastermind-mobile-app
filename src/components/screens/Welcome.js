@@ -79,7 +79,7 @@ const Welcome = (props) => {
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
         ) :
-          <ScrollView style={{ paddingBottom: 20, height: win.height }} >
+          <ScrollView style={{ paddingBottom: 20, minHeight: win.height }} >
             <View style={{ paddingBottom: 50 }}>
               <Body style={loginStyle.bodyContainer} padder>
                 <View style={{ display: "flex", zIndex: 99, position: "absolute", top: 40, right: 60, flexDirection: "row", justifyContent: "flex-end" }}>

@@ -166,6 +166,12 @@ const SignUp = (props) => {
       setCheckPassword(true);
       return false;
     }
+    var decimal=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{5,20}$/;
+    if(!password.match(decimal)) 
+    { 
+      setCheckPassword(true);
+      return false
+    }
     if (confirmpassword == "") {
       setCheckConfirmpassword(true);
       return false;
@@ -185,74 +191,10 @@ const SignUp = (props) => {
       setCheckterms(true);
       return false;
     }
-    function login() {
-      var details = {
-        userName: email,
-        password: password,
-        grant_type: "password",
-      };
-
-      var formBody = [];
-      for (var property in details) {
-        var encodedKey = encodeURIComponent(property);
-        var encodedValue = encodeURIComponent(details[property]);
-        formBody.push(encodedKey + "=" + encodedValue);
-      }
-      formBody = formBody.join("&");
-
-      fetch(`${API_URL}/token`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        },
-        body: formBody,
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          setAccessToken(response["access_token"])
-          linkStudent()
-        })
-        .catch(function (data) {
-          props.navigation.navigate("AccountSuccess");
-        });
-    }
-
-    function linkStudent() {
-      fetch(`${API_URL}/odata/StudentLink`, {
-        method: "post",
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + accessToken
-        },
-        body: JSON.stringify({
-          Email: email,
-          FirstName: firstName,
-          LastName: lastName,
-        }),
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          if (response["odata.error"]) {
-            props.navigation.navigate("AccountSuccess");
-            setErrorMessage(response["odata.error"].message.value);
-          } else {
-            props.navigation.navigate("VerificationLinkStudentSignup", {
-              accessToken: accessToken,
-              studentAccountGuid: response["studentAccountGuid"],
-              studentId: response["studentId"],
-              Email: email,
-              FirstName: firstName,
-              LastName: lastName,
-            });
-          }
-        })
-        .catch((response) => {
-          props.navigation.navigate("AccountSuccess");
-        });
-    }
+  
     setLoaderMessage(true)
 
+    
     fetch(`${API_URL}odata/Register`, {
       method: "post",
       headers: {
@@ -416,7 +358,7 @@ const SignUp = (props) => {
               placeholder="Password "
             />
           </Item>
-          {password.length > 0 && password.length <= 4 ?
+          {password.length > 0 && password.length <= 20   && confirmpassword.length <=1?
             <View style={{ paddingTop: 20, paddingLeft: 10 }}>
               <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must be at least 5 character</Text>
               <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must contain at least 1 number</Text>
@@ -426,7 +368,7 @@ const SignUp = (props) => {
             </View>
             : null}
           {checkPassword ? (
-            <Text style={globalStyle.error}>Enter Password</Text>
+            <Text style={globalStyle.error}>Enter Valid Password</Text>
           ) : null}
           <Item style={globalStyle.formGroup} floatingLabel>
             <Input

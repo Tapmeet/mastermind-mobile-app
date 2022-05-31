@@ -44,16 +44,22 @@ const ResetPassword = (props) => {
   //Form Submission
   const submitForm = () => {
     if (password == "") {
-      setCheckPassword(false);
+      setCheckPassword(true);
       return false;
     }
+    var decimal=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{5,20}$/;
+    if(!password.match(decimal)) 
+    { 
+      setCheckPassword(true);
+      return false
+    }
     if (confirmPassword == "") {
-      setCheckConfirmPassword(false);
+      setCheckConfirmPassword(true);
       return false;
     }
 
     if (password != confirmPassword) {
-      setCheckConfirmPassword(false);
+      setCheckConfirmPassword(true);
       return false;
     }
     const apiUrl = API_URL.trim();
@@ -145,7 +151,7 @@ const ResetPassword = (props) => {
                 placeholder="New Password "
               />
             </Item>
-            {password.length > 0 && password.length <= 4 ?
+            {password.length > 0 && password.length <= 20 && confirmPassword.length <=1 ?
               <View style={{ paddingTop: 20, paddingLeft: 10 }}>
                 <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must be at least 5 character</Text>
                 <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 number</Text>
@@ -155,7 +161,7 @@ const ResetPassword = (props) => {
               </View>
               : null}
             {checkPassword ? (
-              <Text style={globalStyle.error}>Enter Password</Text>
+              <Text style={globalStyle.error}>Enter Valid Password</Text>
             ) : null}
           </View>
           <View>
