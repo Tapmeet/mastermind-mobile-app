@@ -23,10 +23,10 @@ const routes = [
   "Retail",
   "Class Reservation",
   "Reserved Classes",
-  // "Class Check In",
-  // "Curriculum",
-  // "Awards",
-  // "Inquiry",
+  "Class Check In",
+  "Curriculum",
+  "Awards",
+  "Inquiry",
 ];
 
 const SideBar = (props) => {

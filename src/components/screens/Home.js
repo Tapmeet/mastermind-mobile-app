@@ -451,10 +451,10 @@ const Home = (props) => {
     <Container>
       <SideBarMenu title={"Home"} navigation={props.navigation} />
       {announcements != '' ?
-        <View style={{ fontFamily: 'Poppins', display: "flex", fontSize: 14, color: "#777", textAlign: "center", justifyContent: "center", backgroundColor: "#eee", padding: 5 }}>
+        <View style={{ fontFamily: 'Poppins', display: "flex", fontSize: 14, color: "#777", textAlign: "center", justifyContent: "center", backgroundColor: "#eee", padding: 8 }}>
           <TextTicker
             style={{ fontSize: 24 }}
-            duration={3000}
+            duration={10000}
             loop
             bounce
             repeatSpacer={50}
