@@ -37,7 +37,7 @@ export default StyleSheet.create({
   form: {
     paddingLeft: 30,
     paddingRight: 30,
-    paddingTop: 0,
+    paddingTop: 0
   },
   formControl: {
     height: 50,

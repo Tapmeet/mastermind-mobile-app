@@ -29,7 +29,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.martialartsschool.mastermind",
-      "buildNumber": "11"
+      "buildNumber": "12"
     },
     "android": {
       "adaptiveIcon": {

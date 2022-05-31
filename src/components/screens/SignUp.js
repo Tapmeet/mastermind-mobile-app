@@ -358,7 +358,7 @@ const SignUp = (props) => {
               placeholder="Password "
             />
           </Item>
-          {password.length > 0 && password.length <= 20   && confirmpassword.length <=1?
+          {password.length > 0 && password.length <= 20   && confirmpassword.length <= 0 ?
             <View style={{ paddingTop: 20, paddingLeft: 10 }}>
               <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must be at least 5 character</Text>
               <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must contain at least 1 number</Text>
@@ -381,7 +381,7 @@ const SignUp = (props) => {
                   ? globalStyle.formControlError
                   : globalStyle.formControl
               }
-              placeholder="Confirm Password "
+              placeholder="Confirm Password"
             />
           </Item>
           {checkConfirmpassword ? (

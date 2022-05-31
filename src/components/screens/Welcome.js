@@ -79,24 +79,26 @@ const Welcome = (props) => {
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
         ) :
-          <ScrollView style={{ paddingBottom: 20, minHeight: win.height }} >
+          <ScrollView style={{ padding: 10, height: win.height, paddingTop: 0 }} >
             <View style={{ paddingBottom: 50 }}>
               <Body style={loginStyle.bodyContainer} padder>
-                <View style={{ display: "flex", zIndex: 99, position: "absolute", top: 40, right: 60, flexDirection: "row", justifyContent: "flex-end" }}>
-                  <Text style={{
-                    fontFamily: 'Poppins',
-                    textAlign: "center",
-                    fontSize: 18,
-                    color: "#777",
-                  }}
-                    onPress={() => setData()}
-                  >Skip</Text>
-                </View>
+                {!step1 &&
+                  (<View style={{ display: "flex", zIndex: 99, position: "absolute", top: 40, right: 60, flexDirection: "row", justifyContent: "flex-end" }}>
+                    <Text style={{
+                      fontFamily: 'Poppins',
+                      textAlign: "center",
+                      fontSize: 18,
+                      color: "#777",
+                    }}
+                      onPress={() => setData()}
+                    >Skip</Text>
+                  </View>)
+                }
                 {step1 ?
                   <View
                     style={{
                       alignSelf: "center",
-                      paddingTop: 40,
+                      paddingTop: 20,
                     }}
                   >
                     <Image
@@ -104,7 +106,6 @@ const Welcome = (props) => {
                       resizeMode={"contain"}
                       source={require("../../../assets/welcome/vector1.jpg")}
                     />
-
                     <Text style={{
                       fontFamily: 'Poppins',
                       textAlign: "center",
@@ -118,8 +119,8 @@ const Welcome = (props) => {
                         textAlign: "center",
                         fontSize: 17,
                         color: "#333",
-                        padding: 20,
-                        width: 420,
+                        padding: 10,
+                        width: win.width,
                         margin: "auto",
 
                       }}>
@@ -173,8 +174,8 @@ const Welcome = (props) => {
                         textAlign: "center",
                         fontSize: 17,
                         color: "#333",
-                        padding: 20,
-                        width: 420,
+                        padding: 10,
+                        width: win.width,
                         margin: "auto",
 
                       }}>
@@ -239,7 +240,7 @@ const Welcome = (props) => {
                         fontSize: 17,
                         color: "#333",
                         padding: 20,
-                        width: 420,
+                        width: win.width,
                         margin: "auto",
 
                       }}>
@@ -268,12 +269,12 @@ const Welcome = (props) => {
                       </Text>
 
                     </View>
-                    <View style={{ display: "flex", paddingLeft: 50, paddingRight: 50, marginTop: -20, flexDirection: "row", justifyContent: "flex-end" }}>
+                    <View style={{ display: "flex", paddingLeft: 50, paddingRight: 50, marginTop: -20, flexDirection: "row", justifyContent: "center" }}>
                       <ImageBackground
                         style={[
                           globalStyle.Btn,
                           {
-                            width: "100%",
+                            width: "95%"
                           },
                         ]}
                         source={require("./../../../assets/Oval.png")}
