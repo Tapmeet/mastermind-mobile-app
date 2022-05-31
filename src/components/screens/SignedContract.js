@@ -71,7 +71,7 @@ const SignedContract = (props) => {
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"Signed Contract "} navigation={props.navigation} />
+      <SideBarMenu title={"Signed Contract "} backLink="Memberships" navigation={props.navigation} />
       <Content style={loginStyle.spacings}>
         <View style={loginStyle.contentContainer}>
           {loader ?
@@ -385,8 +385,8 @@ const SignedContract = (props) => {
         </View>
       </Content>
       {viewTerm ?
-        <View style={[globalStyle.popup, { paddingTop: 80 }]}>
-          <ScrollView style={[globalStyle.eventsListingWrapper, { height: win.height + 100, paddingBottom: 180 }]}>
+        <View style={[globalStyle.popup, { paddingTop: 100 }]}>
+          <ScrollView style={[globalStyle.eventsListingWrapper, { height: win.height + 100, paddingBottom: 180, }]}>
             <HTML source={{ html: contract.ContractLegalTerms }} contentWidth={contentWidth} />
             <View style={{ paddingBottom: 80 }}>
               <Button

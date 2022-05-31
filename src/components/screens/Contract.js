@@ -224,7 +224,7 @@ const Contract = (props) => {
   };
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"Contract"} navigation={props.navigation} />
+      <SideBarMenu title={"Contract"} backLink="Payment Methods" navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           <View style={globalStyle.dflex}>

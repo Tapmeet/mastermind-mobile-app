@@ -130,33 +130,46 @@ const EventListing = (props) => {
   const setfilter = (value) => {
     setFilter(value);
     setEventListing(eventsList);
+    var eventlistings = eventsList;
+  
     if (value == 'low') {
-      eventListing.sort((a, b) => parseFloat(a.Price) - parseFloat(b.Price));
+      eventlistings.sort((a, b) => parseFloat(a.Price) - parseFloat(b.Price));
       if (selectedCategory != '') {
-        var newArray = eventListing.filter(function (el) {
+        var newArray = eventlistings.filter(function (el) {
           return el.Category == selectedCategory;
         });
         setEventListing(newArray);
+      }
+      else{
+        setEventListing(eventlistings);
       }
     }
     else if (value == 'high') {
-
-      eventListing.sort((a, b) => parseFloat(b.Price) - parseFloat(a.Price));
+     
+      eventlistings.sort((a, b) => parseFloat(b.Price) - parseFloat(a.Price));
       if (selectedCategory != '') {
-        var newArray = eventListing.filter(function (el) {
+        var newArray = eventlistings.filter(function (el) {
           return el.Category == selectedCategory;
         });
         setEventListing(newArray);
+      }
+      else{
+        setEventListing(eventlistings);
       }
     }
     else if (value == 'recently') {
-      eventListing.sort((a, b) => parseFloat(b.PosItemId) - parseFloat(a.PosItemId));
+     
+      eventlistings.sort((a, b) => parseFloat(b.PosItemId) - parseFloat(a.PosItemId));
       if (selectedCategory != '') {
-        var newArray = eventListing.filter(function (el) {
+        var newArray = eventlistings.filter(function (el) {
           return el.Category == selectedCategory;
         });
         setEventListing(newArray);
       }
+      else{
+        setEventListing(eventlistings);
+      }
+      
     }
     else if (value == 'month') {
       var date = new Date();
@@ -308,13 +321,14 @@ const EventListing = (props) => {
                               style={{ height: 110, width: 130 }} />
                           }
                         </View>
-                        <View style={{ paddingLeft: 15, paddingRight: 10 }}>
+                        <View style={{ paddingLeft: 15, paddingRight: 10, flexShrink: 1 }}>
                           <Text
                             style={{
                               fontSize: 18,
                               fontWeight: "bold",
                               color: "#16161D",
                               paddingBottom: 10,
+                              flexShrink: 1
                             }}
                           >
                             {item.EventTitle}

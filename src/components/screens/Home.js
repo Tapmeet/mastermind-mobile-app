@@ -388,13 +388,14 @@ const Home = (props) => {
         <TouchableOpacity onPress={() => storeDataClass(item.ClassId, item.Name, item.ImagePhotoPath)}>
           <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
             <Image source={require("./../../../assets/karate.png")} style={{ height: 60, width: 60, marginRight: 15 }} />
-            <View>
+            <View style={{ flexShrink: 1}}>
               <Text
                 style={{
                   fontSize: 22,
                   fontWeight: "bold",
                   color: "#fff",
                   paddingBottom: 10,
+                   flexShrink: 1
                 }}
               >
                 {item.Name}
@@ -420,8 +421,8 @@ const Home = (props) => {
         <View >
           <View style={globalStyle.eventsListingWrapper}>
             <View style={globalStyle.eventsListingTopWrapper}>
-              <View style={{ paddingLeft: 0, paddingRight: 10 }}>
-                <Text style={{ fontSize: 22, fontWeight: "bold", color: "#555", lineHeight: 26, marginBottom: 10 }}>
+              <View style={{ paddingLeft: 0, paddingRight: 10, flexShrink: 1 }}>
+                <Text style={{ fontSize: 22, fontWeight: "bold", color: "#555", lineHeight: 26, marginBottom: 10, flexShrink: 1 }}>
                   {item.ClassName}
                 </Text>
 
@@ -545,13 +546,14 @@ const Home = (props) => {
                                 style={{ height: 110, width: 130 }} />
                             }
                           </View>
-                          <View style={{ paddingLeft: 15, paddingRight: 10 }}>
+                          <View style={{ paddingLeft: 15, paddingRight: 10, flexShrink: 1 }}>
                             <Text
                               style={{
                                 fontSize: 18,
                                 fontWeight: "bold",
                                 color: "#16161D",
                                 paddingBottom: 10,
+                                flexShrink: 1
                               }}
                             >
                               {event.EventTitle}

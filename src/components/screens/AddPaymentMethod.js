@@ -178,7 +178,7 @@ const AddPaymentMethod = (props) => {
   const { navigation } = props;
   return (
     <Container style={loginStyle.container}>
-      <SideBarMenu title={"Add Credit Card"} navigation={props.navigation} />
+      <SideBarMenu title={"Add Credit Card"}  backLink="Payment Methods" navigation={props.navigation} />
       <Content style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           {loader ? (
