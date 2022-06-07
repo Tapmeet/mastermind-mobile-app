@@ -225,9 +225,12 @@ export default StyleSheet.create({
     marginBottom: 20,
   },
   welcomeLogoLast: {
-    height: 300,
-    resizeMode: "contain",
+    height: 175,
     width: 480,
+    resizeMode: "contain",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
     marginBottom: 20,
   },
 });

@@ -127,7 +127,7 @@ const ResetPassword = (props) => {
         <Body style={loginStyle.bodyContainer}>
           <H3 style={globalStyle.h3}>Reset Password?</H3>
           <Text style={verificationStyle.subHeadingWrapper}>
-            Please Fill your detials below
+            Please Fill your details below
           </Text>
         </Body>
         <Form style={verificationStyle.form}>
@@ -157,7 +157,7 @@ const ResetPassword = (props) => {
                 <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 number</Text>
                 <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 character in capital case</Text>
                 <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 character in lower case</Text>
-                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 special character </Text>
+                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 special characters</Text>
               </View>
               : null}
             {checkPassword ? (

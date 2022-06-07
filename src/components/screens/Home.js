@@ -454,7 +454,7 @@ const Home = (props) => {
         <View style={{ fontFamily: 'Poppins', display: "flex", fontSize: 14, color: "#777", textAlign: "center", justifyContent: "center", backgroundColor: "#eee", padding: 8 }}>
           <TextTicker
             style={{ fontSize: 24 }}
-            duration={10000}
+            duration={20000}
             loop
             bounce
             repeatSpacer={50}

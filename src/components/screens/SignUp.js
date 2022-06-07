@@ -364,7 +364,7 @@ const SignUp = (props) => {
               <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must contain at least 1 number</Text>
               <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must contain at least 1 character in capital case</Text>
               <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must contain at least 1 character in lower case</Text>
-              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must contain at least 1 special character </Text>
+              <Text style={{ fontFamily: 'Poppins', fontSize: 12, color:"#777"}}>Must contain at least 1 special characters </Text>
             </View>
             : null}
           {checkPassword ? (
