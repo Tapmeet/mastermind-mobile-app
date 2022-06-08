@@ -151,15 +151,15 @@ const ResetPassword = (props) => {
                 placeholder="New Password "
               />
             </Item>
-            {password.length > 0 && password.length <= 20 && confirmPassword.length <=1 ?
+            {/* {password.length > 0 && password.length <= 20 && confirmPassword.length <=1 ? */}
               <View style={{ paddingTop: 20, paddingLeft: 10 }}>
-                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must be at least 5 character</Text>
+                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must be at least 5 characters</Text>
                 <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 number</Text>
                 <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 character in capital case</Text>
                 <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 character in lower case</Text>
                 <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 special characters</Text>
               </View>
-              : null}
+              {/* : null} */}
             {checkPassword ? (
               <Text style={globalStyle.error}>Enter Valid Password</Text>
             ) : null}
@@ -192,12 +192,12 @@ const ResetPassword = (props) => {
             <Button onPress={submitForm} style={loginStyle.button} full>
               <Text>Send</Text>
             </Button>
-            <Body style={verificationStyle.resendSection}>
+            {/* <Body style={verificationStyle.resendSection}>
               <Text>
                 Didn't recieve code?{" "}
                 <Text style={globalStyle.hyperlink}>Resend</Text>
               </Text>
-            </Body>
+            </Body> */}
           </Content>
         </Form>
       </Content>

@@ -453,13 +453,14 @@ const Home = (props) => {
       {announcements != '' ?
         <View style={{ fontFamily: 'Poppins', display: "flex", fontSize: 14, color: "#777", textAlign: "center", justifyContent: "center", backgroundColor: "#eee", padding: 8 }}>
           <TextTicker
-            style={{ fontSize: 24 }}
-            duration={20000}
+            style={{ fontSize: 14 }}
+            duration={25000}
             loop
             bounce
             repeatSpacer={50}
           >
-           <HTML source={{ html: announcements }} style={{ textAlign: "center" }} contentWidth={contentWidth} />
+            {announcements}
+           {/* <HTML source={{ html: announcements }} style={{ textAlign: "center" }} contentWidth={contentWidth} /> */}
           </TextTicker>
         </View>
         : null}
