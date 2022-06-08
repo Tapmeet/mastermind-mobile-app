@@ -91,12 +91,12 @@ const VerificationCode = (props) => {
             {errorMessage != "" ? (
               <Text style={globalStyle.errorText}>{errorMessage}</Text>
             ) : null}
-            <Body style={verificationStyle.resendSection}>
+            {/* <Body style={verificationStyle.resendSection}>
               <Text>
                 Didn't recieve code?{" "}
                 <Text style={globalStyle.hyperlink}>Resend</Text>
               </Text>
-            </Body>
+            </Body> */}
           </Content>
         </Form>
       </Content>
