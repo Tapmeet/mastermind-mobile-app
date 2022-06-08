@@ -25,12 +25,53 @@ const ResetPassword = (props) => {
   const [checkConfirmPassword, setCheckConfirmPassword] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
 
-  setpassword = (event) => {
+  const [passwordcheck1, setpasswordcheck1] = React.useState(false);
+  const [passwordcheck2, setpasswordcheck2] = React.useState(false);
+  const [passwordcheck3, setpasswordcheck3] = React.useState(false);
+  const [passwordcheck4, setpasswordcheck4] = React.useState(false);
+  const [passwordcheck5, setpasswordcheck5] = React.useState(false);
+  const setpassword = (event) => {
+    var passwordcheckLowercase = /^(?=.*[a-z]).{0,20}$/;
+    if (event.match(passwordcheckLowercase)) {
+      setpasswordcheck1(true)
+    }
+    else {
+      setpasswordcheck1(false)
+    }
+    var passwordcheckUppercase = /^(?=.*[A-Z]).{0,20}$/;
+    if (event.match(passwordcheckUppercase)) {
+      setpasswordcheck2(true)
+    }
+    else {
+      setpasswordcheck2(false)
+    }
+    var passwordDigit = /^(?=.*\d).{0,20}$/;
+
+    if (event.match(passwordDigit)) {
+      setpasswordcheck3(true)
+    }
+    else {
+      setpasswordcheck3(false)
+    }
+    var passwordSpecialChar = /^(?=.*[!@#$%^&*()+=-\?;,./{}|\":<>\[\]\\\' ~_]).{0,20}$/;
+
+    if (event.match(passwordSpecialChar)) {
+      setpasswordcheck4(true)
+    }
+    else {
+      setpasswordcheck4(false)
+    }
     setPassword(event);
     if (event == "") {
       setCheckPassword(true);
     } else {
       setCheckPassword(false);
+    }
+    if (event.length >= 5) {
+      setpasswordcheck5(true)
+    }
+    else {
+      setpasswordcheck5(false)
     }
   };
   setconfirmpassword = (event) => {
@@ -47,9 +88,8 @@ const ResetPassword = (props) => {
       setCheckPassword(true);
       return false;
     }
-    var decimal=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{5,20}$/;
-    if(!password.match(decimal)) 
-    { 
+    var decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{5,20}$/;
+    if (!password.match(decimal)) {
       setCheckPassword(true);
       return false
     }
@@ -152,14 +192,14 @@ const ResetPassword = (props) => {
               />
             </Item>
             {/* {password.length > 0 && password.length <= 20 && confirmPassword.length <=1 ? */}
-              <View style={{ paddingTop: 20, paddingLeft: 10 }}>
-                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must be at least 5 characters</Text>
-                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 number</Text>
-                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 character in capital case</Text>
-                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 character in lower case</Text>
-                <Text style={{ fontFamily: 'Poppins', fontSize: 12, color: "#777" }}>Must contain at least 1 special characters</Text>
-              </View>
-              {/* : null} */}
+            <View style={{ paddingTop: 20, paddingLeft: 10 }}>
+              <Text style={passwordcheck5 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must be at least 5 characters</Text>
+              <Text style={passwordcheck3 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must contain at least 1 number</Text>
+              <Text style={passwordcheck2 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must contain at least 1 character in capital case</Text>
+              <Text style={passwordcheck1 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must contain at least 1 character in lower case</Text>
+              <Text style={passwordcheck4 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must contain at least 1 special characters </Text>
+            </View>
+            {/* : null} */}
             {checkPassword ? (
               <Text style={globalStyle.error}>Enter Valid Password</Text>
             ) : null}
@@ -178,7 +218,7 @@ const ResetPassword = (props) => {
                 placeholder="Confirm  Password "
               />
             </Item>
-            
+
             {checkConfirmPassword ? (
               <Text style={globalStyle.error}>Check confirm password</Text>
             ) : null}
