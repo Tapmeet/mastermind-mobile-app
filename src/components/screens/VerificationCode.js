@@ -18,26 +18,56 @@ import {
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
-
+import { API_URL } from "./../Utility/AppConst"
 const VerificationCode = (props) => {
   const [otp, setOtp] = React.useState("");
+  const [otpCheck, setOtpCheck] = React.useState(props.route.params.verificationKey);
+  const [successMessage, setSuccessMessage] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
+  const [code, setCode] = React.useState(props.route.params.code);
   const getOtp = (otp) => {
     setOtp(otp);
   };
 
   submitForm = () => {
-    if (otp != props.route.params.verificationKey) {
+    if (otp != otpCheck) {
       setErrorMessage("Wrong verifcation code");
     } else {
       props.navigation.navigate("ResetPassword", {
-        code: props.route.params.code,
-        verificationKey: props.route.params.verificationKey,
+        code: code,
+        verificationKey: otpCheck,
         email: props.route.params.email,
       });
     }
   };
-
+  submitResend = () => {
+    setSuccessMessage(false)
+    fetch(`${API_URL}/odata/ForgotPassword`, {
+      method: "post",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Email: props.route.params.email,
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response["odata.error"]) {
+          setSuccessMessage(false)
+          setErrorMessage(response["odata.error"].message.value);
+        } else {
+          setCode(response.code)
+          setOtpCheck(response.verificationKey)
+          setSuccessMessage(true)
+         
+        }
+      })
+      .catch((response) => {
+        setErrorMessage("An error has occurred. Please check all the fields");
+      });
+  };
   const { navigation } = props;
   const { route } = props;
   return (
@@ -79,24 +109,28 @@ const VerificationCode = (props) => {
           </Text>
         </Body>
         <Form>
-          <Body style={{ padding: 30}}>
+          <Body style={{ padding: 30 }}>
           </Body>
-          <View style={[verificationStyle.spaceBetween,{ paddingLeft: 30, paddingRight:30}]}>
+          <View style={[verificationStyle.spaceBetween, { paddingLeft: 30, paddingRight: 30 }]}>
             <OtpInputs getOtp={(otp) => getOtp(otp)} />
           </View>
-          <Content style={[loginStyle.formContainer,{ paddingLeft: 30, paddingRight:30}]}>
+          <Content style={[loginStyle.formContainer, { paddingLeft: 30, paddingRight: 30 }]}>
             <Button onPress={submitForm} style={loginStyle.button} full>
               <Text>Send</Text>
             </Button>
             {errorMessage != "" ? (
               <Text style={globalStyle.errorText}>{errorMessage}</Text>
             ) : null}
-            {/* <Body style={verificationStyle.resendSection}>
-              <Text>
-                Didn't recieve code?{" "}
-                <Text style={globalStyle.hyperlink}>Resend</Text>
+            {successMessage ? (
+              <Text style={globalStyle.sucessText}>Sent successfully</Text>
+            ) : null}
+
+            <Body style={verificationStyle.resendSection}>
+              <Text onPress={submitResend}>
+                Didn't recieve code?
+                <Text style={globalStyle.hyperlink}> Resend</Text>
               </Text>
-            </Body> */}
+            </Body>
           </Content>
         </Form>
       </Content>
