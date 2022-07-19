@@ -1,46 +1,67 @@
 {
-  "expo": {
-    "name": "Mastermind",
-    "slug": "Mastermind",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#24A4DA",
-      "Aspect": "fill",
-      "backgroundPosition": "top center"
+  "name": "Mastermind",
+  "slug": "Mastermind",
+  "version": "1.0.0",
+  "orientation": "portrait",
+  "icon": "./assets/icon.png",
+  "splash": {
+    "image": "./assets/splash.png",
+    "resizeMode": "cover",
+    "backgroundColor": "#24A4DA",
+    "Aspect": "fill",
+    "backgroundPosition": "top center"
+  },
+  "updates": {
+    "fallbackToCacheTimeout": 0
+  },
+  "assetBundlePatterns": [
+    "**/*"
+  ],
+  "plugins": [
+    [
+      "expo-image-picker",
+      {
+        "photosPermission": "The app accesses your photos to let you share them with your friends."
+      }
+    ]
+  ],
+  "ios": {
+    "supportsTablet": false,
+    "bundleIdentifier": "com.martialartsschool.mastermind",
+    "buildNumber": "15",
+    "infoPlist": {
+      "NSPhotoLibraryUsageDescription": "The app accesses your photos to let you share them with your friends.",
+      "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
+      "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
+    }
+  },
+  "android": {
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/adaptive-icon.png",
+      "backgroundColor": "#FFFFFF"
     },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "plugins": [
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
-        }
-      ]
-    ],
-    "ios": {
-      "supportsTablet": false,
-      "bundleIdentifier": "com.martialartsschool.mastermind",
-      "buildNumber": "15"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      },
-      "package": "com.martialartsschool.mastermind"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "description": "Best Martial Arts School in Your Town"
-  }
+    "package": "com.martialartsschool.mastermind",
+    "permissions": [
+      "android.permission.CAMERA",
+      "android.permission.READ_EXTERNAL_STORAGE",
+      "android.permission.WRITE_EXTERNAL_STORAGE",
+      "android.permission.RECORD_AUDIO"
+    ]
+  },
+  "web": {
+    "favicon": "./assets/favicon.png"
+  },
+  "description": "Best Martial Arts School in Your Town",
+  "extra": {
+    "eas": {
+      "projectId": "4816989b-7cf5-4b67-b0cf-ebec54972bbb"
+    }
+  },
+  "sdkVersion": "44.0.0",
+  "platforms": [
+    "ios",
+    "android"
+  ],
+  "currentFullName": "@tapmeet/Mastermind",
+  "originalFullName": "@tapmeet/Mastermind"
 }

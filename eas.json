@@ -2,6 +2,18 @@
   "cli": {
     "version": ">= 0.34.0"
   },
+  "build": {
+    "development": {
+      "credentialsSource": "remote",
+      "distribution": "internal",
+      "developmentClient": true
+    },
+    "preview": {
+      "credentialsSource": "remote",
+      "distribution": "internal"
+    },
+    "production": {}
+  },
   "submit": {
     "production": {
       "ios": {
