@@ -5,6 +5,6 @@
   "minify": false,
   "urlRandomness": "n7-4qb",
   "https": false,
-  "scheme": null,
+  "scheme": "exp+mastermind",
   "devClient": false
 }

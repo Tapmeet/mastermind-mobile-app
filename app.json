@@ -61,7 +61,5 @@
   "platforms": [
     "ios",
     "android"
-  ],
-  "currentFullName": "@tapmeet/Mastermind",
-  "originalFullName": "@tapmeet/Mastermind"
+  ]
 }

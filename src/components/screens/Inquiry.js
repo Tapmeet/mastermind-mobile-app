@@ -29,7 +29,7 @@ import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { useSelector } from "react-redux";
 import { SideBarMenu } from "../sidebar";
-import { SignatureView } from "react-native-signature-capture-view";
+import { SignatureView } from "react-native-signature-capture";
 import { marginTop } from "styled-system";
 const Inquiry = (props) => {
   const signatureRef = React.useRef(null);

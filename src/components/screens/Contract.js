@@ -20,7 +20,7 @@ import globalStyle from "../../style/globalStyle";
 import { useSelector } from 'react-redux'
 import { SideBarMenu } from "../sidebar";
 import HTML from "react-native-render-html";
-import { SignatureView } from 'react-native-signature-capture-view';
+import { SignatureView } from 'react-native-signature-capture';
 import FooterTabs from "../footer/Footer";
 const apiUrl = API_URL.trim();
 const Contract = (props) => {
