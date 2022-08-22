@@ -46,8 +46,8 @@ const ProductListing = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.retails) {
-          setEventListing(data.retails);
+        if (data.retailsDTO) {
+          setEventListing(data.retailsDTO);
           setloader(false);
         } else {
           setloader(false);
@@ -162,7 +162,18 @@ const ProductListing = (props) => {
                   <View style={globalStyle.eventsListingWrapper}>
                     <View style={globalStyle.eventsListingTopWrapper}>
                       <View style={{ borderRadius: 25, overflow: "hidden" }}>
-                        <Image source={require("./../../../../assets/retails.jpg")} style={{ height: 110, width: 130, resizeMode: "contain" }} />
+                        {item.ThumbnailImageBase64 != null ?
+                          <Image
+                            source={{
+                              uri: "data:image/png;base64," + item.ThumbnailImageBase64,
+                            }}
+                            style={{ height: 110, width: 130, resizeMode: 'contain' }} />
+                          :
+                          <Image
+                            source={require("./../../../../assets/retails.jpg")}
+                            style={{ height: 110, width: 130 }} />
+                        }
+                        {/* <Image source={require("./../../../../assets/retails.jpg")} style={{ height: 110, width: 130, resizeMode: "contain" }} /> */}
                       </View>
                       <View style={{ paddingLeft: 15, paddingRight: 10, flexShrink: 1 }}>
                         <Text

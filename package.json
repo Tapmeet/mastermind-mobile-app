@@ -23,6 +23,7 @@
     "expo-font": "~10.0.4",
     "expo-image-picker": "~12.0.1",
     "expo-linear-gradient": "~11.0.3",
+    "expo-notifications": "~0.14.0",
     "expo-updates": "~0.11.6",
     "expo-web-browser": "~10.1.0",
     "lodash": "^4.17.21",
@@ -32,6 +33,7 @@
     "react": "16.14.0",
     "react-dom": "16.13.1",
     "react-native": "0.64.3",
+    "react-native-azurenotificationhub": "^0.9.5-Patched.1",
     "react-native-calendars": "^1.1274.0",
     "react-native-collapsible": "^1.6.0",
     "react-native-datepicker": "^1.7.2",
@@ -59,8 +61,7 @@
     "rrule": "^2.6.8",
     "styled-components": "^5.3.3",
     "styled-system": "^5.1.5",
-    "symbol-observable": "^4.0.0",
-    "expo-notifications": "~0.14.0"
+    "symbol-observable": "^4.0.0"
   },
   "private": true
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "684168741693",
+    "project_id": "mastermind-nh",
+    "storage_bucket": "mastermind-nh.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684168741693:android:c78465574f026785cffb54",
+        "android_client_info": {
+          "package_name": "com.martialartsschool.mastermind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684168741693-3egfqe6h3jm9ghqovg55odub22b5n54r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBn-pa_vrRAtKULqlzAN0JmwwYGjc1dtOc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684168741693-3egfqe6h3jm9ghqovg55odub22b5n54r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

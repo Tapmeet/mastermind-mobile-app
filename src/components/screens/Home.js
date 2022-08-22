@@ -125,8 +125,9 @@ const Home = (props) => {
         .then((response) => response.json())
         .then((data) => {
           setloader(false);
-          if (data.retails) {
-            setRetailListing(data.retails);
+          //console.log(data.retailsDTO)
+          if (data.retailsDTO) {
+            setRetailListing(data.retailsDTO);
             setloader(false);
           } else {
             setloader(false);
@@ -603,7 +604,18 @@ const Home = (props) => {
                       <View style={globalStyle.eventsListingWrapper}>
                         <View style={globalStyle.eventsListingTopWrapper}>
                           <View style={{ borderRadius: 25, overflow: "hidden" }}>
-                            <Image source={require("./../../../assets/retails.jpg")} style={{ height: 110, width: 130, resizeMode: 'contain' }} />
+                          {event.ThumbnailImageBase64 != null ?
+                              <Image
+                                source={{
+                                  uri: "data:image/png;base64," + event.ThumbnailImageBase64,
+                                }}
+                                style={{ height: 110, width: 130, resizeMode: 'contain' }} />
+                              :
+                              <Image
+                                source={require("./../../../assets/retails.jpg")}
+                                style={{ height: 110, width: 130 }} />
+                            }
+                            {/* <Image source={require("./../../../assets/retails.jpg")} style={{ height: 110, width: 130, resizeMode: 'contain' }} /> */}
                           </View>
                           <View style={{ paddingLeft: 15, paddingRight: 10, flexShrink: 1 }}>
                             <Text

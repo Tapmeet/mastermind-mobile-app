@@ -100,8 +100,8 @@ const ProductDetails = (props) => {
         })
           .then((response) => response.json())
           .then((data) => {
-            if (data.retails) {
-              setEventListing(data.retails)
+            if (data.retailsDTO) {
+              setEventListing(data.retailsDTO)
               setloader(false);
             } else {
               setloader(false);
