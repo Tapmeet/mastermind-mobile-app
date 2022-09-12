@@ -15,7 +15,15 @@ import * as WebBrowser from 'expo-web-browser';
 import loginStyle from "../../style/login/loginStyle";
 import HTML from "react-native-render-html";
 import TextTicker from 'react-native-text-ticker'
+import * as Notifications from 'expo-notifications';
 import { wrap } from "lodash";
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 const apiUrl = API_URL.trim();
 const key = 'value';
 var uniqueStudent = [];
@@ -48,6 +56,7 @@ const pickerSelectStyles = StyleSheet.create({
   },
 });
 const Home = (props) => {
+  const [notification, setNotification] = React.useState(false);
   const isCarousel = React.useRef(null);
   const [loader, setloader] = React.useState(true);
   const userId = useSelector((state) => state);
@@ -74,9 +83,47 @@ const Home = (props) => {
   const [errorMessage, setErrorMessage] = React.useState("");
   const [selectedTaskName, setSelectedTaskName] = React.useState('');
   const [announcements, setAnnouncements] = React.useState('');
+  async function registerForPushNotificationsAsync() {
+    let token;
+    const studentGUID = await AsyncStorage.getItem("studentGuid");
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    if (token) {
+      // console.log(token)
+      // console.log('studentGuid')
+      // console.log(studentGUID)
+      fetch(`${API_URL}odata/Message`, {
+        method: "post",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8", 
+          Authorization: "Bearer " + userId.userDataReducer[0].access_Token,
+        },
+        body: JSON.stringify({ 
+          StudentAccountGuid: studentGUID,  
+          DeviceHandle: token,
+        }),
+      }) 
+      .then(response => response.text())
+      .then(result =>{ console.log(result); console.log('result')})
+      .catch(error => console.log('error', error));
+    }
+
+  }
+
   useFocusEffect(
     React.useCallback(() => {
-
+      
       fetchClasses()
       getStudents()
       fetch(`${apiUrl}/odata/OrganizationEvent`, {
@@ -150,6 +197,7 @@ const Home = (props) => {
           }
         });
       getData()
+      registerForPushNotificationsAsync();
     }, [])
   );
 
@@ -389,14 +437,14 @@ const Home = (props) => {
         <TouchableOpacity onPress={() => storeDataClass(item.ClassId, item.Name, item.ImagePhotoPath)}>
           <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
             <Image source={require("./../../../assets/karate.png")} style={{ height: 60, width: 60, marginRight: 15 }} />
-            <View style={{ flexShrink: 1}}>
+            <View style={{ flexShrink: 1 }}>
               <Text
                 style={{
                   fontSize: 22,
                   fontWeight: "bold",
                   color: "#fff",
                   paddingBottom: 10,
-                   flexShrink: 1
+                  flexShrink: 1
                 }}
               >
                 {item.Name}
@@ -461,7 +509,7 @@ const Home = (props) => {
             repeatSpacer={50}
           >
             {announcements}
-           {/* <HTML source={{ html: announcements }} style={{ textAlign: "center" }} contentWidth={contentWidth} /> */}
+            {/* <HTML source={{ html: announcements }} style={{ textAlign: "center" }} contentWidth={contentWidth} /> */}
           </TextTicker>
         </View>
         : null}
@@ -604,7 +652,7 @@ const Home = (props) => {
                       <View style={globalStyle.eventsListingWrapper}>
                         <View style={globalStyle.eventsListingTopWrapper}>
                           <View style={{ borderRadius: 25, overflow: "hidden" }}>
-                          {event.ThumbnailImageBase64 != null ?
+                            {event.ThumbnailImageBase64 != null ?
                               <Image
                                 source={{
                                   uri: "data:image/png;base64," + event.ThumbnailImageBase64,

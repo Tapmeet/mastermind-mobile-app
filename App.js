@@ -98,7 +98,6 @@ export default function App() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
 
     return token;
   }
