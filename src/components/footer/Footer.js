@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Footer, FooterTab, Button, Icon } from "native-base";
 import { ImageBackground, Image } from "react-native";
 import globalStyle from "../../style/globalStyle";
-import { LinearGradient } from "expo-linear-gradient";
 import { API_URL } from "./../Utility/AppConst";
 import { useSelector } from "react-redux";
 import { useFocusEffect } from '@react-navigation/native';
