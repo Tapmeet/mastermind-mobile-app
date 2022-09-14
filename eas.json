@@ -1,25 +1,8 @@
 {
-  "cli": {
-    "version": ">= 0.34.0"
-  },
-  "build": {
-    "development": {
-      "credentialsSource": "remote",
-      "distribution": "internal",
-      "developmentClient": true
-    },
-    "preview": {
-      "credentialsSource": "remote",
-      "distribution": "internal"
-    },
-    "production": {}
-  },
-  "submit": {
-    "production": {
-      "ios": {
-        "appleId": "tapmeet@gmail.com",
-        "ascAppId": "1571620928",
-        "appleTeamId": "SFLCJ3ZF4N"
+  "builds": {
+    "ios": {
+      "release": {
+        "workflow": "managed"
       }
     }
   }
