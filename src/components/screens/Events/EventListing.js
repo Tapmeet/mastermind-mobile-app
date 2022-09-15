@@ -297,7 +297,7 @@ const EventListing = (props) => {
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
-        ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
+        ) : typeof eventListing !== "undefined" && eventListing.length > 0 && studentGuid ? (
           <SafeAreaView >
             <FlatList
               data={eventListing}

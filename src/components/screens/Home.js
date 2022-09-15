@@ -574,7 +574,7 @@ const Home = (props) => {
               let starttime = moment(event.EventStartDateTime).format("hh:mm a ");
               let endtime = moment(event.EventEndDateTime).format("hh:mm a ");
               return (
-                index <= 4
+                index <= 4 && studentGuid
                   ? <View style={{ marginBottom: 10 }} key={index}>
                     <TouchableOpacity
                       onPress={() => openLink(apiUrl + '/Public/EventDetails/' + event.OrganizationEventGuid + '?StudentAccountGuid=' + studentGuid)}
