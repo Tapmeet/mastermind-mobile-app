@@ -21,6 +21,7 @@ import { Drawer } from "./src/components/sidebar";
 import { Logs } from "expo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LOGGED_IN_USER from "./src/redux/User";
+
 if (__DEV__) {
   const isRemoteDebuggingEnabled = typeof atob !== "undefined";
   if (isRemoteDebuggingEnabled) {

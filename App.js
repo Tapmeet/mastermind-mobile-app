@@ -17,6 +17,7 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
+
 // export default class App extends React.Component {
 //   state = {
 //     loading: true,
