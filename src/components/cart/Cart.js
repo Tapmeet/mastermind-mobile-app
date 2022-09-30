@@ -6,7 +6,7 @@ import { SideBarMenu } from "./../sidebar";
 import { useSelector, useDispatch } from "react-redux";
 import { API_URL } from "../Utility/AppConst";
 import loginStyle from "../../style/login/loginStyle"
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 var total = 0;
 const apiUrl = API_URL.trim();
 const Cart = (props) => {
@@ -249,7 +249,7 @@ const Cart = (props) => {
                                                     }}>Quantity:
                                                     </Text>
                                                     <View style={{ position: "absolute", right: -15, top: -5 }}>
-                                                        <RNPickerSelect
+                                                      <RNPickerSelect
                                                             value={product.quantity}
                                                             items={quanity}
                                                             placeholder={placeholderQuantities}

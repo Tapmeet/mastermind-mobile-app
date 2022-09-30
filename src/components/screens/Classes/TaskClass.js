@@ -12,7 +12,7 @@ import Collapsible from "react-native-collapsible";
 import moment from 'moment';
 import { RRule, RRuleSet, rrulestr } from 'rrule'
 import { CalendarList, Calendar } from 'react-native-calendars';
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import { useFocusEffect } from '@react-navigation/native';
 import { textAlign } from "styled-system";
 import { cos } from "react-native-reanimated";
@@ -603,7 +603,7 @@ const TaskClass = (props) => {
                                     <Text style={{ fontWeight: "bold", marginBottom: 10 }}>{studentIds.length > 0 && studentIds.length != undefined ? 'Select Student': "No students linked"}</Text>
                                     <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
                                         {studentIds.length > 0 && studentIds.length != undefined ?
-                                            <RNPickerSelect
+                                          <RNPickerSelect
                                                 value={selectedStudent}
                                                 items={studentIds}
                                                 placeholder={placeholderStudent}

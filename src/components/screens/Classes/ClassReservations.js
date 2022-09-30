@@ -12,7 +12,7 @@ import Collapsible from "react-native-collapsible";
 import moment from 'moment';
 import { RRule, RRuleSet, rrulestr } from 'rrule'
 import { CalendarList, Calendar } from 'react-native-calendars';
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 const apiUrl = API_URL.trim();
 var uniqueStudent = [];
 const key = 'value';
@@ -422,7 +422,7 @@ const ClassReservations = (props) => {
                             <View style={globalStyle.eventsListingWrapper}>
                                 <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Student</Text>
                                 <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-                                    <RNPickerSelect
+                                  <RNPickerSelect
                                         value={selectedStudent}
                                         items={studentIds}
                                         placeholder={placeholderStudent}

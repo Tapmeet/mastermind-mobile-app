@@ -9,7 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../../Utility/AppConst";
 import moment from 'moment';
 import loginStyle from "../../../style/login/loginStyle";
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import { useFocusEffect } from '@react-navigation/native';
 const apiUrl = API_URL.trim();
 const key = 'value';

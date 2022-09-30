@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 import { API_URL } from "./../../Utility/AppConst";
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import { useFocusEffect } from '@react-navigation/native';
 import { flex } from "styled-system";
 import * as WebBrowser from 'expo-web-browser';
@@ -220,7 +220,7 @@ const EventListing = (props) => {
             {typeof categoryList !== "undefined" &&
               categoryList.length > 0 ?
               <View style={{ borderColor: "#ccc", width: ' 45%', borderWidth: 1, marginRight: 10, borderRadius: 5, marginLeft: 10 }}>
-                <RNPickerSelect
+              <RNPickerSelect
                   value={selectedCategory}
                   items={categoryList}
                   placeholder={placeholderCategory}
@@ -256,7 +256,7 @@ const EventListing = (props) => {
               </View>
               : null}
             <View style={{ borderColor: "#ccc", width: ' 45%', borderWidth: 1, marginRight: 10, borderRadius: 5, }}>
-              <RNPickerSelect
+            <RNPickerSelect
                 value={filter}
                 items={filterList}
                 placeholder={placeholderFiler}

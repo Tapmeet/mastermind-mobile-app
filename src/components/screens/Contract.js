@@ -624,7 +624,7 @@ const Contract = (props) => {
                                       <View style={[globalStyle.formField]}>
                                         <Text style={globalStyle.formLabel}>Select Payment Method</Text>
                                         <View style={globalStyle.formControls}>
-                                          <RNPickerSelect
+                                        <RNPickerSelect
                                             value={userPaymentSelected}
                                             items={paymentMethod}
                                             placeholder={{

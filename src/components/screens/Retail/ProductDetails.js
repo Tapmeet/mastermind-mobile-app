@@ -12,7 +12,7 @@ import { fontSize } from "styled-system";
 import { useSelector, useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../../Utility/AppConst";
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import moment from 'moment';
 import { color } from "react-native-reanimated";
 import { ADD_TO_CART, UPDATE_CART } from "./../../../redux/Retail";
@@ -342,7 +342,7 @@ const ProductDetails = (props) => {
                     </Collapsible>
                     <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Student</Text>
                     <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-                      <RNPickerSelect
+                    <RNPickerSelect
                         value={selectedStudent}
                         items={studentIds}
                         placeholder={placeholderStudent}
@@ -379,7 +379,7 @@ const ProductDetails = (props) => {
                       <View>
                         <Text style={{ fontWeight: "bold", marginBottom: 10, marginTop: 20 }}>Select Size</Text>
                         <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-                          <RNPickerSelect
+                        <RNPickerSelect
                             value={size}
                             items={sizeList}
                             placeholder={placeholderSize}
@@ -418,7 +418,7 @@ const ProductDetails = (props) => {
                       <View>
                         <Text style={{ fontWeight: "bold", marginBottom: 10, marginTop: 20 }}>Select Color</Text>
                         <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-                          <RNPickerSelect
+                        <RNPickerSelect
                             value={colors}
                             items={colorList}
                             placeholder={placeholderColor}
@@ -456,7 +456,7 @@ const ProductDetails = (props) => {
                       : null}
                     <Text style={{ fontWeight: "bold", marginBottom: 10, marginTop: 20 }}>Select Quantity</Text>
                     <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-                      <RNPickerSelect
+                    <RNPickerSelect
                         value={quantity}
                         items={quanity}
                         placeholder={placeholderQuantity}

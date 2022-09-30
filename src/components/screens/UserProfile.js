@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityInd
 import { API_URL } from "./../Utility/AppConst";
 import Collapsible from "react-native-collapsible";
 import DatePicker from "react-native-datepicker";
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
@@ -632,7 +632,7 @@ const UserProfile = (props) => {
                     <View style={globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Uniform Size</Text>
                       <View style={[globalStyle.formControls, { position: "relative", zIndex: 999 }]}>
-                        <RNPickerSelect
+                      <RNPickerSelect
                           value={UniformSize}
                           items={items}
                           onValueChange={(value) => setUniformSize(value)}
@@ -668,7 +668,7 @@ const UserProfile = (props) => {
                     <View style={globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Belt Size</Text>
                       <View style={globalStyle.formControls}>
-                        <RNPickerSelect
+                      <RNPickerSelect
                           value={BeltSize}
                           items={BeltSizeList}
                           onValueChange={(value) => setBeltSize(value)}
@@ -783,7 +783,7 @@ const UserProfile = (props) => {
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>State</Text>
                       <View style={globalStyle.formControls}>
-                        <RNPickerSelect
+                      <RNPickerSelect
                           value={state}
                           items={stateList}
                           onValueChange={(value) => setState(value)}

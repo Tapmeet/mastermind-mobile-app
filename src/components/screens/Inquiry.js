@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import PhoneInput from "react-phone-number-input/react-native-input";
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import {
   Container,
   Content,
@@ -935,7 +935,7 @@ const Inquiry = (props) => {
                     >
                       <Text style={globalStyle.formLabel}>State</Text>
                       <View style={globalStyle.formControls}>
-                        <RNPickerSelect
+                      <RNPickerSelect
                           value={state}
                           items={stateList}
                           onValueChange={(value) => setState(value)}
@@ -1262,7 +1262,7 @@ const Inquiry = (props) => {
                       Information Source
                     </Text>
                     <View style={globalStyle.formControls}>
-                      <RNPickerSelect
+                    <RNPickerSelect
                         value={inquiry}
                         items={enquiry}
                         onValueChange={(value) => setInquiry(value)}

@@ -6,7 +6,7 @@ import { SideBarMenu } from "./../../sidebar";
 import { useSelector, useDispatch } from "react-redux";
 import { API_URL } from "../../Utility/AppConst";
 import loginStyle from "../../../style/login/loginStyle"
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import { ADD_TO_EVENT, UPDATE_EVENT } from "./../../../redux/Event";
 var total = 0;
 const apiUrl = API_URL.trim();

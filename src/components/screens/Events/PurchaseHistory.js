@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 import { API_URL } from "../../Utility/AppConst";
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import { flex, marginBottom } from "styled-system";
 import { useFocusEffect } from '@react-navigation/native';
 import _ from "lodash";
@@ -284,7 +284,7 @@ const EventOrdersListing = (props) => {
       <View style={[globalStyle.flexStandard, { padding: 10, display: "flex", alignItems: "center", justifyContent: "center" }]}>
         <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
 
-          <RNPickerSelect
+        <RNPickerSelect
             value={filter}
             items={filterList}
             placeholder={placeholderFiler}

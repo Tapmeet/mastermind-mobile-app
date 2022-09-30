@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator } from "react-native";
 import { API_URL } from "../Utility/AppConst";
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
@@ -233,7 +233,7 @@ const AddPaymentMethod = (props) => {
                 <Text style={globalStyle.formLabel}>Card Expiration </Text>
                 <View style={[globalStyle.formControls, { marginBottom: 15 }]}>
                   <View style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", width: "100%" }}>
-                    <RNPickerSelect
+                  <RNPickerSelect
                       value={month}
                       items={monthList}
                       placeholder={placeholderMonth}
@@ -265,7 +265,7 @@ const AddPaymentMethod = (props) => {
                         );
                       }}
                     />
-                    <RNPickerSelect
+                  <RNPickerSelect
                       key={yearList}
                       value={year}
                       items={yearList}

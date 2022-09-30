@@ -11,7 +11,7 @@ import { fontSize } from "styled-system";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../../Utility/AppConst";
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import moment from 'moment';
 import { set } from "react-native-reanimated";
 const apiUrl = API_URL.trim();
@@ -409,7 +409,7 @@ const EventDetails = (props) => {
                 </TouchableOpacity>
               </View> :
               <View style={{ borderColor: "#ccc", borderWidth: 1, marginTop: 20, borderRadius: 5 }}>
-                <RNPickerSelect
+              <RNPickerSelect
                   value={student}
                   items={studentIds}
                   placeholder={placeholderStudent}

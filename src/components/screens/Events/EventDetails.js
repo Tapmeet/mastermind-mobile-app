@@ -12,7 +12,7 @@ import { fontSize } from "styled-system";
 import { useSelector, useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../../Utility/AppConst";
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import moment from 'moment';
 import { color } from "react-native-reanimated";
 import { ADD_TO_EVENT, UPDATE_EVENT } from "./../../../redux/Event";
@@ -389,7 +389,7 @@ const EventDetails = (props) => {
                     </Collapsible>
                     <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Register Student</Text>
                     <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-                      <RNPickerSelect
+                    <RNPickerSelect
                         value={selectedStudent}
                         items={studentIds}
                         placeholder={placeholderStudent}

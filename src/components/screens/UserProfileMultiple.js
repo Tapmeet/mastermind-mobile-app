@@ -12,7 +12,7 @@ import profilestyle from "../../style/profile/profileStyle";
 import { useSelector } from "react-redux";
 import { SideBarMenu } from "../sidebar";
 import { set } from "react-native-reanimated";
-import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import moment from "moment";
 const UserProfileMultiple = (props) => {
   const [loader, setloader] = React.useState(true);
@@ -599,7 +599,7 @@ const UserProfileMultiple = (props) => {
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>Uniform Size</Text>
                     <View style={[globalStyle.formControls, { position: "relative", zIndex: 999 }]}>
-                      <RNPickerSelect
+                    <RNPickerSelect
                         value={UniformSize}
                         items={items}
                         onValueChange={(value) => setUniformSize(value)}
@@ -637,7 +637,7 @@ const UserProfileMultiple = (props) => {
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>Belt Size</Text>
                     <View style={globalStyle.formControls}>
-                      <RNPickerSelect
+                    <RNPickerSelect
                         value={BeltSize}
                         items={BeltSizeList}
                         onValueChange={(value) => setBeltSize(value)}
@@ -758,7 +758,7 @@ const UserProfileMultiple = (props) => {
                   <View style={[globalStyle.formField]}>
                     <Text style={globalStyle.formLabel}>State</Text>
                     <View style={globalStyle.formControls}>
-                      <RNPickerSelect
+                    <RNPickerSelect
                         value={state}
                         items={stateList}
                         onValueChange={(value) => setState(value)}
