@@ -111,14 +111,14 @@ const LinkStudent = (props) => {
   };
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container}>
+     <View style={loginStyle.container}>
       <SideBarMenu title={"Link Student "} navigation={props.navigation} />
-      <Content style={loginStyle.spacing}>
+       <View style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
-          <Body style={loginStyle.bodyContainer}>
+           <View style={loginStyle.bodyContainer}>
             <Text style={globalStyle.small}>Fill out the form below </Text>
-          </Body>
-          <Form>
+          </View>
+           <View>
             <View style={checkFirstname ? globalStyle.formFieldError : globalStyle.formField}>
               <Text style={globalStyle.formLabel}>First Name</Text>
               <Input
@@ -151,7 +151,7 @@ const LinkStudent = (props) => {
             </View>
             {checkEmail ? <Text style={globalStyle.error}>Enter Valid Email</Text> : null}
             {errorMessage != "" ? <Text style={[globalStyle.errorText, { marginTop: 15 }]}>{errorMessage}</Text> : null}
-            <Content style={loginStyle.formContainer}>
+             <View style={loginStyle.formContainer}>
               {loader ? (
                 <View style={[styles.container, styles.horizontal]}>
                   <ActivityIndicator size="large" color="#29ABE2" />
@@ -172,12 +172,12 @@ const LinkStudent = (props) => {
                   </Button>
                 </ImageBackground>
               }
-            </Content>
-          </Form>
+             </View  >
         </View>
-      </Content>
+        </View>
+       </View  >
       <FooterTabs navigation={props.navigation} />
-    </Container>
+     </View>
   );
 };
 export default LinkStudent;

@@ -184,7 +184,7 @@ const SideBar = (props) => {
           </TouchableOpacity>
           <Text style={[sideBar.name, { color: "#333", marginLeft: 15, fontWeight: "bold" }]}>{firstName ? firstName + " " + lastName : ""}</Text>
         </View>
-        <Container style={{ backgroundColor: "transparent", paddingTop: 30 }}>
+         <View style={{ backgroundColor: "transparent", paddingTop: 30 }}>
           <List style={{ backgroundColor: "transparent" }}>
             {routes.map((item, index) => {
               return (
@@ -206,7 +206,7 @@ const SideBar = (props) => {
           >
             <Text style={{ color: "#fff", fontWeight: "bold" }}>Logout</Text>
           </TouchableOpacity>
-        </Container>
+         </View>
       </ImageBackground>
     </ScrollView>
   );

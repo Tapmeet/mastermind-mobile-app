@@ -121,9 +121,9 @@ const AddAccountMethod = (props) => {
   };
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container}>
+     <View style={loginStyle.container}>
       <SideBarMenu title={"Add Bank Account"}  backLink="Memberships" navigation={props.navigation} />
-      <Content style={loginStyle.spacing}>
+       <View style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           {loader ? (
             <View style={[styles.container, styles.horizontal]}>
@@ -197,9 +197,9 @@ const AddAccountMethod = (props) => {
             </View>
           )}
         </View>
-      </Content>
+       </View  >
       <FooterTabs navigation={props.navigation} />
-    </Container>
+     </View>
   );
 };
 const styles = StyleSheet.create({

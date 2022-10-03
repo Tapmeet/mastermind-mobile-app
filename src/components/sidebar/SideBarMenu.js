@@ -41,11 +41,11 @@ const SideBarMenu = (props) => {
             : null
           }
         </Left>
-        <Body style={[globalStyle.titleBody]}> 
+         <View style={[globalStyle.titleBody]}> 
           <Title>
             <Text style={globalStyle.titleStyling}>{props.title}</Text>
           </Title>
-        </Body>
+        </View>
         <Right>
 
           <Button transparent onPress={() => props.navigation.toggleDrawer()}>

@@ -74,8 +74,8 @@ const ForgetPassword = (props) => {
   };
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container}>
-      <Content style={loginStyle.spacing} >
+     <View style={loginStyle.container}>
+       <View style={loginStyle.spacing} >
         <ImageBackground
           style={{
             width: "100%",
@@ -105,21 +105,21 @@ const ForgetPassword = (props) => {
             />
           </View>
         </ImageBackground>
-        <Body style={loginStyle.bodyContainer}>
+         <View style={loginStyle.bodyContainer}>
           <H3 style={globalStyle.h3}>Forgot Password?</H3>
           <Text style={verificationStyle.subHeadingWrapper}>
             Enter your registered email below to receive password reset
             instruction
           </Text>
-        </Body>
-        <Form style={verificationStyle.form}>
-          <Body style={{ paddingBottom: 40 }}>
+        </View>
+         <View style={verificationStyle.form}>
+           <View style={{ paddingBottom: 40 }}>
             {/* <Image
               style={verificationStyle.envelop}
               source={require("../../../assets/Envelop2.png")}
             /> */}
-          </Body>
-          <Body style={verificationStyle.spaceBetween}>
+          </View>
+           <View style={verificationStyle.spaceBetween}>
             <Input
               value={email}
               onChangeText={(text) => setemail(text)}
@@ -132,7 +132,7 @@ const ForgetPassword = (props) => {
               }
               placeholder="Enter Email"
             />
-          </Body>
+          </View>
           {checkEmail ? (
             <Text style={globalStyle.error}>Enter Valid Email </Text>
           ) : null}
@@ -140,7 +140,7 @@ const ForgetPassword = (props) => {
             <Text style={globalStyle.errorText}>{errorMessage}</Text>
           ) : null}
 
-          <Content style={loginStyle.formContainer}>
+           <View style={loginStyle.formContainer}>
             <Button
               onPress={submitForm}
               //onPress={() => props.navigation.navigate("VerificationCode")}
@@ -149,10 +149,10 @@ const ForgetPassword = (props) => {
             >
               <Text style={loginStyle.buttonText} >Send</Text>
             </Button>
-          </Content>
-        </Form>
-      </Content>
-    </Container>
+           </View  >
+      </View>
+       </View  >
+     </View>
   );
 };
 export default ForgetPassword;

@@ -64,8 +64,8 @@ const VerificationLinkStudentSignup = (props) => {
   const { navigation } = props;
   const { route } = props;
   return (
-    <Container style={loginStyle.container}>
-      <Content style={loginStyle.spacing} padder>
+     <View style={loginStyle.container}>
+       <View style={loginStyle.spacing} padder>
         <View style={loginStyle.backWrapper}>
           <Text
             onPress={() => this.props.navigation.navigate("Link Student")}
@@ -77,23 +77,23 @@ const VerificationLinkStudentSignup = (props) => {
             />
           </Text>
         </View>
-        <Body style={loginStyle.bodyContainer}>
+         <View style={loginStyle.bodyContainer}>
           <H3 style={globalStyle.h3}>Enter Email Code</H3>
           <Text style={verificationStyle.subHeading}>
             Please enter your the verification code.
           </Text>
-        </Body>
-        <Form>
-          <Body>
+        </View>
+         <View>
+          <View>
             <Image
               style={verificationStyle.envelop}
               source={require("../../../assets/Envelop.png")}
             />
-          </Body>
+          </View>
           <View style={verificationStyle.spaceBetween}>
             <OtpInputs getOtp={(otp) => getOtp(otp)} />
           </View>
-          <Content style={loginStyle.formContainer}>
+           <View style={loginStyle.formContainer}>
             <Button onPress={submitForm} style={loginStyle.button} full>
               <Text>Send</Text>
             </Button>
@@ -101,16 +101,16 @@ const VerificationLinkStudentSignup = (props) => {
               <Text style={globalStyle.errorText}>{errorMessage}</Text>
             ) : null}
 
-            <Body style={verificationStyle.resendSection}>
+             <View style={verificationStyle.resendSection}>
               <Text>
                 Didn't recieve code?{" "}
                 <Text style={globalStyle.hyperlink}>Resend</Text>
               </Text>
-            </Body>
-          </Content>
-        </Form>
-      </Content>
-    </Container>
+            </View>
+           </View  >
+      </View>
+       </View  >
+     </View>
   );
 };
 export default VerificationLinkStudentSignup;

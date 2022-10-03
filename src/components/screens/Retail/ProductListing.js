@@ -85,7 +85,7 @@ const ProductListing = (props) => {
   }
   const { navigation } = props;
   return (
-    <Container
+     <View
       style={{
         backgroundColor: "#f1f1f1",
       }}
@@ -247,7 +247,7 @@ const ProductListing = (props) => {
       <View style={{ zIndex: 999, position: "absolute", width: "100%", left: 0, right: 0, bottom: 0 }}>
         <CartWidget navigation={props.navigation} />
       </View>
-    </Container>
+     </View>
   );
 };
 export default ProductListing;

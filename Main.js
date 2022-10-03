@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useSelector, useDispatch } from "react-redux";
 import { useFocusEffect } from '@react-navigation/native';
+import { NativeBaseProvider } from 'native-base';
 import {
   LoginScreen,
   SignUpScreen,
@@ -47,6 +48,7 @@ const Main = (props) => {
   getData()
   const AuthStack = createStackNavigator();
   return (
+    <NativeBaseProvider>
     <NavigationContainer>
       {typeof userId !== "undefined" && userId.userDataReducer.length > 0 ? (
         <Drawer />
@@ -70,6 +72,7 @@ const Main = (props) => {
         </AuthStack.Navigator>
       )}
     </NavigationContainer>
+    </NativeBaseProvider>
   );
 };
 export default Main;

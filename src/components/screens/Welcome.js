@@ -72,16 +72,16 @@ const Welcome = (props) => {
   const win = Dimensions.get("window");
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container} scrollEnabled={false}>
-      <Content style={loginStyle.spacing} scrollEnabled={false}>
+    <View style={loginStyle.container} scrollEnabled={false}>
+      <View style={loginStyle.spacing} scrollEnabled={false}>
         {loader ? (
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
         ) :
-          <ScrollView style={{ padding: 10, height: win.height, paddingTop: 0 }} >
+          <ScrollView style={{ padding: 10, height: win.height, paddingTop: 0, backgroundColor:"#fff" }} >
             <View style={{ paddingBottom: 50 }}>
-              <Body style={loginStyle.bodyContainer} padder>
+              <View style={loginStyle.bodyContainer} padder>
                 {!step1 &&
                   (<View style={{ display: "flex", zIndex: 99, position: "absolute", top: 40, right: 60, flexDirection: "row", justifyContent: "flex-end" }}>
                     <Text style={{
@@ -289,12 +289,12 @@ const Welcome = (props) => {
                   : null}
 
 
-              </Body>
+              </View>
             </View>
           </ScrollView >
         }
-      </Content>
-    </Container >
+      </View>
+    </View >
   );
 };
 

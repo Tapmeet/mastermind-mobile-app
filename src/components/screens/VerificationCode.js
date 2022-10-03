@@ -71,8 +71,8 @@ const VerificationCode = (props) => {
   const { navigation } = props;
   const { route } = props;
   return (
-    <Container style={loginStyle.container}>
-      <Content style={loginStyle.spacing} >
+     <View style={loginStyle.container}>
+       <View style={loginStyle.spacing} >
         <ImageBackground
           style={{
             width: "100%",
@@ -102,19 +102,19 @@ const VerificationCode = (props) => {
             />
           </View>
         </ImageBackground>
-        <Body style={loginStyle.bodyContainer}>
+         <View style={loginStyle.bodyContainer}>
           <H3 style={globalStyle.h3}>Enter Email Code</H3>
           <Text style={verificationStyle.subHeading}>
             Please enter your the verification code.
           </Text>
-        </Body>
-        <Form>
-          <Body style={{ padding: 30 }}>
-          </Body>
+        </View>
+         <View>
+           <View style={{ padding: 30 }}>
+          </View>
           <View style={[verificationStyle.spaceBetween, { paddingLeft: 30, paddingRight: 30 }]}>
             <OtpInputs getOtp={(otp) => getOtp(otp)} />
           </View>
-          <Content style={[loginStyle.formContainer, { paddingLeft: 30, paddingRight: 30 }]}>
+           <View style={[loginStyle.formContainer, { paddingLeft: 30, paddingRight: 30 }]}>
             <Button onPress={submitForm} style={loginStyle.button} full>
               <Text>Send</Text>
             </Button>
@@ -125,16 +125,16 @@ const VerificationCode = (props) => {
               <Text style={globalStyle.sucessText}>Sent successfully</Text>
             ) : null}
 
-            <Body style={verificationStyle.resendSection}>
+             <View style={verificationStyle.resendSection}>
               <Text onPress={submitResend}>
                 Didn't recieve code?
                 <Text style={globalStyle.hyperlink}> Resend</Text>
               </Text>
-            </Body>
-          </Content>
-        </Form>
-      </Content>
-    </Container>
+            </View>
+           </View  >
+      </View>
+       </View  >
+     </View>
   );
 };
 export default VerificationCode;

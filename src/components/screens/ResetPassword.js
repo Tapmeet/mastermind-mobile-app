@@ -133,8 +133,8 @@ const ResetPassword = (props) => {
 
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container}>
-      <Content style={loginStyle.spacing} >
+     <View style={loginStyle.container}>
+       <View style={loginStyle.spacing} >
         <ImageBackground
           style={{
             width: "100%",
@@ -164,21 +164,21 @@ const ResetPassword = (props) => {
             />
           </View>
         </ImageBackground>
-        <Body style={loginStyle.bodyContainer}>
+         <View style={loginStyle.bodyContainer}>
           <H3 style={globalStyle.h3}>Reset Password?</H3>
           <Text style={verificationStyle.subHeadingWrapper}>
             Please Fill your details below
           </Text>
-        </Body>
-        <Form style={verificationStyle.form}>
-          <Body>
+        </View>
+         <View style={verificationStyle.form}>
+          <View>
             <Image
               style={verificationStyle.envelop}
               source={require("../../../assets/Lock.png")}
             />
-          </Body>
+          </View>
           <View>
-            <Item style={globalStyle.formGroup} floatingLabel>
+             <View  style={globalStyle.formGroup} floatingLabel>
               <Input
                 secureTextEntry={true}
                 value={password}
@@ -190,7 +190,7 @@ const ResetPassword = (props) => {
                 }
                 placeholder="New Password "
               />
-            </Item>
+             </View >
             {/* {password.length > 0 && password.length <= 20 && confirmPassword.length <=1 ? */}
             <View style={{ paddingTop: 20, paddingLeft: 10 }}>
               <Text style={passwordcheck5 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must be at least 5 characters</Text>
@@ -205,7 +205,7 @@ const ResetPassword = (props) => {
             ) : null}
           </View>
           <View>
-            <Item style={globalStyle.formGroup} floatingLabel>
+             <View  style={globalStyle.formGroup} floatingLabel>
               <Input
                 secureTextEntry={true}
                 value={confirmPassword}
@@ -217,13 +217,13 @@ const ResetPassword = (props) => {
                 }
                 placeholder="Confirm  Password "
               />
-            </Item>
+             </View >
 
             {checkConfirmPassword ? (
               <Text style={globalStyle.error}>Check confirm password</Text>
             ) : null}
           </View>
-          <Content style={loginStyle.formContainer}>
+           <View style={loginStyle.formContainer}>
             {errorMessage != "" ? (
               <Text style={globalStyle.errorText}>
                 {errorMessage}
@@ -232,16 +232,16 @@ const ResetPassword = (props) => {
             <Button onPress={submitForm} style={loginStyle.button} full>
               <Text>Send</Text>
             </Button>
-            {/* <Body style={verificationStyle.resendSection}>
+            {/*  <View style={verificationStyle.resendSection}>
               <Text>
                 Didn't recieve code?{" "}
                 <Text style={globalStyle.hyperlink}>Resend</Text>
               </Text>
-            </Body> */}
-          </Content>
-        </Form>
-      </Content>
-    </Container>
+            </View> */}
+           </View  >
+      </View>
+       </View  >
+     </View>
   );
 };
 export default ResetPassword;

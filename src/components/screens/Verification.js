@@ -75,13 +75,13 @@ const VerificationCode = (props) => {
   const { navigation } = props;
   const { route } = props;
   return (
-    <Container style={loginStyle.container}>
+     <View style={loginStyle.container}>
       {loader ? (
         <View style={[styles.container, styles.horizontal]}>
           <ActivityIndicator size="large" color="#29ABE2" />
         </View>
       ) :
-        <Content style={loginStyle.spacing} padder>
+         <View style={loginStyle.spacing} padder>
 
 
           <View style={loginStyle.backWrapper}>
@@ -96,14 +96,14 @@ const VerificationCode = (props) => {
             </Text>
           </View>
 
-          <Form>
-            <Body>
+           <View>
+            <View>
               <Image
                 style={verificationStyle.envelop}
                 source={require("../../../assets/success.png")}
               />
-            </Body>
-            <Body style={[loginStyle.bodyContainer, { marginTop: 20 }]}>
+            </View>
+             <View style={[loginStyle.bodyContainer, { marginTop: 20 }]}>
               <H3 style={globalStyle.h3}>Enter Verification Code</H3>
               <Text style={[verificationStyle.subHeading, { fontSize: 22, }]}>
                 Please enter
@@ -111,13 +111,13 @@ const VerificationCode = (props) => {
               <Text style={[verificationStyle.subHeading, { lineHeight: 10, fontSize: 22 }]}>
                 your verification code
               </Text>
-            </Body>
+            </View>
 
             <View style={verificationStyle.spaceBetween}>
               <OtpInputs navigation={props.navigation} getOtp={(otp) => getOtp(otp)} />
             </View>
 
-            <Content style={[loginStyle.formContainer, { paddingRight: 15, paddingLeft: 15 }]}>
+             <View style={[loginStyle.formContainer, { paddingRight: 15, paddingLeft: 15 }]}>
               <ImageBackground
                 style={[globalStyle.Btn, {
                   width: '100%'
@@ -137,18 +137,18 @@ const VerificationCode = (props) => {
                 <Text style={globalStyle.errorText}>{errorMessage}</Text>
               ) : null}
 
-              {/* <Body style={[verificationStyle.resendSection, { marginTop: 20 }]}>
+              {/*  <View style={[verificationStyle.resendSection, { marginTop: 20 }]}>
                 <Text style={{ fontSize: 18 }}>
                   Didn't recieve code?{" "}
                   <Text style={globalStyle.hyperlink}>Resend</Text>
                 </Text>
-              </Body> */}
-            </Content>
-          </Form>
-        </Content>
+              </View> */}
+             </View  >
+        </View>
+         </View  >
       }
 
-    </Container>
+     </View>
   );
 };
 export default VerificationCode;

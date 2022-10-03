@@ -223,9 +223,9 @@ const Contract = (props) => {
       });
   };
   return (
-    <Container style={loginStyle.container}>
+     <View style={loginStyle.container}>
       <SideBarMenu title={"Contract"} backLink="Payment Methods" navigation={props.navigation} />
-      <Content style={loginStyle.spacing}>
+       <View style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           <View style={globalStyle.dflex}>
             <View style={[globalStyle.TopSection, { justifyContent: "flex-start" }]}>
@@ -366,7 +366,7 @@ const Contract = (props) => {
               : step2 ?
                 <View>
                   <View>
-                    <H2 style={[globalStyle.h3, { fontSize: 23, textAlign: "center", marginTop: -10, marginBottom: 15 }]}>Student Minor Acknowledgement </H2>
+                      <View style={[globalStyle.h3, { fontSize: 23, textAlign: "center", marginTop: -10, marginBottom: 15 }]}>Student Minor Acknowledgement  </View>
                     <Text style={{
                       fontSize: 20,
                       paddingLeft: 10,
@@ -433,39 +433,39 @@ const Contract = (props) => {
 
                                       {contact.StudentFullNames.length > 0 ?
                                         contact.StudentFullNames.map(function (student, index) {
-                                          return (<Item key={index} style={[globalStyle.formGroup, { marginBottom: 10 }]} floatingLabel >
+                                          return ( <View  key={index} style={[globalStyle.formGroup, { marginBottom: 10 }]} floatingLabel >
                                             <Input
                                               value={student}
                                               style={globalStyle.formControls}
                                               placeholder="Full Name"
                                               editable={false}
                                             />
-                                          </Item>
+                                           </View >
                                           );
                                         })
                                         : null}
                                     </View>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Full Price</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={"$" + contact.FullPrice}
                                           style={globalStyle.formControls}
                                           placeholder="Full Price"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Discount</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={"$" + contact.Discount}
                                           style={globalStyle.formControls}
                                           placeholder="Discount"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                   </View>
                                   : null}
@@ -474,36 +474,36 @@ const Contract = (props) => {
                                     <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0, marginTop: 25 }}>Membership Options</Text>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Date Sold</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={dateSolds}
                                           style={globalStyle.formControls}
                                           placeholder="Date Sold"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Start Date </Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={dateStart}
                                           style={globalStyle.formControls}
                                           placeholder="Start Date"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>End Date</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={endDate}
                                           style={globalStyle.formControls}
                                           placeholder="End Date"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                   </View>
                                   : null}
@@ -512,113 +512,113 @@ const Contract = (props) => {
                                     <Text style={{ color: "#000", fontSize: 24, fontWeight: "bold", marginBottom: 0, marginTop: 25 }}>Financial Information</Text>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Fee</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={"$" + contact.Fee}
                                           style={globalStyle.formControls}
                                           placeholder="Fee"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Down Payment</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={"$" + personData[0].DownPayment}
                                           style={globalStyle.formControls}
                                           placeholder="Down Payment"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Fee</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={"$" + personData[0].Fee}
                                           style={globalStyle.formControls}
                                           placeholder="Fee"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Discount</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={"$" + personData[0].Discount}
                                           style={globalStyle.formControls}
                                           placeholder="Discount"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Payment Schedule Discount</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={"$" + personData[0].PaymentScheduleDiscount}
                                           style={globalStyle.formControls}
                                           placeholder="Payment Schedule Discount"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Payment Schedule Discount Percentage</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={personData[0].PaymentScheduleDiscountPercentage}
                                           style={globalStyle.formControls}
                                           placeholder="PaymentScheduleDiscountPercentage"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Finance Charge</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={"$" + contact.FinanceCharge}
                                           style={globalStyle.formControls}
                                           placeholder="FinanceCharge"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Transfer Credit</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={"$" + contact.TransferCredit}
                                           style={globalStyle.formControls}
                                           placeholder="Transfer Credit"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Unpaid Balance</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={"$" + contact.UnpaidBalance}
                                           style={globalStyle.formControls}
                                           placeholder="Unpaid Balance"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                     <View style={globalStyle.formField}>
                                       <Text style={globalStyle.formLabel}>Frequency Type</Text>
-                                      <Item style={globalStyle.formGroup} floatingLabel>
+                                       <View  style={globalStyle.formGroup} floatingLabel>
                                         <Input
                                           value={contact.FrequencyType}
                                           style={globalStyle.formControls}
                                           placeholder="FrequencyType"
                                           editable={false}
                                         />
-                                      </Item>
+                                       </View >
                                     </View>
                                     <View>
                                       <View style={[globalStyle.formField]}>
@@ -771,7 +771,7 @@ const Contract = (props) => {
                       paddingLeft: 20,
                       paddingRight: 20
                     }} >
-                      <H2 style={[globalStyle.h3, { fontSize: 20, textAlign: "center" }]}>Payment Method Required </H2>
+                        <View style={[globalStyle.h3, { fontSize: 20, textAlign: "center" }]}>Payment Method Required  </View>
                       <Text style={{ color: "#000", fontSize: 18, textAlign: "center", lineHeight: 30, marginTop: 20 }}>You don't have any payment method, Please add one and try again</Text>
                       <Button
                         style={[loginStyle.buttonSecondary, { marginTop: 30 }]}
@@ -830,7 +830,7 @@ const Contract = (props) => {
             : null
           : null}
 
-      </Content>
+       </View  >
       {viewTerm ?
         contractData.length > 0 ?
           contractData.map(function (contact, index) {
@@ -855,7 +855,7 @@ const Contract = (props) => {
 
         : null}
       <FooterTabs navigation={props.navigation} />
-    </Container>
+     </View>
   );
 };
 const styles = StyleSheet.create({

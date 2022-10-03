@@ -50,13 +50,13 @@ const Curriculum = (props) => {
     };
     const { navigation } = props;
     return (
-        <Container
+         <View
             style={{
                 backgroundColor: "#f1f1f1",
             }}
         >
             <SideBarMenu title={"Curriculum"} navigation={props.navigation} backLink="Home" />
-            <Content padder>
+             <View padder>
                 {loader ? (
                     <View style={[styles.container, styles.horizontal]}>
                         <ActivityIndicator size="large" color="#29ABE2" />
@@ -114,10 +114,10 @@ const Curriculum = (props) => {
 
                     </View>
                 }
-            </Content>
+             </View  >
             <FooterTabs navigation={props.navigation} />
 
-        </Container>
+         </View>
     );
 };
 export default Curriculum;

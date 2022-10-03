@@ -26,25 +26,25 @@ const AccountSuccess = (props) => {
 
   const { navigation } = props;
   return (
-    <Container style={verificationStyle.container}>
-      <Content style={loginStyle.spacing} padder>
-        <Body>
+     <View style={verificationStyle.container}>
+       <View style={loginStyle.spacing} padder>
+        <View>
           <Image
             style={verificationStyle.successIcon}
             source={require("../../../assets/Successfull.png")}
           />
-        </Body>
-        <Body style={loginStyle.bodyContainer}>
+        </View>
+         <View style={loginStyle.bodyContainer}>
           <H3 style={globalStyle.h3}>Successful </H3>
           <Text>Account Created Successfully</Text>
-        </Body>
-      </Content>
+        </View>
+       </View  >
       <Footer style={verificationStyle.redirectingWrapper}>
         <FooterTab style={verificationStyle.redirectingWrapper}>
           <Text style={verificationStyle.redirectingText}>Redirecting...</Text>
         </FooterTab>
       </Footer>
-    </Container>
+     </View>
   );
 };
 

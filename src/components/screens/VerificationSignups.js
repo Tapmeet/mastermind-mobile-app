@@ -80,8 +80,8 @@ const VerificationSignups = (props) => {
   const { navigation } = props;
   const { route } = props;
   return (
-    <Container style={loginStyle.container}>
-      <Content style={loginStyle.spacing} padder>
+     <View style={loginStyle.container}>
+       <View style={loginStyle.spacing} padder>
         <View style={loginStyle.backWrapper}>
           <Text
             onPress={() => props.navigation.navigate("Signup")}
@@ -94,14 +94,14 @@ const VerificationSignups = (props) => {
           </Text>
         </View>
 
-        <Form>
-          <Body>
+         <View>
+          <View>
             <Image
               style={verificationStyle.envelop}
               source={require("../../../assets/success.png")}
             />
-          </Body>
-          <Body style={[loginStyle.bodyContainer, { marginTop: 40 }]}>
+          </View>
+           <View style={[loginStyle.bodyContainer, { marginTop: 40 }]}>
             <H3 style={globalStyle.h3}>Enter Verification Codes</H3>
             <Text style={[verificationStyle.subHeading, { fontSize: 22, }]}>
               Please enter
@@ -109,12 +109,12 @@ const VerificationSignups = (props) => {
             <Text style={[verificationStyle.subHeading, { lineHeight: 10, fontSize: 22 }]}>
               your verification code
             </Text>
-          </Body>
+          </View>
           <View style={verificationStyle.spaceBetween}>
             <OtpInputs getOtp={(otp) => getOtp(otp)} />
           </View>
 
-          <Content style={[loginStyle.formContainer, { paddingRight: 15, paddingLeft: 15 }]}>
+           <View style={[loginStyle.formContainer, { paddingRight: 15, paddingLeft: 15 }]}>
             <ImageBackground
               style={[globalStyle.Btn, {
                 width: '100%'
@@ -137,16 +137,16 @@ const VerificationSignups = (props) => {
               <Text style={globalStyle.sucessText}>{successMessage}</Text>
             ) : null}
 
-            <Body style={[verificationStyle.resendSection, { marginTop: 20 }]}>
+             <View style={[verificationStyle.resendSection, { marginTop: 20 }]}>
               <Text style={{ fontSize: 18 }}>
                 Didn't recieve code?{" "}
                 <Text onPress={resendForm} style={globalStyle.hyperlink}>Resend</Text>
               </Text>
-            </Body>
-          </Content>
-        </Form>
-      </Content>
-    </Container>
+            </View>
+           </View  >
+      </View>
+       </View  >
+     </View>
   );
 };
 export default VerificationSignups;

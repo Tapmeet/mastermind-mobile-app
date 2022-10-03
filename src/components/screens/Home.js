@@ -497,7 +497,7 @@ const Home = (props) => {
     );
   };
   return (
-    <Container>
+     <View>
       <SideBarMenu title={"Home"} navigation={props.navigation} />
       {announcements != '' ?
         <View style={{ fontFamily: 'Poppins', display: "flex", fontSize: 14, color: "#777", textAlign: "center", justifyContent: "center", backgroundColor: "#eee", padding: 8 }}>
@@ -518,7 +518,7 @@ const Home = (props) => {
           <ActivityIndicator size="large" color="#29ABE2" />
         </View>
       ) :
-        <Content padder>
+         <View padder>
 
           <View style={{ display: "flex", padding: 5, marginTop: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <Text style={{ fontWeight: "bold", fontSize: 24 }}>Classes</Text>
@@ -734,7 +734,7 @@ const Home = (props) => {
             </View>
           )}
 
-        </Content>
+         </View  >
       }
       {togglePopup ?
         <View style={globalStyle.popup}>
@@ -813,7 +813,7 @@ const Home = (props) => {
         : null}
 
       <FooterTabs navigation={props.navigation} />
-    </Container>
+     </View>
   );
 };
 export default Home;

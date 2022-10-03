@@ -4,6 +4,7 @@ import { colorPallete } from "../colorPallete";
 export default StyleSheet.create({
   container: {
     flex: 1,
+    background:'#fff'
   },
   scrollView: {
     backgroundColor: "pink",
@@ -82,6 +83,7 @@ export default StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
+    color:'#fff',
     fontWeight: "600",
   },
   logo: {

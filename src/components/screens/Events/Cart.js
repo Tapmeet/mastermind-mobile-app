@@ -113,20 +113,20 @@ const CartEvents = (props) => {
         })
         : null
     return (
-        <Container
+         <View
             style={{
                 backgroundColor: "#FFFFFF",
             }}
         >
             <SideBarMenu title={"Cart"} navigation={props.navigation} />
             {loader ? (
-                <Content>
+                 <View>
                     <View style={[styles.container, styles.horizontal]}>
                         <ActivityIndicator size="large" color="#29ABE2" />
                     </View>
-                </Content>
+                 </View  >
             ) : (
-                <Content padder style={{ marginTop: 10 }}>
+                 <View padder style={{ marginTop: 10 }}>
                     {studentIds.length > 0 ?
                         <View style={{ marginBottom: 10 }} >
                             {retail.eventReducer.length > 0 ?
@@ -234,7 +234,7 @@ const CartEvents = (props) => {
                             </View>
                         </View>
                         : null}
-                </Content>
+                 </View  >
 
             )}
             <ImageBackground
@@ -253,7 +253,7 @@ const CartEvents = (props) => {
                     </FooterTab>
                 </Footer>
             </ImageBackground>
-        </Container>
+         </View>
     )
 }
 export default CartEvents;

@@ -471,13 +471,13 @@ const UserProfile = (props) => {
   };
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container}>
+     <View style={loginStyle.container}>
       <SideBarMenu title={studentIds.length > 1 ? "My Profiles" : studentIds.length != 0 ? "My Profile" : "My Profile"} navigation={props.navigation} />
-      <Content style={loginStyle.spacing}>
+       <View style={loginStyle.spacing}>
         {!loader ? (
           typeof studentIds !== "undefined" && studentIds.length > 0 ? (
             studentIds.length == 1 ? (
-              <Form style={globalStyle.form}>
+               <View style={globalStyle.form}>
                 <TouchableOpacity onPress={toggleExpanded}>
                   <View style={loginStyle.textAccordians}>
                     <Image style={loginStyle.iconLefts} source={require("../../../assets/businessman-information.png")} resizeMode={"contain"} />
@@ -494,7 +494,7 @@ const UserProfile = (props) => {
                   <View style={{ paddingBottom: 10, paddingTop: 10 }}>
                     <View style={checkFirstname ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>First Name</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                       <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={firstName}
                           onChangeText={(text) => setfirstName(text)}
@@ -502,12 +502,12 @@ const UserProfile = (props) => {
                           placeholder="First Name"
                           placeholderTextColor="#ddd"
                         />
-                      </Item>
+                       </View >
                     </View>
                     {checkFirstname ? <Text style={globalStyle.error}>Enter First Name</Text> : null}
                     <View style={checklastName ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Last Name</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                       <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={lastName}
                           onChangeText={(text) => setlasttName(text)}
@@ -515,12 +515,12 @@ const UserProfile = (props) => {
                           placeholder="Last Name"
                           placeholderTextColor="#ddd"
                         />
-                      </Item>
+                       </View >
                     </View>
                     {checklastName ? <Text style={globalStyle.error}>Enter Last Name </Text> : null}
                     <View style={checkEmail ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Email</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                       <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={email}
                           onChangeText={(text) => setemail(text)}
@@ -528,12 +528,12 @@ const UserProfile = (props) => {
                           placeholder="Email "
                           placeholderTextColor="#ddd"
                         />
-                      </Item>
+                       </View >
                     </View>
                     {checkEmail ? <Text style={globalStyle.error}>Enter Valid Email</Text> : null}
                     <View style={[globalStyle.formField, { backgroundColor: "#eee" }]}>
                       <Text style={globalStyle.formLabel}>Rank</Text>
-                      <Item
+                       <View 
                         style={[
                           globalStyle.formGroup,
                           {
@@ -552,11 +552,11 @@ const UserProfile = (props) => {
                           placeholder="Rank"
                           placeholderTextColor="#000"
                         />
-                      </Item>
+                       </View >
                     </View>
                     <View style={globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Medical Info</Text>
-                      <Item
+                       <View 
                         style={[
                           globalStyle.formGroup,
                           {
@@ -575,12 +575,12 @@ const UserProfile = (props) => {
                           placeholder="Medical Info"
                           placeholderTextColor="#DDD"
                         />
-                      </Item>
+                       </View >
                     </View>
                     {!adult && (
                       <View style={globalStyle.formField}>
                         <Text style={globalStyle.formLabel}>Academic School</Text>
-                        <Item
+                         <View 
                           style={[
                             globalStyle.formGroup,
                             {
@@ -599,7 +599,7 @@ const UserProfile = (props) => {
                             placeholder="Academic School"
                             placeholderTextColor="#DDD"
                           />
-                        </Item>
+                         </View >
                       </View>
                     )}
                     <View style={globalStyle.formField}>
@@ -746,7 +746,7 @@ const UserProfile = (props) => {
                   <View style={{ paddingTop: 30 }}>
                     <View style={checkAddress1 ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Permanent Address</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                       <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={address1}
                           onChangeText={(text) => setaddress1(text)}
@@ -754,11 +754,11 @@ const UserProfile = (props) => {
                           placeholder="Permanent Address"
                           placeholderTextColor="#ddd"
                         />
-                      </Item>
+                       </View >
                     </View>
                     <View style={globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Current Address</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                       <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={address2}
                           onChangeText={(text) => setaddress2(text)}
@@ -766,18 +766,18 @@ const UserProfile = (props) => {
                           placeholder="Current Address"
                           placeholderTextColor="#ddd"
                         />
-                      </Item>
+                       </View >
                     </View>
                     <View style={globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>City</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                       <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={city}
                           onChangeText={(text) => setcity(text)}
                           style={[globalStyle.formControls, { color: "#999" }]}
                           placeholder="City"
                         />
-                      </Item>
+                       </View >
                     </View>
                     {checkCity ? <Text style={globalStyle.error}>Enter City</Text> : null}
                     <View style={[globalStyle.formField]}>
@@ -818,54 +818,54 @@ const UserProfile = (props) => {
                     </View>
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Postal Code</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                       <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={zipCode}
                           onChangeText={(text) => { setzipCode(text) }}
                           style={[globalStyle.formControls, { color: "#999" }]}
                           placeholder="Postal Code"
                         />
-                      </Item>
+                       </View >
                     </View>
                     {checkZipCode ? <Text style={globalStyle.error}>Enter Postal Code</Text> : null}
                     <View style={checkPhone1 ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Phone1</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                       <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input value={phone1} onChangeText={(text) => setphone1(text)} style={globalStyle.formControls} placeholder="Phone1" />
-                      </Item>
+                       </View >
                     </View>
                     {checkPhone1 ? <Text style={globalStyle.error}>Enter Phone Number </Text> : null}
                     <View style={checkPhone1 ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Phone1</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                       <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input value={phone1} onChangeText={(text) => onChangePhone(text, setPhone1)} style={globalStyle.formControls} placeholder="Phone1" />
-                      </Item>
+                       </View >
                     </View>
                     {checkPhone1 ? <Text style={globalStyle.error}>Enter Phone Number </Text> : null}
 
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Phone2</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                       <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input value={phone2} onChangeText={(text) => onChangePhone(text, setPhone2)} style={globalStyle.formControls} placeholder="Phone2" />
-                      </Item>
+                       </View >
                     </View>
                     {checkPhone2 ? <Text style={globalStyle.error}>Enter Phone Number </Text> : null}
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Emergency Contact</Text>
-                      <Item style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
+                       <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
                         <Input
                           value={EmergencyContact}
                           onChangeText={(text) => onChangePhone(text, setEmergencyContact)}
                           style={globalStyle.formControls}
                           placeholder="Emergency Contact"
                         />
-                      </Item>
+                       </View >
                     </View>
                   </View>
                 </Collapsible>
                 {errorMessage != "" ? <Text style={globalStyle.errorText}>{errorMessage}</Text> : null}
                 {SuccessMessage != "" ? <Text style={globalStyle.sucessText}>{SuccessMessage}</Text> : null}
-                <Content style={loginStyle.formContainer}>
+                 <View style={loginStyle.formContainer}>
                   <ImageBackground
                     style={[
                       globalStyle.Btn,
@@ -880,8 +880,8 @@ const UserProfile = (props) => {
                       <Text style={loginStyle.buttonText}>Update</Text>
                     </Button>
                   </ImageBackground>
-                </Content>
-              </Form>
+                 </View  >
+            </View>
             ) : (
               <View>
                 <Text
@@ -941,9 +941,9 @@ const UserProfile = (props) => {
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
         )}
-      </Content>
+       </View  >
       <FooterTabs navigation={props.navigation} />
-    </Container>
+     </View>
   );
 };
 const styles = StyleSheet.create({

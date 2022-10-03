@@ -4,6 +4,7 @@ import { colorPallete } from "./colorPallete";
 
 export default StyleSheet.create({
   h2: {
+    textAlign:"center",
     marginTop: 20,
     marginBottom: 0,
     fontWeight: "bold",

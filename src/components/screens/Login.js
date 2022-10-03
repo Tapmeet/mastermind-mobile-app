@@ -5,23 +5,25 @@ import {
   StyleSheet,
   ImageBackground,
   SafeAreaView,
-  ActivityIndicator
+  ActivityIndicator,
+  Item,
+  H2
 } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
-import * as ImagePicker from 'expo-image-picker'; 
+import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Container,
   Content,
   Form,
-  Item,
+
   Input,
   Label,
   Button,
   Text,
   Body,
-  H2,
+
   Icon,
 } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
@@ -94,10 +96,10 @@ const Login = (props) => {
       .then(async (response) => {
         setLoaderMessage(false)
         if (response["access_token"]) {
-          const token =response["access_token"].toString()
+          const token = response["access_token"].toString()
           await AsyncStorage.setItem("tokenCheck", token);
           userData({ id: 1, access_Token: response["access_token"] });
-        
+
         } else {
           setErrorMessage(response["error_description"]);
         }
@@ -126,8 +128,8 @@ const Login = (props) => {
 
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container} scrollEnabled={false}>
-      <Content style={loginStyle.spacing} scrollEnabled={false}>
+    <View style={loginStyle.container} scrollEnabled={false}>
+      <View style={loginStyle.spacing} scrollEnabled={false}>
         <ImageBackground
           style={{
             width: "100%",
@@ -148,12 +150,12 @@ const Login = (props) => {
             />
           </View>
         </ImageBackground>
-        <Body style={loginStyle.bodyContainer} padder>
-          <H2 style={globalStyle.h2}>Welcome!</H2>
+        <View style={loginStyle.bodyContainer} padder>
+           <Text style={globalStyle.h2}>Welcome! </Text>
           <Text style={globalStyle.small}>Sign in to Continue</Text>
-        </Body>
-        <Form style={globalStyle.form} padder>
-          <Item style={globalStyle.formGroup} floatingLabel>
+        </View>
+        <View style={globalStyle.form} padder>
+           <View  style={globalStyle.formGroup} floatingLabel>
             <Input
               value={username}
               onChangeText={(text) => setusername(text)}
@@ -166,11 +168,11 @@ const Login = (props) => {
               }
               placeholder="Enter Email Address"
             />
-          </Item>
+           </View >
           {checkUsername ? (
             <Text style={globalStyle.error}>Enter Valid Username </Text>
           ) : null}
-          <Item style={globalStyle.formGroup} floatingLabel>
+           <View  style={globalStyle.formGroup} floatingLabel>
             <Input
               secureTextEntry={true}
               value={password}
@@ -183,7 +185,7 @@ const Login = (props) => {
               }
               placeholder="Password "
             />
-          </Item>
+           </View >
           {checkPassword ? (
             <Text style={globalStyle.error}>Enter Password</Text>
           ) : null}
@@ -197,7 +199,7 @@ const Login = (props) => {
               <ActivityIndicator size="large" color="#29ABE2" />
             </View>
             : null}
-          <Content style={loginStyle.formContainer} scrollEnabled={false}>
+          <View style={loginStyle.formContainer} scrollEnabled={false}>
             <Button
               onPress={submitForm}
               style={loginStyle.button}
@@ -205,18 +207,18 @@ const Login = (props) => {
             >
               <Text style={loginStyle.buttonText}>Login</Text>
             </Button>
-          </Content>
-        </Form>
-        <Body style={globalStyle.textRight}>
+          </View  >
+        </View>
+        <View style={globalStyle.textRight}>
           <Text
             style={globalStyle.hyperlink}
             onPress={() => props.navigation.navigate("ForgetPassword")}
           >
             Forgot Password?
           </Text>
-        </Body>
-      </Content>
-      <Body style={loginStyle.signUpSection}>
+        </View >
+      </View  >
+      <View style={loginStyle.signUpSection}>
         <Text>
           Don’t have an account?
           <Text
@@ -226,8 +228,8 @@ const Login = (props) => {
             &nbsp; Sign Up Now!
           </Text>
         </Text>
-      </Body>
-    </Container>
+      </View >
+    </View>
   );
 };
 const styles = StyleSheet.create({

@@ -655,9 +655,9 @@ const Inquiry = (props) => {
 
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container}>
+     <View style={loginStyle.container}>
       <SideBarMenu title={"Inquiry"} navigation={props.navigation} />
-      <Content style={loginStyle.spacing}>
+       <View style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           <View style={globalStyle.dflex}>
             <View
@@ -737,7 +737,7 @@ const Inquiry = (props) => {
             <View style={globalStyle.line}></View>
           </View>
 
-          <Form>
+           <View>
             <View
               style={{
                 marginTop: 10,
@@ -1510,7 +1510,7 @@ const Inquiry = (props) => {
                       </View>
                       : null}
                     {signature != "" ? (
-                      <Content style={loginStyle.formContainer}>
+                       <View style={loginStyle.formContainer}>
 
                         <ImageBackground
                           style={[
@@ -1530,7 +1530,7 @@ const Inquiry = (props) => {
                             <Text style={loginStyle.buttonText}>Send</Text>
                           </Button>
                         </ImageBackground>
-                      </Content>
+                       </View  >
                     ) : null}
                   </View>
                 </View>
@@ -1686,10 +1686,10 @@ const Inquiry = (props) => {
                 ) : null}
               </View>
             ) : null}
-          </Form>
         </View>
-      </Content>
-    </Container>
+        </View>
+       </View  >
+     </View>
   );
 };
 export default Inquiry;

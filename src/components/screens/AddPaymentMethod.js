@@ -177,9 +177,9 @@ const AddPaymentMethod = (props) => {
   };
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container}>
+     <View style={loginStyle.container}>
       <SideBarMenu title={"Add Credit Card"}  backLink="Payment Methods" navigation={props.navigation} />
-      <Content style={loginStyle.spacing}>
+       <View style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           {loader ? (
             <View style={[styles.container, styles.horizontal]}>
@@ -329,8 +329,8 @@ const AddPaymentMethod = (props) => {
             </View>
           )}
         </View>
-      </Content>
-    </Container>
+       </View  >
+     </View>
   );
 };
 const styles = StyleSheet.create({

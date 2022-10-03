@@ -276,8 +276,8 @@ const SignUp = (props) => {
 
   const { navigation } = props.navigation;
   return (
-    <Container style={loginStyle.container}>
-      <Content style={loginStyle.spacing} >
+     <View style={loginStyle.container}>
+       <View style={loginStyle.spacing} >
         <ImageBackground
           style={{
             width: "100%",
@@ -310,8 +310,8 @@ const SignUp = (props) => {
         <View style={{ paddingLeft: 30 }}>
           <H3 style={globalStyle.h3}>Sign Up</H3>
         </View>
-        <Form style={globalStyle.form} padder>
-          <Item style={globalStyle.formGroup} floatingLabel>
+         <View style={globalStyle.form} padder>
+           <View  style={globalStyle.formGroup} floatingLabel>
             <Input
               value={firstName}
               onChangeText={(text) => setfirstName(text)}
@@ -323,11 +323,11 @@ const SignUp = (props) => {
               }
               placeholder="First Name"
             />
-          </Item>
+           </View >
           {checkFirstname ? (
             <Text style={globalStyle.error}>Enter First Name</Text>
           ) : null}
-          <Item style={globalStyle.formGroup} floatingLabel>
+           <View  style={globalStyle.formGroup} floatingLabel>
             <Input
               value={lastName}
               onChangeText={(text) => setlasttName(text)}
@@ -335,8 +335,8 @@ const SignUp = (props) => {
               style={globalStyle.formControl}
               placeholder="Last Name"
             />
-          </Item>
-          <Item style={globalStyle.formGroup} floatingLabel>
+           </View >
+           <View  style={globalStyle.formGroup} floatingLabel>
             <Input
               value={schoolId}
               onChangeText={(text) => setschoolId(text)}
@@ -348,11 +348,11 @@ const SignUp = (props) => {
               }
               placeholder="School Id"
             />
-          </Item>
+           </View >
           {checkShoolId ? (
             <Text style={globalStyle.error}>Enter School Id</Text>
           ) : null}
-          <Item style={globalStyle.formGroup} floatingLabel>
+           <View  style={globalStyle.formGroup} floatingLabel>
             <Input
               value={email}
               autoCapitalize='none'
@@ -365,11 +365,11 @@ const SignUp = (props) => {
               }
               placeholder="Email "
             />
-          </Item>
+           </View >
           {checkEmail ? (
             <Text style={globalStyle.error}>Enter Valid Email</Text>
           ) : null}
-          {/* <Item style={globalStyle.formGroup} floatingLabel>
+          {/*  <View  style={globalStyle.formGroup} floatingLabel>
             <Input
               value={confirmEmail}
               autoCapitalize='none'
@@ -382,11 +382,11 @@ const SignUp = (props) => {
               }
               placeholder="Confirm Email "
             />
-          </Item>
+           </View >
           {checkConfirmEmail ? (
             <Text style={globalStyle.error}>Check Confirm Email</Text>
           ) : null} */}
-          <Item style={globalStyle.formGroup} floatingLabel>
+           <View  style={globalStyle.formGroup} floatingLabel>
             <Input
               secureTextEntry={true}
               value={password}
@@ -399,7 +399,7 @@ const SignUp = (props) => {
               }
               placeholder="Password "
             />
-          </Item>
+           </View >
           {/* {password.length > 0 && password.length <= 20   && confirmpassword.length <= 0 ? */}
           <View style={{ paddingTop: 20, paddingLeft: 10 }}>
             <Text style={ passwordcheck5 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must be at least 5 characters</Text>
@@ -412,7 +412,7 @@ const SignUp = (props) => {
           {checkPassword ? (
             <Text style={globalStyle.error}>Enter Valid Password</Text>
           ) : null}
-          <Item style={globalStyle.formGroup} floatingLabel>
+           <View  style={globalStyle.formGroup} floatingLabel>
             <Input
               secureTextEntry={true}
               value={confirmpassword}
@@ -425,11 +425,11 @@ const SignUp = (props) => {
               }
               placeholder="Confirm Password"
             />
-          </Item>
+           </View >
           {checkConfirmpassword ? (
             <Text style={globalStyle.error}>Password doesn't match</Text>
           ) : null}
-          <Item style={globalStyle.formGroup} floatingLabel>
+           <View  style={globalStyle.formGroup} floatingLabel>
             <Input
               value={mobile}
               // onChangeText={(text) => setmobile(text)}
@@ -442,7 +442,7 @@ const SignUp = (props) => {
               }
               placeholder="Mobile "
             />
-          </Item>
+           </View >
           {checkmobile ? (
             <Text style={globalStyle.error}>Enter Mobile</Text>
           ) : null}
@@ -475,17 +475,17 @@ const SignUp = (props) => {
               <ActivityIndicator size="large" color="#29ABE2" />
             </View>
             : null}
-          <Content style={loginStyle.formContainer}>
+           <View style={loginStyle.formContainer}>
             <Button style={loginStyle.button}
               onPress={submitForm}
               // onPress={() => props.navigation.navigate("VerificationSignups")}
               full>
               <Text style={loginStyle.buttonText} >Create An Account</Text>
             </Button>
-          </Content>
-        </Form>
-      </Content>
-    </Container>
+           </View  >
+      </View>
+       </View  >
+     </View>
   );
 };
 export default SignUp;

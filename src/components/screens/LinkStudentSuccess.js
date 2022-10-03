@@ -27,19 +27,19 @@ const LinkStudentSuccess = (props) => {
 
   const { navigation } = props;
   return (
-    <Container style={[verificationStyle.container, { position: "relative", height: windowHeight - 60, paddingTop: 0 }]}>
-      <Content style={[loginStyle.spacing, { paddingTop: 20 }]} >
+     <View style={[verificationStyle.container, { position: "relative", height: windowHeight - 60, paddingTop: 0 }]}>
+       <View style={[loginStyle.spacing, { paddingTop: 20 }]} >
         <View style={[{ position: "relative", height: windowHeight - 25, paddingTop: 0 }]}>
-          <Body>
+          <View>
             <Image
               style={verificationStyle.successIcon}
               source={require("../../../assets/tick.png")}
             />
-          </Body>
-          <Body style={[loginStyle.bodyContainer, { flexDirection: "column", marginTop: -500 }]}>
+          </View>
+           <View style={[loginStyle.bodyContainer, { flexDirection: "column", marginTop: -500 }]}>
             <H3 style={[globalStyle.h3, { fontSize: 32, fontWeight: "bold", zIndex: 999, position: "relative" }]}>Successful </H3>
             <Text style={{ color: "#A7A7BF", fontSize: 20, zIndex: 999, position: "relative" }}>Student Successfully Linked</Text>
-          </Body>
+          </View>
 
           <ImageBackground
             style={{
@@ -58,8 +58,8 @@ const LinkStudentSuccess = (props) => {
             </View>
           </ImageBackground>
         </View>
-      </Content>
-    </Container >
+       </View  >
+     </View>
   );
 };
 

@@ -216,25 +216,25 @@ const EventDetails = (props) => {
   };
   const { navigation } = props;
   return (
-    <Container
+     <View
       style={{
         backgroundColor: "#FFFFFF",
       }}
     >
       <SideBarMenu title={"Event Details"} navigation={props.navigation} />
       {loader ? (
-        <Content>
+         <View>
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
-        </Content>
+         </View  >
       ) : (
         typeof eventListing !== "undefined" &&
           eventListing.length > 0 ? (
           eventListing.map(function (event, index) {
             return (
               event.PosItemId == eventid ?
-                <Content key={index}>
+                 <View key={index}>
                   <Image source={require("./../../../../assets/retails.jpg")} style={{ width: "100%", height: 220 }} />
                   <View style={{ margin: 15, marginTop: 25 }}>
                     <Title style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {event.Title}</Title>
@@ -447,14 +447,14 @@ const EventDetails = (props) => {
                     }
                     
                   </View>
-                </Content>
+                 </View  >
                 : null
             );
           })
         ) : null
       )}
       <CartWidget navigation={props.navigation} />
-    </Container>
+     </View>
   );
 };
 

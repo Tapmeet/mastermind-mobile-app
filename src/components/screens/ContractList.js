@@ -99,16 +99,16 @@ const ContractList = (props) => {
   }
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container}>
+     <View style={loginStyle.container}>
       <SideBarMenu title={"Contracts"} navigation={props.navigation} />
-      <Content style={loginStyle.spacing}>
+       <View style={loginStyle.spacing}>
         <View style={{ marginTop: 10 }}>
           {loader ? (
             <View style={[styles.container, styles.horizontal]}>
               <ActivityIndicator size="large" color="#29ABE2" />
             </View>
           ) : (
-            <Form style={globalStyle.forms}>
+             <View style={globalStyle.forms}>
               <TouchableOpacity onPress={toggleExpanded}>
                 <View style={loginStyle.textAccordiansContract}>
                   <Image
@@ -334,12 +334,12 @@ const ContractList = (props) => {
                   </View>
                 </View>
               </Collapsible>
-            </Form>
+          </View>
           )}
         </View>
-      </Content>
+       </View  >
       <FooterTabs navigation={props.navigation} />
-    </Container>
+     </View>
   );
 };
 const styles = StyleSheet.create({

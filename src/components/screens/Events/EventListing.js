@@ -200,7 +200,7 @@ const EventListing = (props) => {
 
   const { navigation } = props;
   return (
-    <Container
+     <View
       style={{
         backgroundColor: "#f1f1f1",
       }}
@@ -292,7 +292,7 @@ const EventListing = (props) => {
           </View>
         </View>
         : null}
-      <Content padder>
+       <View padder>
         {loader ? (
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#29ABE2" />
@@ -354,9 +354,9 @@ const EventListing = (props) => {
             <Text>No Events Available </Text>
           </View>
         )}
-      </Content>
+       </View  >
       <CartWidget navigation={props.navigation} />
-    </Container>
+     </View>
   );
 };
 export default EventListing;

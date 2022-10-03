@@ -122,20 +122,20 @@ const Cart = (props) => {
         })
         : null
     return (
-        <Container
+         <View
             style={{
                 backgroundColor: "#FFFFFF",
             }}
         >
             <SideBarMenu title={"Cart"} navigation={props.navigation} />
             {loader ? (
-                <Content>
+                 <View>
                     <View style={[styles.container, styles.horizontal]}>
                         <ActivityIndicator size="large" color="#29ABE2" />
                     </View>
-                </Content>
+                 </View  >
             ) : (
-                <Content padder style={{ marginTop: 10 }}>
+                 <View padder style={{ marginTop: 10 }}>
                     <View style={{ marginBottom: 10 }} >
                         {retail.cartItemsReducer.length > 0 ?
                             retail.cartItemsReducer.map(function (product, index) {
@@ -337,7 +337,7 @@ const Cart = (props) => {
                             </Button>
                         </View>
                     </View>
-                </Content>
+                 </View  >
 
             )}
             <ImageBackground
@@ -356,7 +356,7 @@ const Cart = (props) => {
                     </FooterTab>
                 </Footer>
             </ImageBackground>
-        </Container>
+         </View>
     )
 }
 export default Cart;

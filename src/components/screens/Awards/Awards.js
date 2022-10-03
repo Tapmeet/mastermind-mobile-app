@@ -44,7 +44,7 @@ const Awards = (props) => {
 
     const { navigation } = props;
     return (
-        <Container
+         <View
             style={{
                 backgroundColor: "#f1f1f1",
             }}
@@ -71,7 +71,7 @@ const Awards = (props) => {
                     {awardsListing.length} Awards
                 </Text>
             </View>
-            <Content padder>
+             <View padder>
                 {loader ? (
                     <View style={[styles.container, styles.horizontal]}>
                         <ActivityIndicator size="large" color="#29ABE2" />
@@ -120,10 +120,10 @@ const Awards = (props) => {
                         <Text>No Awards yet </Text>
                     </View>
                 )}
-            </Content>
+             </View  >
              <FooterTabs navigation={props.navigation}  />
 
-        </Container>
+         </View>
     );
 };
 export default Awards;

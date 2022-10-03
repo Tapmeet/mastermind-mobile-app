@@ -58,7 +58,7 @@ const EventOrdersListing = (props) => {
   };
   const { navigation } = props;
   return (
-    <Container
+     <View
       style={{
         backgroundColor: "#f1f1f1",
       }}
@@ -113,7 +113,7 @@ const EventOrdersListing = (props) => {
           />
         </View>
       </View>
-      <Content padder style={{ marginTop: 10 }}>
+       <View padder style={{ marginTop: 10 }}>
         {loader ? (
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#29ABE2" />
@@ -163,9 +163,9 @@ const EventOrdersListing = (props) => {
             <Text>No Purchase History  </Text>
           </View>
         )}
-      </Content>
+       </View  >
      <FooterTabs navigation={props.navigation}  />
-    </Container>
+     </View>
   );
 };
 export default EventOrdersListing;

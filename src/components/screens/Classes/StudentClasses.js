@@ -163,7 +163,7 @@ const StudentClasses = (props) => {
 
     const { navigation } = props;
     return (
-        <Container
+         <View
             style={{
                 backgroundColor: "#f1f1f1",
 
@@ -281,7 +281,7 @@ const StudentClasses = (props) => {
                      Waitlist Reservations  
                 </Text>
             </View>
-            <Content padder>
+             <View padder>
                 {loader ? (
                     <View style={[styles.container, styles.horizontal]}>
                         <ActivityIndicator size="large" color="#29ABE2" />
@@ -445,7 +445,7 @@ const StudentClasses = (props) => {
                             </View>
                         )
                 }
-            </Content>
+             </View  >
             {checkinActive ?
                 <View style={globalStyle.popup}>
                     <View style={globalStyle.eventsListingWrapper}>
@@ -465,7 +465,7 @@ const StudentClasses = (props) => {
                 : null}
             <FooterTabs navigation={props.navigation} />
 
-        </Container>
+         </View>
     );
 };
 export default StudentClasses;

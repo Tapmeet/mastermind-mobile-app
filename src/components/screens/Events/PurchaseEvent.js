@@ -302,11 +302,11 @@ const PurchaseEvent = (props) => {
     );
   };
   return (
-    <Container style={loginStyle.container}>
+     <View style={loginStyle.container}>
       <SideBarMenu title={"PURCHASE Product"} navigation={props.navigation} />
-      <Content style={loginStyle.spacing}>
+       <View style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
-          <Form style={{ marginBottom: 20 }}>
+           <View style={{ marginBottom: 20 }}>
             <View
               style={{
                 marginTop: 10,
@@ -397,7 +397,7 @@ const PurchaseEvent = (props) => {
                       {SuccessMessage}
                     </Text>
                   ) : null}
-                  <Content style={loginStyle.formContainer}>
+                   <View style={loginStyle.formContainer}>
                     {!purchaseStatus ?
                       <ImageBackground
                         style={[
@@ -432,15 +432,15 @@ const PurchaseEvent = (props) => {
                         <ActivityIndicator size="large" color="#29ABE2" />
                       </View>
                     ) : null}
-                  </Content>
+                   </View  >
                 </View>
               </View>
             )
             }
-          </Form>
         </View>
-      </Content>
-    </Container>
+        </View>
+       </View  >
+     </View>
   );
 };
 export default PurchaseEvent;

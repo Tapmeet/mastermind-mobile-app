@@ -125,9 +125,9 @@ const PaymentMethodListings = (props) => {
   }
   const { navigation } = props;
   return (
-    <Container style={loginStyle.container}>
+     <View style={loginStyle.container}>
       <SideBarMenu title={"Payment Methods "} navigation={props.navigation} />
-      <Content style={loginStyle.spacing}>
+       <View style={loginStyle.spacing}>
         <View style={loginStyle.contentContainer}>
           {loader ?
             <View style={[styles.container, styles.horizontal]}>
@@ -340,8 +340,8 @@ const PaymentMethodListings = (props) => {
             </View>
             : null}
         </View>
-      </Content>
-    </Container>
+       </View  >
+     </View>
   );
 };
 const styles = StyleSheet.create({

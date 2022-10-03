@@ -497,19 +497,19 @@ const TaskClass = (props) => {
         setRecurrenceRule(markedDates)
     }
     return (
-        <Container
+         <View
             style={{
                 backgroundColor: "#FFFFFF",
             }}
         >
             <SideBarMenu title={"Class Reservation"} backLink="Class Reservation" navigation={props.navigation} />
-            <Content padder>
+             <View padder>
                 {loader ? (
-                    <Content>
+                     <View>
                         <View style={[styles.container, styles.horizontal]}>
                             <ActivityIndicator size="large" color="#29ABE2" />
                         </View>
-                    </Content>
+                     </View  >
                 ) : (
                     !checkClasses ?
                         <View>
@@ -691,8 +691,8 @@ const TaskClass = (props) => {
                             </View>
                         </View>
                 )}
-            </Content>
-        </Container>
+             </View  >
+         </View>
     );
 };
 export default TaskClass;

@@ -331,19 +331,19 @@ const ClassReservations = (props) => {
     };
     const { navigation } = props;
     return (
-        <Container
+         <View
             style={{
                 backgroundColor: "#FFFFFF",
             }}
         >
             <SideBarMenu title={"Class Reservation"} navigation={props.navigation} />
-            <Content padder>
+             <View padder>
                 {loader ? (
-                    <Content>
+                     <View>
                         <View style={[styles.container, styles.horizontal]}>
                             <ActivityIndicator size="large" color="#29ABE2" />
                         </View>
-                    </Content>
+                     </View  >
                 ) : (
                     typeof eventListing !== "undefined" &&
                         eventListing.length > 0 ? (
@@ -489,8 +489,8 @@ const ClassReservations = (props) => {
                         </View>
                     ) : null
                 )}
-            </Content>
-        </Container>
+             </View  >
+         </View>
     );
 };
 export default ClassReservations;
