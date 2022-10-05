@@ -14,7 +14,8 @@
       "backgroundPosition": "top center"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/4816989b-7cf5-4b67-b0cf-ebec54972bbb"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -63,6 +64,9 @@
     "platforms": [
       "ios",
       "android"
-    ]
+    ],
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    }
   }
 }
