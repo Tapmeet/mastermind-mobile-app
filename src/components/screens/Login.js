@@ -7,7 +7,8 @@ import {
   SafeAreaView,
   ActivityIndicator,
   Item,
-  H2
+  H2,
+  TextInput
 } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import * as ImagePicker from 'expo-image-picker';
@@ -152,11 +153,11 @@ const Login = (props) => {
         </ImageBackground>
         <View style={loginStyle.bodyContainer} padder>
            <Text style={globalStyle.h2}>Welcome! </Text>
-          <Text style={globalStyle.small}>Sign in to Continue</Text>
+          <Text style={globalStyle.smallsubTitle}>Sign in to Continue</Text>
         </View>
         <View style={globalStyle.form} padder>
            <View  style={globalStyle.formGroup} floatingLabel>
-            <Input
+            <TextInput
               value={username}
               onChangeText={(text) => setusername(text)}
               placeholderTextColor="#ccc"
@@ -173,7 +174,7 @@ const Login = (props) => {
             <Text style={globalStyle.error}>Enter Valid Username </Text>
           ) : null}
            <View  style={globalStyle.formGroup} floatingLabel>
-            <Input
+            <TextInput
               secureTextEntry={true}
               value={password}
               onChangeText={(text) => setpassword(text)}
@@ -218,7 +219,7 @@ const Login = (props) => {
           </Text>
         </View >
       </View  >
-      <View style={loginStyle.signUpSection}>
+      <View style={{display:"flex", justifyContent:"center", flexDirection:"row", marginTop:20}}>
         <Text>
           Don’t have an account?
           <Text

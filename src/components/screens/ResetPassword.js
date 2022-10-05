@@ -165,7 +165,7 @@ const ResetPassword = (props) => {
           </View>
         </ImageBackground>
          <View style={loginStyle.bodyContainer}>
-          <H3 style={globalStyle.h3}>Reset Password?</H3>
+           <Text style={globalStyle.h3}>Reset Password? </Text>
           <Text style={verificationStyle.subHeadingWrapper}>
             Please Fill your details below
           </Text>

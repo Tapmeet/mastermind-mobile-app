@@ -1,5 +1,14 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+  ActivityIndicator,
+  ScrollView,
+  TextInput
+} from "react-native";
 import {
   Container,
   Content,
@@ -276,8 +285,8 @@ const SignUp = (props) => {
 
   const { navigation } = props.navigation;
   return (
-     <View style={loginStyle.container}>
-       <View style={loginStyle.spacing} >
+    <View style={loginStyle.container}>
+      <ScrollView style={loginStyle.spacing} >
         <ImageBackground
           style={{
             width: "100%",
@@ -308,11 +317,11 @@ const SignUp = (props) => {
           </View>
         </ImageBackground>
         <View style={{ paddingLeft: 30 }}>
-          <H3 style={globalStyle.h3}>Sign Up</H3>
+          <Text style={globalStyle.h3}>Sign Up</Text>
         </View>
-         <View style={globalStyle.form} padder>
-           <View  style={globalStyle.formGroup} floatingLabel>
-            <Input
+        <View style={globalStyle.form} padder>
+          <View style={globalStyle.formGroup} floatingLabel>
+            <TextInput
               value={firstName}
               onChangeText={(text) => setfirstName(text)}
               placeholderTextColor='#ccc'
@@ -323,21 +332,21 @@ const SignUp = (props) => {
               }
               placeholder="First Name"
             />
-           </View >
+          </View >
           {checkFirstname ? (
             <Text style={globalStyle.error}>Enter First Name</Text>
           ) : null}
-           <View  style={globalStyle.formGroup} floatingLabel>
-            <Input
+          <View style={globalStyle.formGroup} floatingLabel>
+            <TextInput
               value={lastName}
               onChangeText={(text) => setlasttName(text)}
               placeholderTextColor='#ccc'
               style={globalStyle.formControl}
               placeholder="Last Name"
             />
-           </View >
-           <View  style={globalStyle.formGroup} floatingLabel>
-            <Input
+          </View >
+          <View style={globalStyle.formGroup} floatingLabel>
+            <TextInput
               value={schoolId}
               onChangeText={(text) => setschoolId(text)}
               placeholderTextColor='#ccc'
@@ -348,12 +357,12 @@ const SignUp = (props) => {
               }
               placeholder="School Id"
             />
-           </View >
+          </View >
           {checkShoolId ? (
             <Text style={globalStyle.error}>Enter School Id</Text>
           ) : null}
-           <View  style={globalStyle.formGroup} floatingLabel>
-            <Input
+          <View style={globalStyle.formGroup} floatingLabel>
+            <TextInput
               value={email}
               autoCapitalize='none'
               onChangeText={(text) => setemail(text)}
@@ -365,12 +374,12 @@ const SignUp = (props) => {
               }
               placeholder="Email "
             />
-           </View >
+          </View >
           {checkEmail ? (
             <Text style={globalStyle.error}>Enter Valid Email</Text>
           ) : null}
           {/*  <View  style={globalStyle.formGroup} floatingLabel>
-            <Input
+            <TextInput
               value={confirmEmail}
               autoCapitalize='none'
               onChangeText={(text) => setconfirmemail(text)}
@@ -386,8 +395,8 @@ const SignUp = (props) => {
           {checkConfirmEmail ? (
             <Text style={globalStyle.error}>Check Confirm Email</Text>
           ) : null} */}
-           <View  style={globalStyle.formGroup} floatingLabel>
-            <Input
+          <View style={globalStyle.formGroup} floatingLabel>
+            <TextInput
               secureTextEntry={true}
               value={password}
               onChangeText={(text) => setpassword(text)}
@@ -399,21 +408,21 @@ const SignUp = (props) => {
               }
               placeholder="Password "
             />
-           </View >
+          </View >
           {/* {password.length > 0 && password.length <= 20   && confirmpassword.length <= 0 ? */}
           <View style={{ paddingTop: 20, paddingLeft: 10 }}>
-            <Text style={ passwordcheck5 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must be at least 5 characters</Text>
-            <Text style={ passwordcheck3 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must contain at least 1 number</Text>
-            <Text style={ passwordcheck2 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must contain at least 1 character in capital case</Text>
-            <Text style={ passwordcheck1 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must contain at least 1 character in lower case</Text>
-            <Text style={ passwordcheck4 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must contain at least 1 special characters </Text>
+            <Text style={passwordcheck5 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must be at least 5 characters</Text>
+            <Text style={passwordcheck3 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must contain at least 1 number</Text>
+            <Text style={passwordcheck2 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must contain at least 1 character in capital case</Text>
+            <Text style={passwordcheck1 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must contain at least 1 character in lower case</Text>
+            <Text style={passwordcheck4 ? { fontFamily: 'Poppins', fontSize: 12, color: "green" } : { fontFamily: 'Poppins', fontSize: 12, color: "#777" }}> Must contain at least 1 special characters </Text>
           </View>
           {/* : null} */}
           {checkPassword ? (
             <Text style={globalStyle.error}>Enter Valid Password</Text>
           ) : null}
-           <View  style={globalStyle.formGroup} floatingLabel>
-            <Input
+          <View style={globalStyle.formGroup} floatingLabel>
+            <TextInput
               secureTextEntry={true}
               value={confirmpassword}
               onChangeText={(text) => setconfirmpassword(text)}
@@ -425,12 +434,12 @@ const SignUp = (props) => {
               }
               placeholder="Confirm Password"
             />
-           </View >
+          </View >
           {checkConfirmpassword ? (
             <Text style={globalStyle.error}>Password doesn't match</Text>
           ) : null}
-           <View  style={globalStyle.formGroup} floatingLabel>
-            <Input
+          <View style={globalStyle.formGroup} floatingLabel>
+            <TextInput
               value={mobile}
               // onChangeText={(text) => setmobile(text)}
               onChangeText={(text) => onChangePhone(text, setmobile)}
@@ -442,7 +451,7 @@ const SignUp = (props) => {
               }
               placeholder="Mobile "
             />
-           </View >
+          </View >
           {checkmobile ? (
             <Text style={globalStyle.error}>Enter Mobile</Text>
           ) : null}
@@ -475,17 +484,17 @@ const SignUp = (props) => {
               <ActivityIndicator size="large" color="#29ABE2" />
             </View>
             : null}
-           <View style={loginStyle.formContainer}>
+          <View style={loginStyle.formContainer}>
             <Button style={loginStyle.button}
               onPress={submitForm}
               // onPress={() => props.navigation.navigate("VerificationSignups")}
               full>
               <Text style={loginStyle.buttonText} >Create An Account</Text>
             </Button>
-           </View  >
-      </View>
-       </View  >
-     </View>
+          </View  >
+        </View>
+      </ScrollView  >
+    </View>
   );
 };
 export default SignUp;

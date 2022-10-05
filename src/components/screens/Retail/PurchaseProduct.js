@@ -259,7 +259,7 @@ const PurchaseProduct = (props) => {
               {"XXXX-XXXX-XXXX-" + item.Last4Digits}
             </Text>
             <Text style={{ fontSize: 18, color: "#fff" }}>{item.Nickname}</Text>
-            <View style={[globalStyle.sliderWrapper, { justifyContent: "flex-end", alignSelf: "flex-end", marginTop: 10, marginRight: 20 }]}>
+            <View style={[globalStyle.sliderWrapper, { justifyContent: "flex-end", alignSelf: "flex-end", marginTop: 10, marginRight: 40, paddingRight:40 }]}>
               <Text style={{ fontSize: 18, color: "#333", marginRight: 5 }}>  {item.PaymentTypeId != 2 ? "Card" : "Account"}</Text>
               {item.PaymentTypeId != 2 ?
                 <Image source={require("./../../../../assets/credit-card.png")} style={{ height: 20, width: 20 }} />
@@ -305,7 +305,7 @@ const PurchaseProduct = (props) => {
   return (
      <View style={loginStyle.container}>
       <SideBarMenu title={"PURCHASE Product"} navigation={props.navigation} />
-       <View style={loginStyle.spacing}>
+       <View style={[loginStyle.spacing,{backgroundColor:"#fff", height:"100%"}]}>
         <View style={loginStyle.contentContainer}>
            <View style={{ marginBottom: 20 }}>
             <View
@@ -323,6 +323,7 @@ const PurchaseProduct = (props) => {
                       fontSize: 26,
                       fontWeight: "bold",
                       marginBottom: 2,
+                      paddingTop:10
                     }}
                   >
                     Purchase
@@ -507,5 +508,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     padding: 10,
+    marginTop:10
   },
 });

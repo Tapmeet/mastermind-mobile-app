@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Accordion } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
+import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, ScrollView } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import CartWidget from "../../cart/Cartwidget"
@@ -304,10 +304,10 @@ const ProductDetails = (props) => {
             };
             return (
               event.PosItemId == eventid ?
-                 <View key={index}>
+                 <ScrollView key={index} style={{marginBottom: 150}}>
                   <Image source={require("./../../../../assets/retails.jpg")} style={{ width: "100%", height: 220 }} />
                   <View style={{ margin: 15, marginTop: 25 }}>
-                    <Title style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {event.Title}</Title>
+                    <Text style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {event.Title}</Text>
                     <TouchableOpacity onPress={() => { toggleExpanded() }}>
                       <View style={globalStyle.accordianStyle}>
                         <Text
@@ -499,17 +499,17 @@ const ProductDetails = (props) => {
                         paddingTop: 40,
                         paddingBottom: 20
                       }}>
-                        <Text style={{ color: "#1873e8", fontSize: 24, fontWeight: "bold" }}>${event.Price}</Text>
+                        <Text style={{ color: "#1873e8", fontSize: 24, fontWeight: "bold", paddingTop:10 }}>${event.Price}</Text>
                         {studentIds.length > 0 && studentIds.length != undefined ?
                         <TouchableOpacity style={globalStyle.purchaseBtn} onPress={() => storeData(event.PosItemId, event.Price)} >
-                          <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, paddingBottom: 15, paddingLeft: 30, paddingRight: 30, paddingTop: 15, fontSize: 22, fontWeight: "bold", borderRadius: 15 }}>Add to cart</Text>
+                          <Text style={{ borderColor: "#1873e8", color: "#333", textTransform: "uppercase", borderWidth: 1, paddingBottom: 15, paddingLeft: 30, paddingRight: 30, paddingTop: 22, fontSize: 22, fontWeight: "bold", borderRadius: 15 }}>Add to cart</Text>
                         </TouchableOpacity>
                         : <Text>No students linked</Text> }
                       </View>
                       : null
                     }
                   </View>
-                 </View  >
+                 </ScrollView  >
                 : null
             );
           })

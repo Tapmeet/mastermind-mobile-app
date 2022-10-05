@@ -35,7 +35,7 @@ const ResetSuccess = (props) => {
           />
         </View>
          <View style={loginStyle.bodyContainer}>
-          <H3 style={globalStyle.h3}>Successful </H3>
+           <Text style={globalStyle.h3}>Successful  </Text>
           <Text style={verificationStyle.successText}>
             Your Password changed successfully
           </Text>

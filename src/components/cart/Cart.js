@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Content, View, Accordion, Footer, FooterTab } from 'native-base';
-import { ImageBackground, Image, TouchableOpacity, ActivityIndicator, StyleSheet, Alert } from 'react-native';
+import { ImageBackground, Image, TouchableOpacity, ActivityIndicator, StyleSheet, Alert, Dimensions } from 'react-native';
 import globalStyle from "../../style/globalStyle";
 import { SideBarMenu } from "./../sidebar";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,6 +10,7 @@ import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 var total = 0;
 const apiUrl = API_URL.trim();
 const Cart = (props) => {
+    const win = Dimensions.get("window");
     const retail = useSelector((state) => state);
     const userId = useSelector((state) => state);
     const [personId, setPersonId] = React.useState('');
@@ -122,20 +123,20 @@ const Cart = (props) => {
         })
         : null
     return (
-         <View
+        <View
             style={{
                 backgroundColor: "#FFFFFF",
             }}
         >
             <SideBarMenu title={"Cart"} navigation={props.navigation} />
             {loader ? (
-                 <View>
+                <View>
                     <View style={[styles.container, styles.horizontal]}>
                         <ActivityIndicator size="large" color="#29ABE2" />
                     </View>
-                 </View  >
+                </View  >
             ) : (
-                 <View padder style={{ marginTop: 10 }}>
+                <View padder style={{ marginTop: 10 }}>
                     <View style={{ marginBottom: 10 }} >
                         {retail.cartItemsReducer.length > 0 ?
                             retail.cartItemsReducer.map(function (product, index) {
@@ -249,7 +250,7 @@ const Cart = (props) => {
                                                     }}>Quantity:
                                                     </Text>
                                                     <View style={{ position: "absolute", right: -15, top: -5 }}>
-                                                      <RNPickerSelect
+                                                        <RNPickerSelect
                                                             value={product.quantity}
                                                             items={quanity}
                                                             placeholder={placeholderQuantities}
@@ -337,26 +338,27 @@ const Cart = (props) => {
                             </Button>
                         </View>
                     </View>
-                 </View  >
+                </View  >
 
             )}
             <ImageBackground
-                style={{
-                    height: 70
-                }}
+                style={[globalStyle.barStylingfooter, {
+                    height: 70,
+                    top: win.height - 70
+                }]}
                 source={require('./../../../assets/bgBottom.png')}
                 resizeMode={'stretch'}
             >
-                <Footer style={globalStyle.barStyling}>
-                    <FooterTab style={[globalStyle.barStyling, { paddingBottom: 10, paddingTop: 15 }]}>
-                        <Text style={{ color: "#fff", fontSize: 20, paddingLeft: 20 }}>Total </Text>
-                        <Text style={{ color: "#fff", fontSize: 25, paddingRight: 20 }}>
+                <View >
+                    <View style={{ paddingBottom: 10, paddingTop: 10, display: "flex", flexDirection: 'row', width: "100%", justifyContent: "space-around", alignItems: "center" }}>
+                        <Text style={{ color: "#fff", fontSize: 25, paddingTop:10, paddingLeft: 20 }}>Total </Text>
+                        <Text style={{ color: "#fff", fontSize: 25, paddingTop:10, paddingRight: 20 }}>
                             ${total}
                         </Text>
-                    </FooterTab>
-                </Footer>
+                    </View>
+                </View>
             </ImageBackground>
-         </View>
+        </View>
     )
 }
 export default Cart;

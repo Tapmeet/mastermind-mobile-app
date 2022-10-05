@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
+import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, ScrollView  } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -500,10 +500,11 @@ const TaskClass = (props) => {
          <View
             style={{
                 backgroundColor: "#FFFFFF",
+                height:"100%"
             }}
         >
             <SideBarMenu title={"Class Reservation"} backLink="Class Reservation" navigation={props.navigation} />
-             <View padder>
+             <ScrollView padder style={{backgroundColor:"#fff"}}>
                 {loader ? (
                      <View>
                         <View style={[styles.container, styles.horizontal]}>
@@ -512,11 +513,11 @@ const TaskClass = (props) => {
                      </View  >
                 ) : (
                     !checkClasses ?
-                        <View>
+                        <View style={{marginTop:20}}>
                             {typeof eventListing !== "undefined" &&
                                 eventListing.length > 0 ?
                                 <View>
-                                    <Title style={{ justifyContent: "flex-start", textAlign: "left", marginLeft: 5, marginBottom: 10, fontSize: 26, color: "#222", fontWeight: "bold", paddingBottom: 20, }}>
+                                    <Text style={{ justifyContent: "flex-start", textAlign: "left", marginLeft: 5, marginBottom: 10, fontSize: 26, color: "#222", fontWeight: "bold", paddingBottom: 20, paddingTop: 10 }}>
                                         {classImg != '' ?
 
                                             <Image source={{
@@ -524,7 +525,7 @@ const TaskClass = (props) => {
                                             }}
                                                 style={{ resizeMode: 'contain', height: 50, width: 60, marginRight: 10, paddingRight: 10 }} />
                                             : null}
-                                          &nbsp; {eventListing['0'].Title} </Title>
+                                          &nbsp; {eventListing['0'].Title} </Text>
                                 </View>
                                 : null}
                             <View style={globalStyle.eventsListingWrapper}>
@@ -571,7 +572,7 @@ const TaskClass = (props) => {
                                                     <View style={globalStyle.eventsListingWrapper}>
                                                         <View style={globalStyle.eventsListingTopWrapper}>
                                                             <View style={{ paddingLeft: 15, paddingRight: 10, width: "100%" }}>
-                                                                <Title style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {classes.title}</Title>
+                                                                <Text style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {classes.title}</Text>
                                                                 <View style={{ borderTopColor: "#ccc", borderTopWidth: 1, paddingTop: 20, marginTop: 20 }}>
                                                                     <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Date: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{moment(selectedDate).format("MMMM Do, YYYY")}</Text></Text>
                                                                 </View>
@@ -653,6 +654,7 @@ const TaskClass = (props) => {
                             </View>
                                 : null}
                             {selectedDate != '' && selectedStudent != '' && selectedStudent != null &&  !loaderMessage?  
+                                <View style={{display:"flex", justifyContent:"center",  padding: 10,flexDirection:"row", textAlign:"center"}}>
                                 <ImageBackground
                                     style={[
                                         globalStyle.Btn,
@@ -678,10 +680,11 @@ const TaskClass = (props) => {
                                                         style: 'cancel',
                                                     },]);
                                         }}
-                                        style={loginStyle.buttons} full>
+                                        style={loginStyle.buttons} >
                                         <Text style={loginStyle.buttonText}>Reserve Class</Text>
                                     </Button>
                                 </ImageBackground>
+                                </View>
                                 : null}
                         </View>
                         :
@@ -691,7 +694,7 @@ const TaskClass = (props) => {
                             </View>
                         </View>
                 )}
-             </View  >
+             </ScrollView  >
          </View>
     );
 };

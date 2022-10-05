@@ -61,7 +61,7 @@ const VerificationCode = (props) => {
           setCode(response.code)
           setOtpCheck(response.verificationKey)
           setSuccessMessage(true)
-         
+
         }
       })
       .catch((response) => {
@@ -71,8 +71,8 @@ const VerificationCode = (props) => {
   const { navigation } = props;
   const { route } = props;
   return (
-     <View style={loginStyle.container}>
-       <View style={loginStyle.spacing} >
+    <View style={loginStyle.container}>
+      <View style={loginStyle.spacing} >
         <ImageBackground
           style={{
             width: "100%",
@@ -102,21 +102,23 @@ const VerificationCode = (props) => {
             />
           </View>
         </ImageBackground>
-         <View style={loginStyle.bodyContainer}>
-          <H3 style={globalStyle.h3}>Enter Email Code</H3>
-          <Text style={verificationStyle.subHeading}>
-            Please enter your the verification code.
-          </Text>
+        <View style={{display:"flex", flexDirection:"row", justifyContent:"center", width:"100%"}}>
+          <View style={loginStyle.bodyContainer}>
+            <Text style={globalStyle.h3}>Enter Email Code </Text>
+            <Text style={verificationStyle.subHeading}>
+              Please enter your the verification code.
+            </Text>
+          </View>
         </View>
-         <View>
-           <View style={{ padding: 30 }}>
+        <View>
+          <View style={{ padding: 30 }}>
           </View>
           <View style={[verificationStyle.spaceBetween, { paddingLeft: 30, paddingRight: 30 }]}>
             <OtpInputs getOtp={(otp) => getOtp(otp)} />
           </View>
-           <View style={[loginStyle.formContainer, { paddingLeft: 30, paddingRight: 30 }]}>
+          <View style={[loginStyle.formContainer, { paddingLeft: 30, paddingRight: 30 }]}>
             <Button onPress={submitForm} style={loginStyle.button} full>
-              <Text>Send</Text>
+              <Text style={{color:"#fff", fontSize: 18}}>Send</Text>
             </Button>
             {errorMessage != "" ? (
               <Text style={globalStyle.errorText}>{errorMessage}</Text>
@@ -125,16 +127,16 @@ const VerificationCode = (props) => {
               <Text style={globalStyle.sucessText}>Sent successfully</Text>
             ) : null}
 
-             <View style={verificationStyle.resendSection}>
+            <View style={verificationStyle.resendSection}>
               <Text onPress={submitResend}>
                 Didn't recieve code?
                 <Text style={globalStyle.hyperlink}> Resend</Text>
               </Text>
             </View>
-           </View  >
-      </View>
-       </View  >
-     </View>
+          </View  >
+        </View>
+      </View  >
+    </View>
   );
 };
 export default VerificationCode;

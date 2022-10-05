@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, TextInput } from "react-native";
 import {
   Container,
   Content,
@@ -106,7 +106,7 @@ const ForgetPassword = (props) => {
           </View>
         </ImageBackground>
          <View style={loginStyle.bodyContainer}>
-          <H3 style={globalStyle.h3}>Forgot Password?</H3>
+           <Text style={globalStyle.h3center}>Forgot Password? </Text>
           <Text style={verificationStyle.subHeadingWrapper}>
             Enter your registered email below to receive password reset
             instruction
@@ -119,8 +119,8 @@ const ForgetPassword = (props) => {
               source={require("../../../assets/Envelop2.png")}
             /> */}
           </View>
-           <View style={verificationStyle.spaceBetween}>
-            <Input
+           <View >
+            <TextInput
               value={email}
               onChangeText={(text) => setemail(text)}
               autoCapitalize='none'

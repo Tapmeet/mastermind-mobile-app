@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Text, List, ListItem, Thumbnail, View } from "native-base";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import { ImageBackground, Dimensions } from "react-native";
+import { ImageBackground, Dimensions, Image } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import sideBar from "../../style/home/sidebarStyle";
 import { color } from "react-native-reanimated";
@@ -169,13 +169,13 @@ const SideBar = (props) => {
         >
           <TouchableOpacity onPress={pickImage}>
             {img ? (
-              <Thumbnail
+              <Image
                 source={{
                   uri: "data:image/png;base64," + img,
                 }}
               />
             ) : (
-              <Thumbnail
+              <Image
                 source={{
                   uri: "https://www.unitedway.ca/wp-content/uploads/2017/06/TempProfile.jpg",
                 }}
@@ -185,7 +185,7 @@ const SideBar = (props) => {
           <Text style={[sideBar.name, { color: "#333", marginLeft: 15, fontWeight: "bold" }]}>{firstName ? firstName + " " + lastName : ""}</Text>
         </View>
          <View style={{ backgroundColor: "transparent", paddingTop: 30 }}>
-          <List style={{ backgroundColor: "transparent" }}>
+          {/* <List style={{ backgroundColor: "transparent" }}>
             {routes.map((item, index) => {
               return (
                 <ListItem key={index} button underlayColor="transparent" onPress={() => props.navigation.navigate(item)}>
@@ -193,7 +193,7 @@ const SideBar = (props) => {
                 </ListItem>
               );
             })}
-          </List>
+          </List> */}
           <TouchableOpacity
             style={{
               backgroundColor: "transparent",

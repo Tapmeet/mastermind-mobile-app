@@ -104,7 +104,7 @@ const VerificationCode = (props) => {
               />
             </View>
              <View style={[loginStyle.bodyContainer, { marginTop: 20 }]}>
-              <H3 style={globalStyle.h3}>Enter Verification Code</H3>
+               <Text style={globalStyle.h3}>Enter Verification Code </Text>
               <Text style={[verificationStyle.subHeading, { fontSize: 22, }]}>
                 Please enter
               </Text>

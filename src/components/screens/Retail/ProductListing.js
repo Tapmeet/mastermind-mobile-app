@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, RefreshControl, SafeAreaView, Dimensions, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Image, ImageBackground, RefreshControl, SafeAreaView, Dimensions, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -97,6 +97,7 @@ const ProductListing = (props) => {
           {
             paddingTop: 15,
             paddingBottom: 15,
+            alignItems:"center"
           },
         ]}
       >
@@ -107,6 +108,7 @@ const ProductListing = (props) => {
             paddingLeft: 15,
             backgroundColor: "white",
             flex: 1,
+            paddingTop:10
           }}
         >
           {eventListing.length} Products

@@ -211,7 +211,7 @@ const EventListing = (props) => {
           style={[
             globalStyle.flexStandard,
             {
-              paddingTop: 15,
+              paddingTop: 20,
               paddingBottom: 15,
             },
           ]}
@@ -298,7 +298,7 @@ const EventListing = (props) => {
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
         ) : typeof eventListing !== "undefined" && eventListing.length > 0 && studentGuid ? (
-          <SafeAreaView >
+          <SafeAreaView style={{marginTop:10}} >
             <FlatList
               data={eventListing}
               refreshControl={<RefreshControl enabled={true} refreshing={refreshing} onRefresh={onRefresh} />}

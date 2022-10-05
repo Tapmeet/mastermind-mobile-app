@@ -37,7 +37,7 @@ const LinkStudentSuccess = (props) => {
             />
           </View>
            <View style={[loginStyle.bodyContainer, { flexDirection: "column", marginTop: -500 }]}>
-            <H3 style={[globalStyle.h3, { fontSize: 32, fontWeight: "bold", zIndex: 999, position: "relative" }]}>Successful </H3>
+             <Text style={[globalStyle.h3, { fontSize: 32, fontWeight: "bold", zIndex: 999, position: "relative" }]}>Successful  </Text>
             <Text style={{ color: "#A7A7BF", fontSize: 20, zIndex: 999, position: "relative" }}>Student Successfully Linked</Text>
           </View>
 

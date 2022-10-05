@@ -26,9 +26,24 @@ export default StyleSheet.create({
     lineHeight: 32,
     fontFamily: "HKGrotesk",
   },
+  h3center: {
+    marginTop: 20,
+    marginBottom: 10,
+    fontWeight: "bold",
+    fontSize: 29,
+    lineHeight: 32,
+    fontFamily: "HKGrotesk",
+    textAlign:"center"
+  },
   small: {
     fontSize: 26,
     fontWeight: "bold",
+  },
+  smallsubTitle: {
+    fontSize: 26,
+    fontWeight: "bold",
+    textAlign:"center",
+    paddingTop:20
   },
   hyperlink: {
     color: colorPallete.primary,
@@ -49,6 +64,8 @@ export default StyleSheet.create({
     marginBottom: 0,
     marginLeft: 0,
     backgroundColor: "#F7F8F9",
+    Boxshadow:"none",
+    fontSize:18
   },
   flexStandard: {
     display: "flex",
@@ -106,7 +123,9 @@ export default StyleSheet.create({
     borderWidth: 0,
     borderColor: "white",
     paddingBottom: 0,
-    marginBottom: 0,
+    marginBottom: 10,
+    Boxshadow:"none",
+    
   },
   flex: {
     display: "flex",
@@ -119,8 +138,8 @@ export default StyleSheet.create({
     flexDirection: "row-reverse",
     alignSelf: "flex-end",
     color: "red",
-    marginTop: 10,
-    marginBottom: -10,
+    marginTop: 5,
+    marginBottom: 10,
   },
   errorText: {
     display: "flex",
@@ -142,6 +161,15 @@ export default StyleSheet.create({
     backgroundColor: "transparent",
     zIndex: 999999,
     position:"relative"
+  },
+  barStylingfooter: {
+    backgroundColor: "transparent",
+    zIndex: 9999,
+    position:"absolute", 
+    bottom: -200,
+    display:'flex',
+    flexDirection:"row",
+    width:'100%'
   },
   formField: {
     borderWidth: 2,

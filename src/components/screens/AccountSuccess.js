@@ -35,7 +35,7 @@ const AccountSuccess = (props) => {
           />
         </View>
          <View style={loginStyle.bodyContainer}>
-          <H3 style={globalStyle.h3}>Successful </H3>
+           <Text style={globalStyle.h3}>Successful  </Text>
           <Text>Account Created Successfully</Text>
         </View>
        </View  >

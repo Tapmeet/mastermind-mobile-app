@@ -78,7 +78,7 @@ const VerificationLinkStudentSignup = (props) => {
           </Text>
         </View>
          <View style={loginStyle.bodyContainer}>
-          <H3 style={globalStyle.h3}>Enter Email Code</H3>
+           <Text style={globalStyle.h3}>Enter Email Code </Text>
           <Text style={verificationStyle.subHeading}>
             Please enter your the verification code.
           </Text>

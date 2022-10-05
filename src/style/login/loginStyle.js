@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { flex } from "styled-system";
 import { colorPallete } from "../colorPallete";
 
 export default StyleSheet.create({
@@ -22,10 +23,11 @@ export default StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     marginBottom: 20,
+   
   },
   formContainer: {
     marginTop: 20,
-    marginBottom: 20,
+    marginBottom: 0,
   },
   button: {
     marginTop: 10,
@@ -96,8 +98,15 @@ export default StyleSheet.create({
     padding: 0,
   },
   signUpSection: {
-    position: "absolute",
-    bottom: 25,
+    // position: "absolute",
+    //bottom: 25,
+   textAlign:"center",
+   display: 'flex',
+   width: '100%',
+   paddingLeft:30,
+
+   justifyContent:"center",
+   marginTop: 20
   },
   backWrapper: {
     marginBottom: 40,

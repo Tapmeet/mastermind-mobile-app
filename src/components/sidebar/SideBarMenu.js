@@ -1,6 +1,7 @@
 import { Header, Left, Button, Icon, Body, Title, Right, Text, View } from "native-base";
 import React from "react";
 import { ImageBackground, Image } from "react-native";
+import { justifyContent } from "styled-system";
 import globalStyle from "../../style/globalStyle";
 const SideBarMenu = (props) => {
   const [navmenuLink, setNavmenuLink] = React.useState("");
@@ -11,15 +12,15 @@ const SideBarMenu = (props) => {
   return (
     <ImageBackground
       style={{
-        height: Platform.OS === "android" ? 60 : 110,
+        height: Platform.OS === "android" ? 80 : 120,
         zIndex: 999999,
         position: "relative"
       }}
       source={require("./../../../assets/bgtop.png")}
       resizeMode={"stretch"}
     >
-      <Header style={globalStyle.barStylings}>
-        <Left>
+      <View style={{display:"flex", flexDirection:"row", justifyContent:"center", paddingTop: 20}}>
+        <View>
           { props.title != "Home" ?
 
             <View style={{ display: "flex", flexDirection: "row", width: 80, alignItems: "center" }}>
@@ -40,20 +41,20 @@ const SideBarMenu = (props) => {
             </View>
             : null
           }
-        </Left>
-         <View style={[globalStyle.titleBody]}> 
-          <Title>
-            <Text style={globalStyle.titleStyling}>{props.title}</Text>
-          </Title>
         </View>
-        <Right>
+         <View style={[globalStyle.titleBody]}> 
+          <Text>
+            <Text style={globalStyle.titleStyling}>{props.title}</Text>
+          </Text>
+        </View>
+        <View>
 
-          <Button transparent onPress={() => props.navigation.toggleDrawer()}>
+          <Button style={{backgroundColor:"transparent", right: -30}} onPress={() => props.navigation.toggleDrawer()}>
             <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/TopMenu.png")} />
           </Button>
 
-        </Right>
-      </Header>
+        </View>
+      </View>
     </ImageBackground>
   );
 };
