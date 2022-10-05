@@ -1,15 +1,18 @@
 import React from "react";
-import Main from "./Main";
+import { AppRegistry } from "react-native";
+import { expo } from "./app.json";
+import { registerRootComponent } from "expo";
+import Main from "./main";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
-import AppLoading from 'expo-app-loading';
+import AppLoading from "expo-app-loading";
 import { Provider as StoreProvider } from "react-redux";
 import configureStore from "./src/redux/store";
 import { View } from "react-native";
 import { Text } from "native-base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Notifications from 'expo-notifications';
-import { useFonts } from 'expo-font';
+import * as Notifications from "expo-notifications";
+import { useFonts } from "expo-font";
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -17,35 +20,9 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-// export default class App extends React.Component {
-//   state = {
-//     loading: true,
-//   };
-//   async componentDidMount() {
-//     await Font.loadAsync({ 
-//       HKGrotesk: require("./assets/fonts/HKGrotesk-Regular.ttf"),
-//       Poppins: require("./assets/fonts/Poppins-Regular.ttf"),
-//       PoppinsBold: require("./assets/fonts/Poppins-Medium.ttf"),
-//       Roboto_medium: require("./assets/fonts/Roboto-Regular.ttf"),
-//       ...Ionicons.font,
-//     });
-//     this.setState({ loading: false });
-//   }
-//   render() {
-//     if (this.state.loading) {
-//       return <AppLoading />;
-//     } else {
-//       return (
-//         <StoreProvider store={configureStore()}>
-//           <Main />
-//         </StoreProvider>
-//       );
-//     }
-//   }
-// }
 
-export default function App() {
-  const [expoPushToken, setExpoPushToken] = React.useState('');
+function App() {
+  const [expoPushToken, setExpoPushToken] = React.useState("");
   const [notification, setNotification] = React.useState(false);
   const notificationListener = React.useRef();
   const responseListener = React.useRef();
@@ -58,13 +35,13 @@ export default function App() {
   });
 
   React.useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
 
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
       setNotification(notification);
     });
 
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
       console.log(response);
     });
 
@@ -73,11 +50,10 @@ export default function App() {
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
- 
+
   if (!fontsLoaded) {
     return <AppLoading />;
-  }
-  else {
+  } else {
     return (
       <StoreProvider store={configureStore()}>
         <Main />
@@ -89,16 +65,25 @@ export default function App() {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
 
-    if (existingStatus !== 'granted') {
+    if (existingStatus !== "granted") {
       const { status } = await Notifications.requestPermissionsAsync();
       finalStatus = status;
     }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
+    if (finalStatus !== "granted") {
+      alert("Failed to get push token for push notification!");
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-
     return token;
   }
+  AppRegistry.registerRunnable((expo) => {
+    try {
+      const App = require("./app").default;
+      AppRegistry.registerComponent(expo.name, () => App);
+      AppRegistry.runApplication(expo.name);
+    } catch (err) {
+      console.log(err);
+    }
+  });
 }
+export default registerRootComponent(App);

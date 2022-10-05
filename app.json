@@ -1,5 +1,6 @@
 {
   "expo": {
+    "entryPoint": "./app.js",
     "name": "Mastermind",
     "slug": "Mastermind",
     "version": "1.0.0",
