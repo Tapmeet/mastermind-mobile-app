@@ -78,7 +78,7 @@ function App() {
   }
   AppRegistry.registerRunnable((expo) => {
     try {
-      const App = require("./app").default;
+      const App = require("./App").default;
       AppRegistry.registerComponent(expo.name, () => App);
       AppRegistry.runApplication(expo.name);
     } catch (err) {
