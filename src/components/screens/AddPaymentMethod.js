@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator ,TextInput, ScrollView} from "react-native";
 import { API_URL } from "../Utility/AppConst";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
@@ -179,7 +179,7 @@ const AddPaymentMethod = (props) => {
   return (
      <View style={loginStyle.container}>
       <SideBarMenu title={"Add Credit Card"}  backLink="Payment Methods" navigation={props.navigation} />
-       <View style={loginStyle.spacing}>
+      <ScrollView style={[loginStyle.spacing, {marginBottom: 60, backgroundColor:"#fff"}]}>
         <View style={loginStyle.contentContainer}>
           {loader ? (
             <View style={[styles.container, styles.horizontal]}>
@@ -190,7 +190,7 @@ const AddPaymentMethod = (props) => {
               <View style={{ marginBottom: 15 }}>
                 <View style={checkNickname ? globalStyle.formFieldError : globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Nickname </Text>
-                  <Input
+                  <TextInput
                     value={Nickname}
                     onChangeText={(text) => setnickname(text)}
                     placeholderTextColor="#ccc"
@@ -203,7 +203,7 @@ const AddPaymentMethod = (props) => {
               <View style={{ marginBottom: 15 }}>
                 <View style={checkCardnumber ? globalStyle.formFieldError : globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Card Number </Text>
-                  <Input
+                  <TextInput
                     value={CardNumber}
                     keyboardType="number-pad"
                     onChangeText={(text) => setcardNumber(text)}
@@ -217,7 +217,7 @@ const AddPaymentMethod = (props) => {
               <View style={{ marginBottom: 25 }}>
                 <View style={checkCardCode ? globalStyle.formFieldError : globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Security Code (CVV)</Text>
-                  <Input
+                  <TextInput
                     value={CardCode}
                     keyboardType="number-pad"
                     onChangeText={(text) => setcardCode(text)}
@@ -329,7 +329,7 @@ const AddPaymentMethod = (props) => {
             </View>
           )}
         </View>
-       </View  >
+       </ScrollView  >
      </View>
   );
 };

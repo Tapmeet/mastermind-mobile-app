@@ -93,6 +93,7 @@ export default StyleSheet.create({
     marginBottom: 5,
     color: "#8a898e",
     fontSize: 18,
+    borderColor:"#fff"
   },
   formControlError: {
     height: 55,

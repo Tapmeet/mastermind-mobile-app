@@ -56,7 +56,7 @@ const Curriculum = (props) => {
             }}
         >
             <SideBarMenu title={"Curriculum"} navigation={props.navigation} backLink="Home" />
-             <View padder>
+             <View style={{padding:10}}>
                 {loader ? (
                     <View style={[styles.container, styles.horizontal]}>
                         <ActivityIndicator size="large" color="#29ABE2" />

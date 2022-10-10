@@ -110,8 +110,8 @@ const ClassList = (props) => {
                     Classes
                 </Text>
             </View> */}
-            <View style={{ marginBottom: 120 }}>
-                <SafeAreaView >
+            <View >
+                <SafeAreaView style={{ marginBottom: 150 }} >
                     {loader ? (
                         <View style={[styles.container, styles.horizontal]}>
                             <ActivityIndicator size="large" color="#29ABE2" />
@@ -143,6 +143,7 @@ const ClassList = (props) => {
                                                             fontWeight: "bold",
                                                             color: "#16161D",
                                                             paddingBottom: 10,
+                                                            paddingTop:10
 
                                                         }}
                                                     >

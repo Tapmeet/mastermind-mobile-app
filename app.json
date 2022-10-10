@@ -1,6 +1,5 @@
 {
   "expo": {
-    "entryPoint": "./app.js",
     "name": "Mastermind",
     "slug": "Mastermind",
     "version": "1.0.0",
@@ -31,7 +30,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.martialartsschool.mastermind",
-      "buildNumber": "18",
+      "buildNumber": "15",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "The app accesses your photos to let you share them with your friends.",
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",

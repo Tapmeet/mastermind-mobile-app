@@ -66,12 +66,13 @@ const Awards = (props) => {
                         paddingLeft: 15,
                         backgroundColor: "white",
                         flex: 1,
+                        paddingTop: 15,
                     }}
                 >
                     {awardsListing.length} Awards
                 </Text>
             </View>
-             <View padder>
+             <View  style={{padding:10}}>
                 {loader ? (
                     <View style={[styles.container, styles.horizontal]}>
                         <ActivityIndicator size="large" color="#29ABE2" />

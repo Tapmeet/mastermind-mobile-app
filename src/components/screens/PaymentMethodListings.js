@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, useWindowDimensions,ScrollView, TouchableOpacity, ActivityIndicator, Alert, TextInput } from "react-native";
 import { API_URL } from "../Utility/AppConst"
 import {
   Container,
@@ -127,7 +127,7 @@ const PaymentMethodListings = (props) => {
   return (
      <View style={loginStyle.container}>
       <SideBarMenu title={"Payment Methods "} navigation={props.navigation} />
-       <View style={loginStyle.spacing}>
+       <ScrollView style={[loginStyle.spacing, {marginBottom: 60, backgroundColor:"#fff"}]}>
         <View style={loginStyle.contentContainer}>
           {loader ?
             <View style={[styles.container, styles.horizontal]}>
@@ -139,13 +139,13 @@ const PaymentMethodListings = (props) => {
                 const Expiry = new Date(payment.Expiration).toISOString().slice(0, 10);
                 return (
                   <View key={index} style={[globalStyle.Boxshadow, { padding: 15 }]}>
-                    <Text style={{ textAlign: "center", fontSize: 25, fontWeight: "bold", marginBottom: 10 }}>{payment.PaymentTypeId == 2 ? "Bank Details " : "Credit card "}</Text>
+                    <Text style={{ textAlign: "center", fontSize: 25, fontWeight: "bold", paddingTop:10, marginBottom: 10 }}>{payment.PaymentTypeId == 2 ? "Bank Details " : "Credit card "}</Text>
                     {payment.PaymentTypeId != 2 ?
                       <View>
                         <View style={{ marginBottom: 15 }}>
                           <View style={globalStyle.formField}>
                             <Text style={globalStyle.formLabel}>Nickname </Text>
-                            <Input
+                            <TextInput
                               value={payment.Nickname}
                               placeholderTextColor='#ccc'
                               style={globalStyle.formControls
@@ -158,7 +158,7 @@ const PaymentMethodListings = (props) => {
                         <View style={{ marginBottom: 15 }}>
                           <View style={globalStyle.formField}>
                             <Text style={globalStyle.formLabel}>Card Number </Text>
-                            <Input
+                            <TextInput
                               value={"XXXX-XXXX-XXXX-" + payment.Last4Digits}
                               keyboardType="number-pad"
                               placeholderTextColor='#ccc'
@@ -172,7 +172,7 @@ const PaymentMethodListings = (props) => {
                         <View style={{ marginBottom: 25 }}>
                           <View style={globalStyle.formField}>
                             <Text style={globalStyle.formLabel}>Card Code </Text>
-                            <Input
+                            <TextInput
                               value={' ' + payment.SecurityCode}
 
                               placeholderTextColor='#ccc'
@@ -187,7 +187,7 @@ const PaymentMethodListings = (props) => {
                         <View style={{ marginBottom: 25 }}>
                           <View style={globalStyle.formField}>
                             <Text style={globalStyle.formLabel}>Card Expiration </Text>
-                            <Input
+                            <TextInput
                               value={Expiry}
                               placeholderTextColor='#ccc'
                               style={
@@ -234,7 +234,7 @@ const PaymentMethodListings = (props) => {
                         <View style={{ marginBottom: 15 }}>
                           <View style={globalStyle.formField}>
                             <Text style={globalStyle.formLabel}>Nickname </Text>
-                            <Input
+                            <TextInput
                               value={' ' + payment.Nickname}
                               keyboardType="number-pad"
                               placeholderTextColor='#ccc'
@@ -248,7 +248,7 @@ const PaymentMethodListings = (props) => {
                         <View style={{ marginBottom: 15 }}>
                           <View style={globalStyle.formField}>
                             <Text style={globalStyle.formLabel}>Account </Text>
-                            <Input
+                            <TextInput
                               value={"XXXXXX-" + payment.Last4Digits}
                               placeholderTextColor='#ccc'
                               style={globalStyle.formControls
@@ -340,7 +340,7 @@ const PaymentMethodListings = (props) => {
             </View>
             : null}
         </View>
-       </View  >
+       </ScrollView  >
      </View>
   );
 };

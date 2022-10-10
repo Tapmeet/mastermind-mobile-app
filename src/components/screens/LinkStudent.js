@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, ActivityIndicator } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, ActivityIndicator, ScrollView,TextInput } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
@@ -113,15 +113,15 @@ const LinkStudent = (props) => {
   return (
      <View style={loginStyle.container}>
       <SideBarMenu title={"Link Student "} navigation={props.navigation} />
-       <View style={loginStyle.spacing}>
+       <ScrollView style={[loginStyle.spacing,{ backgroundColor:"#fff"}]}>
         <View style={loginStyle.contentContainer}>
            <View style={loginStyle.bodyContainer}>
-            <Text style={globalStyle.small}>Fill out the form below </Text>
+            <Text style={[globalStyle.small,{paddingTop:10}]}>Fill out the form below </Text>
           </View>
            <View>
             <View style={checkFirstname ? globalStyle.formFieldError : globalStyle.formField}>
               <Text style={globalStyle.formLabel}>First Name</Text>
-              <Input
+              <TextInput
                 value={firstName}
                 onChangeText={(text) => setfirstName(text)}
                 style={globalStyle.formControls}
@@ -131,7 +131,7 @@ const LinkStudent = (props) => {
             {checkFirstname ? <Text style={globalStyle.error}>Enter First Name</Text> : null}
             <View style={checklastName ? globalStyle.formFieldError : globalStyle.formField}>
               <Text style={globalStyle.formLabel}>Last Name</Text>
-              <Input
+              <TextInput
                 value={lastName}
                 onChangeText={(text) => setlasttName(text)}
                 style={globalStyle.formControls}
@@ -141,7 +141,7 @@ const LinkStudent = (props) => {
             {checklastName ? <Text style={globalStyle.error}>Enter Last Name </Text> : null}
             <View style={checkEmail ? globalStyle.formFieldError : globalStyle.formField}>
               <Text style={globalStyle.formLabel}>Email</Text>
-              <Input
+              <TextInput
                 value={email}
                 onChangeText={(text) => setemail(text)}
                 autoCapitalize="none"
@@ -175,7 +175,7 @@ const LinkStudent = (props) => {
              </View  >
         </View>
         </View>
-       </View  >
+       </ScrollView  >
       <FooterTabs navigation={props.navigation} />
      </View>
   );

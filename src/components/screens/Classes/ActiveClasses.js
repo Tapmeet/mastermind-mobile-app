@@ -200,7 +200,7 @@ const ActiveClasses = (props) => {
                         fontWeight: "bold",
                         fontSize: 24,
                         paddingLeft: 15,
-                        backgroundColor: "white"
+                        backgroundColor: "white",paddingTop:10
                     }}
                 >
                     Class Check In

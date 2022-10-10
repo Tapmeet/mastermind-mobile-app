@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator,TextInput, ScrollView } from "react-native";
 import { API_URL } from "../Utility/AppConst";
 import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
@@ -123,7 +123,7 @@ const AddAccountMethod = (props) => {
   return (
      <View style={loginStyle.container}>
       <SideBarMenu title={"Add Bank Account"}  backLink="Memberships" navigation={props.navigation} />
-       <View style={loginStyle.spacing}>
+      <ScrollView style={[loginStyle.spacing, {marginBottom: 60, backgroundColor:"#fff"}]}>
         <View style={loginStyle.contentContainer}>
           {loader ? (
             <View style={[styles.container, styles.horizontal]}>
@@ -134,7 +134,7 @@ const AddAccountMethod = (props) => {
               <View style={{ marginBottom: 15 }}>
                 <View style={checkNickname ? globalStyle.formFieldError : globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Nickname </Text>
-                  <Input
+                  <TextInput
                     value={Nickname}
                     onChangeText={(text) => setnickname(text)}
                     placeholderTextColor="#ccc"
@@ -147,7 +147,7 @@ const AddAccountMethod = (props) => {
               <View style={{ marginBottom: 25 }}>
                 <View style={checkRouting ? globalStyle.formFieldError : globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Routing </Text>
-                  <Input
+                  <TextInput
                     value={Routing}
                     onChangeText={(text) => setrouting(text)}
                     placeholderTextColor="#ccc"
@@ -160,7 +160,7 @@ const AddAccountMethod = (props) => {
               <View style={{ marginBottom: 15 }}>
                 <View style={checkAccountNumber ? globalStyle.formFieldError : globalStyle.formField}>
                   <Text style={globalStyle.formLabel}>Account Number </Text>
-                  <Input
+                  <TextInput
                     value={AccountNumber}
                     keyboardType="number-pad"
                     onChangeText={(text) => setaccountNumber(text)}
@@ -197,7 +197,7 @@ const AddAccountMethod = (props) => {
             </View>
           )}
         </View>
-       </View  >
+       </ScrollView  >
       <FooterTabs navigation={props.navigation} />
      </View>
   );

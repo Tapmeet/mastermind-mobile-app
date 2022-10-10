@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Text, List, ListItem, Thumbnail, View } from "native-base";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import { ImageBackground, Dimensions, Image } from "react-native";
+import { ImageBackground, Dimensions, Image, FlatList } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import sideBar from "../../style/home/sidebarStyle";
 import { color } from "react-native-reanimated";
@@ -167,12 +167,13 @@ const SideBar = (props) => {
             alignItems: "center",
           }}
         >
-          <TouchableOpacity onPress={pickImage}>
+          <TouchableOpacity onPress={pickImage} style={{borderRadius:50, height:80, width:80, overflow:"hidden"}}>
             {img ? (
               <Image
                 source={{
                   uri: "data:image/png;base64," + img,
                 }}
+                style={{ height: 90, width: 90, resizeMode: 'contain' }}
               />
             ) : (
               <Image
@@ -194,6 +195,21 @@ const SideBar = (props) => {
               );
             })}
           </List> */}
+          {routes.map((item, index) => {
+              return (
+                <TouchableOpacity style={{
+                  backgroundColor: "transparent",
+                  marginLeft: 15,
+                  paddingTop: 15,
+                  paddingBottom: 15,
+                  borderBottomColor: 'rgba(250,250,250,0.5)',
+                  borderBottomWidth:1
+    
+                }} key={index} button underlayColor="transparent" onPress={() => props.navigation.navigate(item)}>
+                  <Text style={{ color: "#fff", fontWeight: "bold", backgroundColor: "transparent", fontSize:18 }}>{item}</Text>
+                </TouchableOpacity>
+              );
+            })}
           <TouchableOpacity
             style={{
               backgroundColor: "transparent",
@@ -204,7 +220,7 @@ const SideBar = (props) => {
             button
             onPress={logout}
           >
-            <Text style={{ color: "#fff", fontWeight: "bold" }}>Logout</Text>
+            <Text style={{ color: "#fff", fontWeight: "bold", fontSize:18 }}>Logout</Text>
           </TouchableOpacity>
          </View>
       </ImageBackground>

@@ -2,7 +2,7 @@ import React from "react";
 import { AppRegistry } from "react-native";
 import { expo } from "./app.json";
 import { registerRootComponent } from "expo";
-import Main from "./main";
+import Main from "./Main";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import AppLoading from "expo-app-loading";
@@ -76,14 +76,14 @@ function App() {
     token = (await Notifications.getExpoPushTokenAsync()).data;
     return token;
   }
-  AppRegistry.registerRunnable((expo) => {
-    try {
-      const App = require("./App").default;
-      AppRegistry.registerComponent(expo.name, () => App);
-      AppRegistry.runApplication(expo.name);
-    } catch (err) {
-      console.log(err);
-    }
-  });
+  // AppRegistry.registerRunnable((expo) => {
+  //   try {
+  //     const App = require("./App").default;
+  //     AppRegistry.registerComponent(expo.name, () => App);
+  //     AppRegistry.runApplication(expo.name);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // });
 }
-export default registerRootComponent(App);
+export default App;

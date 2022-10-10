@@ -5,9 +5,10 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
-  TextInput,
   ImageBackground,
-  ActivityIndicator
+  ActivityIndicator,
+  TextInput,
+  ScrollView
 } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import PhoneInput from "react-phone-number-input/react-native-input";
@@ -655,9 +656,9 @@ const Inquiry = (props) => {
 
   const { navigation } = props;
   return (
-     <View style={loginStyle.container}>
+    <View style={loginStyle.container}>
       <SideBarMenu title={"Inquiry"} navigation={props.navigation} />
-       <View style={loginStyle.spacing}>
+      <ScrollView style={[loginStyle.spacing, { marginBottom: 60, backgroundColor: "#fff" }]}>
         <View style={loginStyle.contentContainer}>
           <View style={globalStyle.dflex}>
             <View
@@ -737,7 +738,7 @@ const Inquiry = (props) => {
             <View style={globalStyle.line}></View>
           </View>
 
-           <View>
+          <View>
             <View
               style={{
                 marginTop: 10,
@@ -846,7 +847,7 @@ const Inquiry = (props) => {
                     }
                   >
                     <Text style={globalStyle.formLabel}>First Name</Text>
-                    <Input
+                    <TextInput
                       value={firstName}
                       onChangeText={(text) => setfirstName(text)}
                       style={globalStyle.formControls}
@@ -864,7 +865,7 @@ const Inquiry = (props) => {
                     }
                   >
                     <Text style={globalStyle.formLabel}>Last Name</Text>
-                    <Input
+                    <TextInput
                       value={lastName}
                       onChangeText={(text) => setlasttName(text)}
                       style={globalStyle.formControls}
@@ -882,7 +883,7 @@ const Inquiry = (props) => {
                     }
                   >
                     <Text style={globalStyle.formLabel}>Primary Address</Text>
-                    <Input
+                    <TextInput
                       value={address1}
                       onChangeText={(text) => setaddress1(text)}
                       style={globalStyle.formControls}
@@ -894,7 +895,7 @@ const Inquiry = (props) => {
                   ) : null}
                   <View style={globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Secondary Address</Text>
-                    <Input
+                    <TextInput
                       value={address2}
                       onChangeText={(text) => setaddress2(text)}
                       style={globalStyle.formControls}
@@ -910,7 +911,7 @@ const Inquiry = (props) => {
                     }
                   >
                     <Text style={globalStyle.formLabel}>City</Text>
-                    <Input
+                    <TextInput
                       value={city}
                       onChangeText={(text) => setcity(text)}
                       style={globalStyle.formControls}
@@ -935,7 +936,7 @@ const Inquiry = (props) => {
                     >
                       <Text style={globalStyle.formLabel}>State</Text>
                       <View style={globalStyle.formControls}>
-                      <RNPickerSelect
+                        <RNPickerSelect
                           value={state}
                           items={stateList}
                           onValueChange={(value) => setState(value)}
@@ -957,8 +958,8 @@ const Inquiry = (props) => {
                                 style={{
                                   width: 12,
                                   position: "absolute",
-                                  top: -15,
-                                  right: 15,
+                                  top: Platform.OS === "android" ? -10 : -28,
+                                  right: Platform.OS === "android" ? 8 : 5,
                                 }}
                                 source={require("../../../assets/arrow-down.png")}
                                 resizeMode={"contain"}
@@ -981,7 +982,7 @@ const Inquiry = (props) => {
                     }
                   >
                     <Text style={globalStyle.formLabel}>Postal Code</Text>
-                    <Input
+                    <TextInput
                       value={zipCode}
                       onChangeText={(text) => setzipCode(text)}
                       style={globalStyle.formControls}
@@ -1000,7 +1001,7 @@ const Inquiry = (props) => {
                     }
                   >
                     <Text style={globalStyle.formLabel}>Primary Email</Text>
-                    <Input
+                    <TextInput
                       value={email}
                       onChangeText={(text) => setemail(text)}
                       style={globalStyle.formControls}
@@ -1013,12 +1014,12 @@ const Inquiry = (props) => {
                   ) : null}
                   <View style={globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Secondary Email</Text>
-                    <Input
+                    <TextInput
                       value={secondaryemail}
                       style={globalStyle.formControls}
                       autoCapitalize="none"
                       onChangeText={(text) => setsecondaryemail(text)}
-                      style={globalStyle.formControls}
+
                       placeholder="Secondary Email "
                     />
                   </View>
@@ -1038,7 +1039,7 @@ const Inquiry = (props) => {
                       style={globalStyle.formControls}
                       onChange={(text) => setphone1(text)}
                     />
-                    {/* <Input
+                    {/* <TextInput
                       value={phone1}
                       onChangeText={(text) => setphone1(text)}
                       style={globalStyle.formControls
@@ -1052,7 +1053,7 @@ const Inquiry = (props) => {
 
                   <View style={globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Secondary Phone</Text>
-                    {/* <Input
+                    {/* <TextInput
                       value={phone2}
                       onChangeText={(text) => setphone2(text)}
                       style={globalStyle.formControls}
@@ -1070,7 +1071,7 @@ const Inquiry = (props) => {
 
                   <View style={globalStyle.formField}>
                     <Text style={globalStyle.formLabel}>Other Phone</Text>
-                    {/* <Input
+                    {/* <TextInput
                       value={phone3}
                       onChangeText={(text) => setphone3(text)}
                       style={globalStyle.formControls}
@@ -1093,7 +1094,7 @@ const Inquiry = (props) => {
                     }
                   >
                     <Text style={globalStyle.formLabel}>Employer</Text>
-                    <Input
+                    <TextInput
                       value={employer}
                       onChangeText={(text) => setemployer(text)}
                       style={globalStyle.formControls}
@@ -1112,7 +1113,7 @@ const Inquiry = (props) => {
                     }
                   >
                     <Text style={globalStyle.formLabel}>Occupation</Text>
-                    <Input
+                    <TextInput
                       value={occupation}
                       onChangeText={(text) => setoccupation(text)}
                       style={globalStyle.formControls}
@@ -1162,7 +1163,7 @@ const Inquiry = (props) => {
                           <Text style={globalStyle.formLabel}>
                             First Name
                           </Text>
-                          <Input
+                          <TextInput
                             value={data.FirstName}
                             onChangeText={(text) =>
                               updateFirstNameField(text, index)
@@ -1173,7 +1174,7 @@ const Inquiry = (props) => {
                         </View>
                         <View style={globalStyle.formField}>
                           <Text style={globalStyle.formLabel}>Last Name</Text>
-                          <Input
+                          <TextInput
                             value={data.LastName}
                             onChangeText={(text) =>
                               updatelastNameField(text, index)
@@ -1262,7 +1263,7 @@ const Inquiry = (props) => {
                       Information Source
                     </Text>
                     <View style={globalStyle.formControls}>
-                    <RNPickerSelect
+                      <RNPickerSelect
                         value={inquiry}
                         items={enquiry}
                         onValueChange={(value) => setInquiry(value)}
@@ -1284,8 +1285,8 @@ const Inquiry = (props) => {
                               style={{
                                 width: 12,
                                 position: "absolute",
-                                top: -15,
-                                right: 15,
+                                top: Platform.OS === "android" ? -10 : -28,
+                                right: Platform.OS === "android" ? 8 : 5,
                               }}
                               source={require("../../../assets/arrow-down.png")}
                               resizeMode={"contain"}
@@ -1510,7 +1511,7 @@ const Inquiry = (props) => {
                       </View>
                       : null}
                     {signature != "" ? (
-                       <View style={loginStyle.formContainer}>
+                      <View style={loginStyle.formContainer}>
 
                         <ImageBackground
                           style={[
@@ -1530,7 +1531,7 @@ const Inquiry = (props) => {
                             <Text style={loginStyle.buttonText}>Send</Text>
                           </Button>
                         </ImageBackground>
-                       </View  >
+                      </View  >
                     ) : null}
                   </View>
                 </View>
@@ -1686,10 +1687,10 @@ const Inquiry = (props) => {
                 ) : null}
               </View>
             ) : null}
+          </View>
         </View>
-        </View>
-       </View  >
-     </View>
+      </ScrollView  >
+    </View>
   );
 };
 export default Inquiry;

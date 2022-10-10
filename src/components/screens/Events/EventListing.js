@@ -328,7 +328,8 @@ const EventListing = (props) => {
                               fontWeight: "bold",
                               color: "#16161D",
                               paddingBottom: 10,
-                              flexShrink: 1
+                              flexShrink: 1,
+                              paddingTop:10
                             }}
                           >
                             {item.EventTitle}

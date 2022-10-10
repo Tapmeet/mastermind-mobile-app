@@ -175,6 +175,7 @@ const StudentClasses = (props) => {
                     globalStyle.flexStandard,
                     {
                         padding: 15,
+                        marginBottom:10
                     },
                 ]}
             >
@@ -283,7 +284,7 @@ const StudentClasses = (props) => {
             </View>
              <View padder>
                 {loader ? (
-                    <View style={[styles.container, styles.horizontal]}>
+                    <View style={[styles.container, styles.horizontal,{marginTop:10}]}>
                         <ActivityIndicator size="large" color="#29ABE2" />
                     </View>
                 ) :
@@ -300,7 +301,7 @@ const StudentClasses = (props) => {
                                 GivenDate = new Date(GivenDate);
                                 return (
                                     dateIsAfter && !event.WaitingList && event.Confirmed ?
-                                        <View style={{ marginBottom: 10 }} key={index}>
+                                        <View style={{ marginBottom: 10, }} key={index}>
                                             <View >
                                                 <View style={globalStyle.eventsListingWrapper}>
                                                     <View style={globalStyle.eventsListingTopWrapper}>

@@ -339,7 +339,7 @@ const ClassReservations = (props) => {
             <SideBarMenu title={"Class Reservation"} navigation={props.navigation} />
              <View padder>
                 {loader ? (
-                     <View>
+                     <View style={{marginTop:10}}>
                         <View style={[styles.container, styles.horizontal]}>
                             <ActivityIndicator size="large" color="#29ABE2" />
                         </View>
