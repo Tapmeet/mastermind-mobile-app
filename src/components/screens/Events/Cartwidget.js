@@ -10,7 +10,7 @@ const CartWidget = (props) => {
         <ImageBackground
             style={[globalStyle.barStylingfooter, {
                 height: 70,
-                top: win.height - 70
+                top: win.height - 40
             }]}
             source={require("./../../../../assets/bgBottom.png")}
             resizeMode={"stretch"}

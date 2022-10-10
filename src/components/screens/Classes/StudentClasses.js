@@ -1,5 +1,5 @@
 import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
+import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, ScrollView } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -59,9 +59,9 @@ const StudentClasses = (props) => {
                     var dataCount = data.value.length;
                     setEventListing(data.value);
                     var newArray = data.value.filter(function (el) {
-                        return el.WaitingList 
-                      });
-                      setCheckedInArray(newArray)
+                        return el.WaitingList
+                    });
+                    setCheckedInArray(newArray)
                     setloader(false);
                 } else {
                     setloader(false);
@@ -163,7 +163,7 @@ const StudentClasses = (props) => {
 
     const { navigation } = props;
     return (
-         <View
+        <View
             style={{
                 backgroundColor: "#f1f1f1",
 
@@ -175,7 +175,7 @@ const StudentClasses = (props) => {
                     globalStyle.flexStandard,
                     {
                         padding: 15,
-                        marginBottom:10
+                        marginBottom: 10
                     },
                 ]}
             >
@@ -228,7 +228,7 @@ const StudentClasses = (props) => {
 
                         }}
                 >
-                   Confirmed Reservations 
+                    Confirmed Reservations
                 </Text>
                 <Text
                     onPress={() => setToggle(true)}
@@ -279,61 +279,62 @@ const StudentClasses = (props) => {
 
                         }}
                 >
-                     Waitlist Reservations  
+                    Waitlist Reservations
                 </Text>
             </View>
-             <View padder>
-                {loader ? (
-                    <View style={[styles.container, styles.horizontal,{marginTop:10}]}>
-                        <ActivityIndicator size="large" color="#29ABE2" />
-                    </View>
-                ) :
-                    !toggle ?
-                        typeof eventListing !== "undefined" && eventListing.length > 0 ? (
-                            eventListing.sort((a, b) => a.AttendanceReservationId < b.AttendanceReservationId ? 1:-1).map(function (event, index) {
-                                const date = moment().toDate();
-                                const dateIsAfter = moment(event.CheckInTime).isAfter(moment(date));
-                                let starttime = moment(event.CheckInTime).format("MM-DD-YYYY, hh:mm a ");
-                                let classDate = moment(event.CheckInTime).format("YYYY-MM-DD");
-                                var GivenDate = classDate;
-                                var CurrentDate = new Date();
-                                CurrentDate.setHours(0, 0, 0, 0)
-                                GivenDate = new Date(GivenDate);
-                                return (
-                                    dateIsAfter && !event.WaitingList && event.Confirmed ?
-                                        <View style={{ marginBottom: 10, }} key={index}>
-                                            <View >
-                                                <View style={globalStyle.eventsListingWrapper}>
-                                                    <View style={globalStyle.eventsListingTopWrapper}>
-                                                        <View style={{ paddingLeft: 0, paddingRight: 10 }}>
-                                                            <Text
-                                                            style={{
-                                                                fontSize: 18,
-                                                                fontWeight: "bold",
-                                                                color: "#16161D",
-                                                                paddingBottom: 10,
-                                                            }}
-                                                        >
-                                                            {event.ClassName}
-                                                        </Text>
-                                                            <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
-                                                                {event.StudentName}
-                                                            </Text>
-                                                            {/* <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+            <View style={{ backgroundColor: "#fff", height:'100%', padding:10}}>
+                <ScrollView style={[loginStyle.spacing, {marginBottom: 450,  paddingBottom: 10, backgroundColor: "#fff" }]}>
+                    {loader ? (
+                        <View style={[styles.container, styles.horizontal, { marginTop: 10 }]}>
+                            <ActivityIndicator size="large" color="#29ABE2" />
+                        </View>
+                    ) :
+                        !toggle ?
+                            typeof eventListing !== "undefined" && eventListing.length > 0 ? (
+                                eventListing.sort((a, b) => a.AttendanceReservationId < b.AttendanceReservationId ? 1 : -1).map(function (event, index) {
+                                    const date = moment().toDate();
+                                    const dateIsAfter = moment(event.CheckInTime).isAfter(moment(date));
+                                    let starttime = moment(event.CheckInTime).format("MM-DD-YYYY, hh:mm a ");
+                                    let classDate = moment(event.CheckInTime).format("YYYY-MM-DD");
+                                    var GivenDate = classDate;
+                                    var CurrentDate = new Date();
+                                    CurrentDate.setHours(0, 0, 0, 0)
+                                    GivenDate = new Date(GivenDate);
+                                    return (
+                                        dateIsAfter && !event.WaitingList && event.Confirmed ?
+                                            <View style={{ marginBottom: 10, }} key={index}>
+                                                <View >
+                                                    <View style={globalStyle.eventsListingWrapper}>
+                                                        <View style={globalStyle.eventsListingTopWrapper}>
+                                                            <View style={{ paddingLeft: 0, paddingRight: 10 }}>
+                                                                <Text
+                                                                    style={{
+                                                                        fontSize: 18,
+                                                                        fontWeight: "bold",
+                                                                        color: "#16161D",
+                                                                        paddingBottom: 10,
+                                                                    }}
+                                                                >
+                                                                    {event.ClassName}
+                                                                </Text>
+                                                                <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                                                                    {event.StudentName}
+                                                                </Text>
+                                                                {/* <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
                                                                 {event.StudentEmail}
                                                             </Text> */}
-                                                            <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
-                                                                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>Class Time: </Text>
-                                                                {starttime}
-                                                            </Text>
-                                                            {event.isAlreadyCheckedIn ?
-                                                                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>
-                                                                    Checked In
+                                                                <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
+                                                                    <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>Class Time: </Text>
+                                                                    {starttime}
                                                                 </Text>
-                                                                :
-                                                                <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
+                                                                {event.isAlreadyCheckedIn ?
+                                                                    <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>
+                                                                        Checked In
+                                                                    </Text>
+                                                                    :
+                                                                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
 
-                                                                    {/* <Button disabled={event.isReadyForCheckIn ? false : true}
+                                                                        {/* <Button disabled={event.isReadyForCheckIn ? false : true}
                                                                     style={event.isReadyForCheckIn ? { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#ccc", borderRadius: 6 }}
                                                                     onPress={() => checkinClass(event.StudentId, event.StudentName, event.StudentEmail, event.TaskId, event.CheckInTime)
                                                                     }
@@ -342,77 +343,77 @@ const StudentClasses = (props) => {
                                                                     <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
                                                                 </Button>  */}
 
-                                                                     <Button
-                                                                        style={[{ alignSelf: "center", width: 200, justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6,  }]}
-                                                                        onPress={() =>
-                                                                            alertCancel(event.AttendanceReservationId)}
-                                                                    >
-                                                                        <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
-                                                                    </Button>
-                                                                </View>
-                                                            }
-                                                        </View>
+                                                                        <Button
+                                                                            style={[{ alignSelf: "center", width: 200, justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, }]}
+                                                                            onPress={() =>
+                                                                                alertCancel(event.AttendanceReservationId)}
+                                                                        >
+                                                                            <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
+                                                                        </Button>
+                                                                    </View>
+                                                                }
+                                                            </View>
 
+                                                        </View>
                                                     </View>
                                                 </View>
                                             </View>
-                                        </View>
-                                        : null
+                                            : null
 
-                                );
-                            })
-                        ) : (
-                            <View style={globalStyle.tableList}>
-                                <Text>No Classes Available </Text>
-                            </View>
-                        )
-                        :
-                        typeof checkedInArray !== "undefined" && checkedInArray.length > 0 ? (
-                            
-                            checkedInArray.sort((a, b) => a.AttendanceReservationId < b.AttendanceReservationId ? 1:-1).map(function (event, index) {
-                                const date = moment().toDate();
-                                const dateIsAfter = moment(event.CheckInTime).isAfter(moment(date));
-                                let starttime = moment(event.CheckInTime).format("MM-DD-YYYY, hh:mm a ");
-                                let classDate = moment(event.CheckInTime).format("YYYY-MM-DD");
-                                var GivenDate = classDate;
-                                var CurrentDate = new Date();
-                                CurrentDate.setHours(0, 0, 0, 0)
-                                GivenDate = new Date(GivenDate);
-                                return (
-                                    dateIsAfter && event.WaitingList ?
-                                        <View style={{ marginBottom: 10 }} key={index}>
-                                            <View >
-                                                <View style={globalStyle.eventsListingWrapper}>
-                                                    <View style={globalStyle.eventsListingTopWrapper}>
-                                                        <View style={{ paddingLeft: 0, paddingRight: 10 }}>
-                                                            <Text
-                                                            style={{
-                                                                fontSize: 18,
-                                                                fontWeight: "bold",
-                                                                color: "#16161D",
-                                                                paddingBottom: 10,
-                                                            }}
-                                                        >
-                                                            {event.ClassName}
-                                                        </Text>
-                                                            <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
-                                                                {event.StudentName}
-                                                            </Text>
-                                                            {/* <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                                    );
+                                })
+                            ) : (
+                                <View style={globalStyle.tableList}>
+                                    <Text>No Classes Available </Text>
+                                </View>
+                            )
+                            :
+                            typeof checkedInArray !== "undefined" && checkedInArray.length > 0 ? (
+
+                                checkedInArray.sort((a, b) => a.AttendanceReservationId < b.AttendanceReservationId ? 1 : -1).map(function (event, index) {
+                                    const date = moment().toDate();
+                                    const dateIsAfter = moment(event.CheckInTime).isAfter(moment(date));
+                                    let starttime = moment(event.CheckInTime).format("MM-DD-YYYY, hh:mm a ");
+                                    let classDate = moment(event.CheckInTime).format("YYYY-MM-DD");
+                                    var GivenDate = classDate;
+                                    var CurrentDate = new Date();
+                                    CurrentDate.setHours(0, 0, 0, 0)
+                                    GivenDate = new Date(GivenDate);
+                                    return (
+                                        dateIsAfter && event.WaitingList ?
+                                            <View style={{ marginBottom: 10 }} key={index}>
+                                                <View >
+                                                    <View style={globalStyle.eventsListingWrapper}>
+                                                        <View style={globalStyle.eventsListingTopWrapper}>
+                                                            <View style={{ paddingLeft: 0, paddingRight: 10 }}>
+                                                                <Text
+                                                                    style={{
+                                                                        fontSize: 18,
+                                                                        fontWeight: "bold",
+                                                                        color: "#16161D",
+                                                                        paddingBottom: 10,
+                                                                    }}
+                                                                >
+                                                                    {event.ClassName}
+                                                                </Text>
+                                                                <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
+                                                                    {event.StudentName}
+                                                                </Text>
+                                                                {/* <Text style={{ fontSize: 18, color: "#555", lineHeight: 26, marginBottom: 10 }}>
                                                                 {event.StudentEmail}
                                                             </Text> */}
-                                                            <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
-                                                                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>Class Time: </Text>
-                                                                {starttime}
-                                                            </Text>
-                                                            {event.isAlreadyCheckedIn ?
-                                                                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>
-                                                                    Checked In
+                                                                <Text style={{ fontSize: 18, color: "#555", lineHeight: 26 }}>
+                                                                    <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>Class Time: </Text>
+                                                                    {starttime}
                                                                 </Text>
-                                                                :
-                                                                <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
+                                                                {event.isAlreadyCheckedIn ?
+                                                                    <Text style={{ fontSize: 18, fontWeight: "bold", color: "#555", lineHeight: 26 }}>
+                                                                        Checked In
+                                                                    </Text>
+                                                                    :
+                                                                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
 
-                                                                    {/* <Button disabled={event.isReadyForCheckIn ? false : true}
+                                                                        {/* <Button disabled={event.isReadyForCheckIn ? false : true}
                                                                     style={event.isReadyForCheckIn ? { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#ccc", borderRadius: 6 }}
                                                                     onPress={() => checkinClass(event.StudentId, event.StudentName, event.StudentEmail, event.TaskId, event.CheckInTime)
                                                                     }
@@ -421,32 +422,33 @@ const StudentClasses = (props) => {
                                                                     <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
                                                                 </Button>  */}
 
-                                                                     <Button
-                                                                        style={[{ alignSelf: "center", width: 200, justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, }]}
-                                                                        onPress={() =>
-                                                                            alertCancel(event.AttendanceReservationId)}
-                                                                    >
-                                                                        <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
-                                                                    </Button>
-                                                                </View>
-                                                            }
-                                                        </View>
+                                                                        <Button
+                                                                            style={[{ alignSelf: "center", width: 200, justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, }]}
+                                                                            onPress={() =>
+                                                                                alertCancel(event.AttendanceReservationId)}
+                                                                        >
+                                                                            <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
+                                                                        </Button>
+                                                                    </View>
+                                                                }
+                                                            </View>
 
+                                                        </View>
                                                     </View>
                                                 </View>
                                             </View>
-                                        </View>
-                                        : null
+                                            : null
 
-                                );
-                            })
-                        ) : (
-                            <View style={globalStyle.tableList}>
-                                <Text>No Confirmed Reservations </Text>
-                            </View>
-                        )
-                }
-             </View  >
+                                    );
+                                })
+                            ) : (
+                                <View style={globalStyle.tableList}>
+                                    <Text>No Confirmed Reservations </Text>
+                                </View>
+                            )
+                    }
+                </ScrollView  >
+            </View>
             {checkinActive ?
                 <View style={globalStyle.popup}>
                     <View style={globalStyle.eventsListingWrapper}>
@@ -466,7 +468,7 @@ const StudentClasses = (props) => {
                 : null}
             <FooterTabs navigation={props.navigation} />
 
-         </View>
+        </View>
     );
 };
 export default StudentClasses;

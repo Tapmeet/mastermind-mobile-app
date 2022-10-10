@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator, Thumbnail } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator, TextInput, ScrollView, Thumbnail } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import Collapsible from "react-native-collapsible";
 import DatePicker from "react-native-datepicker";
@@ -473,7 +473,7 @@ const UserProfile = (props) => {
   return (
      <View style={loginStyle.container}>
       <SideBarMenu title={studentIds.length > 1 ? "My Profiles" : studentIds.length != 0 ? "My Profile" : "My Profile"} navigation={props.navigation} />
-       <View style={loginStyle.spacing}>
+      <ScrollView  style={[loginStyle.spacing, {marginBottom: 100, paddingBottom:100, backgroundColor:"#fff"}]}>
         {!loader ? (
           typeof studentIds !== "undefined" && studentIds.length > 0 ? (
             studentIds.length == 1 ? (
@@ -495,7 +495,7 @@ const UserProfile = (props) => {
                     <View style={checkFirstname ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>First Name</Text>
                        <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                        <Input
+                        <TextInput
                           value={firstName}
                           onChangeText={(text) => setfirstName(text)}
                           style={globalStyle.formControls}
@@ -508,7 +508,7 @@ const UserProfile = (props) => {
                     <View style={checklastName ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Last Name</Text>
                        <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                        <Input
+                        <TextInput
                           value={lastName}
                           onChangeText={(text) => setlasttName(text)}
                           style={globalStyle.formControls}
@@ -521,7 +521,7 @@ const UserProfile = (props) => {
                     <View style={checkEmail ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Email</Text>
                        <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                        <Input
+                        <TextInput
                           value={email}
                           onChangeText={(text) => setemail(text)}
                           style={globalStyle.formControls}
@@ -545,7 +545,7 @@ const UserProfile = (props) => {
                         ]}
                         floatingLabel
                       >
-                        <Input
+                        <TextInput
                           value={Rank}
                           style={[globalStyle.formControls, { color: "#999", backgroundColor: "#eee" }]}
                           editable={false}
@@ -568,7 +568,7 @@ const UserProfile = (props) => {
                         ]}
                         floatingLabel
                       >
-                        <Input
+                        <TextInput
                           value={MedicalInfo}
                           onChangeText={(text) => setMedicalInfo(text)}
                           style={globalStyle.formControls}
@@ -592,7 +592,7 @@ const UserProfile = (props) => {
                           ]}
                           floatingLabel
                         >
-                          <Input
+                          <TextInput
                             value={AcademicSchool}
                             onChangeText={(text) => setAcademicSchool(text)}
                             style={globalStyle.formControls}
@@ -706,7 +706,7 @@ const UserProfile = (props) => {
                         <View style={globalStyle.formField}>
                           <Text style={globalStyle.formLabel}>Employer</Text>
                           <View style={[globalStyle.formControls, { position: "relative", zIndex: 999 }]}>
-                            <Input
+                            <TextInput
                               value={Employer}
                               onChangeText={(text) => setEmployer(text)}
                               style={[globalStyle.formControls, { color: "#999" }]}
@@ -718,7 +718,7 @@ const UserProfile = (props) => {
                         <View style={globalStyle.formField}>
                           <Text style={globalStyle.formLabel}>Occupation</Text>
                           <View style={[globalStyle.formControls, { position: "relative", zIndex: 999 }]}>
-                            <Input
+                            <TextInput
                               value={Occupation}
                               onChangeText={(text) => setOccupation(text)}
                               style={globalStyle.formControls}
@@ -747,7 +747,7 @@ const UserProfile = (props) => {
                     <View style={checkAddress1 ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Permanent Address</Text>
                        <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                        <Input
+                        <TextInput
                           value={address1}
                           onChangeText={(text) => setaddress1(text)}
                           style={globalStyle.formControls}
@@ -759,7 +759,7 @@ const UserProfile = (props) => {
                     <View style={globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Current Address</Text>
                        <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                        <Input
+                        <TextInput
                           value={address2}
                           onChangeText={(text) => setaddress2(text)}
                           style={globalStyle.formControls}
@@ -771,7 +771,7 @@ const UserProfile = (props) => {
                     <View style={globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>City</Text>
                        <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                        <Input
+                        <TextInput
                           value={city}
                           onChangeText={(text) => setcity(text)}
                           style={[globalStyle.formControls, { color: "#999" }]}
@@ -819,7 +819,7 @@ const UserProfile = (props) => {
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Postal Code</Text>
                        <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                        <Input
+                        <TextInput
                           value={zipCode}
                           onChangeText={(text) => { setzipCode(text) }}
                           style={[globalStyle.formControls, { color: "#999" }]}
@@ -831,14 +831,14 @@ const UserProfile = (props) => {
                     <View style={checkPhone1 ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Phone1</Text>
                        <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                        <Input value={phone1} onChangeText={(text) => setphone1(text)} style={globalStyle.formControls} placeholder="Phone1" />
+                        <TextInput value={phone1} onChangeText={(text) => setphone1(text)} style={globalStyle.formControls} placeholder="Phone1" />
                        </View >
                     </View>
                     {checkPhone1 ? <Text style={globalStyle.error}>Enter Phone Number </Text> : null}
                     <View style={checkPhone1 ? globalStyle.formFieldError : globalStyle.formField}>
                       <Text style={globalStyle.formLabel}>Phone1</Text>
                        <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                        <Input value={phone1} onChangeText={(text) => onChangePhone(text, setPhone1)} style={globalStyle.formControls} placeholder="Phone1" />
+                        <TextInput value={phone1} onChangeText={(text) => onChangePhone(text, setPhone1)} style={globalStyle.formControls} placeholder="Phone1" />
                        </View >
                     </View>
                     {checkPhone1 ? <Text style={globalStyle.error}>Enter Phone Number </Text> : null}
@@ -846,14 +846,14 @@ const UserProfile = (props) => {
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Phone2</Text>
                        <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                        <Input value={phone2} onChangeText={(text) => onChangePhone(text, setPhone2)} style={globalStyle.formControls} placeholder="Phone2" />
+                        <TextInput value={phone2} onChangeText={(text) => onChangePhone(text, setPhone2)} style={globalStyle.formControls} placeholder="Phone2" />
                        </View >
-                    </View>
+                    </View>  
                     {checkPhone2 ? <Text style={globalStyle.error}>Enter Phone Number </Text> : null}
                     <View style={[globalStyle.formField]}>
                       <Text style={globalStyle.formLabel}>Emergency Contact</Text>
                        <View  style={[globalStyle.formGroup, { marginBottom: 10, marginTop: 0 }]} floatingLabel>
-                        <Input
+                        <TextInput
                           value={EmergencyContact}
                           onChangeText={(text) => onChangePhone(text, setEmergencyContact)}
                           style={globalStyle.formControls}
@@ -941,7 +941,7 @@ const UserProfile = (props) => {
             <ActivityIndicator size="large" color="#29ABE2" />
           </View>
         )}
-       </View  >
+       </ScrollView  >
       <FooterTabs navigation={props.navigation} />
      </View>
   );

@@ -136,7 +136,7 @@ const Cart = (props) => {
                     </View>
                 </View  >
             ) : (
-                <View padder style={{ marginTop: 10 }}>
+                <View padder style={{ marginTop: 10, height:"100%" }}>
                     <View style={{ marginBottom: 10 }} >
                         {retail.cartItemsReducer.length > 0 ?
                             retail.cartItemsReducer.map(function (product, index) {
@@ -144,7 +144,7 @@ const Cart = (props) => {
                                     <View style={globalStyle.eventsListingTopWrapper}>
                                         <View style={{ paddingLeft: 15, paddingRight: 15 }}>
                                             <View style={{ display: "flex", position: "relative", alignItems: "flex-end", justifyContent: "space-between", flexDirection: "row", width: "100%", borderBottomColor: "#f4f4f4", paddingBottom: 5, marginBottom: 20, borderBottomWidth: 2 }}>
-                                                <Text style={{ fontSize: 22, fontWeight: "bold", color: "#000", width: "100%" }}>
+                                                <Text style={{ fontSize: 22, fontWeight: "bold", color: "#000", width: "100%", paddingTop:10 }}>
                                                     {product.productTitle}
                                                 </Text>
                                                 <TouchableOpacity
@@ -344,7 +344,7 @@ const Cart = (props) => {
             <ImageBackground
                 style={[globalStyle.barStylingfooter, {
                     height: 70,
-                    top: win.height - 70
+                    top: win.height - 30
                 }]}
                 source={require('./../../../assets/bgBottom.png')}
                 resizeMode={'stretch'}

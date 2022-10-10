@@ -316,6 +316,7 @@ const ProductDetails = (props) => {
                             fontSize: 22,
                             marginBottom: 0,
                             fontWeight: "bold",
+                            paddingTop:10
                           }}
                         >
                           About
@@ -508,7 +509,7 @@ const ProductDetails = (props) => {
                       </View>
                       : null
                     }
-                  </View>
+                  </View> 
                  </ScrollView  >
                 : null
             );

@@ -1,4 +1,4 @@
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
+import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select, TextInput, ScrollView } from "native-base";
 import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
@@ -149,7 +149,7 @@ const EventOrdersListing = (props) => {
         }, 300);
       } else if (value == "60") {
         var toDate = new Date();
-        var fromDate = new Date(); 
+        var fromDate = new Date();
         fromDate.setDate(fromDate.getDate() - 60);
         toDate.setDate(toDate.getDate() + 1);
         const eventlisting = eventsList.filter((item) => {
@@ -184,7 +184,7 @@ const EventOrdersListing = (props) => {
         }
         setTimeout(function () {
           setfilterLoader(false);
-        }, 300); 
+        }, 300);
       } else if (value == "180") {
         var toDate = new Date();
         var fromDate = new Date();
@@ -275,7 +275,7 @@ const EventOrdersListing = (props) => {
   };
   const { navigation } = props;
   return (
-     <View
+    <View
       style={{
         backgroundColor: "#f1f1f1",
       }}
@@ -284,7 +284,7 @@ const EventOrdersListing = (props) => {
       <View style={[globalStyle.flexStandard, { padding: 10, display: "flex", alignItems: "center", justifyContent: "center" }]}>
         <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
 
-        <RNPickerSelect
+          <RNPickerSelect
             value={filter}
             items={filterList}
             placeholder={placeholderFiler}
@@ -319,125 +319,87 @@ const EventOrdersListing = (props) => {
 
         </View>
       </View>
-       <View padder style={{ marginTop: 10 }}>
-        {filterLoader || loader ? (
-          <View style={[styles.container, styles.horizontal]}>
-            <ActivityIndicator size="large" color="#29ABE2" />
-          </View>
-        ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
-          eventListing.map(function (event, index) {
-            let startDate = moment(event.DateCreated).format("MMM Do, YYYY");
-            let starttime = moment(event.DateCreated).format("hh:mm a ");
-            var studentDetail = [];
-            var unique = [];
-            var uniqueStudents = [];
-            const key = "value";
-            uniqueStudents = [...new Map(studentIds.map((item) => [item[key], item])).values()];
-            event.LinkedStudentIds.map(function (studentid, index) {
-              uniqueStudents.map(function (student, indexs) {
-                if (student.value == studentid) {
-                  studentDetail.push(student);
-                }
+      <View padder style={{ marginTop: 10, padding: 10, height:"100%", backgroundColor:"#fff" }}>
+      <ScrollView style={[ {marginBottom: 60, backgroundColor:"#fff"}]}>
+          {filterLoader || loader ? (
+            <View style={[styles.container, styles.horizontal]}>
+              <ActivityIndicator size="large" color="#29ABE2" />
+            </View>
+          ) : typeof eventListing !== "undefined" && eventListing.length > 0 ? (
+            eventListing.map(function (event, index) {
+              let startDate = moment(event.DateCreated).format("MMM Do, YYYY");
+              let starttime = moment(event.DateCreated).format("hh:mm a ");
+              var studentDetail = [];
+              var unique = [];
+              var uniqueStudents = [];
+              const key = "value";
+              uniqueStudents = [...new Map(studentIds.map((item) => [item[key], item])).values()];
+              event.LinkedStudentIds.map(function (studentid, index) {
+                uniqueStudents.map(function (student, indexs) {
+                  if (student.value == studentid) {
+                    studentDetail.push(student);
+                  }
+                });
+                unique = [...new Map(studentDetail.map((item) => [item[key], item])).values()];
               });
-              unique = [...new Map(studentDetail.map((item) => [item[key], item])).values()];
-            });
-            return (
-              <View style={{ marginBottom: 10 }} key={index}>
-                <View style={globalStyle.eventsListingWrapper}>
-                  <View style={globalStyle.eventsListingTopWrapper}>
-                    <View style={{ paddingLeft: 15, paddingRight: 15 }}>
-                      <View
-                        style={{
-                          display: "flex",
-                          position: "relative",
-                          alignItems: "flex-end",
-                          justifyContent: "space-between",
-                          flexDirection: "row",
-                          width: "84%",
-                          borderBottomColor: "#f4f4f4",
-                          paddingBottom: 10,
-                          marginBottom: 20,
-                          borderBottomWidth: 2,
-                        }}
-                      >
-                        <Text style={{ fontSize: 22, fontWeight: "bold", color: "#000" }}>${event.TotalPrice}</Text>
-                        <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000" }}>{startDate}</Text>
-                      </View>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontWeight: "600",
-                          color: "#898989",
-                          paddingBottom: 10,
-                        }}
-                      >
-                        {event.purchaseTitle}
-                      </Text>
-                      <View>
-                        {unique.map(function (student, indexs) {
-                          return (
-                            <Text
-                              key={indexs}
-                              style={{
-                                fontSize: 16,
-                                fontWeight: "600",
-                                color: "#898989",
-                                marginBottom: 5,
-                              }}
-                            >
+              return (
+                <View style={{ marginBottom: 10 }} key={index}>
+                  <View style={globalStyle.eventsListingWrapper}>
+                    <View style={globalStyle.eventsListingTopWrapper}>
+                      <View style={{ paddingLeft: 15, paddingRight: 15 }}>
+                        <View
+                          style={{
+                            display: "flex",
+                            position: "relative",
+                            alignItems: "flex-end",
+                            justifyContent: "space-between",
+                            flexDirection: "row",
+                            width: "84%",
+                            borderBottomColor: "#f4f4f4",
+                            paddingBottom: 10,
+                            marginBottom: 20,
+                            borderBottomWidth: 2,
+                          }}
+                        >
+                          <Text style={{ fontSize: 22, fontWeight: "bold", color: "#000", paddingTop: 10 }}>${event.TotalPrice}</Text>
+                          <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000" }}>{startDate}</Text>
+                        </View>
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            fontWeight: "600",
+                            color: "#898989",
+                            paddingBottom: 10,
+                          }}
+                        >
+                          {event.purchaseTitle}
+                        </Text>
+                        <View>
+                          {unique.map(function (student, indexs) {
+                            return (
                               <Text
+                                key={indexs}
                                 style={{
                                   fontSize: 16,
                                   fontWeight: "600",
-                                  color: "#333",
+                                  color: "#898989",
+                                  marginBottom: 5,
                                 }}
                               >
-                                Student:{" "}
+                                <Text
+                                  style={{
+                                    fontSize: 16,
+                                    fontWeight: "600",
+                                    color: "#333",
+                                  }}
+                                >
+                                  Student:{" "}
+                                </Text>
+                                {student.label}{" "}
                               </Text>
-                              {student.label}{" "}
-                            </Text>
-                          );
-                        })}
-                      </View>
-                      <Text
-                        style={{
-                          fontSize: 16,
-                          fontWeight: "600",
-                          color: "#898989",
-                          marginBottom: 5,
-                        }}
-                      >
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            fontWeight: "600",
-                            color: "#333",
-                          }}
-                        >
-                          Order Id:{" "}
-                        </Text>
-                        {event.PosOrderId}{" "}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 16,
-                          fontWeight: "600",
-                          color: "#898989",
-                          marginBottom: 5,
-                        }}
-                      >
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            fontWeight: "600",
-                            color: "#333",
-                          }}
-                        >
-                          Purchase Type:{" "}
-                        </Text>
-                        {event.PurchaseType}{" "}
-                      </Text>
-                      {event.Quantity != "0" ? (
+                            );
+                          })}
+                        </View>
                         <Text
                           style={{
                             fontSize: 16,
@@ -453,59 +415,99 @@ const EventOrdersListing = (props) => {
                               color: "#333",
                             }}
                           >
-                            {event.PurchaseType == "Event" ? (event.Quantity > 1 ? "Bookings:" : "Booking") : "Quantity:"}{" "}
+                            Order Id:{" "}
                           </Text>
-                          {event.Quantity}{" "}
+                          {event.PosOrderId}{" "}
                         </Text>
-                      ) : null}
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            fontWeight: "600",
+                            color: "#898989",
+                            marginBottom: 5,
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: "600",
+                              color: "#333",
+                            }}
+                          >
+                            Purchase Type:{" "}
+                          </Text>
+                          {event.PurchaseType}{" "}
+                        </Text>
+                        {event.Quantity != "0" ? (
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: "600",
+                              color: "#898989",
+                              marginBottom: 5,
+                            }}
+                          >
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                fontWeight: "600",
+                                color: "#333",
+                              }}
+                            >
+                              {event.PurchaseType == "Event" ? (event.Quantity > 1 ? "Bookings:" : "Booking") : "Quantity:"}{" "}
+                            </Text>
+                            {event.Quantity}{" "}
+                          </Text>
+                        ) : null}
 
-                      {event.Size ? (
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            fontWeight: "600",
-                            color: "#333",
-                          }}
-                        >
-                          Size: {event.Size}
-                        </Text>
-                      ) : null}
-                      {event.Color ? (
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            fontWeight: "600",
-                            color: "#333",
-                          }}
-                        >
-                          Color: {event.Color}
-                        </Text>
-                      ) : null}
-                      {event.Voided ? (
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            fontWeight: "600",
-                            color: "#333",
-                          }}
-                        >
-                          Purchase: Voided
-                        </Text>
-                      ) : null}
+                        {event.Size ? (
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: "600",
+                              color: "#333",
+                            }}
+                          >
+                            Size: {event.Size}
+                          </Text>
+                        ) : null}
+                        {event.Color ? (
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: "600",
+                              color: "#333",
+                            }}
+                          >
+                            Color: {event.Color}
+                          </Text>
+                        ) : null}
+                        {event.Voided ? (
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: "600",
+                              color: "#333",
+                            }}
+                          >
+                            Purchase: Voided
+                          </Text>
+                        ) : null}
+                      </View>
                     </View>
                   </View>
                 </View>
-              </View>
-            );
-          })
-        ) : (
-          <View style={globalStyle.tableList}>
-            <Text>No Purchase History </Text>
-          </View>
-        )}
-       </View  >
+              );
+            })
+          ) : (
+            <View style={globalStyle.tableList}>
+              <Text>No Purchase History </Text>
+            </View>
+          )}
+        </ScrollView>
+      </View  >
       <FooterTabs navigation={props.navigation} />
-     </View>
+    </View>
   );
 };
 export default EventOrdersListing;

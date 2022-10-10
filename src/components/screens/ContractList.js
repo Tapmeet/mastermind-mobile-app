@@ -6,6 +6,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   ActivityIndicator,
+  TextInput, ScrollView
 } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import Collapsible from "react-native-collapsible";
@@ -99,247 +100,251 @@ const ContractList = (props) => {
   }
   const { navigation } = props;
   return (
-     <View style={loginStyle.container}>
+    <View style={loginStyle.container}>
       <SideBarMenu title={"Contracts"} navigation={props.navigation} />
-       <View style={loginStyle.spacing}>
-        <View style={{ marginTop: 10 }}>
-          {loader ? (
-            <View style={[styles.container, styles.horizontal]}>
-              <ActivityIndicator size="large" color="#29ABE2" />
-            </View>
-          ) : (
-             <View style={globalStyle.forms}>
-              <TouchableOpacity onPress={toggleExpanded}>
-                <View style={loginStyle.textAccordiansContract}>
-                  <Image
-                    style={loginStyle.iconLeftss}
-                    source={require("../../../assets/file1.png")}
-                    resizeMode={"contain"}
-                  />
-                  <Text
-                    style={{
-                      color: "#000",
-                      fontSize: 22,
-                      marginBottom: 0,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Signed Contracts
-                  </Text>
-                  {collapsed ? (
+      <View style={{ backgroundColor: "#fff", height: "100%" }}>
+        <ScrollView style={[loginStyle.spacing, { marginBottom: 60, backgroundColor: "#fff" }]}>
+          <View style={{ marginTop: 10 }}>
+            {loader ? (
+              <View style={[styles.container, styles.horizontal]}>
+                <ActivityIndicator size="large" color="#29ABE2" />
+              </View>
+            ) : (
+              <View style={globalStyle.forms}>
+                <TouchableOpacity onPress={toggleExpanded}>
+                  <View style={loginStyle.textAccordiansContract}>
                     <Image
-                      style={loginStyle.arrows}
-                      source={require("../../../assets/down-arrow.png")}
+                      style={loginStyle.iconLeftss}
+                      source={require("../../../assets/file1.png")}
                       resizeMode={"contain"}
                     />
-                  ) : (
-                    <Image
-                      style={loginStyle.arrows}
-                      source={require("../../../assets/up-arrow.png")}
-                      resizeMode={"contain"}
-                    />
-                  )}
-                </View>
-              </TouchableOpacity>
-              <Collapsible collapsed={collapsed} align="center">
-                <View>
-                  <View style={globalStyle.tableBoxshadowContract}>
-                    <View
+                    <Text
                       style={{
-                        flex: 1,
-                        alignSelf: "stretch",
-                        flexDirection: "row",
-                        padding: 15,
-                        backgroundColor: "#4895FF",
-                        alignItems: "center",
+                        color: "#000",
+                        fontSize: 22,
+                        marginBottom: 0,
+                        fontWeight: "bold",
+                        paddingTop: 10
                       }}
                     >
-                      <View style={{ flex: 1, alignSelf: "stretch" }}>
-                        <Text style={{ color: "#fff", fontSize: 17 }}>
-                          Name
-                        </Text>
+                      Signed Contracts
+                    </Text>
+                    {collapsed ? (
+                      <Image
+                        style={loginStyle.arrows}
+                        source={require("../../../assets/down-arrow.png")}
+                        resizeMode={"contain"}
+                      />
+                    ) : (
+                      <Image
+                        style={loginStyle.arrows}
+                        source={require("../../../assets/up-arrow.png")}
+                        resizeMode={"contain"}
+                      />
+                    )}
+                  </View>
+                </TouchableOpacity>
+                <Collapsible collapsed={collapsed} align="center">
+                  <View>
+                    <View style={globalStyle.tableBoxshadowContract}>
+                      <View
+                        style={{
+                          flex: 1,
+                          alignSelf: "stretch",
+                          flexDirection: "row",
+                          padding: 15,
+                          backgroundColor: "#4895FF",
+                          alignItems: "center",
+                        }}
+                      >
+                        <View style={{ flex: 1, alignSelf: "stretch" }}>
+                          <Text style={{ color: "#fff", fontSize: 17 }}>
+                            Name
+                          </Text>
+                        </View>
+                        <View style={{ width: "20%" }}>
+                          <Text style={{ color: "#fff", fontSize: 17 }}>
+                            Action
+                          </Text>
+                        </View>
                       </View>
-                      <View style={{ width: "20%" }}>
-                        <Text style={{ color: "#fff", fontSize: 17 }}>
-                          Action
-                        </Text>
-                      </View>
-                    </View>
 
-                    {typeof contractData !== "undefined" &&
-                      contractData.length ? (
-                      contractData.map(function (contact, index) {
-                        return (
-                          <View
-                            key={index}
-                            style={
-                              index % 2 == 0
-                                ? globalStyle.tableList
-                                : globalStyle.tableListOdd
-                            }
-                          >
-                            <View style={{ flex: 1, alignSelf: "stretch" }}>
-                              {contact.StudentFullNames.length > 0
-                                ? contact.StudentFullNames.map(function (
-                                  student,
-                                  index
-                                ) {
-                                  return (
-                                    <View key={index}>
-                                      <Text
-                                        style={{ paddingTop: 10, flex: 1 }}
-                                      >
-                                         {student}
-                                      </Text>
-                                    </View>
-                                  );
-                                })
-                                : null}
-                            </View>
-                            <View style={{ width: "20%" }}>
-                              <Text
-                                onPress={() =>
-                                  props.navigation.navigate("SignedContract", {
-                                    contractData: contact,
+                      {typeof contractData !== "undefined" &&
+                        contractData.length ? (
+                        contractData.map(function (contact, index) {
+                          return (
+                            <View
+                              key={index}
+                              style={
+                                index % 2 == 0
+                                  ? globalStyle.tableList
+                                  : globalStyle.tableListOdd
+                              }
+                            >
+                              <View style={{ flex: 1, alignSelf: "stretch" }}>
+                                {contact.StudentFullNames.length > 0
+                                  ? contact.StudentFullNames.map(function (
+                                    student,
+                                    index
+                                  ) {
+                                    return (
+                                      <View key={index}>
+                                        <Text
+                                          style={{ paddingTop: 10, flex: 1 }}
+                                        >
+                                          {student}
+                                        </Text>
+                                      </View>
+                                    );
                                   })
-                                }
-                                style={{ fontSize: 17 }}
-                              >
-                                View
-                              </Text>
+                                  : null}
+                              </View>
+                              <View style={{ width: "20%" }}>
+                                <Text
+                                  onPress={() =>
+                                    props.navigation.navigate("SignedContract", {
+                                      contractData: contact,
+                                    })
+                                  }
+                                  style={{ fontSize: 17 }}
+                                >
+                                  View
+                                </Text>
+                              </View>
                             </View>
-                          </View>
-                        );
-                      })
-                    ) : (
-                      <View style={globalStyle.tableList}>
-                        <Text>No Signed Contracts</Text>
-                      </View>
-                    )}
+                          );
+                        })
+                      ) : (
+                        <View style={globalStyle.tableList}>
+                          <Text>No Signed Contracts</Text>
+                        </View>
+                      )}
+                    </View>
                   </View>
-                </View>
-              </Collapsible>
-              <TouchableOpacity onPress={toggleExpanded2}>
-                <View style={loginStyle.textAccordiansContract}>
-                  <Image
-                    style={loginStyle.iconLeftss}
-                    source={require("../../../assets/file2.png")}
-                    resizeMode={"contain"}
-                  />
-                  <Text
-                    style={{
-                      color: "#000",
-                      fontSize: 22,
-                      marginBottom: 0,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Pending Contact
-                  </Text>
-                  {collapsed2 ? (
+                </Collapsible>
+                <TouchableOpacity onPress={toggleExpanded2}>
+                  <View style={loginStyle.textAccordiansContract}>
                     <Image
-                      style={loginStyle.arrows}
-                      source={require("../../../assets/down-arrow.png")}
+                      style={loginStyle.iconLeftss}
+                      source={require("../../../assets/file2.png")}
                       resizeMode={"contain"}
                     />
-                  ) : (
-                    <Image
-                      style={loginStyle.arrows}
-                      source={require("../../../assets/up-arrow.png")}
-                      resizeMode={"contain"}
-                    />
-                  )}
-                </View>
-              </TouchableOpacity>
-              <Collapsible collapsed={collapsed2} align="center">
-                <View>
-                  <View style={globalStyle.tableBoxshadowContract}>
-                    <View
+                    <Text
                       style={{
-                        flex: 1,
-                        alignSelf: "stretch",
-                        flexDirection: "row",
-                        padding: 15,
-                        backgroundColor: "#4895FF",
-                        alignItems: "center",
+                        color: "#000",
+                        fontSize: 22,
+                        marginBottom: 0,
+                        fontWeight: "bold",
+                        paddingTop: 10
                       }}
                     >
-                      <View style={{ flex: 1, alignSelf: "stretch" }}>
-                        <Text style={{ color: "#fff", fontSize: 17 }}>
-                          Name
-                        </Text>
-                      </View>
-                      <View style={{ width: "20%" }}>
-                        <Text style={{ color: "#fff", fontSize: 17 }}>
-                          Action
-                        </Text>
-                      </View>
-                    </View>
-                    {typeof contractDataPending !== "undefined" &&
-                      contractDataPending.length ? (
-                      contractDataPending.map(function (contact, index) {
-                        return (
-                          <View
-                            key={index}
-                            style={
-                              index % 2 == 0
-                                ? globalStyle.tableList
-                                : globalStyle.tableListOdd
-                            }
-                          >
-                            <View style={{ flex: 1, alignSelf: "stretch" }}>
-                              {contact.StudentFullNames.length > 0
-                                ? contact.StudentFullNames.map(function (
-                                  student,
-                                  index
-                                ) {
-                                  return (
-                                    <View key={index}>
-                                      <Text
-                                        style={{ paddingBottom: 10, flex: 1 }}
-                                      >
-                                        {student}
-                                      </Text>
-                                    </View>
-                                  );
-                                })
-                                : null}
-                            </View>
-                            <View style={{ width: "20%" }}>
-                              <Text
-                                onPress={() =>
-                                  props.navigation.navigate("Contract", {
-                                    contractId: contact.ContractId,
-                                  })
-                                }
-                                style={{ fontSize: 17 }}
-                              >
-                                View
-                              </Text>
-                            </View>
-                          </View>
-                        );
-                      })
+                      Pending Contact
+                    </Text>
+                    {collapsed2 ? (
+                      <Image
+                        style={loginStyle.arrows}
+                        source={require("../../../assets/down-arrow.png")}
+                        resizeMode={"contain"}
+                      />
                     ) : (
-                      <View style={globalStyle.tableList}>
-                        <Text
-                          style={{
-                            height: 20,
-                          }}
-                        >
-                          No Pending Contracts
-                        </Text>
-                      </View>
+                      <Image
+                        style={loginStyle.arrows}
+                        source={require("../../../assets/up-arrow.png")}
+                        resizeMode={"contain"}
+                      />
                     )}
                   </View>
-                </View>
-              </Collapsible>
+                </TouchableOpacity>
+                <Collapsible collapsed={collapsed2} align="center">
+                  <View>
+                    <View style={globalStyle.tableBoxshadowContract}>
+                      <View
+                        style={{
+                          flex: 1,
+                          alignSelf: "stretch",
+                          flexDirection: "row",
+                          padding: 15,
+                          backgroundColor: "#4895FF",
+                          alignItems: "center",
+                        }}
+                      >
+                        <View style={{ flex: 1, alignSelf: "stretch" }}>
+                          <Text style={{ color: "#fff", fontSize: 17 }}>
+                            Name
+                          </Text>
+                        </View>
+                        <View style={{ width: "20%" }}>
+                          <Text style={{ color: "#fff", fontSize: 17 }}>
+                            Action
+                          </Text>
+                        </View>
+                      </View>
+                      {typeof contractDataPending !== "undefined" &&
+                        contractDataPending.length ? (
+                        contractDataPending.map(function (contact, index) {
+                          return (
+                            <View
+                              key={index}
+                              style={
+                                index % 2 == 0
+                                  ? globalStyle.tableList
+                                  : globalStyle.tableListOdd
+                              }
+                            >
+                              <View style={{ flex: 1, alignSelf: "stretch" }}>
+                                {contact.StudentFullNames.length > 0
+                                  ? contact.StudentFullNames.map(function (
+                                    student,
+                                    index
+                                  ) {
+                                    return (
+                                      <View key={index}>
+                                        <Text
+                                          style={{ paddingBottom: 10, flex: 1 }}
+                                        >
+                                          {student}
+                                        </Text>
+                                      </View>
+                                    );
+                                  })
+                                  : null}
+                              </View>
+                              <View style={{ width: "20%" }}>
+                                <Text
+                                  onPress={() =>
+                                    props.navigation.navigate("Contract", {
+                                      contractId: contact.ContractId,
+                                    })
+                                  }
+                                  style={{ fontSize: 17 }}
+                                >
+                                  View
+                                </Text>
+                              </View>
+                            </View>
+                          );
+                        })
+                      ) : (
+                        <View style={globalStyle.tableList}>
+                          <Text
+                            style={{
+                              height: 20,
+                            }}
+                          >
+                            No Pending Contracts
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+                  </View>
+                </Collapsible>
+              </View>
+            )}
           </View>
-          )}
-        </View>
-       </View  >
+        </ScrollView  >
+      </View>
       <FooterTabs navigation={props.navigation} />
-     </View>
+    </View>
   );
 };
 const styles = StyleSheet.create({

@@ -30,7 +30,8 @@ import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { useSelector } from "react-redux";
 import { SideBarMenu } from "../sidebar";
-import { SignatureView } from "react-native-signature-capture";
+//import { SignatureView } from "react-native-signature-capture";
+import {SignatureView} from 'react-native-signature-capture-view';
 import { marginTop } from "styled-system";
 const Inquiry = (props) => {
   const signatureRef = React.useRef(null);
@@ -658,6 +659,7 @@ const Inquiry = (props) => {
   return (
     <View style={loginStyle.container}>
       <SideBarMenu title={"Inquiry"} navigation={props.navigation} />
+      <View padder style={{   height:"100%", backgroundColor:"#fff" }}>
       <ScrollView style={[loginStyle.spacing, { marginBottom: 60, backgroundColor: "#fff" }]}>
         <View style={loginStyle.contentContainer}>
           <View style={globalStyle.dflex}>
@@ -754,9 +756,9 @@ const Inquiry = (props) => {
                       fontSize: 24,
                       fontWeight: "bold",
                       marginBottom: 20,
+                      paddingTop:10
                     }}
                   >
-                    {" "}
                     Inquiry For
                   </Text>
                   <TouchableOpacity
@@ -835,6 +837,7 @@ const Inquiry = (props) => {
                       fontSize: 24,
                       fontWeight: "bold",
                       marginBottom: 0,
+                      paddingTop:10
                     }}
                   >
                     Personal Information
@@ -1140,6 +1143,7 @@ const Inquiry = (props) => {
                     fontSize: 24,
                     fontWeight: "bold",
                     marginBottom: 10,
+                    paddingTop:10
                   }}
                 >
                   Child Information
@@ -1207,15 +1211,15 @@ const Inquiry = (props) => {
                 <View style={{ paddingTop: 20, paddingBottom: 20 }}>
                   <Button
                     onPress={addSection}
-                    style={[loginStyle.buttonsSecondary]}
-                    full
+                    style={[loginStyle.buttonsSecondary, {display:"flex", flexDirection:"row", justifyContent:"center"}]}
+                    
                   >
-                    <Image
+                    {/* <Image
                       style={{ height: 15, marginRight: -10 }}
                       source={require("../../../assets/plus.png")}
                       resizeMode={"contain"}
-                    />
-                    <Text style={loginStyle.buttonText}>Add Child Details</Text>
+                    /> */}
+                    <Text style={loginStyle.buttonText}>Add Child Details +</Text>
                   </Button>
                 </View>
               </View>
@@ -1234,6 +1238,7 @@ const Inquiry = (props) => {
                     fontSize: 24,
                     fontWeight: "bold",
                     marginBottom: 20,
+                    paddingTop:10
                   }}
                 >
                   Additional Information
@@ -1438,6 +1443,7 @@ const Inquiry = (props) => {
                       fontWeight: "bold",
                       marginBottom: 20,
                       textAlign: "center",
+                      paddingTop:15
                     }}
                   >
                     Signature
@@ -1462,6 +1468,7 @@ const Inquiry = (props) => {
                         style={{
                           fontSize: 20,
                           fontWeight: "bold",
+                          paddingTop: 10
                         }}
                       >
                         Signature
@@ -1543,6 +1550,7 @@ const Inquiry = (props) => {
                       paddingLeft: 10,
                       fontWeight: "bold",
                       paddingBottom: 10,
+                      paddingTop:10
                     }}
                   >
                     Signature
@@ -1690,6 +1698,7 @@ const Inquiry = (props) => {
           </View>
         </View>
       </ScrollView  >
+      </View>
     </View>
   );
 };

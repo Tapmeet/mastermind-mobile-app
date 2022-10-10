@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, ActivityIndicator, ScrollView,TextInput } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, ActivityIndicator, ScrollView, TextInput } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
@@ -111,73 +111,75 @@ const LinkStudent = (props) => {
   };
   const { navigation } = props;
   return (
-     <View style={loginStyle.container}>
+    <View style={loginStyle.container}>
       <SideBarMenu title={"Link Student "} navigation={props.navigation} />
-       <ScrollView style={[loginStyle.spacing,{ backgroundColor:"#fff"}]}>
-        <View style={loginStyle.contentContainer}>
-           <View style={loginStyle.bodyContainer}>
-            <Text style={[globalStyle.small,{paddingTop:10}]}>Fill out the form below </Text>
+      <View padder style={{  padding: 10, height: "100%", backgroundColor: "#fff" }}>
+        <ScrollView style={[loginStyle.spacing, { backgroundColor: "#fff" }]}>
+          <View style={loginStyle.contentContainer}>
+            <View style={loginStyle.bodyContainer}>
+              <Text style={[globalStyle.small, { paddingTop: 10 }]}>Fill out the form below </Text>
+            </View>
+            <View>
+              <View style={checkFirstname ? globalStyle.formFieldError : globalStyle.formField}>
+                <Text style={globalStyle.formLabel}>First Name</Text>
+                <TextInput
+                  value={firstName}
+                  onChangeText={(text) => setfirstName(text)}
+                  style={globalStyle.formControls}
+                  placeholder="Enter Student first name"
+                />
+              </View>
+              {checkFirstname ? <Text style={globalStyle.error}>Enter First Name</Text> : null}
+              <View style={checklastName ? globalStyle.formFieldError : globalStyle.formField}>
+                <Text style={globalStyle.formLabel}>Last Name</Text>
+                <TextInput
+                  value={lastName}
+                  onChangeText={(text) => setlasttName(text)}
+                  style={globalStyle.formControls}
+                  placeholder="Enter Student last name"
+                />
+              </View>
+              {checklastName ? <Text style={globalStyle.error}>Enter Last Name </Text> : null}
+              <View style={checkEmail ? globalStyle.formFieldError : globalStyle.formField}>
+                <Text style={globalStyle.formLabel}>Email</Text>
+                <TextInput
+                  value={email}
+                  onChangeText={(text) => setemail(text)}
+                  autoCapitalize="none"
+                  style={globalStyle.formControls}
+                  placeholder="Enter Student e-mail address "
+                />
+              </View>
+              {checkEmail ? <Text style={globalStyle.error}>Enter Valid Email</Text> : null}
+              {errorMessage != "" ? <Text style={[globalStyle.errorText, { marginTop: 15 }]}>{errorMessage}</Text> : null}
+              <View style={loginStyle.formContainer}>
+                {loader ? (
+                  <View style={[styles.container, styles.horizontal]}>
+                    <ActivityIndicator size="large" color="#29ABE2" />
+                  </View>
+                ) :
+                  <ImageBackground
+                    style={[
+                      globalStyle.Btn,
+                      {
+                        width: "100%",
+                      },
+                    ]}
+                    source={require("./../../../assets/Oval.png")}
+                    resizeMode={"stretch"}
+                  >
+                    <Button onPress={submitForm} style={loginStyle.buttons} full>
+                      <Text style={loginStyle.buttonText}>Link Student</Text>
+                    </Button>
+                  </ImageBackground>
+                }
+              </View  >
+            </View>
           </View>
-           <View>
-            <View style={checkFirstname ? globalStyle.formFieldError : globalStyle.formField}>
-              <Text style={globalStyle.formLabel}>First Name</Text>
-              <TextInput
-                value={firstName}
-                onChangeText={(text) => setfirstName(text)}
-                style={globalStyle.formControls}
-                placeholder="Enter Student first name"
-              />
-            </View>
-            {checkFirstname ? <Text style={globalStyle.error}>Enter First Name</Text> : null}
-            <View style={checklastName ? globalStyle.formFieldError : globalStyle.formField}>
-              <Text style={globalStyle.formLabel}>Last Name</Text>
-              <TextInput
-                value={lastName}
-                onChangeText={(text) => setlasttName(text)}
-                style={globalStyle.formControls}
-                placeholder="Enter Student last name"
-              />
-            </View>
-            {checklastName ? <Text style={globalStyle.error}>Enter Last Name </Text> : null}
-            <View style={checkEmail ? globalStyle.formFieldError : globalStyle.formField}>
-              <Text style={globalStyle.formLabel}>Email</Text>
-              <TextInput
-                value={email}
-                onChangeText={(text) => setemail(text)}
-                autoCapitalize="none"
-                style={globalStyle.formControls}
-                placeholder="Enter Student e-mail address "
-              />
-            </View>
-            {checkEmail ? <Text style={globalStyle.error}>Enter Valid Email</Text> : null}
-            {errorMessage != "" ? <Text style={[globalStyle.errorText, { marginTop: 15 }]}>{errorMessage}</Text> : null}
-             <View style={loginStyle.formContainer}>
-              {loader ? (
-                <View style={[styles.container, styles.horizontal]}>
-                  <ActivityIndicator size="large" color="#29ABE2" />
-                </View>
-              ) :
-                <ImageBackground
-                  style={[
-                    globalStyle.Btn,
-                    {
-                      width: "100%",
-                    },
-                  ]}
-                  source={require("./../../../assets/Oval.png")}
-                  resizeMode={"stretch"}
-                >
-                  <Button onPress={submitForm} style={loginStyle.buttons} full>
-                    <Text style={loginStyle.buttonText}>Link Student</Text>
-                  </Button>
-                </ImageBackground>
-              }
-             </View  >
-        </View>
-        </View>
-       </ScrollView  >
-      <FooterTabs navigation={props.navigation} />
-     </View>
+        </ScrollView  >
+        <FooterTabs navigation={props.navigation} />
+      </View>
+    </View>
   );
 };
 export default LinkStudent;

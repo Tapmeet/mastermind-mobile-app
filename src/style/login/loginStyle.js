@@ -5,10 +5,12 @@ import { colorPallete } from "../colorPallete";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    background:'#fff'
+    background:'#fff',
+    width: '100%',
+    height: '100%',
   },
   scrollView: {
-    backgroundColor: "pink",
+    backgroundColor: "#fff",
     marginHorizontal: 20,
   },
   text: {

@@ -48,14 +48,18 @@ const Main = (props) => {
   getData()
   const AuthStack = createStackNavigator();
   return (
-    <NativeBaseProvider>
-    <NavigationContainer>
+    <NativeBaseProvider style={{backgroundColor:"#fff"}}>
+    <NavigationContainer style={{backgroundColor:"#fff"}}>
       {typeof userId !== "undefined" && userId.userDataReducer.length > 0 ? (
         <Drawer />
       ) : (
         <AuthStack.Navigator
+        
           screenOptions={{
             headerShown: false,
+            cardStyle: {
+              backgroundColor: '#fff'
+          }
           }}
         >
           <AuthStack.Screen name="Welcome" component={WelcomeScreen} />

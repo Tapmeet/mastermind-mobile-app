@@ -12,14 +12,14 @@ const SideBarMenu = (props) => {
   return (
     <ImageBackground
       style={{
-        height: Platform.OS === "android" ? 80 : 120,
+        height: Platform.OS === "android" ? 90 : 120,
         zIndex: 999999,
         position: "relative"
       }}
       source={require("./../../../assets/bgtop.png")}
       resizeMode={"stretch"}
     >
-      <View style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center", paddingTop: 20}}>
+      <View style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center", paddingTop: 35}}>
         <View>
           { props.title != "Home" ?
 
@@ -44,13 +44,13 @@ const SideBarMenu = (props) => {
           }
         </View>
          <View style={[globalStyle.titleBody]}> 
-          <Text>
-            <Text style={globalStyle.titleStyling}>{props.title}</Text>
-          </Text>
+          
+            <Text style={[globalStyle.titleStyling,{paddingTop: 10}]}>{props.title}</Text>
+         
         </View>
         <View>
 
-          <Button style={{backgroundColor:"transparent", right: -35}} onPress={() => props.navigation.toggleDrawer()}>
+          <Button style={{backgroundColor:"transparent", right: -15}} onPress={() => props.navigation.toggleDrawer()}>
             <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/TopMenu.png")} />
           </Button>
 
