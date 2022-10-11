@@ -103,7 +103,7 @@ const ContractList = (props) => {
     <View style={loginStyle.container}>
       <SideBarMenu title={"Contracts"} navigation={props.navigation} />
       <View style={{ backgroundColor: "#fff", height: "100%" }}>
-        <ScrollView style={[loginStyle.spacing, { marginBottom: 60, backgroundColor: "#fff" }]}>
+        <ScrollView style={[loginStyle.spacing, { marginBottom: 220, backgroundColor: "#fff" }]}>
           <View style={{ marginTop: 10 }}>
             {loader ? (
               <View style={[styles.container, styles.horizontal]}>

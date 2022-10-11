@@ -127,7 +127,8 @@ const PaymentMethodListings = (props) => {
   return (
      <View style={loginStyle.container}>
       <SideBarMenu title={"Payment Methods "} navigation={props.navigation} />
-       <ScrollView style={[loginStyle.spacing, {marginBottom: 60, backgroundColor:"#fff"}]}>
+      <View style={{ backgroundColor: "#fff", height: "100%" }}>
+       <ScrollView style={[loginStyle.spacing, {marginBottom: 160, backgroundColor:"#fff"}]}>
         <View style={loginStyle.contentContainer}>
           {loader ?
             <View style={[styles.container, styles.horizontal]}>
@@ -341,6 +342,7 @@ const PaymentMethodListings = (props) => {
             : null}
         </View>
        </ScrollView  >
+       </View>
      </View>
   );
 };
