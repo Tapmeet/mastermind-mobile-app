@@ -111,13 +111,13 @@ export default StyleSheet.create({
    marginTop: 20
   },
   backWrapper: {
-    marginBottom: 40,
+    marginBottom: 45,
     flexDirection: "row",
     display: "flex",
     justifyContent: "flex-start",
     lineHeight: 60,
     position: "absolute",
-    top: 25,
+    top: 40,
     left: 20,
     zIndex: 99,
   },

@@ -27,6 +27,7 @@ export default StyleSheet.create({
   },
   formControl: {
     height: 65,
+    width:50,
     borderRadius: 10,
     borderColor: '#eee',
     paddingLeft: 5,
@@ -36,6 +37,10 @@ export default StyleSheet.create({
     textAlign: "center",
     shadowColor: "#000",
     backgroundColor: "#fff",
+    alignItems:"center",
+    display:"flex",
+    flexDirection:"row",
+    justifyContent:"center",
     shadowOffset: {
       width: 0,
       height: 2,

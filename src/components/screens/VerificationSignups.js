@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { View, Image, StyleSheet, ImageBackground } from "react-native";
-import OtpInputs from "../Utility/Outinputs";
+import OtpInputss from "../Utility/Outinputs";
 import {
   Container,
   //CheckBox,
@@ -111,7 +111,7 @@ const VerificationSignups = (props) => {
             </Text>
           </View>
           <View style={verificationStyle.spaceBetween}>
-            <OtpInputs getOtp={(otp) => getOtp(otp)} />
+            <OtpInputss getOtp={(otp) => getOtp(otp)} />
           </View>
 
            <View style={[loginStyle.formContainer, { paddingRight: 15, paddingLeft: 15 }]}>
