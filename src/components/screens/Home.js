@@ -115,8 +115,8 @@ const Home = (props) => {
         }),
       })
         .then(response => response.text())
-        .then(result => { console.log(result); console.log('result') })
-        .catch(error => console.log('error', error));
+        .then(result => { console.log(result); console.log('successfully notification sent') })
+        .catch(error => console.log('error for notifications', error));
     }
   }
 
