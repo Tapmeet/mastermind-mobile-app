@@ -1,0 +1,60 @@
+diff --git a/node_modules/react-native/Libraries/EventEmitter/NativeEventEmitter.js b/node_modules/react-native/Libraries/EventEmitter/NativeEventEmitter.js
+index 1c1d536..8d7d2c9 100644
+--- a/node_modules/react-native/Libraries/EventEmitter/NativeEventEmitter.js
++++ b/node_modules/react-native/Libraries/EventEmitter/NativeEventEmitter.js
+@@ -42,10 +42,10 @@ export default class NativeEventEmitter<TEventToArgsMap: {...}>
+ 
+   constructor(nativeModule: ?NativeModule) {
+     if (Platform.OS === 'ios') {
+-      invariant(
+-        nativeModule != null,
+-        '`new NativeEventEmitter()` requires a non-null argument.',
+-      );
++      // invariant(
++      //   nativeModule != null,
++      //   '`new NativeEventEmitter()` requires a non-null argument.',
++      // );
+     }
+ 
+     const hasAddListener =
+diff --git a/node_modules/react-native/index.js b/node_modules/react-native/index.js
+index d59ba34..39d21b7 100644
+--- a/node_modules/react-native/index.js
++++ b/node_modules/react-native/index.js
+@@ -435,32 +435,16 @@ module.exports = {
+   },
+   // Deprecated Prop Types
+   get ColorPropType(): $FlowFixMe {
+-    invariant(
+-      false,
+-      'ColorPropType has been removed from React Native. Migrate to ' +
+-        "ColorPropType exported from 'deprecated-react-native-prop-types'.",
+-    );
++    return require('deprecated-react-native-prop-types').ColorPropType
+   },
+   get EdgeInsetsPropType(): $FlowFixMe {
+-    invariant(
+-      false,
+-      'EdgeInsetsPropType has been removed from React Native. Migrate to ' +
+-        "EdgeInsetsPropType exported from 'deprecated-react-native-prop-types'.",
+-    );
++    return require('deprecated-react-native-prop-types').EdgeInsetsPropType;
+   },
+   get PointPropType(): $FlowFixMe {
+-    invariant(
+-      false,
+-      'PointPropType has been removed from React Native. Migrate to ' +
+-        "PointPropType exported from 'deprecated-react-native-prop-types'.",
+-    );
++    return require('deprecated-react-native-prop-types').PointPropType;
+   },
+   get ViewPropTypes(): $FlowFixMe {
+-    invariant(
+-      false,
+-      'ViewPropTypes has been removed from React Native. Migrate to ' +
+-        "ViewPropTypes exported from 'deprecated-react-native-prop-types'.",
+-    );
++    return require('deprecated-react-native-prop-types').ViewPropTypes;
+   },
+ };
+ 
