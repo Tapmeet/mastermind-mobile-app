@@ -268,7 +268,7 @@ const Welcome = (props) => {
                         style={[
                           globalStyle.Btn,
                           {
-                            width: "95%"
+                            width: win.width- 20
                           },
                         ]}
                         source={require("./../../../assets/Oval.png")}
