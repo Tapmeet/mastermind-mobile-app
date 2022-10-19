@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator ,TextInput, ScrollView} from "react-native";
+import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator, TouchableOpacity, Text ,TextInput, ScrollView} from "react-native";
 import { API_URL } from "../Utility/AppConst";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
-import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
+// import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { useSelector } from "react-redux";
@@ -321,9 +321,9 @@ const AddPaymentMethod = (props) => {
                   source={require("./../../../assets/Oval.png")}
                   resizeMode={"stretch"}
                 >
-                  <Button style={[loginStyle.buttons]} onPress={addMethod} full>
+                  <TouchableOpacity style={[loginStyle.buttons]} onPress={addMethod} full>
                     <Text style={loginStyle.buttonText}>Submit</Text>
-                  </Button>
+                  </TouchableOpacity>
                 </ImageBackground>
               </View>
             </View>

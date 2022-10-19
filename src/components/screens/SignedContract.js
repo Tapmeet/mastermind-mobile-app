@@ -1,19 +1,19 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator, TextInput, ScrollView, Dimensions } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator, TextInput, ScrollView, Dimensions, TouchableOpacity, Text } from "react-native";
 import { API_URL } from "../Utility/AppConst"
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H2,
-  Icon,
-} from "native-base";
+// import {
+//   Container,
+//   Content,
+//   Form,
+//   Item,
+//   Input,
+//   Label,
+//   Button,
+//   Text,
+//   Body,
+//   H2,
+//   Icon,
+// } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { useSelector } from 'react-redux'
@@ -362,21 +362,21 @@ const SignedContract = (props) => {
                       source={require('./../../../assets/Oval.png')}
                       resizeMode={'stretch'}
                     >
-                      <Button
+                      <TouchableOpacity
                         style={[loginStyle.buttonSave, { alignSelf: "center" }]}
                         onPress={increment}
                         full
                       >
                         <Text style={loginStyle.buttonText}>Next</Text>
-                      </Button>
+                      </TouchableOpacity>
                     </ImageBackground>
                     : null}
                   {counter > 1 ?
-                    <Button
+                    <TouchableOpacity
                       style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
                       onPress={decrement} >
                       <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
-                    </Button>
+                    </TouchableOpacity>
                     : null}
 
                 </View>
@@ -390,11 +390,11 @@ const SignedContract = (props) => {
           <ScrollView style={[globalStyle.eventsListingWrapper, { height: win.height + 100, paddingBottom: 180, }]}>
             <HTML source={{ html: contract.ContractLegalTerms }} contentWidth={contentWidth} />
             <View style={{ paddingBottom: 80 }}>
-              <Button
+              <TouchableOpacity
                 style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
                 onPress={() => setViewTerm(false)} >
                 <Text style={[loginStyle.buttonText, { color: "#333" }]}>Close</Text>
-              </Button>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </View>

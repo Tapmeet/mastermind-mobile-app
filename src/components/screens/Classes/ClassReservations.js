@@ -1,5 +1,4 @@
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
+import { Image, ImageBackground, StyleSheet, Button, ActivityIndicator,TouchableOpacity, Text, Alert, View } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -60,7 +59,7 @@ const ClassReservations = (props) => {
         setCollapsed(!collapsed);
     };
     React.useEffect(() => {
-        navigation.addListener("focus",  () => {
+        navigation.addListener("focus", () => {
             clearData()
 
             if (loader) {
@@ -160,7 +159,7 @@ const ClassReservations = (props) => {
                     let dates = moment(startDate).format('YYYY-MM-DD');
                     Object.assign(datesArray, {
                         [dates]: {
-                             selected: true,
+                            selected: true,
                             selectedColor: '#4895FF',
                             disabled: false,
                             disableTouchEvent: false,
@@ -226,28 +225,28 @@ const ClassReservations = (props) => {
         setSelectedDate(startDate)
         let markedDates = {};
         Object.entries(recurrenceRule).forEach(([key, value]) => {
-           if(key == date){
-            Object.assign(markedDates, {
-                [key]: {
-                    selected: true,
-                    selectedColor: '#3db9adf0',
-                    disabled: false,
-                    disableTouchEvent: false,
-                    marked: true
-                },
-            })
-           }else{
-            Object.assign(markedDates, {
-                [key]: {
-                     selected: true,
-                    selectedColor: '#4895FF',
-                    disabled: false,
-                    disableTouchEvent: false,
-                    marked: true
-                },
-            })
-           }
-          });
+            if (key == date) {
+                Object.assign(markedDates, {
+                    [key]: {
+                        selected: true,
+                        selectedColor: '#3db9adf0',
+                        disabled: false,
+                        disableTouchEvent: false,
+                        marked: true
+                    },
+                })
+            } else {
+                Object.assign(markedDates, {
+                    [key]: {
+                        selected: true,
+                        selectedColor: '#4895FF',
+                        disabled: false,
+                        disableTouchEvent: false,
+                        marked: true
+                    },
+                })
+            }
+        });
         setRecurrenceRule(markedDates)
     };
     const reserveClass = () => {
@@ -331,19 +330,19 @@ const ClassReservations = (props) => {
     };
     const { navigation } = props;
     return (
-         <View
+        <View
             style={{
                 backgroundColor: "#FFFFFF",
             }}
         >
             <SideBarMenu title={"Class Reservation"} navigation={props.navigation} />
-             <View padder>
+            <View padder>
                 {loader ? (
-                     <View style={{marginTop:10}}>
+                    <View style={{ marginTop: 10 }}>
                         <View style={[styles.container, styles.horizontal]}>
                             <ActivityIndicator size="large" color="#29ABE2" />
                         </View>
-                     </View  >
+                    </View  >
                 ) : (
                     typeof eventListing !== "undefined" &&
                         eventListing.length > 0 ? (
@@ -354,7 +353,7 @@ const ClassReservations = (props) => {
                             <View style={globalStyle.eventsListingWrapper}>
                                 <View style={globalStyle.eventsListingTopWrapper}>
                                     <View style={{ paddingLeft: 15, paddingRight: 10, width: "100%" }}>
-                                        <Title style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {taskTitle}</Title>
+                                        <Text style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {taskTitle}</Text>
                                         <View style={{ borderTopColor: "#ccc", borderTopWidth: 1, paddingTop: 20, marginTop: 20 }}>
                                             {description != '' && description != null ?
                                                 <Text
@@ -422,7 +421,7 @@ const ClassReservations = (props) => {
                             <View style={globalStyle.eventsListingWrapper}>
                                 <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Select Student</Text>
                                 <View style={{ borderColor: "#ccc", borderWidth: 1, marginRight: 10, borderRadius: 5 }}>
-                                  <RNPickerSelect
+                                    <RNPickerSelect
                                         value={selectedStudent}
                                         items={studentIds}
                                         placeholder={placeholderStudent}
@@ -481,16 +480,16 @@ const ClassReservations = (props) => {
                                 source={require("./../../../../assets/Oval.png")}
                                 resizeMode={"stretch"}
                             >
-                                <Button onPress={() => reserveClass()} style={loginStyle.buttons} full>
+                                <TouchableOpacity onPress={() => reserveClass()} style={loginStyle.buttons} full>
                                     <Text style={loginStyle.buttonText}>Reserve Class</Text>
-                                </Button>
+                                </TouchableOpacity>
                             </ImageBackground>
 
                         </View>
                     ) : null
                 )}
-             </View  >
-         </View>
+            </View  >
+        </View>
     );
 };
 export default ClassReservations;

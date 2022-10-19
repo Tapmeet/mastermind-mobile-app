@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator,TextInput, ScrollView } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator,TextInput, Text, ScrollView } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import Collapsible from "react-native-collapsible";
 import DatePicker from "react-native-datepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import PhoneInput from "react-phone-number-input/react-native-input";
-import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
+// import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import profilestyle from "../../style/profile/profileStyle";
@@ -842,9 +842,9 @@ const UserProfileMultiple = (props) => {
                 source={require("./../../../assets/Oval.png")}
                 resizeMode={"stretch"}
               >
-                <Button onPress={submitForm} style={loginStyle.buttons} full>
+                <TouchableOpacity onPress={submitForm} style={loginStyle.buttons} full>
                   <Text style={loginStyle.buttonText}>Update</Text>
-                </Button>
+                </TouchableOpacity>
               </ImageBackground>
              </View  >
         </View>

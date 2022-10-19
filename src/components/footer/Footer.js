@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Footer, FooterTab, Button, Icon } from "native-base";
-import { ImageBackground, Image, View,Dimensions } from "react-native";
+
+import { ImageBackground, Image, View,Dimensions, Button, TouchableOpacity} from "react-native";
 import globalStyle from "../../style/globalStyle";
 //import { LinearGradient } from "expo-linear-gradient";
 import { API_URL } from "./../Utility/AppConst";
@@ -90,32 +90,32 @@ const FooterTabs = (props) => {
       resizeMode={"stretch"}
     >
       <View >
-        <View style={{ paddingBottom: 10, paddingTop: 10, display:"flex", flexDirection:'row', width:"100%", justifyContent:"space-around" }}>
-          <Button style={{backgroundColor:"transparent"}} onPress={() => props.navigation.navigate("Home")}>
+        <View style={{ paddingBottom: 10, paddingTop: Platform.OS === "android" ? 20 : 10, display:"flex", flexDirection:'row', width:"100%", justifyContent:"space-around" }}>
+          <TouchableOpacity style={{backgroundColor:"transparent"}} onPress={() => props.navigation.navigate("Home")}>
             <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/home.png")} />
-          </Button>
+          </TouchableOpacity>
           {pdfUrl ?
-            <Button style={{backgroundColor:"transparent"}}  onPress={() => openLink(apiUrl + '/Public/GetClassSchedule/' + studentschoolId + '?organization=' + studentorgId )}>
+            <TouchableOpacity style={{backgroundColor:"transparent"}}  onPress={() => openLink(apiUrl + '/Public/GetClassSchedule/' + studentschoolId + '?organization=' + studentorgId )}>
               <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/calendar.png")} />
-            </Button>
+            </TouchableOpacity>
             :
-            <Button style={{backgroundColor:"transparent"}}  onPress={() => props.navigation.navigate("Class Reservation")}>
+            <TouchableOpacity style={{backgroundColor:"transparent"}}  onPress={() => props.navigation.navigate("Class Reservation")}>
               <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/calendar.png")} />
-            </Button>
+            </TouchableOpacity>
           }
-          <Button style={{backgroundColor:"transparent"}}  onPress={() => props.navigation.navigate("Profile")}>
+          <TouchableOpacity style={{backgroundColor:"transparent"}}  onPress={() => props.navigation.navigate("Profile")}>
             <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/user-icon.png")} />
-          </Button>
-          <Button style={{backgroundColor:"transparent"}}  onPress={() => props.navigation.navigate("Share")}>
+          </TouchableOpacity>
+          <TouchableOpacity style={{backgroundColor:"transparent"}}  onPress={() => props.navigation.navigate("Share")}>
             <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/share-footer.png")} />
-          </Button>
+          </TouchableOpacity>
           {typeof school !== "undefined" && school.length > 0 ? (
             school.map(function (school, index) {
               return (
                 school.ExternalLinkType == 'ReferAFriend' ?
-                  <Button style={{backgroundColor:"transparent"}}  key={index} onPress={() => openLink(school.Address)}>
+                  <TouchableOpacity style={{backgroundColor:"transparent"}}  key={index} onPress={() => openLink(school.Address)}>
                     <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/people.png")} />
-                  </Button>
+                  </TouchableOpacity>
                   : null
               )
             })

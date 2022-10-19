@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Content, View, Accordion, Footer, FooterTab } from 'native-base';
-import { ImageBackground, Image, TouchableOpacity, ActivityIndicator, StyleSheet, Alert, Dimensions } from 'react-native';
+//import { Container, Header, Title, Left, Icon, Right,  Body,  Content,  Accordion, Footer, FooterTab } from 'native-base';
+import { ImageBackground, Image, TouchableOpacity, Button,View, Text, ActivityIndicator, StyleSheet, Alert, Dimensions } from 'react-native';
 import globalStyle from "../../style/globalStyle";
 import { SideBarMenu } from "./../sidebar";
 import { useSelector, useDispatch } from "react-redux";
@@ -320,22 +320,22 @@ const Cart = (props) => {
                                     source={require('../../../assets/Oval.png')}
                                     resizeMode={'stretch'}
                                 >
-                                    <Button
+                                    <TouchableOpacity
                                         style={[loginStyle.buttonSave, { alignSelf: "center" }]}
 
                                         full
                                         onPress={() => props.navigation.navigate("Purchase Product")}
                                     >
                                         <Text style={loginStyle.buttonText}>Proceed to Payments</Text>
-                                    </Button>
+                                    </TouchableOpacity>
                                 </ImageBackground>
                                 : null}
-                            <Button
+                            <TouchableOpacity
                                 style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
                                 onPress={() => props.navigation.navigate("Retail")}
                             >
                                 <Text style={[loginStyle.buttonText, { color: "#333" }]}>Continue shopping</Text>
-                            </Button>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View  >

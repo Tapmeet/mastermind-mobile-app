@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Content, View, Accordion, Footer, FooterTab } from 'native-base';
-import { ImageBackground, Image, TouchableOpacity, ActivityIndicator, StyleSheet, Alert } from 'react-native';
+//import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Content, View, Accordion, Footer, FooterTab } from 'native-base';
+import { ImageBackground, Image, TouchableOpacity, ActivityIndicator, StyleSheet, Alert, Text, View, Dimensions } from 'react-native';
 import globalStyle from "../../../style/globalStyle";
 import { SideBarMenu } from "./../../sidebar";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,6 +11,7 @@ import { ADD_TO_EVENT, UPDATE_EVENT } from "./../../../redux/Event";
 var total = 0;
 const apiUrl = API_URL.trim();
 const CartEvents = (props) => {
+    const win = Dimensions.get("window");
     const retail = useSelector((state) => state);
     const userId = useSelector((state) => state);
     const [personId, setPersonId] = React.useState('');
@@ -215,22 +216,22 @@ const CartEvents = (props) => {
                                         source={require('../../../../assets/Oval.png')}
                                         resizeMode={'stretch'}
                                     >
-                                        <Button
+                                        <TouchableOpacity
                                             style={[loginStyle.buttonSave, { alignSelf: "center" }]}
 
                                             full
                                             onPress={() => props.navigation.navigate("Purchase Event")}
                                         >
                                             <Text style={loginStyle.buttonText}>Proceed to Payments</Text>
-                                        </Button>
+                                        </TouchableOpacity>
                                     </ImageBackground>
                                     : null}
-                                <Button
+                                <TouchableOpacity
                                     style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
                                     onPress={() => props.navigation.navigate("Events")}
                                 >
                                     <Text style={[loginStyle.buttonText, { color: "#333" }]}>Additional  Registration</Text>
-                                </Button>
+                                </TouchableOpacity>
                             </View>
                         </View>
                         : null}
@@ -238,20 +239,21 @@ const CartEvents = (props) => {
 
             )}
             <ImageBackground
-                style={{
-                    height: 70
-                }}
+               style={[globalStyle.barStylingfooter, {
+                height: 70,
+                top: win.height - 30
+            }]}
                 source={require('./../../../../assets/bgBottom.png')}
                 resizeMode={'stretch'}
             >
-                <Footer style={globalStyle.barStyling}>
-                    <FooterTab style={[globalStyle.barStyling, { paddingBottom: 10, paddingTop: 15 }]}>
+                <View >
+                    <View style={{ paddingBottom: 10, paddingTop: 10, display: "flex", flexDirection: 'row', width: "100%", justifyContent: "space-around", alignItems: "center" }}>
                         <Text style={{ color: "#fff", fontSize: 20, paddingLeft: 20 }}>Total </Text>
                         <Text style={{ color: "#fff", fontSize: 25, paddingRight: 20 }}>
                             ${total}
                         </Text>
-                    </FooterTab>
-                </Footer>
+                    </View>
+                </View>
             </ImageBackground>
          </View>
     )

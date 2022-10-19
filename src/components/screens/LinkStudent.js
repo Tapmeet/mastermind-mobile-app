@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, ActivityIndicator, ScrollView, TextInput } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, ActivityIndicator, ScrollView, TextInput, TouchableOpacity, Text } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
-import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
+// import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { useSelector } from "react-redux";
@@ -113,7 +113,7 @@ const LinkStudent = (props) => {
   return (
     <View style={loginStyle.container}>
       <SideBarMenu title={"Link Student "} navigation={props.navigation} />
-      <View padder style={{  padding: 10, height: "100%", backgroundColor: "#fff" }}>
+      <View padder style={{ padding: 10, height: "100%", backgroundColor: "#fff" }}>
         <ScrollView style={[loginStyle.spacing, { backgroundColor: "#fff" }]}>
           <View style={loginStyle.contentContainer}>
             <View style={loginStyle.bodyContainer}>
@@ -168,16 +168,17 @@ const LinkStudent = (props) => {
                     source={require("./../../../assets/Oval.png")}
                     resizeMode={"stretch"}
                   >
-                    <Button onPress={submitForm} style={loginStyle.buttons} full>
+                    <TouchableOpacity onPress={submitForm} style={loginStyle.buttons} full>
                       <Text style={loginStyle.buttonText}>Link Student</Text>
-                    </Button>
+                    </TouchableOpacity>
                   </ImageBackground>
                 }
               </View  >
             </View>
           </View>
+          {/* <FooterTabs navigation={props.navigation} /> */}
         </ScrollView  >
-        <FooterTabs navigation={props.navigation} />
+
       </View>
     </View>
   );

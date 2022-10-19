@@ -1,19 +1,19 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground } from "react-native";
-import {
-  Container,
-  //CheckBox,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H3,
-  Icon,
-} from "native-base";
+import { View, Image, StyleSheet, ImageBackground,  TextInput, TouchableOpacity, Text } from "react-native";
+// import {
+//   Container,
+//   //CheckBox,
+//   Content,
+//   Form,
+//   Item,
+//   Input,
+//   Label,
+//   Button,
+//   Text,
+//   Body,
+//   H3,
+//   Icon,
+// } from "native-base";
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
@@ -179,7 +179,7 @@ const ResetPassword = (props) => {
           </View>
           <View>
              <View  style={globalStyle.formGroup} floatingLabel>
-              <Input
+              <TextInput
                 secureTextEntry={true}
                 value={password}
                 onChangeText={(text) => setpassword(text)}
@@ -206,7 +206,7 @@ const ResetPassword = (props) => {
           </View>
           <View>
              <View  style={globalStyle.formGroup} floatingLabel>
-              <Input
+              <TextInput
                 secureTextEntry={true}
                 value={confirmPassword}
                 onChangeText={(text) => setconfirmpassword(text)}

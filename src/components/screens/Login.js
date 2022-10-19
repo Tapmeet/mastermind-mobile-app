@@ -8,25 +8,15 @@ import {
   ActivityIndicator,
   Item,
   H2,
-  TextInput
+  TextInput,
+  Button,
+  Text,
+  TouchableOpacity
 } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  Container,
-  Content,
-  Form,
-
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-
-  Icon,
-} from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { useSelector, useDispatch } from "react-redux";
@@ -152,11 +142,11 @@ const Login = (props) => {
           </View>
         </ImageBackground>
         <View style={loginStyle.bodyContainer} padder>
-           <Text style={globalStyle.h2}>Welcome! </Text>
+          <Text style={globalStyle.h2}>Welcome! </Text>
           <Text style={globalStyle.smallsubTitle}>Sign in to Continue</Text>
         </View>
         <View style={globalStyle.form} padder>
-           <View  style={globalStyle.formGroup} floatingLabel>
+          <View style={globalStyle.formGroup} floatingLabel>
             <TextInput
               value={username}
               onChangeText={(text) => setusername(text)}
@@ -169,11 +159,11 @@ const Login = (props) => {
               }
               placeholder="Enter Email Address"
             />
-           </View >
+          </View >
           {checkUsername ? (
             <Text style={globalStyle.error}>Enter Valid Username </Text>
           ) : null}
-           <View  style={globalStyle.formGroup} floatingLabel>
+          <View style={globalStyle.formGroup} floatingLabel>
             <TextInput
               secureTextEntry={true}
               value={password}
@@ -186,7 +176,7 @@ const Login = (props) => {
               }
               placeholder="Password "
             />
-           </View >
+          </View >
           {checkPassword ? (
             <Text style={globalStyle.error}>Enter Password</Text>
           ) : null}
@@ -201,13 +191,13 @@ const Login = (props) => {
             </View>
             : null}
           <View style={loginStyle.formContainer} scrollEnabled={false}>
-            <Button
+            <TouchableOpacity
               onPress={submitForm}
               style={loginStyle.button}
               full
             >
               <Text style={loginStyle.buttonText}>Login</Text>
-            </Button>
+            </TouchableOpacity>
           </View  >
         </View>
         <View style={globalStyle.textRight}>
@@ -219,7 +209,7 @@ const Login = (props) => {
           </Text>
         </View >
       </View  >
-      <View style={{display:"flex", justifyContent:"center", flexDirection:"row", marginTop:20}}>
+      <View style={{ display: "flex", justifyContent: "center", flexDirection: "row", marginTop: 20 }}>
         <Text>
           Don’t have an account?
           <Text

@@ -1,5 +1,4 @@
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Image,  StyleSheet,  ActivityIndicator,View,Text } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";

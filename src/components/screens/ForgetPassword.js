@@ -1,18 +1,19 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, TextInput } from "react-native";
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H3,
-  Icon,
-} from "native-base";
+import { View, Image, StyleSheet, ImageBackground, TextInput,   Text,
+  TouchableOpacity } from "react-native";
+// import {
+//   Container,
+//   Content,
+//   Form,
+//   Item,
+//   Input,
+//   Label,
+//   Button,
+//   Text,
+//   Body,
+//   H3,
+//   Icon,
+// } from "native-base";
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
@@ -141,14 +142,14 @@ const ForgetPassword = (props) => {
           ) : null}
 
            <View style={loginStyle.formContainer}>
-            <Button
+            <TouchableOpacity
               onPress={submitForm}
               //onPress={() => props.navigation.navigate("VerificationCode")}
               style={loginStyle.button}
               full
             >
               <Text style={loginStyle.buttonText} >Send</Text>
-            </Button>
+            </TouchableOpacity>
            </View  >
       </View>
        </View  >

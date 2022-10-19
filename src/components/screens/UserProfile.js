@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator, TextInput, ScrollView, Thumbnail } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, ActivityIndicator, TextInput,Text, ScrollView, Thumbnail } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import Collapsible from "react-native-collapsible";
 import DatePicker from "react-native-datepicker";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
+// import { Container, Content, Form, Item, Input, Label, Button, Text, Body, H2, Icon } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import profilestyle from "../../style/profile/profileStyle";
@@ -473,6 +473,7 @@ const UserProfile = (props) => {
   return (
      <View style={loginStyle.container}>
       <SideBarMenu title={studentIds.length > 1 ? "My Profiles" : studentIds.length != 0 ? "My Profile" : "My Profile"} navigation={props.navigation} />
+      <View style={{height: "100%"}}>
       <ScrollView  style={[loginStyle.spacing, {marginBottom: 100, paddingBottom:100, backgroundColor:"#fff"}]}>
         {!loader ? (
           typeof studentIds !== "undefined" && studentIds.length > 0 ? (
@@ -876,9 +877,9 @@ const UserProfile = (props) => {
                     source={require("./../../../assets/Oval.png")}
                     resizeMode={"stretch"}
                   >
-                    <Button onPress={submitForm} style={loginStyle.buttons} full>
+                    <TouchableOpacity onPress={submitForm} style={loginStyle.buttons} full>
                       <Text style={loginStyle.buttonText}>Update</Text>
-                    </Button>
+                    </TouchableOpacity>
                   </ImageBackground>
                  </View  >
             </View>
@@ -942,6 +943,7 @@ const UserProfile = (props) => {
           </View>
         )}
        </ScrollView  >
+       </View>
       <FooterTabs navigation={props.navigation} />
      </View>
   );

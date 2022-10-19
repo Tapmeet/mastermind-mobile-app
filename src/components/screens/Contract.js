@@ -1,20 +1,20 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, useWindowDimensions, ActivityIndicator, ScrollView, Dimensions, TouchableOpacity, TextInput } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, useWindowDimensions,Text, ActivityIndicator, ScrollView, Dimensions, TouchableOpacity, TextInput } from "react-native";
 import { API_URL } from "../Utility/AppConst"
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H2,
-  Icon,
-} from "native-base";
+// import {
+//   Container,
+//   Content,
+//   Form,
+//   Item,
+//   Input,
+//   Label,
+//   Button,
+//   Text,
+//   Body,
+//   H2,
+//   Icon,
+// } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { useSelector } from 'react-redux'
@@ -283,11 +283,11 @@ const Contract = (props) => {
 
                     }} >Signature</Text><Image style={{ height: 100, resizeMode: 'contain', borderColor: '#efefef', borderWidth: 1 }} source={{ uri: PayerSignatureTerms }} /></View>) : null}
                     <View>
-                      <Button
+                      <TouchableOpacity
                         style={[loginStyle.buttonsSecondary, { marginTop: 30, }]}
                         onPress={() => { setShowSignature(true) }} full>
                         <Text style={loginStyle.buttonText} >{PayerSignatureTerms != '' ? "Update Signature" : "Add Signature"}</Text>
-                      </Button>
+                      </TouchableOpacity>
                     </View>
                     {PayerSignatureTerms != '' ? (
                       <View>
@@ -298,12 +298,12 @@ const Contract = (props) => {
                           source={require('./../../../assets/Oval.png')}
                           resizeMode={'stretch'}
                         >
-                          <Button
+                          <TouchableOpacity
                             style={[loginStyle.buttons]}
                             onPress={steponeSubmit}
                             full>
                             <Text style={loginStyle.buttonText} >Submit</Text>
-                          </Button>
+                          </TouchableOpacity>
                         </ImageBackground>
                       </View>
                     ) : null}
@@ -349,7 +349,7 @@ const Contract = (props) => {
                         source={require('./../../../assets/Oval.png')}
                         resizeMode={'stretch'}
                       >
-                        <Button
+                        <TouchableOpacity
                           style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent: "center" }]}
                           onPress={() => {
                             signatureRef.current.saveSignature();
@@ -357,13 +357,13 @@ const Contract = (props) => {
                             setCheckNSignature(false)
                           }} >
                           <Text style={loginStyle.buttonText}>Save</Text>
-                        </Button>
+                        </TouchableOpacity>
                       </ImageBackground>
-                      <Button
+                      <TouchableOpacity
                         style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
                         onPress={() => { setShowSignature(false) }} >
                         <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
-                      </Button>
+                      </TouchableOpacity>
                     </View>
                   </View>
                 : step2 ?
@@ -404,12 +404,12 @@ const Contract = (props) => {
                         source={require('./../../../assets/Oval.png')}
                         resizeMode={'stretch'}
                       >
-                        <Button
+                        <TouchableOpacity
                           style={[loginStyle.buttonSave, { alignSelf: "center" }]}
                           onPress={stepTwoSubmit}
                           full>
                           <Text style={loginStyle.buttonText}>Submit</Text>
-                        </Button>
+                        </TouchableOpacity>
                       </ImageBackground>
                     </View>
                   </View>
@@ -672,11 +672,11 @@ const Contract = (props) => {
 
                                           }} >Signature</Text><Image style={{ height: 100, width: 300, resizeMode: 'contain', }} source={{ uri: PayerSignatureBilling }} /></View>) : null}
                                       <View style={{ marginTop: 20, marginBottom: 20 }}>
-                                        <Button
+                                        <TouchableOpacity
                                           style={[loginStyle.buttonsSecondary]}
                                           onPress={() => { setShowSignature2(true) }} full>
                                           <Text style={loginStyle.buttonText} >{PayerSignatureBilling != '' ? "Update Signature" : "Add Signature"}</Text>
-                                        </Button>
+                                        </TouchableOpacity>
                                       </View>
                                       {errorMessage != "" ? (
                                         <Text style={globalStyle.errorText}>{errorMessage}</Text>
@@ -698,12 +698,12 @@ const Contract = (props) => {
                                             source={require('./../../../assets/Oval.png')}
                                             resizeMode={'stretch'}
                                           >
-                                            <Button
+                                            <TouchableOpacity
                                               style={[loginStyle.buttons]}
                                               onPress={submitForm}
                                               full>
                                               <Text style={loginStyle.buttonText} >Submit</Text>
-                                            </Button>
+                                            </TouchableOpacity>
                                           </ImageBackground>
                                         </View>
                                       ) : null}
@@ -753,7 +753,7 @@ const Contract = (props) => {
                             source={require('./../../../assets/Oval.png')}
                             resizeMode={'stretch'}
                           >
-                            <Button
+                            <TouchableOpacity
                               style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent: "center" }]}
                               onPress={() => {
                                 signatureRef3.current.saveSignature();
@@ -761,13 +761,13 @@ const Contract = (props) => {
 
                               }} >
                               <Text style={[loginStyle.buttonText, { textAlign: "center" }]}>Save</Text>
-                            </Button>
+                            </TouchableOpacity>
                           </ImageBackground>
-                          <Button
+                          <TouchableOpacity
                             style={[loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
                             onPress={() => { setShowSignature2(false) }} >
                             <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
-                          </Button>
+                          </TouchableOpacity>
                         </View>
                       </View>
                     :
@@ -778,11 +778,11 @@ const Contract = (props) => {
                       }} >
                         <View style={[globalStyle.h3, { fontSize: 20, textAlign: "center" }]}>Payment Method Required  </View>
                         <Text style={{ color: "#000", fontSize: 18, textAlign: "center", lineHeight: 30, marginTop: 20 }}>You don't have any payment method, Please add one and try again</Text>
-                        <Button
+                        <TouchableOpacity
                           style={[loginStyle.buttonSecondary, { marginTop: 30 }]}
                           onPress={() => props.navigation.navigate("Payment Method")} full>
                           <Text>Add Payment Method</Text>
-                        </Button>
+                        </TouchableOpacity>
 
                       </View>
                     </View>
@@ -814,21 +814,21 @@ const Contract = (props) => {
                       source={require('./../../../assets/Oval.png')}
                       resizeMode={'stretch'}
                     >
-                      <Button
+                      <TouchableOpacity
                         style={[loginStyle.buttonSave, { alignSelf: "center" }]}
                         onPress={increment}
                         full
                       >
                         <Text style={loginStyle.buttonText}>Next</Text>
-                      </Button>
+                      </TouchableOpacity>
                     </ImageBackground>
                     : null}
                   {counter > 1 ?
-                    <Button
+                    <TouchableOpacity
                       style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 0, borderRadius: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
                       onPress={decrement} >
                       <Text style={[loginStyle.buttonText, { color: "#333" }]}>Previous</Text>
-                    </Button>
+                    </TouchableOpacity>
                     : null}
                 </View>
               </View>
@@ -846,11 +846,11 @@ const Contract = (props) => {
                   <ScrollView style={[globalStyle.eventsListingWrapper, { height: win.height + 100, paddingBottom: 180 }]}>
                     <HTML source={{ html: contact.ContractLegalTerms }} contentWidth={contentWidth} />
                     <View style={{ paddingBottom: 80 }}>
-                      <Button
+                      <TouchableOpacity
                         style={counter == 4 ? [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }] : [loginStyle.buttonSecondarys, { marginTop: 20, width: "100%" }]}
                         onPress={() => setViewTerm(false)} >
                         <Text style={[loginStyle.buttonText, { color: "#333" }]}>Close</Text>
-                      </Button>
+                      </TouchableOpacity>
                     </View>
                   </ScrollView>
                 </View>

@@ -1,20 +1,20 @@
 import React, { useRef } from "react";
-import { View, Image, StyleSheet, ImageBackground } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, Text } from "react-native";
 import OtpInputss from "../Utility/Outinputs";
-import {
-  Container,
-  //CheckBox,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H3,
-  Icon,
-} from "native-base";
+// import {
+//   Container,
+//   //CheckBox,
+//   Content,
+//   Form,
+//   Item,
+//   Input,
+//   Label,
+//   Button,
+//   Text,
+//   Body,
+//   H3,
+//   Icon,
+// } from "native-base";
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
@@ -123,9 +123,9 @@ const VerificationSignups = (props) => {
               resizeMode={'stretch'}
 
             >
-              <Button onPress={submitForm} style={loginStyle.buttons} full>
+              <TouchableOpacity onPress={submitForm} style={loginStyle.buttons} full>
                 <Text style={loginStyle.buttonText} >Submit</Text>
-              </Button>
+              </TouchableOpacity>
             </ImageBackground>
             {/* <Button onPress={submitForm} style={loginStyle.button} full>
               <Text>Send</Text>

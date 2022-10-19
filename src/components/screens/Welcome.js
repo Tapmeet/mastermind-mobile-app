@@ -6,20 +6,14 @@ import {
   ImageBackground,
   ActivityIndicator,
   ScrollView,
-  Dimensions
+  Dimensions,
+  Text,
+  Button,
+  TouchableOpacity
 } from "react-native";
-
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  Container,
-  Content,
-  Button,
-  Text,
-  Body,
-
-} from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { useFocusEffect } from '@react-navigation/native';
@@ -280,9 +274,9 @@ const Welcome = (props) => {
                         source={require("./../../../assets/Oval.png")}
                         resizeMode={"stretch"}
                       >
-                        <Button onPress={() => setData()} style={loginStyle.buttons} full>
+                        <TouchableOpacity onPress={() => setData()} style={loginStyle.buttons} >
                           <Text style={loginStyle.buttonText}>Get Started</Text>
-                        </Button>
+                        </TouchableOpacity>
                       </ImageBackground>
                     </View>
                   </View>

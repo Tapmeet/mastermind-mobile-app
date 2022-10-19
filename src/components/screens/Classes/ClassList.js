@@ -1,5 +1,4 @@
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, RefreshControl, SafeAreaView, Dimensions, ScrollView, ImageBackground, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Image, RefreshControl, SafeAreaView, Dimensions,Button, Text, StyleSheet,View, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -159,11 +158,11 @@ const ClassList = (props) => {
 
                                                     </View>
                                                     : null} */}
-                                                    <Button onPress={() => storeData(item.ClassId, item.Name, item.ImagePhotoPath)}
+                                                    <TouchableOpacity onPress={() => storeData(item.ClassId, item.Name, item.ImagePhotoPath)}
                                                         style={{ marginTop: 10, justifyContent: "center", width: '80%', backgroundColor: "#4585ff", borderRadius: 6 }}
                                                     >
                                                         <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Reserve Class</Text>
-                                                    </Button>
+                                                    </TouchableOpacity>
                                                 </View>
                                             </View>
 

@@ -7,21 +7,10 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ScrollView,
-  TextInput
+  TextInput,
+  Text
 } from "react-native";
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H3,
-  Icon,
-} from "native-base";
+
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { API_URL } from "./../Utility/AppConst"
@@ -286,7 +275,7 @@ const SignUp = (props) => {
   const { navigation } = props.navigation;
   return (
     <View style={loginStyle.container}>
-      <ScrollView style={loginStyle.spacing} >
+      <ScrollView style={[loginStyle.spacing]} >
         <ImageBackground
           style={{
             width: "100%",
@@ -295,7 +284,7 @@ const SignUp = (props) => {
           source={require('./../../../assets/bg.png')}
           resizeMode={'stretch'}
         >
-          <View style={loginStyle.backWrapper}>
+          <View style={[loginStyle.backWrapper,{paddingBottom:100}]}>
             <Text
               onPress={() => props.navigation.navigate("Login")}
               style={loginStyle.backButtonStyle}
@@ -485,12 +474,12 @@ const SignUp = (props) => {
             </View>
             : null}
           <View style={loginStyle.formContainer}>
-            <Button style={loginStyle.button}
+            <TouchableOpacity style={loginStyle.button}
               onPress={submitForm}
               // onPress={() => props.navigation.navigate("VerificationSignups")}
               full>
               <Text style={loginStyle.buttonText} >Create An Account</Text>
-            </Button>
+            </TouchableOpacity>
           </View  >
         </View>
       </ScrollView  >

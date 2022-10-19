@@ -1,6 +1,6 @@
-import { Header, Left, Button, Icon, Body, Title, Right, Text, View } from "native-base";
+// import { Header, Left, Button, Icon, Body, Title, Right,  } from "native-base";
 import React from "react";
-import { ImageBackground, Image } from "react-native";
+import { ImageBackground, Image , Text, View, TouchableOpacity} from "react-native";
 import { justifyContent } from "styled-system";
 import globalStyle from "../../style/globalStyle";
 const SideBarMenu = (props) => {
@@ -19,7 +19,7 @@ const SideBarMenu = (props) => {
       source={require("./../../../assets/bgtop.png")}
       resizeMode={"stretch"}
     >
-      <View style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center", paddingTop: 35}}>
+      <View style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center", paddingTop: Platform.OS === "android" ?35 : 45,}}>
         <View>
           { props.title != "Home" ?
 
@@ -45,14 +45,14 @@ const SideBarMenu = (props) => {
         </View>
          <View style={[globalStyle.titleBody]}> 
           
-            <Text style={[globalStyle.titleStyling,{paddingTop: 10}]}>{props.title}</Text>
+            <Text style={[globalStyle.titleStyling,{paddingTop: 0}]}>{props.title}</Text>
          
         </View>
         <View>
 
-          <Button style={{backgroundColor:"transparent", right: -15}} onPress={() => props.navigation.toggleDrawer()}>
+          <TouchableOpacity style={{backgroundColor:"transparent", right: -30}} onPress={() => props.navigation.toggleDrawer()}>
             <Image style={{ height: 25, width: 25, resizeMode: "contain" }} source={require("./../../../assets/TopMenu.png")} />
-          </Button>
+          </TouchableOpacity>
 
         </View>
       </View>

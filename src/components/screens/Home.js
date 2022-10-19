@@ -1,5 +1,5 @@
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, useWindowDimensions, ScrollView } from "react-native";
+// import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View } from "native-base";
+import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, useWindowDimensions, ScrollView, Text, View } from "react-native";
 import React from "react";
 import FooterTabs from "../footer/Footer";
 import { SideBarMenu } from "../sidebar";
@@ -481,13 +481,13 @@ const Home = (props) => {
                 </Text>
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
 
-                  <Button
-                    style={{ alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 }}
+                  <TouchableOpacity
+                    style={{ alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6, padding: 10 }}
                     onPress={() => activeCheckin(item.ClassStartTime, item.TaskId, item.ClassName)
                     }
                   >
                     <Text style={loginStyle.buttonText, { textAlign: "center", color: "#fff" }}>Check In</Text>
-                  </Button>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
@@ -789,19 +789,19 @@ const Home = (props) => {
                 </View>
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 20, paddingBottom: 10, width: "100%" }}>
 
-                  <Button
+                  <TouchableOpacity
                     style={{ alignSelf: "center", justifyContent: "center", width: '48%', backgroundColor: "#4585ff", borderRadius: 6 }}
                     onPress={() => checkinActiveClass()
                     } >
                     <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
-                  </Button>
+                  </TouchableOpacity>
 
-                  <Button
+                  <TouchableOpacity
                     style={[{ alignSelf: "center", width: '48%', justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, marginLeft: 18 }]}
                     onPress={() => setTogglePopup(false)}
                   >
                     <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Close</Text>
-                  </Button>
+                  </TouchableOpacity>
                 </View>
                 <View style={{ padding: 15 }}>
                   {loaderMessage ? (

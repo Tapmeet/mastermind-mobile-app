@@ -1,25 +1,26 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
-import {
-  Container,
-  Footer,
-  FooterTab,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H3,
-  Icon,
-} from "native-base";
+import { View, Image, StyleSheet,Dimensions, Text } from "react-native";
+// import {
+//   Container,
+//   Footer,
+//   FooterTab,
+//   Content,
+//   Form,
+//   Item,
+//   Input,
+//   Label,
+//   Button,
+//   Text,
+//   Body,
+//   H3,
+//   Icon,
+// } from "native-base";
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 
 const AccountSuccess = (props) => {
+  const win = Dimensions.get("window");
   React.useEffect(() => {
     setTimeout(() => props.navigation.navigate("Login"), 5000);
   }, []);
@@ -39,11 +40,13 @@ const AccountSuccess = (props) => {
           <Text>Account Created Successfully</Text>
         </View>
        </View  >
-      <Footer style={verificationStyle.redirectingWrapper}>
-        <FooterTab style={verificationStyle.redirectingWrapper}>
+       <View style={[verificationStyle.redirectingWrapper, {
+        top: win.height - 150
+      }]}>
+        <View style={verificationStyle.redirectingWrapper}>
           <Text style={verificationStyle.redirectingText}>Redirecting...</Text>
-        </FooterTab>
-      </Footer>
+        </View>
+      </View>
      </View>
   );
 };

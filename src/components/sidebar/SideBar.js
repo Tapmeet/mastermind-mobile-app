@@ -1,7 +1,7 @@
 import React from "react";
-import { Container, Text, List, ListItem, Thumbnail, View } from "native-base";
+// import { Container, Text, List, ListItem, Thumbnail, View } from "native-base";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import { ImageBackground, Dimensions, Image, FlatList } from "react-native";
+import { ImageBackground,Text, Dimensions, Image, FlatList, View } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import sideBar from "../../style/home/sidebarStyle";
 import { color } from "react-native-reanimated";
@@ -155,7 +155,7 @@ const SideBar = (props) => {
   return (
     <ScrollView>
       <ImageBackground
-       style={{ padding: 15, paddingTop: 50, height:Platform.OS === "android" ? null : win.height, paddingBottom:Platform.OS === "android" ? 100 : 0   }}
+       style={{ padding: 15, paddingTop: 50, height:Platform.OS === "android" ? null : win.height, paddingBottom:Platform.OS === "android" ? 100 : 100   }}
        // style={{ padding: 15, paddingTop: 50, }}
         source={require("./../../../assets/menu.png")}
         resizeMode={"stretch"}

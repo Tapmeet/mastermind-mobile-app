@@ -12,19 +12,19 @@ import {
 import Carousel from "react-native-snap-carousel";
 
 
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H2,
-  Icon,
-} from "native-base";
+// import {
+//   Container,
+//   Content,
+//   Form,
+//   Item,
+//   Input,
+//   Label,
+//   Button,
+//   Text,
+//   Body,
+//   H2,
+//   Icon,
+// } from "native-base";
 import loginStyle from "../../../style/login/loginStyle";
 import globalStyle from "../../../style/globalStyle";
 import { useSelector } from "react-redux";

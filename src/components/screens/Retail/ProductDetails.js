@@ -1,5 +1,5 @@
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Accordion } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, ScrollView } from "react-native";
+// import { Container, Header, Title, Left, Icon, Right, Button, Body,  Card, CardItem, Content,  Accordion } from "native-base";
+import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert,View,Text, ScrollView } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import CartWidget from "../../cart/Cartwidget"

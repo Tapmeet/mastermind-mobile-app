@@ -1,5 +1,5 @@
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, ScrollView } from "react-native";
+
+import { StyleSheet, TouchableOpacity, Text, ActivityIndicator, View, Alert, ScrollView } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -282,8 +282,8 @@ const StudentClasses = (props) => {
                     Waitlist Reservations
                 </Text>
             </View>
-            <View style={{ backgroundColor: "#fff", height:'100%', padding:10}}>
-                <ScrollView style={[loginStyle.spacing, {marginBottom: 450,  paddingBottom: 10, backgroundColor: "#fff" }]}>
+            <View style={{ backgroundColor: "#fff", height: '100%', padding: 10 }}>
+                <ScrollView style={[loginStyle.spacing, { marginBottom: 450, paddingBottom: 10, backgroundColor: "#fff" }]}>
                     {loader ? (
                         <View style={[styles.container, styles.horizontal, { marginTop: 10 }]}>
                             <ActivityIndicator size="large" color="#29ABE2" />
@@ -343,13 +343,13 @@ const StudentClasses = (props) => {
                                                                     <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
                                                                 </Button>  */}
 
-                                                                        <Button
+                                                                        <TouchableOpacity
                                                                             style={[{ alignSelf: "center", width: 200, justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, }]}
                                                                             onPress={() =>
                                                                                 alertCancel(event.AttendanceReservationId)}
                                                                         >
                                                                             <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
-                                                                        </Button>
+                                                                        </TouchableOpacity>
                                                                     </View>
                                                                 }
                                                             </View>
@@ -422,13 +422,13 @@ const StudentClasses = (props) => {
                                                                     <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff" }]}>Check In</Text>
                                                                 </Button>  */}
 
-                                                                        <Button
+                                                                        <TouchableOpacity
                                                                             style={[{ alignSelf: "center", width: 200, justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6, }]}
                                                                             onPress={() =>
                                                                                 alertCancel(event.AttendanceReservationId)}
                                                                         >
                                                                             <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Cancel Class</Text>
-                                                                        </Button>
+                                                                        </TouchableOpacity>
                                                                     </View>
                                                                 }
                                                             </View>

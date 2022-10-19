@@ -1,5 +1,5 @@
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Linking, Alert } from "react-native";
+// import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
+import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Linking, Alert, View, Text , ScrollView} from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -56,13 +56,13 @@ const Curriculum = (props) => {
             }}
         >
             <SideBarMenu title={"Curriculum"} navigation={props.navigation} backLink="Home" />
-             <View style={{padding:10}}>
+             <View >
                 {loader ? (
                     <View style={[styles.container, styles.horizontal]}>
                         <ActivityIndicator size="large" color="#29ABE2" />
                     </View>
                 ) :
-                    <View style={{ marginBottom: 10 }}>
+                <ScrollView style={[loginStyle.spacing, {marginBottom: 200, padding:10, backgroundColor:"#fff"}]}>
                         {typeof school !== "undefined" && school.length > 0 ? (
                             school.map(function (school, index) {
                                 return (
@@ -112,7 +112,7 @@ const Curriculum = (props) => {
                             })
                         ) : null}
 
-                    </View>
+                    </ScrollView>
                 }
              </View  >
             <FooterTabs navigation={props.navigation} />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Footer, FooterTab, Button, Icon, Text } from 'native-base';
-import { ImageBackground, Image, TouchableOpacity, View,Dimensions } from 'react-native';
+
+import { ImageBackground, Image, TouchableOpacity, View,Dimensions, Text } from 'react-native';
 import globalStyle from "../../../style/globalStyle";
 import { useSelector, useDispatch } from "react-redux";
 const CartWidget = (props) => {

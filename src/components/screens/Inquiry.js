@@ -8,24 +8,25 @@ import {
   ImageBackground,
   ActivityIndicator,
   TextInput,
-  ScrollView
+  ScrollView,
+  Text
 } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import PhoneInput from "react-phone-number-input/react-native-input";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";;
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H2,
-  Icon,
-} from "native-base";
+// import {
+//   Container,
+//   Content,
+//   Form,
+//   Item,
+//   Input,
+//   Label,
+//   Button,
+//   Text,
+//   Body,
+//   H2,
+//   Icon,
+// } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { useSelector } from "react-redux";
@@ -1208,7 +1209,7 @@ const Inquiry = (props) => {
                   : null}
 
                 <View style={{ paddingTop: 20, paddingBottom: 20 }}>
-                  <Button
+                  <TouchableOpacity
                     onPress={addSection}
                     style={[loginStyle.buttonsSecondary, {display:"flex", flexDirection:"row", justifyContent:"center"}]}
                     
@@ -1219,7 +1220,7 @@ const Inquiry = (props) => {
                       resizeMode={"contain"}
                     /> */}
                     <Text style={loginStyle.buttonText}>Add Child Details +</Text>
-                  </Button>
+                  </TouchableOpacity>
                 </View>
               </View>
             ) : null}
@@ -1483,7 +1484,7 @@ const Inquiry = (props) => {
                     </View>
                   ) : null}
 
-                  <Button
+                  <TouchableOpacity
                     style={[
                       loginStyle.buttonsSecondary,
                       { marginTop: 30, marginBottom: 30 },
@@ -1496,7 +1497,7 @@ const Inquiry = (props) => {
                     <Text style={loginStyle.buttonText}>
                       {signature != "" ? "Update Signature" : "Add Signature"}
                     </Text>
-                  </Button>
+                  </TouchableOpacity>
                   <View style={{ paddingLeft: 0, paddingRight: 0 }}>
                     {checkNSignature != "" ? (
                       <Text style={globalStyle.errorText}>
@@ -1529,13 +1530,13 @@ const Inquiry = (props) => {
                           source={require("./../../../assets/Oval.png")}
                           resizeMode={"stretch"}
                         >
-                          <Button
+                          <TouchableOpacity
                             onPress={submitForm}
                             style={loginStyle.buttons}
                             full
                           >
                             <Text style={loginStyle.buttonText}>Send</Text>
-                          </Button>
+                          </TouchableOpacity>
                         </ImageBackground>
                       </View  >
                     ) : null}
@@ -1610,7 +1611,7 @@ const Inquiry = (props) => {
                       source={require("./../../../assets/Oval.png")}
                       resizeMode={"stretch"}
                     >
-                      <Button
+                      <TouchableOpacity
                         style={[
                           loginStyle.buttonSave,
                           { alignSelf: "center", justifyContent: "center" },
@@ -1622,9 +1623,9 @@ const Inquiry = (props) => {
                         }}
                       >
                         <Text style={loginStyle.buttonText}>Save</Text>
-                      </Button>
+                      </TouchableOpacity>
                     </ImageBackground>
-                    <Button
+                    <TouchableOpacity
                       style={[
                         loginStyle.buttonSecondarys,
                         { marginTop: 20, width: "100%" },
@@ -1636,7 +1637,7 @@ const Inquiry = (props) => {
                       <Text style={[loginStyle.buttonText, { color: "#333" }]}>
                         Previous
                       </Text>
-                    </Button>
+                    </TouchableOpacity>
                   </View>
                 </View>
               )
@@ -1663,17 +1664,17 @@ const Inquiry = (props) => {
                     source={require("./../../../assets/Oval.png")}
                     resizeMode={"stretch"}
                   >
-                    <Button
+                    <TouchableOpacity
                       style={[loginStyle.buttonSave, { alignSelf: "center" }]}
                       onPress={increment}
                       full
                     >
                       <Text style={loginStyle.buttonText}>Next</Text>
-                    </Button>
+                    </TouchableOpacity>
                   </ImageBackground>
                 ) : null}
                 {counter > 0 ? (
-                  <Button
+                  <TouchableOpacity
                     style={
                       counter == 4
                         ? [
@@ -1690,7 +1691,7 @@ const Inquiry = (props) => {
                     <Text style={[loginStyle.buttonText, { color: "#333" }]}>
                       Previous
                     </Text>
-                  </Button>
+                  </TouchableOpacity>
                 ) : null}
               </View>
             ) : null}

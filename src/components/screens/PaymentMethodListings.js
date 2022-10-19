@@ -1,19 +1,19 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, useWindowDimensions,ScrollView, TouchableOpacity, ActivityIndicator, Alert, TextInput } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, useWindowDimensions,ScrollView, TouchableOpacity, Text, ActivityIndicator, Alert, TextInput } from "react-native";
 import { API_URL } from "../Utility/AppConst"
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H2,
-  Icon,
-} from "native-base";
+// import {
+//   Container,
+//   Content,
+//   Form,
+//   Item,
+//   Input,
+//   Label,
+//   Button,
+//   Text,
+//   Body,
+//   H2,
+//   Icon,
+// } from "native-base";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import { useSelector } from 'react-redux'
@@ -222,13 +222,13 @@ const PaymentMethodListings = (props) => {
                               Set as Default
                             </Text>
                           </View>
-                          <Button
-                            style={[{ alignSelf: "center", justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6 }]}
+                          <TouchableOpacity
+                            style={[{ alignSelf: "center", justifyContent: "center", padding:10,  backgroundColor: "#dc3545", borderRadius: 6 }]}
                             onPress={() =>
                               alertDelete(payment.PersonPaymentMethodId)}
                           >
                             <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Delete Card</Text>
-                          </Button>
+                          </TouchableOpacity>
                         </View>
                       </View>
                       : <View>
@@ -283,13 +283,13 @@ const PaymentMethodListings = (props) => {
                           >
                             <Text style={defaultId == payment.PersonPaymentMethodId ? [loginStyle.buttonText, { textAlign: "center", color: "#fff" }] : [loginStyle.buttonText, { textAlign: "center", color: "#000" }]}>Set Default</Text>
                           </Button> */}
-                          <Button
-                            style={[{ alignSelf: "center", justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6 }]}
+                          <TouchableOpacity
+                            style={[{ alignSelf: "center", padding:10, justifyContent: "center", backgroundColor: "#dc3545", borderRadius: 6 }]}
                             onPress={() =>
                               alertDelete(payment.PersonPaymentMethodId)}
                           >
                             <Text style={[loginStyle.buttonText, { textAlign: "center", color: "#fff", }]}>Delete </Text>
-                          </Button>
+                          </TouchableOpacity>
                         </View>
                       </View>
                     }
@@ -316,12 +316,12 @@ const PaymentMethodListings = (props) => {
                 source={require('./../../../assets/Oval.png')}
                 resizeMode={'stretch'}
               >
-                <Button
+                <TouchableOpacity
                   style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent: "center" }]}
                   onPress={() => props.navigation.navigate("Payment Method Card")}
                 >
                   <Text style={[loginStyle.buttonText, { textAlign: "center" }]}>Add Credit Card</Text>
-                </Button>
+                </TouchableOpacity>
               </ImageBackground>
               <ImageBackground
                 style={[globalStyle.Btn, {
@@ -331,12 +331,12 @@ const PaymentMethodListings = (props) => {
                 source={require('./../../../assets/Oval.png')}
                 resizeMode={'stretch'}
               >
-                <Button
+                <TouchableOpacity
                   style={[loginStyle.buttonSave, { alignSelf: "center", justifyContent: "center" }]}
                   onPress={() => props.navigation.navigate("Add Payment Account")}
                 >
                   <Text style={[loginStyle.buttonText, { textAlign: "center" }]}>Add Bank Account</Text>
-                </Button>
+                </TouchableOpacity>
               </ImageBackground>
             </View>
             : null}

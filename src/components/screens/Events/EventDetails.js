@@ -1,5 +1,5 @@
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Accordion } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
+//import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Accordion } from "native-base";
+import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity,Text,View, ActivityIndicator, Alert } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import CartWidget from "./Cartwidget"
@@ -237,7 +237,7 @@ const EventDetails = (props) => {
                  <View key={index}>
                   <Image source={require("./../../../../assets/retails.jpg")} style={{ width: "100%", height: 220 }} />
                   <View style={{ margin: 15, marginTop: 25 }}>
-                    <Title style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {event.Title}</Title>
+                    <Text style={{ justifyContent: "flex-start", textAlign: "left", paddingLeft: 5, fontSize: 20, color: "#222", fontWeight: "600" }}> {event.Title}</Text>
                     <TouchableOpacity onPress={() => { toggleExpanded() }}>
                       <View style={globalStyle.accordianStyle}>
                         <Text

@@ -1,20 +1,20 @@
 import React, { useRef } from "react";
-import { View, Image, StyleSheet, ImageBackground } from "react-native";
+import { View, Image, StyleSheet, ImageBackground, TouchableOpacity, Text } from "react-native";
 import OtpInputss from "./../Utility/Outinputs";
-import {
-  Container,
-  CheckBox,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H3,
-  Icon,
-} from "native-base";
+// import {
+//   Container,
+//   CheckBox,
+//   Content,
+//   Form,
+//   Item,
+//   Input,
+//   Label,
+//   Button,
+//   Text,
+//   Body,
+//   H3,
+//   Icon,
+// } from "native-base";
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
@@ -117,9 +117,9 @@ const VerificationCode = (props) => {
             <OtpInputss getOtp={(otp) => getOtp(otp)} />
           </View>
           <View style={[loginStyle.formContainer, { paddingLeft: 30, paddingRight: 30 }]}>
-            <Button onPress={submitForm} style={loginStyle.button} full>
+            <TouchableOpacity onPress={submitForm} style={loginStyle.button} full>
               <Text style={{color:"#fff", fontSize: 18}}>Send</Text>
-            </Button>
+            </TouchableOpacity>
             {errorMessage != "" ? (
               <Text style={globalStyle.errorText}>{errorMessage}</Text>
             ) : null}

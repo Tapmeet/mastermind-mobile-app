@@ -6,24 +6,12 @@ import {
   ImageBackground,
   TouchableOpacity,
   ActivityIndicator,
-  TextInput, ScrollView
+  TextInput, Text, ScrollView
 } from "react-native";
 import { API_URL } from "./../Utility/AppConst";
 import Collapsible from "react-native-collapsible";
 import DatePicker from "react-native-datepicker";
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H2,
-  Icon,
-} from "native-base";
+
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";
 import profilestyle from "../../style/profile/profileStyle";

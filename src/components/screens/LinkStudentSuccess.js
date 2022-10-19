@@ -1,21 +1,21 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageBackground, Dimensions } from "react-native";
-import {
-  Container,
-  //CheckBox,
-  Footer,
-  FooterTab,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H3,
-  Icon,
-} from "native-base";
+import { View, Image, StyleSheet, ImageBackground, Dimensions, Text } from "react-native";
+// import {
+//   Container,
+//   //CheckBox,
+//   Footer,
+//   FooterTab,
+//   Content,
+//   Form,
+//   Item,
+//   Input,
+//   Label,
+//   Button,
+//   Text,
+//   Body,
+//   H3,
+//   Icon,
+// } from "native-base";
 import verificationStyle from "../../style/verification/verifcationStyle";
 import loginStyle from "../../style/login/loginStyle";
 import globalStyle from "../../style/globalStyle";

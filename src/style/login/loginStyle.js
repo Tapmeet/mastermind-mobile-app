@@ -37,7 +37,10 @@ export default StyleSheet.create({
     backgroundColor: colorPallete.primary,
     color: colorPallete.secondary,
     height: 60,
-    borderRadius: 30
+    borderRadius: 30,
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center"
   },
   buttonSave: {
     marginTop: 0,
@@ -51,6 +54,9 @@ export default StyleSheet.create({
     borderWidth: 0,
     width: "100%",
     justifyContent: "center",
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center"
   },
   buttons: {
     marginTop: 0,
@@ -62,6 +68,10 @@ export default StyleSheet.create({
     borderColor: "transparent",
     elevation: 0,
     borderWidth: 0,
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center"
+    
   },
   buttonSecondarys: {
     marginTop: 0,
@@ -73,6 +83,10 @@ export default StyleSheet.create({
     borderRadius: 20,
     borderColor: "#4574fe", 
     borderWidth: 2,
+    display:"flex",
+    justifyContent:"center",
+    flexDirection:"row",
+    alignItems:"center"
   },
   buttonsSecondary: {
     marginTop: 10,
@@ -84,6 +98,9 @@ export default StyleSheet.create({
     width: "100%",
     textAlign: "center",
     alignSelf: "center",
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center"
   },
   buttonText: {
     fontSize: 18,

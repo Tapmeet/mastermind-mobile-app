@@ -1,5 +1,5 @@
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, ScrollView  } from "react-native";
+// import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
+import { Image, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, ScrollView, Text, View  } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
@@ -579,7 +579,7 @@ const TaskClass = (props) => {
                                                                 <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Start Time: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.starttime}</Text></Text>
                                                                 {classes.availableRegistartion != null ? <Text style={{ fontSize: 18, color: "#555", fontWeight: "bold", marginBottom: 10 }}>Available Slots: <Text style={{ fontSize: 18, color: "#555", fontWeight: "normal" }}>{classes.availableRegistartion > 0 ? classes.availableRegistartion : 0}</Text></Text>
                                                                     : null}
-                                                                <Button
+                                                                <TouchableOpacity
                                                                     onPress={() => selectClass(classes.taskId, classes.starttimeUnformated, classes.classdate, classes.availableRegistartion)}
                                                                     style={classes.taskId == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ? { width: '48%', backgroundColor: "#4585ff", borderRadius: 6 } : { width: '48%', backgroundColor: "#aaa", borderRadius: 6 }}
                                                                     full>
@@ -587,7 +587,7 @@ const TaskClass = (props) => {
                                                                         {classes.taskId == selectedTaskId && classes.starttimeUnformated == selectedTaskTime && classes.classdate == selectedTaskDate ?
                                                                             "Selected" : "Select"}
                                                                     </Text>
-                                                                </Button>
+                                                                </TouchableOpacity>
                                                             </View>
                                                         </View>
                                                     </View>
@@ -666,7 +666,7 @@ const TaskClass = (props) => {
                                     source={require("./../../../../assets/Oval.png")}
                                     resizeMode={"stretch"}
                                 >
-                                    <Button
+                                    <TouchableOpacity
                                         onPress={() => {
                                             slot > 0 || slot == null ?
                                                 reserveClass() :
@@ -682,7 +682,7 @@ const TaskClass = (props) => {
                                         }}
                                         style={loginStyle.buttons} >
                                         <Text style={loginStyle.buttonText}>Reserve Class</Text>
-                                    </Button>
+                                    </TouchableOpacity>
                                 </ImageBackground>
                                 </View>
                                 : null}

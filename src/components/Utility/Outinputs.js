@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { StyleSheet, View, TextInput, Button } from "react-native";
-import { Content, Item, Input } from "native-base";
+// import { Content, Item, Input } from "native-base";
 import { Grid, Col } from "react-native-easy-grid";
 import verificationStyle from "../../style/verification/verifcationStyle";
 import { useFocusEffect } from '@react-navigation/native';

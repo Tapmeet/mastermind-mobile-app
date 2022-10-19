@@ -1,11 +1,10 @@
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
-import { Image, ImageBackground, RefreshControl, SafeAreaView, Dimensions, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView } from "react-native";
+// import { Container, Header, Title, Left, Icon, Right, Button, Body, Text, Card, CardItem, Content, View, Select } from "native-base";
+import { Image, ImageBackground, RefreshControl, SafeAreaView, Dimensions, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, Text,View } from "react-native";
 import React from "react";
 import FooterTabs from "../../footer/Footer";
 import { SideBarMenu } from "../../sidebar";
 import globalStyle from "../../../style/globalStyle";
 import Carousel from "react-native-snap-carousel";
-import Dropdown from "../../../common-functions/checkbox";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";

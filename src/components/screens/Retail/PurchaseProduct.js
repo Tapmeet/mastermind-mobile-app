@@ -7,24 +7,25 @@ import {
   TouchableOpacity, ActivityIndicator,
   TextInput,
   ImageBackground,
-  Dimensions
+  Dimensions,
+  Text
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
 
 
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Body,
-  H2,
-  Icon,
-} from "native-base";
+// import {
+//   Container,
+//   Content,
+//   Form,
+//   Item,
+//   Input,
+//   Label,
+//   Button,
+//   Text,
+//   Body,
+//   H2,
+//   Icon,
+// } from "native-base";
 import loginStyle from "../../../style/login/loginStyle";
 import globalStyle from "../../../style/globalStyle";
 import { SideBarMenu } from "../../sidebar";
@@ -411,9 +412,9 @@ const PurchaseProduct = (props) => {
                         source={require("./../../../../assets/Oval.png")}
                         resizeMode={"stretch"}
                       >
-                        <Button onPress={() => props.navigation.navigate("Payment Methods")} style={loginStyle.buttons} full>
+                        <TouchableOpacity onPress={() => props.navigation.navigate("Payment Methods")} style={loginStyle.buttons} full>
                           <Text style={loginStyle.buttonText}>Add Payment Method</Text>
-                        </Button>
+                        </TouchableOpacity>
                       </ImageBackground>
                     </View>
                   }
@@ -438,9 +439,9 @@ const PurchaseProduct = (props) => {
                         source={require("./../../../../assets/Oval.png")}
                         resizeMode={"stretch"}
                       >
-                        <Button onPress={submitForm} style={loginStyle.buttons} full>
+                        <TouchableOpacity onPress={submitForm} style={loginStyle.buttons} full>
                           <Text style={loginStyle.buttonText}>Proceed</Text>
-                        </Button>
+                        </TouchableOpacity>
                       </ImageBackground>
                       : <ImageBackground
                         style={[
@@ -452,9 +453,9 @@ const PurchaseProduct = (props) => {
                         source={require("./../../../../assets/Oval.png")}
                         resizeMode={"stretch"}
                       >
-                        <Button onPress={() => props.navigation.navigate("Purchase History")} style={loginStyle.buttons} full>
+                        <TouchableOpacity onPress={() => props.navigation.navigate("Purchase History")} style={loginStyle.buttons} full>
                           <Text style={loginStyle.buttonText}>View Order</Text>
-                        </Button>
+                        </TouchableOpacity>
                       </ImageBackground>}
                     {processing ? (
                       <View style={[styles.container, styles.horizontal]}>
