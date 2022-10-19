@@ -66,7 +66,7 @@ const Welcome = (props) => {
   const win = Dimensions.get("window");
   const { navigation } = props;
   return (
-    <View style={loginStyle.container} scrollEnabled={false}>
+    <View>
       <Text>Welcome screen</Text>
       {/* <View style={loginStyle.spacing} scrollEnabled={false}>
         {loader ? (
