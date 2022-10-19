@@ -1,72 +1,74 @@
 import React from "react";
-import {
-  View,
-  Image,
-  StyleSheet,
-  ImageBackground,
-  ActivityIndicator,
-  ScrollView,
-  Dimensions,
-  Text,
-  Button,
-  TouchableOpacity
-} from "react-native";
-import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import loginStyle from "../../style/login/loginStyle";
-import globalStyle from "../../style/globalStyle";
-import { useFocusEffect } from '@react-navigation/native';
-const Welcome = (props) => {
-  const [step1, setStep1] = React.useState(true);
-  const [step2, setStep2] = React.useState(false);
-  const [step3, setStep3] = React.useState(false);
-  const [loader, setloader] = React.useState(true);
-  const step3Function = async () => {
+// import {
+//   View,
+//   Image,
+//   StyleSheet,
+//   ImageBackground,
+//   ActivityIndicator,
+//   ScrollView,
+//   Dimensions,
+//   Text,
+//   Button,
+//   TouchableOpacity
+// } from "react-native";
+// import * as ImagePicker from 'expo-image-picker';
+// import * as FileSystem from 'expo-file-system';
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+// import loginStyle from "../../style/login/loginStyle";
+// import globalStyle from "../../style/globalStyle";
+// import { useFocusEffect } from '@react-navigation/native';
+// const Welcome = (props) => {
+//   const [step1, setStep1] = React.useState(true);
+//   const [step2, setStep2] = React.useState(false);
+//   const [step3, setStep3] = React.useState(false);
+//   const [loader, setloader] = React.useState(true);
+//   const step3Function = async () => {
 
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    await AsyncStorage.setItem("accessCheck", '1');
-    if (permissionResult.granted === false) {
-      alert("You've refused to allow this app to access your photos!");
-      setStep3(true);
-      setStep2(false);
-      return;
-    }
-    else {
-      setStep3(true);
-      setStep2(false);
-      return false
-    }
+//     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+//     await AsyncStorage.setItem("accessCheck", '1');
+//     if (permissionResult.granted === false) {
+//       alert("You've refused to allow this app to access your photos!");
+//       setStep3(true);
+//       setStep2(false);
+//       return;
+//     }
+//     else {
+//       setStep3(true);
+//       setStep2(false);
+//       return false
+//     }
 
-  }
-  const setData = async () => {
-    await AsyncStorage.setItem("accessCheck", '1');
-    props.navigation.navigate("Login");
-  }
-  async function getData() {
-    setloader(true)
-    try {
-      const value = await AsyncStorage.getItem("accessCheck");
-      if (value == 1) {
-        props.navigation.navigate("Login");
-        setTimeout(function () { setloader(false) }, 2000);
-      }
-      else {
-        setTimeout(function () { setloader(false) }, 1000);
-      }
+//   }
+//   const setData = async () => {
+//     await AsyncStorage.setItem("accessCheck", '1');
+//     props.navigation.navigate("Login");
+//   }
+//   async function getData() {
+//     setloader(true)
+//     try {
+//       const value = await AsyncStorage.getItem("accessCheck");
+//       if (value == 1) {
+//         props.navigation.navigate("Login");
+//         setTimeout(function () { setloader(false) }, 2000);
+//       }
+//       else {
+//         setTimeout(function () { setloader(false) }, 1000);
+//       }
 
-    } catch (e) { }
+//     } catch (e) { }
 
-  }
-  useFocusEffect(
-    React.useCallback(() => {
-      getData()
-    }, [])
-  );
-  const win = Dimensions.get("window");
-  const { navigation } = props;
+//   }
+//   useFocusEffect(
+//     React.useCallback(() => {
+//       getData()
+//     }, [])
+//   );
+//   const win = Dimensions.get("window");
+//   const { navigation } = props;
   return (
-    <View style={loginStyle.container} scrollEnabled={false}>
+    <View >
+      <Text>Welcome Screen</Text>
+      {/*     <View style={loginStyle.container} scrollEnabled={false}>
       <View style={loginStyle.spacing} scrollEnabled={false}>
         {loader ? (
           <View style={[styles.container, styles.horizontal]}>
@@ -287,7 +289,7 @@ const Welcome = (props) => {
             </View>
           </ScrollView >
         }
-      </View>
+      </View> */}
     </View >
   );
 };
