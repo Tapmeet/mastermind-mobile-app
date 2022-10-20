@@ -64,7 +64,6 @@ export default StyleSheet.create({
     marginBottom: 0,
     marginLeft: 0,
     backgroundColor: "#F7F8F9",
-    Boxshadow:"none",
     fontSize:18
   },
   flexStandard: {
@@ -125,7 +124,6 @@ export default StyleSheet.create({
     borderColor: "white",
     paddingBottom: 0,
     marginBottom: 10,
-    Boxshadow:"none",
     
   },
   flex: {
