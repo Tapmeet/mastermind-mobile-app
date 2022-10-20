@@ -4,7 +4,9 @@
     "start": "npx expo start",
     "android": "npx expo start --android",
     "ios": "npx expo start --ios",
-    "eject": "npx expo eject"
+    "eject": "npx expo eject",
+    "eas-build-pre-install": "npm config set legacy-peer-deps true"
+    
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.16.7",
